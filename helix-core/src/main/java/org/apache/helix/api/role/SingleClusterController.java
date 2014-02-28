@@ -1,4 +1,4 @@
-package org.apache.helix;
+package org.apache.helix.api.role;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,13 +19,15 @@ package org.apache.helix;
  * under the License.
  */
 
+import org.apache.helix.HelixConnectionStateListener;
 import org.apache.helix.api.id.ControllerId;
-import org.apache.helix.participant.StateMachineEngine;
 
 /**
- * Autonomous controller
+ * A controller that will control a single cluster if it is elected the leader for that cluster
  */
-public interface HelixAutoController extends HelixRole, HelixService, HelixConnectionStateListener {
+public interface SingleClusterController extends HelixRole, HelixStartable,
+    HelixConnectionStateListener {
+
   /**
    * get controller id
    * @return controller id
@@ -33,30 +35,8 @@ public interface HelixAutoController extends HelixRole, HelixService, HelixConne
   ControllerId getControllerId();
 
   /**
-   * get state machine engine
-   * @return state machine engine
-   */
-  StateMachineEngine getStateMachineEngine();
-
-  /**
-   * add pre-connect callback
-   * @param callback
-   */
-  void addPreConnectCallback(PreConnectCallback callback);
-
-  /**
-   * Add a LiveInstanceInfoProvider that is invoked before creating liveInstance.</br>
-   * This allows applications to provide additional information that will be published to zookeeper
-   * and become available for discovery</br>
-   * @see LiveInstanceInfoProvider#getAdditionalLiveInstanceInfo()
-   * @param liveInstanceInfoProvider
-   */
-  void setLiveInstanceInfoProvider(LiveInstanceInfoProvider liveInstanceInfoProvider);
-
-  /**
    * tell if this controller is leader of cluster
    * @return
    */
   boolean isLeader();
-
 }

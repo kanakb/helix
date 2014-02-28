@@ -1,4 +1,6 @@
-package org.apache.helix;
+package org.apache.helix.api.snapshot;
+
+import org.apache.helix.api.id.SpectatorId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,19 +21,25 @@ package org.apache.helix;
  * under the License.
  */
 
-import org.apache.helix.api.id.ControllerId;
-
-public interface HelixController extends HelixRole, HelixService, HelixConnectionStateListener {
-
-  /**
-   * get controller id
-   * @return controller id
-   */
-  ControllerId getControllerId();
+/**
+ * A cluster spectator that listen on cluster changes
+ */
+public class Spectator {
+  private final SpectatorId _id;
 
   /**
-   * tell if this controller is leader of cluster
-   * @return
+   * Construct a spectator with id
+   * @param id
    */
-  boolean isLeader();
+  public Spectator(SpectatorId id) {
+    _id = id;
+  }
+
+  /**
+   * Spectator id
+   * @return spectator id
+   */
+  public SpectatorId getId() {
+    return _id;
+  }
 }

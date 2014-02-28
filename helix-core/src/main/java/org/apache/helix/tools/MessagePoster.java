@@ -22,7 +22,7 @@ package org.apache.helix.tools;
 import java.util.UUID;
 
 import org.apache.helix.ZNRecord;
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.SessionId;

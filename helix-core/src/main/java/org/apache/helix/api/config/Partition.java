@@ -1,4 +1,8 @@
-package org.apache.helix.api;
+package org.apache.helix.api.config;
+
+import org.apache.helix.api.id.PartitionId;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,49 +24,31 @@ package org.apache.helix.api;
  */
 
 /**
- * Helix version (e.g. 0.6.1.5)
+ * A partition of a resource
  */
-public class HelixVersion {
-  final String _version;
+public class Partition {
+  @JsonProperty("id")
+  private final PartitionId _id;
 
   /**
-   * Construct with a version string (e.g. 0.6.1.5)
-   * @param version
+   * Construct a partition
+   * @param id
    */
-  public HelixVersion(String version) {
-    _version = version;
+  @JsonCreator
+  public Partition(@JsonProperty("id") PartitionId id) {
+    _id = id;
   }
 
   /**
-   * Get major version (e.g. 6 in 0.6.1.5)
-   * @return major version number
+   * Get partition id
+   * @return partition id
    */
-  public String getMajor() {
-    return null;
-  }
-
-  /**
-   * Get minor version (e.g. 1 in 0.6.1.5)
-   * @return minor version number
-   */
-  public String getMinor() {
-    return null;
+  public PartitionId getId() {
+    return _id;
   }
 
   @Override
   public String toString() {
-    return _version;
-  }
-
-  /**
-   * Create a version from a version string
-   * @param version string in the form of a.b.c.d
-   * @return HelixVersion
-   */
-  public static HelixVersion from(String version) {
-    if (version == null) {
-      return null;
-    }
-    return new HelixVersion(version);
+    return _id.toString();
   }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.helix.api.config.ResourceConfig.ResourceType;
+import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ParticipantId;

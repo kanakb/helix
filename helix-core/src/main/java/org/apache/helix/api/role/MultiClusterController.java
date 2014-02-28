@@ -1,4 +1,4 @@
-package org.apache.helix;
+package org.apache.helix.api.role;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,18 +19,22 @@ package org.apache.helix;
  * under the License.
  */
 
-import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.HelixConnectionStateListener;
+import org.apache.helix.LiveInstanceInfoProvider;
+import org.apache.helix.PreConnectCallback;
+import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.participant.StateMachineEngine;
 
 /**
- * Helix participant
+ * Controller that can simultaneously control multiple clusters
  */
-public interface HelixParticipant extends HelixRole, HelixService, HelixConnectionStateListener {
+public interface MultiClusterController extends HelixRole, HelixStartable,
+    HelixConnectionStateListener {
   /**
-   * get participant id
-   * @return participant id
+   * get controller id
+   * @return controller id
    */
-  ParticipantId getParticipantId();
+  ControllerId getControllerId();
 
   /**
    * get state machine engine
@@ -52,5 +56,11 @@ public interface HelixParticipant extends HelixRole, HelixService, HelixConnecti
    * @param liveInstanceInfoProvider
    */
   void setLiveInstanceInfoProvider(LiveInstanceInfoProvider liveInstanceInfoProvider);
+
+  /**
+   * tell if this controller is leader of cluster
+   * @return
+   */
+  boolean isLeader();
 
 }

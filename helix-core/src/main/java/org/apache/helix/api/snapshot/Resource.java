@@ -1,4 +1,4 @@
-package org.apache.helix.api;
+package org.apache.helix.api.snapshot;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.ResourceConfig.ResourceType;
+import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.config.SchedulerTaskConfig;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.PartitionId;

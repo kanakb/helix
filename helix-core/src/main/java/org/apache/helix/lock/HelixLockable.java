@@ -1,6 +1,6 @@
 package org.apache.helix.lock;
 
-import org.apache.helix.api.Scope;
+import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.id.ClusterId;
 
 /*

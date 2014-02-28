@@ -40,16 +40,12 @@ import org.apache.helix.CurrentStateChangeListener;
 import org.apache.helix.ExternalViewChangeListener;
 import org.apache.helix.HealthStateChangeListener;
 import org.apache.helix.HelixAdmin;
-import org.apache.helix.HelixAutoController;
 import org.apache.helix.HelixConnection;
 import org.apache.helix.HelixConnectionStateListener;
 import org.apache.helix.HelixConstants.ChangeType;
-import org.apache.helix.HelixController;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerProperties;
-import org.apache.helix.HelixParticipant;
-import org.apache.helix.HelixRole;
 import org.apache.helix.IdealStateChangeListener;
 import org.apache.helix.InstanceConfigChangeListener;
 import org.apache.helix.LiveInstanceChangeListener;
@@ -65,6 +61,10 @@ import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.role.MultiClusterController;
+import org.apache.helix.api.role.SingleClusterController;
+import org.apache.helix.api.role.HelixParticipant;
+import org.apache.helix.api.role.HelixRole;
 import org.apache.helix.messaging.DefaultMessagingService;
 import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.store.HelixPropertyStore;
@@ -219,12 +219,12 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   }
 
   @Override
-  public HelixController createController(ClusterId clusterId, ControllerId controllerId) {
+  public SingleClusterController createController(ClusterId clusterId, ControllerId controllerId) {
     return new ZkHelixController(this, clusterId, controllerId);
   }
 
   @Override
-  public HelixAutoController createAutoController(ClusterId clusterId, ControllerId controllerId) {
+  public MultiClusterController createAutoController(ClusterId clusterId, ControllerId controllerId) {
     return new ZkHelixAutoController(this, clusterId, controllerId);
   }
 

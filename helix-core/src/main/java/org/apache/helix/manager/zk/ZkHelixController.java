@@ -25,7 +25,6 @@ import java.util.List;
 import org.I0Itec.zkclient.exception.ZkInterruptedException;
 import org.apache.helix.ClusterMessagingService;
 import org.apache.helix.HelixConnection;
-import org.apache.helix.HelixController;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
@@ -36,6 +35,7 @@ import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.Id;
+import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.healthcheck.HealthStatsAggregationTask;
 import org.apache.helix.healthcheck.HealthStatsAggregator;
@@ -45,7 +45,7 @@ import org.apache.helix.model.LiveInstance;
 import org.apache.helix.monitoring.StatusDumpTask;
 import org.apache.log4j.Logger;
 
-public class ZkHelixController implements HelixController {
+public class ZkHelixController implements SingleClusterController {
   private static Logger LOG = Logger.getLogger(ZkHelixController.class);
 
   final ZkHelixConnection _connection;
@@ -95,13 +95,13 @@ public class ZkHelixController implements HelixController {
   }
 
   @Override
-  public void startAsync() {
+  public void start() {
     _connection.addConnectionStateListener(this);
     onConnected();
   }
 
   @Override
-  public void stopAsync() {
+  public void stop() {
     _connection.removeConnectionStateListener(this);
     onDisconnecting();
   }

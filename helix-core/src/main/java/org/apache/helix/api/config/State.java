@@ -1,4 +1,4 @@
-package org.apache.helix.api;
+package org.apache.helix.api.config;
 
 import org.apache.helix.HelixDefinedState;
 import org.codehaus.jackson.annotate.JsonCreator;

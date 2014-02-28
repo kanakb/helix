@@ -21,8 +21,8 @@ package org.apache.helix.api.accessor;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.PropertyKey;
-import org.apache.helix.api.Controller;
 import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.snapshot.Controller;
 import org.apache.helix.model.LiveInstance;
 
 public class ControllerAccessor {

@@ -1,8 +1,4 @@
-package org.apache.helix.api;
-
-import org.apache.helix.api.id.PartitionId;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+package org.apache.helix.api.role;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,32 +19,44 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * under the License.
  */
 
+import org.apache.helix.ClusterMessagingService;
+import org.apache.helix.HelixConnection;
+import org.apache.helix.InstanceType;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.Id;
+
 /**
- * A partition of a resource
+ * helix-role i.e. participant, single-cluster-controller, multi-cluster-controller
  */
-public class Partition {
-  @JsonProperty("id")
-  private final PartitionId _id;
+public interface HelixRole {
+  /**
+   * get the underlying connection
+   * @return helix-connection
+   */
+  HelixConnection getConnection();
 
   /**
-   * Construct a partition
-   * @param id
+   * get cluster id to which this role belongs
+   * @return cluster id
    */
-  @JsonCreator
-  public Partition(@JsonProperty("id") PartitionId id) {
-    _id = id;
-  }
+  ClusterId getClusterId();
 
   /**
-   * Get partition id
-   * @return partition id
+   * get id of this helix-role
+   * @return id
    */
-  public PartitionId getId() {
-    return _id;
-  }
+  Id getId();
 
-  @Override
-  public String toString() {
-    return _id.toString();
-  }
+  /**
+   * helix-role type
+   * @return
+   */
+  InstanceType getType();
+
+  /**
+   * get the messaging-service
+   * @return messaging-service
+   */
+  ClusterMessagingService getMessagingService();
+
 }

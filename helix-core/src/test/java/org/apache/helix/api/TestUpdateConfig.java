@@ -3,12 +3,12 @@ package org.apache.helix.api;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.FullAutoRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
@@ -122,36 +122,19 @@ public class TestUpdateConfig {
   @Test
   public void testClusterConfigUpdate() {
     final ClusterId clusterId = ClusterId.from("cluster");
-    final StateModelDefId masterSlave = StateModelDefId.from("MasterSlave");
-    final State master = State.from("MASTER");
-    final State slave = State.from("SLAVE");
-    final State offline = State.from("OFFLINE");
 
     // start: add a user config, add master and slave constraints
     UserConfig userConfig = new UserConfig(Scope.cluster(clusterId));
     userConfig.setSimpleField("key1", "value1");
     ClusterConfig config =
-        new ClusterConfig.Builder(clusterId)
-            .addStateUpperBoundConstraint(Scope.cluster(clusterId), masterSlave, master, 2)
-            .addStateUpperBoundConstraint(Scope.cluster(clusterId), masterSlave, slave, 3)
-            .userConfig(userConfig).autoJoin(true).build();
+        new ClusterConfig.Builder(clusterId).userConfig(userConfig).autoJoin(true).build();
 
-    // update: overwrite user config, change master constraint, remove slave constraint, add offline
-    // constraint, change auto join
+    // update: overwrite user config, change auto join
     UserConfig newUserConfig = new UserConfig(Scope.cluster(clusterId));
     newUserConfig.setSimpleField("key2", "value2");
     ClusterConfig updated =
-        new ClusterConfig.Delta(clusterId)
-            .addStateUpperBoundConstraint(Scope.cluster(clusterId), masterSlave, master, 1)
-            .removeStateUpperBoundConstraint(Scope.cluster(clusterId), masterSlave, slave)
-            .addStateUpperBoundConstraint(Scope.cluster(clusterId), masterSlave, offline, "R")
-            .setUserConfig(newUserConfig).setAutoJoin(false).mergeInto(config);
-    Assert.assertEquals(
-        updated.getStateUpperBoundConstraint(Scope.cluster(clusterId), masterSlave, master), "1");
-    Assert.assertEquals(
-        updated.getStateUpperBoundConstraint(Scope.cluster(clusterId), masterSlave, slave), "-1");
-    Assert.assertEquals(
-        updated.getStateUpperBoundConstraint(Scope.cluster(clusterId), masterSlave, offline), "R");
+        new ClusterConfig.Delta(clusterId).setUserConfig(newUserConfig).setAutoJoin(false)
+            .mergeInto(config);
     Assert.assertNull(updated.getUserConfig().getSimpleField("key1"));
     Assert.assertEquals(updated.getUserConfig().getSimpleField("key2"), "value2");
     Assert.assertFalse(updated.autoJoinAllowed());

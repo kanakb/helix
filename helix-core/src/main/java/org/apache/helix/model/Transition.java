@@ -1,6 +1,6 @@
 package org.apache.helix.model;
 
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.State;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

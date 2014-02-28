@@ -3,7 +3,7 @@ package org.apache.helix.controller.rebalancer.config;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.helix.api.Partition;
+import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;

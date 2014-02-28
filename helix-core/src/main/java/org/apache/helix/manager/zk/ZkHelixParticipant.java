@@ -29,10 +29,10 @@ import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.ClusterMessagingService;
 import org.apache.helix.ConfigAccessor;
 import org.apache.helix.HelixConnection;
+import org.apache.helix.HelixConnectionStateListener;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
-import org.apache.helix.HelixParticipant;
 import org.apache.helix.HelixTimerTask;
 import org.apache.helix.InstanceType;
 import org.apache.helix.LiveInstanceInfoProvider;
@@ -45,6 +45,7 @@ import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.Id;
 import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.healthcheck.ParticipantHealthReportCollectorImpl;
 import org.apache.helix.healthcheck.ParticipantHealthReportTask;
 import org.apache.helix.messaging.DefaultMessagingService;
@@ -61,7 +62,7 @@ import org.apache.helix.participant.statemachine.ScheduledTaskStateModelFactory;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.data.Stat;
 
-public class ZkHelixParticipant implements HelixParticipant {
+public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStateListener {
   private static Logger LOG = Logger.getLogger(ZkHelixParticipant.class);
 
   final ZkHelixConnection _connection;
@@ -441,13 +442,13 @@ public class ZkHelixParticipant implements HelixParticipant {
   }
 
   @Override
-  public void startAsync() {
+  public void start() {
     _connection.addConnectionStateListener(this);
     onConnected();
   }
 
   @Override
-  public void stopAsync() {
+  public void stop() {
     _connection.removeConnectionStateListener(this);
     onDisconnecting();
   }

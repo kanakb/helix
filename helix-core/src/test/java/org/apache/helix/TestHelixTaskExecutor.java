@@ -23,7 +23,7 @@ import org.apache.helix.Mocks.MockHelixTaskExecutor;
 import org.apache.helix.Mocks.MockManager;
 import org.apache.helix.Mocks.MockStateModel;
 import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;

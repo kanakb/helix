@@ -26,16 +26,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.helix.api.Cluster;
-import org.apache.helix.api.Participant;
-import org.apache.helix.api.Resource;
-import org.apache.helix.api.Scope;
-import org.apache.helix.api.State;
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.snapshot.Cluster;
+import org.apache.helix.api.snapshot.Participant;
+import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
@@ -279,9 +278,7 @@ public class MessageSelectionStage extends AbstractBaseStage {
 
     List<State> statePriorityList = stateModelDefinition.getTypedStatesPriorityList();
     for (State state : statePriorityList) {
-      String numInstancesPerState =
-          cluster.getStateUpperBoundConstraint(Scope.cluster(cluster.getId()),
-              stateModelDefinition.getStateModelDefId(), state);
+      String numInstancesPerState = stateModelDefinition.getNumParticipantsPerState(state);
       int max = -1;
       if ("N".equals(numInstancesPerState)) {
         max = cluster.getLiveParticipantMap().size();

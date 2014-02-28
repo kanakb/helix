@@ -1,4 +1,4 @@
-package org.apache.helix.api;
+package org.apache.helix.api.snapshot;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

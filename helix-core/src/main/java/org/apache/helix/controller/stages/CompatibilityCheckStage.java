@@ -23,10 +23,10 @@ import java.util.Map;
 
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerProperties;
-import org.apache.helix.api.Cluster;
-import org.apache.helix.api.HelixVersion;
-import org.apache.helix.api.Participant;
+import org.apache.helix.api.config.HelixVersion;
 import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.snapshot.Cluster;
+import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
 import org.apache.log4j.Logger;

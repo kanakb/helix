@@ -6,12 +6,10 @@ import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.ZNRecord;
 import org.apache.helix.ZkUnitTestBase;
-import org.apache.helix.api.Scope;
-import org.apache.helix.api.State;
 import org.apache.helix.api.config.ClusterConfig;
+import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.lock.HelixLock;
 import org.apache.helix.lock.HelixLockable;
 import org.apache.helix.lock.zk.ZKHelixLock;
@@ -54,10 +52,6 @@ public class TestAtomicAccessors extends ZkUnitTestBase {
     final HelixDataAccessor helixAccessor =
         new ZKHelixDataAccessor(clusterId.stringify(), baseAccessor);
     final LockProvider lockProvider = new LockProvider();
-    final StateModelDefId stateModelDefId = StateModelDefId.from("FakeModel");
-    final State state = State.from("fake");
-    final int constraint1 = 10;
-    final int constraint2 = 11;
     final String key1 = "key1";
     final String key2 = "key2";
 
@@ -73,10 +67,7 @@ public class TestAtomicAccessors extends ZkUnitTestBase {
       public void run() {
         UserConfig userConfig = new UserConfig(Scope.cluster(clusterId));
         userConfig.setBooleanField(key1, true);
-        ClusterConfig.Delta delta =
-            new ClusterConfig.Delta(clusterId).addStateUpperBoundConstraint(
-                Scope.cluster(clusterId), stateModelDefId, state, constraint1).setUserConfig(
-                userConfig);
+        ClusterConfig.Delta delta = new ClusterConfig.Delta(clusterId).setUserConfig(userConfig);
         ClusterAccessor accessor =
             new AtomicClusterAccessor(clusterId, helixAccessor, lockProvider);
         accessor.updateCluster(delta);
@@ -89,10 +80,7 @@ public class TestAtomicAccessors extends ZkUnitTestBase {
       public void run() {
         UserConfig userConfig = new UserConfig(Scope.cluster(clusterId));
         userConfig.setBooleanField(key2, true);
-        ClusterConfig.Delta delta =
-            new ClusterConfig.Delta(clusterId).addStateUpperBoundConstraint(
-                Scope.cluster(clusterId), stateModelDefId, state, constraint2).setUserConfig(
-                userConfig);
+        ClusterConfig.Delta delta = new ClusterConfig.Delta(clusterId).setUserConfig(userConfig);
         ClusterAccessor accessor =
             new AtomicClusterAccessor(clusterId, helixAccessor, lockProvider);
         accessor.updateCluster(delta);

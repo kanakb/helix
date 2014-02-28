@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.State;
 import org.apache.helix.model.Transition;
 
 public class StateTransitionTableBuilder {

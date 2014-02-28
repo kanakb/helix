@@ -27,6 +27,10 @@ import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.role.MultiClusterController;
+import org.apache.helix.api.role.SingleClusterController;
+import org.apache.helix.api.role.HelixParticipant;
+import org.apache.helix.api.role.HelixRole;
 import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.store.HelixPropertyStore;
 
@@ -77,7 +81,7 @@ public interface HelixConnection {
    * @param controllerId
    * @return helix-controller
    */
-  HelixController createController(ClusterId clusterId, ControllerId controllerId);
+  SingleClusterController createController(ClusterId clusterId, ControllerId controllerId);
 
   /**
    * create an autonomous helix-controller
@@ -85,7 +89,7 @@ public interface HelixConnection {
    * @param controllerId
    * @return
    */
-  HelixAutoController createAutoController(ClusterId clusterId, ControllerId controllerId);
+  MultiClusterController createAutoController(ClusterId clusterId, ControllerId controllerId);
 
   /**
    * create a cluster-accessor

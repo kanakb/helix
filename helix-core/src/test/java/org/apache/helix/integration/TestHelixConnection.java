@@ -24,24 +24,24 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.helix.HelixConnection;
-import org.apache.helix.HelixController;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.HelixParticipant;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.PropertyKey;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
-import org.apache.helix.api.State;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.role.SingleClusterController;
+import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
 import org.apache.helix.manager.zk.ZkHelixConnection;
@@ -133,15 +133,15 @@ public class TestHelixConnection extends ZkUnitTestBase {
     clusterAccessor.addParticipantToCluster(new ParticipantConfig.Builder(participantId).build());
 
     // start controller
-    HelixController controller = connection.createController(clusterId, controllerId);
-    controller.startAsync();
+    SingleClusterController controller = connection.createController(clusterId, controllerId);
+    controller.start();
 
     // start participant
     HelixParticipant participant = connection.createParticipant(clusterId, participantId);
     participant.getStateMachineEngine().registerStateModelFactory(
         StateModelDefId.from("MasterSlave"), new MockStateModelFactory());
 
-    participant.startAsync();
+    participant.start();
     Thread.sleep(1000);
 
     // verify
@@ -165,8 +165,8 @@ public class TestHelixConnection extends ZkUnitTestBase {
     Assert.assertTrue(success);
 
     // clean up
-    controller.stopAsync();
-    participant.stopAsync();
+    controller.stop();
+    participant.stop();
     connection.disconnect();
 
     System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));

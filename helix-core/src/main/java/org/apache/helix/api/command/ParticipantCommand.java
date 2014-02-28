@@ -1,4 +1,4 @@
-package org.apache.helix;
+package org.apache.helix.api.command;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,17 +19,30 @@ package org.apache.helix;
  * under the License.
  */
 
-/**
- * Operational methods of a helix role
- */
-public interface HelixService {
-  /**
-   * start helix service async
-   */
-  void startAsync();
+import org.apache.helix.api.id.PartitionId;
 
-  /**
-   * stop helix service async
-   */
-  void stopAsync();
+public class ParticipantCommand {
+  public ParticipantCommand enable(boolean enable) {
+    return this;
+  }
+
+  public ParticipantCommand host(String host) {
+    return this;
+  }
+
+  public ParticipantCommand port(int port) {
+    return this;
+  }
+
+  public ParticipantCommand addTag(String tag) {
+    return this;
+  }
+
+  public ParticipantCommand removeTag(String tag) {
+    return this;
+  }
+
+  public ParticipantCommand enablePartition(PartitionId partitionId, boolean enable) {
+    return this;
+  }
 }

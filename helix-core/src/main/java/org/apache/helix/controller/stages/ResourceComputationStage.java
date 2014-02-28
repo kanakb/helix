@@ -22,14 +22,14 @@ package org.apache.helix.controller.stages;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.helix.api.Cluster;
-import org.apache.helix.api.Participant;
-import org.apache.helix.api.Partition;
-import org.apache.helix.api.Resource;
+import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelFactoryId;
+import org.apache.helix.api.snapshot.Cluster;
+import org.apache.helix.api.snapshot.Participant;
+import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
 import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;

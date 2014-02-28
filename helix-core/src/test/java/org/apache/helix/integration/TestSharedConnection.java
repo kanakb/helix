@@ -24,16 +24,16 @@ import java.util.Map;
 
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixConnection;
-import org.apache.helix.HelixController;
-import org.apache.helix.HelixParticipant;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.role.SingleClusterController;
+import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.manager.zk.HelixConnectionAdaptor;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.manager.zk.ZkHelixLeaderElection;
@@ -85,13 +85,13 @@ public class TestSharedConnection extends ZkUnitTestBase {
               ParticipantId.from("localhost_" + (12918 + i)));
       participants[i].getStateMachineEngine().registerStateModelFactory(
           StateModelDefId.from("OnlineOffline"), new TestHelixConnection.MockStateModelFactory());
-      participants[i].startAsync();
+      participants[i].start();
     }
 
     // Start the controller
-    HelixController controller =
+    SingleClusterController controller =
         connection.createController(ClusterId.from(clusterName), ControllerId.from("controller"));
-    controller.startAsync();
+    controller.start();
     Thread.sleep(500);
 
     // Verify balanced cluster
@@ -130,9 +130,9 @@ public class TestSharedConnection extends ZkUnitTestBase {
     Assert.assertTrue(result);
 
     // Clean up
-    controller.stopAsync();
+    controller.stop();
     for (HelixParticipant participant : participants) {
-      participant.stopAsync();
+      participant.stop();
     }
     admin.dropCluster(clusterName);
     System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
@@ -168,18 +168,18 @@ public class TestSharedConnection extends ZkUnitTestBase {
     connection.connect();
 
     // Create a couple controllers
-    HelixController[] controllers = new HelixController[NUM_CONTROLLERS];
+    SingleClusterController[] controllers = new SingleClusterController[NUM_CONTROLLERS];
     for (int i = 0; i < NUM_CONTROLLERS; i++) {
       controllers[i] =
           connection.createController(ClusterId.from(clusterName),
               ControllerId.from("controller_" + i));
-      controllers[i].startAsync();
+      controllers[i].start();
     }
     Thread.sleep(1000);
 
     // Now verify that exactly one is leader
     int leaderCount = 0;
-    for (HelixController controller : controllers) {
+    for (SingleClusterController controller : controllers) {
       HelixConnectionAdaptor adaptor = new HelixConnectionAdaptor(controller);
       boolean result = ZkHelixLeaderElection.tryUpdateController(adaptor);
       if (result) {
@@ -189,8 +189,8 @@ public class TestSharedConnection extends ZkUnitTestBase {
     Assert.assertEquals(leaderCount, 1);
 
     // Clean up
-    for (HelixController controller : controllers) {
-      controller.stopAsync();
+    for (SingleClusterController controller : controllers) {
+      controller.stop();
     }
     HelixAdmin admin = connection.createClusterManagementTool();
     admin.dropCluster(clusterName);

@@ -1,6 +1,6 @@
 package org.apache.helix.model.builder;
 
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.model.ConstraintItem;

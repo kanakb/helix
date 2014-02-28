@@ -19,8 +19,8 @@ package org.apache.helix.controller.rebalancer.config;
  * under the License.
  */
 
-import org.apache.helix.api.Scope;
 import org.apache.helix.api.config.NamespacedConfig;
+import org.apache.helix.api.config.Scope;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.serializer.StringSerializer;
 import org.apache.helix.model.ResourceConfiguration;

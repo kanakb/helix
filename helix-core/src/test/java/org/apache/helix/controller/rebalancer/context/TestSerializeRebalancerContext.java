@@ -2,8 +2,8 @@ package org.apache.helix.controller.rebalancer.context;
 
 import java.util.Map;
 
-import org.apache.helix.api.Partition;
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.Partition;
+import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;

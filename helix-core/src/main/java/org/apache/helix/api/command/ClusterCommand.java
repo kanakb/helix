@@ -1,4 +1,10 @@
-package org.apache.helix;
+package org.apache.helix.api.command;
+
+import java.util.Collection;
+
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,41 +25,25 @@ package org.apache.helix;
  * under the License.
  */
 
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.Id;
+public class ClusterCommand {
+  public ClusterCommand enable(boolean enable) {
+    return this;
+  }
 
-/**
- * helix-role i.e. participant, controller, auto-controller
- */
-public interface HelixRole {
-  /**
-   * get the underlying connection
-   * @return helix-connection
-   */
-  HelixConnection getConnection();
+  public ClusterCommand autoJoin(boolean autoJoin) {
+    return this;
+  }
 
-  /**
-   * get cluster id to which this role belongs
-   * @return cluster id
-   */
-  ClusterId getClusterId();
+  public ClusterCommand resetResources(Collection<ResourceId> resources) {
+    return this;
+  }
 
-  /**
-   * get id of this helix-role
-   * @return id
-   */
-  Id getId();
+  public ClusterCommand resetParticipants(Collection<ParticipantId> participants) {
+    return this;
+  }
 
-  /**
-   * helix-role type
-   * @return
-   */
-  InstanceType getType();
-
-  /**
-   * get the messaging-service
-   * @return messaging-service
-   */
-  ClusterMessagingService getMessagingService();
-
+  public ClusterCommand resetPartitions(ParticipantId participantId, ResourceId resourceId,
+      Collection<PartitionId> partitionId) {
+    return this;
+  }
 }

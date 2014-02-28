@@ -22,7 +22,6 @@ package org.apache.helix.manager.zk;
 import java.util.Date;
 
 import org.apache.helix.HelixConnection;
-import org.apache.helix.HelixController;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.PropertyKey;
 import org.apache.helix.TestHelper;
@@ -30,6 +29,7 @@ import org.apache.helix.ZNRecord;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.model.LiveInstance;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -62,8 +62,8 @@ public class TestZkHelixController extends ZkUnitTestBase {
     // start controller
     ClusterId clusterId = ClusterId.from(clusterName);
     ControllerId controllerId = ControllerId.from("controller");
-    HelixController controller = connection.createController(clusterId, controllerId);
-    controller.startAsync();
+    SingleClusterController controller = connection.createController(clusterId, controllerId);
+    controller.start();
 
     // check leader znode exists
     HelixDataAccessor accessor = connection.createDataAccessor(clusterId);
@@ -73,7 +73,7 @@ public class TestZkHelixController extends ZkUnitTestBase {
     Assert.assertEquals(leader.getInstanceName(), controllerId.stringify());
 
     // stop participant
-    controller.stopAsync();
+    controller.stop();
 
     // check leader znode is gone
     Assert.assertNull(accessor.getProperty(keyBuilder.controllerLeader()));
@@ -119,8 +119,8 @@ public class TestZkHelixController extends ZkUnitTestBase {
     final ControllerId controllerId = ControllerId.from("controller");
 
     // start controller
-    HelixController controller = connection.createController(clusterId, controllerId);
-    controller.startAsync();
+    SingleClusterController controller = connection.createController(clusterId, controllerId);
+    controller.start();
 
     // check live-instance znode for localhost_12918 exists
     final HelixDataAccessor accessor =

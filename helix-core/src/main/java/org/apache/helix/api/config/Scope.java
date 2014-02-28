@@ -1,10 +1,11 @@
-package org.apache.helix.api;
+package org.apache.helix.api.config;
 
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.Id;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
+
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

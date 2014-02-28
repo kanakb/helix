@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.helix.ZNRecord;
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.State;
 import org.apache.helix.manager.zk.DefaultSchedulerMessageHandlerFactory;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.model.StateModelDefinition.StateModelDefinitionProperty;

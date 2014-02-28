@@ -1,6 +1,4 @@
-package org.apache.helix.api;
-
-import org.apache.helix.api.id.SpectatorId;
+package org.apache.helix.api.role;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,24 +20,16 @@ import org.apache.helix.api.id.SpectatorId;
  */
 
 /**
- * A cluster spectator that listen on cluster changes
+ * Operational methods of a helix role
  */
-public class Spectator {
-  private final SpectatorId _id;
+public interface HelixStartable {
+  /**
+   * start helix service synchronously
+   */
+  void start();
 
   /**
-   * Construct a spectator with id
-   * @param id
+   * stop helix service synchronously
    */
-  public Spectator(SpectatorId id) {
-    _id = id;
-  }
-
-  /**
-   * Spectator id
-   * @return spectator id
-   */
-  public SpectatorId getId() {
-    return _id;
-  }
+  void stop();
 }

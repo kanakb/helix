@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 import org.apache.helix.ExternalCommand;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.State;
 import org.apache.helix.model.HelixConfigScope;
 import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.Message;

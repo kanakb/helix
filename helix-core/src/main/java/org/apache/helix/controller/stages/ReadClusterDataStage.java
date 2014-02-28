@@ -24,12 +24,12 @@ import java.util.Set;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.Cluster;
-import org.apache.helix.api.Participant;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ContextId;
 import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.snapshot.Cluster;
+import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.controller.context.ControllerContext;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;

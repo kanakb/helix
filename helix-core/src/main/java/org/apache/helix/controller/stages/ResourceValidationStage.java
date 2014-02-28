@@ -21,11 +21,11 @@ package org.apache.helix.controller.stages;
 
 import java.util.Map;
 
-import org.apache.helix.api.Cluster;
-import org.apache.helix.api.Resource;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.snapshot.Cluster;
+import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
 import org.apache.helix.model.IdealState;

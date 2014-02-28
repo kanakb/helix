@@ -53,7 +53,7 @@ import org.apache.helix.PropertyType;
 import org.apache.helix.ZNRecord;
 import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.StatsHolder;
-import org.apache.helix.api.State;
+import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.PartitionId;

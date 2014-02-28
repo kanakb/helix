@@ -4,18 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.helix.HelixConnection;
-import org.apache.helix.HelixController;
-import org.apache.helix.HelixParticipant;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.Partition;
-import org.apache.helix.api.Scope;
-import org.apache.helix.api.State;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.accessor.ParticipantAccessor;
 import org.apache.helix.api.accessor.ResourceAccessor;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ParticipantConfig;
+import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.config.Scope;
+import org.apache.helix.api.config.State;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
@@ -23,6 +21,8 @@ import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.role.HelixParticipant;
+import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.FullAutoRebalancerConfig;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.model.ExternalView;
@@ -91,10 +91,6 @@ public class LogicalModelExample {
         new ClusterConfig.Builder(clusterId).addResource(resource).addParticipant(participant)
             .addStateModelDefinition(lockUnlock).userConfig(userConfig).autoJoin(true);
 
-    // add a state constraint that is more restrictive than what is in the state model
-    clusterBuilder.addStateUpperBoundConstraint(Scope.cluster(clusterId),
-        lockUnlock.getStateModelDefId(), State.from("LOCKED"), 1);
-
     // add a transition constraint (this time with a resource scope)
     clusterBuilder.addTransitionConstraint(Scope.resource(resource.getId()),
         lockUnlock.getStateModelDefId(),
@@ -117,32 +113,32 @@ public class LogicalModelExample {
 
     // start the controller
     ControllerId controllerId = ControllerId.from("exampleController");
-    HelixController helixController = connection.createController(clusterId, controllerId);
-    helixController.startAsync();
+    SingleClusterController helixController = connection.createController(clusterId, controllerId);
+    helixController.start();
 
     // start the specified participant
     HelixParticipant helixParticipant =
         connection.createParticipant(clusterId, participant.getId());
     helixParticipant.getStateMachineEngine().registerStateModelFactory(
         lockUnlock.getStateModelDefId(), new LockUnlockFactory());
-    helixParticipant.startAsync();
+    helixParticipant.start();
 
     // start another participant via auto join
     HelixParticipant autoJoinParticipant =
         connection.createParticipant(clusterId, ParticipantId.from("localhost_12120"));
     autoJoinParticipant.getStateMachineEngine().registerStateModelFactory(
         lockUnlock.getStateModelDefId(), new LockUnlockFactory());
-    autoJoinParticipant.startAsync();
+    autoJoinParticipant.start();
 
     Thread.sleep(5000);
     printExternalView(connection, clusterId, resource.getId());
 
     // stop the participants
-    helixParticipant.stopAsync();
-    autoJoinParticipant.stopAsync();
+    helixParticipant.stop();
+    autoJoinParticipant.stop();
 
     // stop the controller
-    helixController.stopAsync();
+    helixController.stop();
 
     // drop the cluster
     dropCluster(clusterId, connection);

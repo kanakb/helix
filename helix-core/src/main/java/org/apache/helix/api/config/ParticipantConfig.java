@@ -3,7 +3,6 @@ package org.apache.helix.api.config;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.helix.api.Scope;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 

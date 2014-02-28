@@ -20,7 +20,6 @@ package org.apache.helix.manager.zk;
  */
 
 import org.apache.helix.ClusterMessagingService;
-import org.apache.helix.HelixAutoController;
 import org.apache.helix.HelixConnection;
 import org.apache.helix.InstanceType;
 import org.apache.helix.LiveInstanceInfoProvider;
@@ -29,10 +28,11 @@ import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.Id;
 import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.participant.StateMachineEngine;
 import org.apache.log4j.Logger;
 
-public class ZkHelixAutoController implements HelixAutoController {
+public class ZkHelixAutoController implements MultiClusterController {
   private static Logger LOG = Logger.getLogger(ZkHelixAutoController.class);
 
   final ZkHelixConnection _connection;
@@ -78,13 +78,13 @@ public class ZkHelixAutoController implements HelixAutoController {
   }
 
   @Override
-  public void startAsync() {
+  public void start() {
     _connection.addConnectionStateListener(this);
     onConnected();
   }
 
   @Override
-  public void stopAsync() {
+  public void stop() {
     _connection.removeConnectionStateListener(this);
     onDisconnecting();
   }

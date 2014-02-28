@@ -1,5 +1,6 @@
-package org.apache.helix.api;
+package org.apache.helix.api.snapshot;
 
+import org.apache.helix.api.config.HelixVersion;
 import org.apache.helix.api.id.ProcId;
 import org.apache.helix.api.id.SessionId;
 

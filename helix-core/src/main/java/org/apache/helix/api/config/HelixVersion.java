@@ -1,7 +1,5 @@
 package org.apache.helix.api.config;
 
-import org.apache.helix.HelixProperty;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,31 +20,49 @@ import org.apache.helix.HelixProperty;
  */
 
 /**
- * Generic user-defined configuration of Helix components
+ * Helix version (e.g. 0.6.1.5)
  */
-public class UserConfig extends NamespacedConfig {
+public class HelixVersion {
+  final String _version;
+
   /**
-   * Instantiate a UserConfig. It is intended for use only by entities that can be identified
-   * @param scope scope of the configuration, e.g. cluster, resource, partition, participant, etc
+   * Construct with a version string (e.g. 0.6.1.5)
+   * @param version
    */
-  public UserConfig(Scope<?> scope) {
-    super(scope, UserConfig.class.getSimpleName());
+  public HelixVersion(String version) {
+    _version = version;
   }
 
   /**
-   * Instantiate a UserConfig from an existing HelixProperty
-   * @param property property wrapping a configuration
+   * Get major version (e.g. 6 in 0.6.1.5)
+   * @return major version number
    */
-  private UserConfig(HelixProperty property) {
-    super(property, UserConfig.class.getSimpleName());
+  public String getMajor() {
+    return null;
   }
 
   /**
-   * Get a UserConfig that filters out the user-specific configurations in a property
-   * @param property the property to extract from
-   * @return UserConfig
+   * Get minor version (e.g. 1 in 0.6.1.5)
+   * @return minor version number
    */
-  public static UserConfig from(HelixProperty property) {
-    return new UserConfig(property);
+  public String getMinor() {
+    return null;
+  }
+
+  @Override
+  public String toString() {
+    return _version;
+  }
+
+  /**
+   * Create a version from a version string
+   * @param version string in the form of a.b.c.d
+   * @return HelixVersion
+   */
+  public static HelixVersion from(String version) {
+    if (version == null) {
+      return null;
+    }
+    return new HelixVersion(version);
   }
 }

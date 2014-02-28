@@ -21,7 +21,7 @@ package org.apache.helix.model;
 
 /**
  * A distinct partition of a resource
- * Deprecated. Use {@link org.apache.helix.api.Partition}
+ * Deprecated. Use {@link org.apache.helix.api.config.Partition}
  */
 @Deprecated
 public class Partition {

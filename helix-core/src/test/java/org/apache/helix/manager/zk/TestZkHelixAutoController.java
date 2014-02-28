@@ -21,7 +21,6 @@ package org.apache.helix.manager.zk;
 
 import java.util.Date;
 
-import org.apache.helix.HelixAutoController;
 import org.apache.helix.HelixConnection;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.PropertyKey;
@@ -30,6 +29,7 @@ import org.apache.helix.ZNRecord;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.model.LiveInstance;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -60,12 +60,12 @@ public class TestZkHelixAutoController extends ZkUnitTestBase {
 
     // start auto-controller
     ClusterId clusterId = ClusterId.from(clusterName);
-    final HelixAutoController[] controllers = new HelixAutoController[n];
+    final MultiClusterController[] controllers = new MultiClusterController[n];
     for (int i = 0; i < n; i++) {
       int port = 12918 + i;
       ControllerId controllerId = ControllerId.from("localhost_" + port);
       controllers[i] = connection.createAutoController(clusterId, controllerId);
-      controllers[i].startAsync();
+      controllers[i].start();
     }
 
     // check live-instance znode for localhost_12918/12919 exists
@@ -84,7 +84,7 @@ public class TestZkHelixAutoController extends ZkUnitTestBase {
     Assert.assertEquals(leader.getInstanceName(), controllers[0].getControllerId().stringify());
 
     // stop controller localhost_12918
-    controllers[0].stopAsync();
+    controllers[0].stop();
 
     // check live-instance znode for localhost_12918 is gone
     String instanceName = controllers[0].getControllerId().stringify();

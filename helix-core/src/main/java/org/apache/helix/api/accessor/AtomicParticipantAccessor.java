@@ -23,12 +23,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.api.Participant;
-import org.apache.helix.api.Scope;
 import org.apache.helix.api.config.ParticipantConfig;
+import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.lock.HelixLock;
 import org.apache.helix.lock.HelixLockable;
 import org.apache.helix.model.Message;

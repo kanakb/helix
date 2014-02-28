@@ -27,14 +27,10 @@ import org.apache.helix.CurrentStateChangeListener;
 import org.apache.helix.ExternalViewChangeListener;
 import org.apache.helix.HealthStateChangeListener;
 import org.apache.helix.HelixAdmin;
-import org.apache.helix.HelixAutoController;
 import org.apache.helix.HelixConnection;
-import org.apache.helix.HelixController;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerProperties;
-import org.apache.helix.HelixParticipant;
-import org.apache.helix.HelixRole;
 import org.apache.helix.IdealStateChangeListener;
 import org.apache.helix.InstanceConfigChangeListener;
 import org.apache.helix.InstanceType;
@@ -49,6 +45,10 @@ import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.Id;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.role.MultiClusterController;
+import org.apache.helix.api.role.SingleClusterController;
+import org.apache.helix.api.role.HelixParticipant;
+import org.apache.helix.api.role.HelixRole;
 import org.apache.helix.healthcheck.ParticipantHealthReportCollector;
 import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.participant.StateMachineEngine;
@@ -231,7 +231,7 @@ public class HelixConnectionAdaptor implements HelixManager {
       engine = participant.getStateMachineEngine();
       break;
     case CONTROLLER_PARTICIPANT:
-      HelixAutoController autoController = (HelixAutoController) _role;
+      MultiClusterController autoController = (MultiClusterController) _role;
       engine = autoController.getStateMachineEngine();
       break;
     default:
@@ -248,11 +248,11 @@ public class HelixConnectionAdaptor implements HelixManager {
     boolean isLeader = false;
     switch (_role.getType()) {
     case CONTROLLER:
-      HelixController controller = (HelixController) _role;
+      SingleClusterController controller = (SingleClusterController) _role;
       isLeader = controller.isLeader();
       break;
     case CONTROLLER_PARTICIPANT:
-      HelixAutoController autoController = (HelixAutoController) _role;
+      MultiClusterController autoController = (MultiClusterController) _role;
       isLeader = autoController.isLeader();
       break;
     default:
@@ -282,7 +282,7 @@ public class HelixConnectionAdaptor implements HelixManager {
       participant.addPreConnectCallback(callback);
       break;
     case CONTROLLER_PARTICIPANT:
-      HelixAutoController autoController = (HelixAutoController) _role;
+      MultiClusterController autoController = (MultiClusterController) _role;
       autoController.addPreConnectCallback(callback);
       break;
     default:
@@ -300,7 +300,7 @@ public class HelixConnectionAdaptor implements HelixManager {
       participant.setLiveInstanceInfoProvider(liveInstanceInfoProvider);
       break;
     case CONTROLLER_PARTICIPANT:
-      HelixAutoController autoController = (HelixAutoController) _role;
+      MultiClusterController autoController = (MultiClusterController) _role;
       autoController.setLiveInstanceInfoProvider(liveInstanceInfoProvider);
       break;
     default:
