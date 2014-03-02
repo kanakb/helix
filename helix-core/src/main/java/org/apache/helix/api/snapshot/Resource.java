@@ -26,12 +26,13 @@ import java.util.Set;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.ResourceConfig.ResourceType;
 import org.apache.helix.api.config.Partition;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
+import org.apache.helix.api.model.IMessage;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.Message;
@@ -94,8 +95,8 @@ public class Resource {
       }
     }
 
-    Map<PartitionId, Message> innerMsgMap = new HashMap<PartitionId, Message>();
-    if (idealState.getStateModelDefId().equalsIgnoreCase(StateModelDefId.SchedulerTaskQueue)) {
+    Map<PartitionId, IMessage> innerMsgMap = new HashMap<PartitionId, IMessage>();
+    if (idealState.getStateModelDefId().equalsIgnoreCase(StateModelDefId.SCHEDULER_TASK_QUEUE)) {
       for (PartitionId partitionId : idealState.getPartitionIdSet()) {
         // TODO refactor: scheduler-task-queue state model uses map-field to store inner-messages
         // this is different from all other state-models

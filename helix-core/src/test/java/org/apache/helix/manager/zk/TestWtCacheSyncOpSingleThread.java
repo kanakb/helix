@@ -27,9 +27,9 @@ import org.apache.helix.AccessOption;
 import org.apache.helix.PropertyPathConfig;
 import org.apache.helix.PropertyType;
 import org.apache.helix.TestHelper;
-import org.apache.helix.ZNRecord;
 import org.apache.helix.ZNRecordUpdater;
 import org.apache.helix.ZkUnitTestBase;
+import org.apache.helix.api.ZNRecord;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

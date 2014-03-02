@@ -37,8 +37,8 @@ import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
-import org.apache.helix.model.StateModelDefinition;
+import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
 import org.apache.helix.model.Transition;
 
 /**
@@ -83,9 +83,9 @@ public interface HelixAdministrator extends HelixStartable {
 
   List<StateModelDefId> listStateModelDefinitions(ClusterId clusterId);
 
-  void addStateModelDef(ClusterId clusterId, StateModelDefinition stateModelDef);
+  void addStateModelDef(ClusterId clusterId, IStateModelDefinition stateModelDef);
 
-  StateModelDefinition readStateModelDef(ClusterId clusterId, StateModelDefId stateModelDefId);
+  IStateModelDefinition readStateModelDef(ClusterId clusterId, StateModelDefId stateModelDefId);
 
   void dropStateModelDef(ClusterId clusterId, StateModelDefId stateModelDefId);
 

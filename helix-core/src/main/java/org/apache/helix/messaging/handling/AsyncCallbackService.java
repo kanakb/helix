@@ -25,7 +25,7 @@ import org.apache.helix.HelixException;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.messaging.AsyncCallback;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.log4j.Logger;
 
 public class AsyncCallbackService implements MessageHandlerFactory {

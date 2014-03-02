@@ -44,7 +44,7 @@ import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.TaskExecutor;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.HelixStateModelFactoryAdaptor;

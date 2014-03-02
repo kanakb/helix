@@ -3,13 +3,13 @@ package org.apache.helix.controller.rebalancer.context;
 import java.util.Map;
 
 import org.apache.helix.api.config.Partition;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.controller.rebalancer.config.CustomRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.RebalancerConfigHolder;
 import org.apache.helix.model.ResourceConfiguration;
 import org.testng.Assert;

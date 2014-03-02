@@ -29,13 +29,14 @@ import java.util.Set;
 
 import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.HelixProperty;
 import org.apache.helix.PropertyKey;
 import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.controller.context.ControllerContextHolder;
 import org.apache.helix.model.ClusterConfiguration;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
@@ -370,7 +371,7 @@ public class ClusterDataCache {
    * @param stateModelDefRef
    * @return
    */
-  public StateModelDefinition getStateModelDef(String stateModelDefRef) {
+  public IStateModelDefinition getStateModelDef(String stateModelDefRef) {
     return _stateModelDefMap.get(stateModelDefRef);
   }
 

@@ -19,8 +19,8 @@ package org.apache.helix.model;
  * under the License.
  */
 
-import org.apache.helix.HelixProperty;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
 
 /**
  * Defines an error that occurs in computing a valid ideal state or external view

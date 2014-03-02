@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.I0Itec.zkclient.DataUpdater;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
 
 /**
  * Interface used to interact with Helix Data Types like IdealState, Config,

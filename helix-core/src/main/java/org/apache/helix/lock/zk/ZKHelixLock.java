@@ -3,7 +3,7 @@ package org.apache.helix.lock.zk;
 import org.I0Itec.zkclient.ZkConnection;
 import org.apache.helix.AccessOption;
 import org.apache.helix.BaseDataAccessor;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.lock.HelixLock;
@@ -75,7 +75,7 @@ public class ZKHelixLock implements HelixLock {
   public ZKHelixLock(ClusterId clusterId, Scope<?> scope, ZkClient zkClient) {
     _zkClient = zkClient;
     _rootPath =
-        '/' + clusterId.stringify() + '/' + LOCK_ROOT + '/' + scope.getType() + '_'
+        '/' + clusterId.toString() + '/' + LOCK_ROOT + '/' + scope.getType() + '_'
             + scope.getScopedId();
     ZooKeeper zookeeper = ((ZkConnection) zkClient.getConnection()).getZookeeper();
     _writeLock = new WriteLock(zookeeper, _rootPath, null, _listener);

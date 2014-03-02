@@ -34,12 +34,10 @@ under the License.
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>6.0.1</version>
-    </dependency>
+      </dependency>
     <dependency>
       <groupId>org.apache.helix</groupId>
       <artifactId>helix-core</artifactId>
-      <version>0.7.1-incubating-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
@@ -69,6 +67,12 @@ under the License.
       <version>2.1.0</version>
       <type>jar</type>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.helix</groupId>
+    	<artifactId>helix-api</artifactId>
+    	<version>0.7.1-incubating-SNAPSHOT</version>
+    	<type>bundle</type>
     </dependency>
   </dependencies>
   <build>

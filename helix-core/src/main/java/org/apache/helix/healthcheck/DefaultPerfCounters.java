@@ -21,7 +21,7 @@ package org.apache.helix.healthcheck;
 
 import java.util.Date;
 
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.log4j.Logger;
 
 @Deprecated

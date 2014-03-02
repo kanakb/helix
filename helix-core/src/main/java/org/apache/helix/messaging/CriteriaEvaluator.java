@@ -28,9 +28,9 @@ import java.util.regex.Pattern;
 
 import org.apache.helix.Criteria;
 import org.apache.helix.Criteria.DataSource;
+import org.apache.helix.api.HelixProperty;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.HelixProperty;
 import org.apache.helix.PropertyKey;
 import org.apache.log4j.Logger;
 

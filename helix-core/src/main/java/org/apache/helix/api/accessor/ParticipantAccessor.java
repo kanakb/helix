@@ -37,8 +37,9 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixDefinedState;
 import org.apache.helix.HelixException;
 import org.apache.helix.PropertyKey;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ParticipantConfig;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.config.UserConfig;
@@ -53,7 +54,6 @@ import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.api.snapshot.RunningInstance;
 import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
@@ -62,9 +62,9 @@ import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageState;
-import org.apache.helix.model.Message.MessageType;
 import org.apache.helix.model.StateModelDefinition;
+import org.apache.helix.api.model.IMessage.MessageState;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;
 
@@ -284,7 +284,8 @@ public class ParticipantAccessor {
         for (PartitionId partitionId : extView.getPartitionIdSet()) {
           Map<ParticipantId, State> stateMap = extView.getStateMap(partitionId);
           if (stateMap.containsKey(participantId)
-              && stateMap.get(participantId).equals(State.from(HelixDefinedState.ERROR))) {
+              && stateMap.get(participantId)
+                  .equals(HelixDefinedState.from(HelixDefinedState.ERROR))) {
             resetPartitionIdSet.add(partitionId);
           }
         }
@@ -340,7 +341,8 @@ public class ParticipantAccessor {
       return false;
     }
     for (PartitionId partitionId : resetPartitionIdSet) {
-      if (!currentState.getState(partitionId).equals(State.from(HelixDefinedState.ERROR))) {
+      if (!currentState.getState(partitionId).equals(
+          HelixDefinedState.from(HelixDefinedState.ERROR))) {
         LOG.error("Partition " + partitionId + " is not in error state, aborting reset");
         return false;
       }

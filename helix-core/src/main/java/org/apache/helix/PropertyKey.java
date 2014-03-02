@@ -47,6 +47,7 @@ import static org.apache.helix.PropertyType.STATUSUPDATES_CONTROLLER;
 
 import java.util.Arrays;
 
+import org.apache.helix.api.HelixProperty;
 import org.apache.helix.controller.context.ControllerContextHolder;
 import org.apache.helix.model.AlertHistory;
 import org.apache.helix.model.AlertStatus;

@@ -1,5 +1,7 @@
 package org.apache.helix.controller.rebalancer.config;
 
+import org.apache.helix.api.config.RebalancerConfig;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file

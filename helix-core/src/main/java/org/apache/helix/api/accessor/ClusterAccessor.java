@@ -32,16 +32,16 @@ import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.PropertyKey;
-import org.apache.helix.ZNRecord;
 import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.StatsHolder;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ParticipantConfig;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.id.ContextId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.ParticipantId;
@@ -57,13 +57,15 @@ import org.apache.helix.controller.context.ControllerContext;
 import org.apache.helix.controller.context.ControllerContextHolder;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.RebalancerConfigHolder;
 import org.apache.helix.controller.stages.ClusterDataCache;
+import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.model.Alerts;
 import org.apache.helix.model.ClusterConfiguration;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.IClusterConstraints;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
@@ -124,9 +126,9 @@ public class ClusterAccessor {
     }
     clearClusterStructure();
     initClusterStructure();
-    Map<StateModelDefId, StateModelDefinition> stateModelDefs = cluster.getStateModelMap();
-    for (StateModelDefinition stateModelDef : stateModelDefs.values()) {
-      addStateModelDefinitionToCluster(stateModelDef);
+    Map<StateModelDefId, IStateModelDefinition> stateModelDefs = cluster.getStateModelMap();
+    for (IStateModelDefinition stateModelDef : stateModelDefs.values()) {
+      addStateModelDefinitionToCluster((StateModelDefinition) stateModelDef);
     }
     Map<ResourceId, ResourceConfig> resources = cluster.getResourceMap();
     for (ResourceConfig resource : resources.values()) {
@@ -137,8 +139,9 @@ public class ClusterAccessor {
       addParticipantToCluster(participant);
     }
     _accessor.createProperty(_keyBuilder.constraints(), null);
-    for (ClusterConstraints constraints : cluster.getConstraintMap().values()) {
-      _accessor.setProperty(_keyBuilder.constraint(constraints.getType().toString()), constraints);
+    for (IClusterConstraints constraints : cluster.getConstraintMap().values()) {
+      _accessor.setProperty(_keyBuilder.constraint(constraints.getType().toString()),
+          (ClusterConstraints) constraints);
     }
     ClusterConfiguration clusterConfig = ClusterConfiguration.from(cluster.getUserConfig());
     if (cluster.autoJoinAllowed()) {
@@ -180,10 +183,11 @@ public class ClusterAccessor {
     ClusterConfiguration configuration = ClusterConfiguration.from(config.getUserConfig());
     configuration.setAutoJoinAllowed(config.autoJoinAllowed());
     _accessor.setProperty(_keyBuilder.clusterConfig(), configuration);
-    Map<ConstraintType, ClusterConstraints> constraints = config.getConstraintMap();
+    Map<ConstraintType, IClusterConstraints> constraints = config.getConstraintMap();
     for (ConstraintType type : constraints.keySet()) {
-      ClusterConstraints constraint = constraints.get(type);
-      _accessor.setProperty(_keyBuilder.constraint(type.toString()), constraint);
+      IClusterConstraints constraint = constraints.get(type);
+      _accessor.setProperty(_keyBuilder.constraint(type.toString()),
+          (ClusterConstraints) constraint);
     }
     return true;
   }

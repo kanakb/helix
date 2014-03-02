@@ -32,7 +32,7 @@ import org.apache.helix.NotificationContext;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.SessionId;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageState;
+import org.apache.helix.api.model.IMessage.MessageState;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;

@@ -10,6 +10,7 @@ import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.controller.rebalancer.CustomRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
@@ -18,7 +19,6 @@ import org.apache.helix.controller.strategy.AutoRebalanceStrategy.DefaultPlaceme
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.ResourceAssignment;
-import org.apache.helix.model.StateModelDefinition;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.common.collect.Maps;
@@ -96,7 +96,7 @@ public class CustomRebalancerConfig extends PartitionedRebalancerConfig {
    */
   @Override
   @JsonIgnore
-  public void generateDefaultConfiguration(StateModelDefinition stateModelDef,
+  public void generateDefaultConfiguration(IStateModelDefinition stateModelDef,
       Set<ParticipantId> participantSet) {
     // compute default upper bounds
     Map<State, String> upperBounds = Maps.newHashMap();

@@ -26,7 +26,7 @@ import java.util.UUID;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.PartitionId;

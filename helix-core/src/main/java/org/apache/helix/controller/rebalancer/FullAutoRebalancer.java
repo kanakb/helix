@@ -10,23 +10,23 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.HelixManager;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.FullAutoRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.controller.stages.ResourceCurrentState;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.DefaultPlacementScheme;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
 import org.apache.helix.model.ResourceAssignment;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 import com.google.common.base.Function;
@@ -67,7 +67,7 @@ public class FullAutoRebalancer implements HelixRebalancer {
       ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState) {
     FullAutoRebalancerConfig config =
         BasicRebalancerConfig.convert(rebalancerConfig, FullAutoRebalancerConfig.class);
-    StateModelDefinition stateModelDef =
+    IStateModelDefinition stateModelDef =
         cluster.getStateModelMap().get(config.getStateModelDefId());
     // Compute a preference list based on the current ideal state
     List<PartitionId> partitions = new ArrayList<PartitionId>(config.getPartitionSet());

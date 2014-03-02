@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.helix.HelixDefinedState;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.model.StateModelDefinition.StateModelDefinitionProperty;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.testng.Assert;
@@ -39,15 +40,15 @@ public class TestStateModelValidity {
    */
   @Test
   public void testValidModels() {
-    StateModelDefinition masterSlave =
+    IStateModelDefinition masterSlave =
         new StateModelDefinition(StateModelConfigGenerator.generateConfigForMasterSlave());
     Assert.assertTrue(masterSlave.isValid());
 
-    StateModelDefinition leaderStandby =
+    IStateModelDefinition leaderStandby =
         new StateModelDefinition(StateModelConfigGenerator.generateConfigForLeaderStandby());
     Assert.assertTrue(leaderStandby.isValid());
 
-    StateModelDefinition onlineOffline =
+    IStateModelDefinition onlineOffline =
         new StateModelDefinition(StateModelConfigGenerator.generateConfigForOnlineOffline());
     Assert.assertTrue(onlineOffline.isValid());
   }
@@ -57,7 +58,7 @@ public class TestStateModelValidity {
    */
   @Test
   public void testNoDroppedState() {
-    StateModelDefinition stateModel =
+    IStateModelDefinition stateModel =
         new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addTransition("OFFLINE", "SLAVE")
             .addTransition("SLAVE", "MASTER").addTransition("MASTER", "SLAVE")
@@ -70,7 +71,7 @@ public class TestStateModelValidity {
    */
   @Test
   public void testNoPathToDropped() {
-    StateModelDefinition stateModel =
+    IStateModelDefinition stateModel =
         new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addState("DROPPED")
             .addTransition("OFFLINE", "SLAVE").addTransition("SLAVE", "MASTER")
@@ -92,7 +93,7 @@ public class TestStateModelValidity {
    */
   @Test
   public void testInitialStateIsNotState() {
-    StateModelDefinition stateModel =
+    IStateModelDefinition stateModel =
         new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("MASTER")
             .addState("SLAVE").addState("DROPPED").addTransition("OFFLINE", "SLAVE")
             .addTransition("SLAVE", "MASTER").addTransition("SLAVE", "OFFLINE")
@@ -121,7 +122,7 @@ public class TestStateModelValidity {
   @Test
   public void testTransitionsWithInvalidStates() {
     // invalid to state
-    StateModelDefinition stateModel =
+    IStateModelDefinition stateModel =
         new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addState("DROPPED")
             .addTransition("OFFLINE", "SLAVE").addTransition("SLAVE", "MASTER")
@@ -144,7 +145,7 @@ public class TestStateModelValidity {
    */
   @Test
   public void testUnreachableState() {
-    StateModelDefinition stateModel =
+    IStateModelDefinition stateModel =
         new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addState("DROPPED")
             .addTransition("OFFLINE", "SLAVE").addTransition("SLAVE", "OFFLINE")
@@ -208,7 +209,7 @@ public class TestStateModelValidity {
     record.setListField(StateModelDefinitionProperty.STATE_TRANSITION_PRIORITYLIST.toString(),
         stateTransitionPriorityList);
 
-    StateModelDefinition stateModel = new StateModelDefinition(record);
+    IStateModelDefinition stateModel = new StateModelDefinition(record);
     Assert.assertFalse(stateModel.isValid());
   }
 
@@ -217,7 +218,7 @@ public class TestStateModelValidity {
    */
   @Test
   public void testBasic() {
-    StateModelDefinition stateModel = new StateModelDefinition.Builder("MasterSlave")
+    IStateModelDefinition stateModel = new StateModelDefinition.Builder("MasterSlave")
     // OFFLINE is the state that the system starts in (initial state is REQUIRED)
         .initialState("OFFLINE")
 

@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.helix.HelixManager;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
 import org.apache.helix.api.config.State;
@@ -39,10 +40,9 @@ import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageState;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageState;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
@@ -140,7 +140,7 @@ public class MessageGenerationStage extends AbstractBaseStage {
             // TODO refactor get/set timeout/inner-message
             if (rebalancerConfig != null
                 && rebalancerConfig.getStateModelDefId().equalsIgnoreCase(
-                    StateModelDefId.SchedulerTaskQueue)) {
+                    StateModelDefId.SCHEDULER_TASK_QUEUE)) {
               if (resourceConfig.getSubUnitMap().size() > 0) {
                 // TODO refactor it -- we need a way to read in scheduler tasks a priori
                 Message innerMsg =

@@ -1,12 +1,12 @@
 package org.apache.helix.model;
 
-import org.apache.helix.HelixProperty;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.NamespacedConfig;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig.ResourceType;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.RebalancerConfigHolder;
 
 import com.google.common.base.Enums;

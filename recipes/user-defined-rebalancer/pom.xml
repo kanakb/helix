@@ -71,6 +71,12 @@ under the License.
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+    	<groupId>org.apache.helix</groupId>
+    	<artifactId>helix-api</artifactId>
+    	<version>0.7.1-incubating-SNAPSHOT</version>
+    	<type>bundle</type>
+    </dependency>
   </dependencies>
   <build>
     <resources>

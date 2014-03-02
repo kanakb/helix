@@ -28,10 +28,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.helix.HelixDefinedState;
-import org.apache.helix.HelixProperty;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.model.builder.StateTransitionTableBuilder;
 import org.apache.helix.model.util.StateModelDefinitionValidator;
 
@@ -40,7 +41,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * Describe the state model
  */
-public class StateModelDefinition extends HelixProperty {
+public class StateModelDefinition extends HelixProperty implements IStateModelDefinition {
   public enum StateModelDefinitionProperty {
     INITIAL_STATE,
     STATE_TRANSITION_PRIORITYLIST,
@@ -140,26 +141,26 @@ public class StateModelDefinition extends HelixProperty {
     }
   }
 
-  /**
-   * Get a concrete state model definition id
-   * @return StateModelDefId
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getStateModelDefId()
    */
+  @Override
   public StateModelDefId getStateModelDefId() {
     return StateModelDefId.from(getId());
   }
 
-  /**
-   * Get an ordered priority list of transitions
-   * @return transitions in the form SRC-DEST, the first of which is highest priority
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getStateTransitionPriorityList()
    */
+  @Override
   public List<String> getStateTransitionPriorityList() {
     return _stateTransitionPriorityList;
   }
 
-  /**
-   * Get an ordered priority list of transitions
-   * @return Transition objects, the first of which is highest priority (immutable)
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getTypedStateTransitionPriorityList()
    */
+  @Override
   public List<Transition> getTypedStateTransitionPriorityList() {
     ImmutableList.Builder<Transition> builder = new ImmutableList.Builder<Transition>();
     for (String transition : getStateTransitionPriorityList()) {
@@ -170,18 +171,18 @@ public class StateModelDefinition extends HelixProperty {
     return builder.build();
   }
 
-  /**
-   * Get an ordered priority list of states
-   * @return state names, the first of which is highest priority
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getStatesPriorityList()
    */
+  @Override
   public List<String> getStatesPriorityList() {
     return _statesPriorityList;
   }
 
-  /**
-   * Get an ordered priority list of states
-   * @return immutable list of states, the first of which is highest priority (immutable)
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getTypedStatesPriorityList()
    */
+  @Override
   public List<State> getTypedStatesPriorityList() {
     ImmutableList.Builder<State> builder = new ImmutableList.Builder<State>();
     for (String state : getStatesPriorityList()) {
@@ -190,12 +191,10 @@ public class StateModelDefinition extends HelixProperty {
     return builder.build();
   }
 
-  /**
-   * Get the intermediate state required to transition from one state to the other
-   * @param fromState the source
-   * @param toState the destination
-   * @return the intermediate state
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getNextStateForTransition(java.lang.String, java.lang.String)
    */
+  @Override
   public String getNextStateForTransition(String fromState, String toState) {
     Map<String, String> map = _stateTransitionTable.get(fromState);
     if (map != null) {
@@ -204,12 +203,10 @@ public class StateModelDefinition extends HelixProperty {
     return null;
   }
 
-  /**
-   * Get the intermediate state required to transition from one state to the other
-   * @param fromState the source
-   * @param toState the destination
-   * @return the intermediate state, or null if not present
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getNextStateForTransition(org.apache.helix.api.config.State, org.apache.helix.api.config.State)
    */
+  @Override
   public State getNextStateForTransition(State fromState, State toState) {
     String next = getNextStateForTransition(fromState.toString(), toState.toString());
     if (next != null) {
@@ -218,44 +215,45 @@ public class StateModelDefinition extends HelixProperty {
     return null;
   }
 
-  /**
-   * Get the starting state in the model
-   * @return name of the initial state
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getInitialState()
    */
+  @Override
   public String getInitialState() {
     // return _record.getSimpleField(StateModelDefinitionProperty.INITIAL_STATE
     // .toString());
     return _initialState;
   }
 
-  /**
-   * Get the starting state in the model
-   * @return name of the initial state
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getTypedInitialState()
    */
+  @Override
   public State getTypedInitialState() {
     // return _record.getSimpleField(StateModelDefinitionProperty.INITIAL_STATE
     // .toString());
     return State.from(_initialState);
   }
 
-  /**
-   * Number of instances that can be in each state
-   * @param state the state name
-   * @return maximum instance count per state, can be "N" or "R"
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getNumInstancesPerState(java.lang.String)
    */
+  @Override
   public String getNumInstancesPerState(String state) {
     return _statesCountMap.get(state);
   }
 
-  /**
-   * Number of participants that can be in each state
-   * @param state the state
-   * @return maximum instance count per state, can be "N" or "R"
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#getNumParticipantsPerState(org.apache.helix.api.config.State)
    */
+  @Override
   public String getNumParticipantsPerState(State state) {
     return _statesCountMap.get(state.toString());
   }
 
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IStateModelDefinition#isValid()
+   */
   @Override
   public boolean isValid() {
     return StateModelDefinitionValidator.isStateModelDefinitionValid(this);

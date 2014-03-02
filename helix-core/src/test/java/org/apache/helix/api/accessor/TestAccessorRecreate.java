@@ -4,12 +4,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.ZNRecord;
 import org.apache.helix.ZkUnitTestBase;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.UserConfig;
+import org.apache.helix.api.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.snapshot.Cluster;
@@ -145,7 +146,8 @@ public class TestAccessorRecreate extends ZkUnitTestBase {
     // create a cluster
     UserConfig userConfig = new UserConfig(Scope.cluster(clusterId));
     userConfig.setIntField(modifierName, modifierValue);
-    ClusterConfig cluster = new ClusterConfig.Builder(clusterId).userConfig(userConfig).build();
+    ClusterConfig cluster =
+        ClusterConfigBuilder.newInstance().withClusterId(clusterId).userConfig(userConfig).build();
     return accessor.createCluster(cluster);
   }
 

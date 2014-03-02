@@ -20,6 +20,7 @@ package org.apache.helix;
  */
 
 import org.I0Itec.zkclient.DataUpdater;
+import org.apache.helix.api.ZNRecord;
 
 /**
  * Class that specifies how a ZNRecord should be updated with another ZNRecord

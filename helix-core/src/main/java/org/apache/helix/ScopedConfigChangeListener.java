@@ -21,6 +21,8 @@ package org.apache.helix;
 
 import java.util.List;
 
+import org.apache.helix.api.HelixProperty;
+
 /**
  * Interface to implement to listen for changes to any specified scope.
  */

@@ -23,7 +23,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.helix.ZNRecord;
+import org.apache.helix.SerializableZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZNRecordStreamingSerializer;
 import org.codehaus.jackson.JsonNode;
@@ -42,7 +43,7 @@ public class TestJacksonPayloadSerializer {
   public void testJacksonSerializeDeserialize() {
     final String RECORD_ID = "testJacksonSerializeDeserialize";
     SampleDeserialized sample = getSample();
-    ZNRecord znRecord = new ZNRecord(RECORD_ID);
+    SerializableZNRecord znRecord = new SerializableZNRecord(RECORD_ID);
     znRecord.setPayloadSerializer(new JacksonPayloadSerializer());
     znRecord.setPayload(sample);
     SampleDeserialized duplicate = znRecord.getPayload(SampleDeserialized.class);
@@ -57,12 +58,13 @@ public class TestJacksonPayloadSerializer {
   public void testFullZNRecordSerializeDeserialize() {
     final String RECORD_ID = "testFullZNRecordSerializeDeserialize";
     SampleDeserialized sample = getSample();
-    ZNRecord znRecord = new ZNRecord(RECORD_ID);
+    SerializableZNRecord znRecord = new SerializableZNRecord(RECORD_ID);
     znRecord.setPayloadSerializer(new JacksonPayloadSerializer());
     znRecord.setPayload(sample);
     ZNRecordSerializer znRecordSerializer = new ZNRecordSerializer();
     byte[] serialized = znRecordSerializer.serialize(znRecord);
-    ZNRecord deserialized = (ZNRecord) znRecordSerializer.deserialize(serialized);
+    SerializableZNRecord deserialized =
+        (SerializableZNRecord) znRecordSerializer.deserialize(serialized);
     deserialized.setPayloadSerializer(new JacksonPayloadSerializer());
     SampleDeserialized duplicate = deserialized.getPayload(SampleDeserialized.class);
     Assert.assertEquals(duplicate, sample);
@@ -76,12 +78,13 @@ public class TestJacksonPayloadSerializer {
   public void testFullZNRecordStreamingSerializeDeserialize() {
     final String RECORD_ID = "testFullZNRecordStreamingSerializeDeserialize";
     SampleDeserialized sample = getSample();
-    ZNRecord znRecord = new ZNRecord(RECORD_ID);
+    SerializableZNRecord znRecord = new SerializableZNRecord(RECORD_ID);
     znRecord.setPayloadSerializer(new JacksonPayloadSerializer());
     znRecord.setPayload(sample);
     ZNRecordStreamingSerializer znRecordSerializer = new ZNRecordStreamingSerializer();
     byte[] serialized = znRecordSerializer.serialize(znRecord);
-    ZNRecord deserialized = (ZNRecord) znRecordSerializer.deserialize(serialized);
+    SerializableZNRecord deserialized =
+        (SerializableZNRecord) znRecordSerializer.deserialize(serialized);
     deserialized.setPayloadSerializer(new JacksonPayloadSerializer());
     SampleDeserialized duplicate = deserialized.getPayload(SampleDeserialized.class);
     Assert.assertEquals(duplicate, sample);

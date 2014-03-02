@@ -35,7 +35,7 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.ParticipantId;
@@ -47,7 +47,7 @@ import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.StatusUpdate;
 import org.apache.helix.util.StatusUpdateUtil;
 import org.apache.log4j.Logger;
@@ -60,7 +60,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFactory {
   public static final String WAIT_ALL = "WAIT_ALL";
   public static final String SCHEDULER_MSG_ID = "SchedulerMessageId";
-  public static final String SCHEDULER_TASK_QUEUE = "SchedulerTaskQueue";
   public static final String CONTROLLER_MSG_ID = "controllerMsgId";
   public static final int TASKQUEUE_BUCKET_NUM = 10;
 
@@ -134,8 +133,8 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
     String type = message.getMsgType();
 
     if (!type.equals(getMessageType())) {
-      throw new HelixException("Unexpected msg type for message " + message.getMessageId() + " type:"
-          + message.getMsgType());
+      throw new HelixException("Unexpected msg type for message " + message.getMessageId()
+          + " type:" + message.getMsgType());
     }
 
     return new DefaultSchedulerMessageHandler(message, context, _manager);
@@ -174,14 +173,16 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
       // mapFields
       // task throttling can be done on SCHEDULER_TASK_QUEUE resource
       if (messages.size() > 0) {
-        String taskQueueName = _message.getRecord().getSimpleField(SCHEDULER_TASK_QUEUE);
+        String taskQueueName =
+            _message.getRecord().getSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString());
         if (taskQueueName == null) {
-          throw new HelixException("SchedulerTaskMessage need to have " + SCHEDULER_TASK_QUEUE
-              + " specified.");
+          throw new HelixException("SchedulerTaskMessage need to have "
+              + StateModelDefId.SCHEDULER_TASK_QUEUE.toString() + " specified.");
         }
         IdealState newAddedScheduledTasks = new IdealState(taskQueueName);
         newAddedScheduledTasks.setBucketSize(TASKQUEUE_BUCKET_NUM);
-        newAddedScheduledTasks.setStateModelDefId(StateModelDefId.from(SCHEDULER_TASK_QUEUE));
+        newAddedScheduledTasks.setStateModelDefId(StateModelDefId
+            .from(StateModelDefId.SCHEDULER_TASK_QUEUE.toString()));
 
         synchronized (_manager) {
           int existingTopPartitionId = 0;
@@ -296,7 +297,8 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
         }
       }
       boolean hasSchedulerTaskQueue =
-          _message.getRecord().getSimpleFields().containsKey(SCHEDULER_TASK_QUEUE);
+          _message.getRecord().getSimpleFields()
+              .containsKey(StateModelDefId.SCHEDULER_TASK_QUEUE.toString());
       // If the target is PARTICIPANT, use the ScheduledTaskQueue
       if (InstanceType.PARTICIPANT == recipientCriteria.getRecipientInstanceType()
           && hasSchedulerTaskQueue) {
@@ -348,7 +350,8 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
 
     @Override
     public void onError(Exception e, ErrorCode code, ErrorType type) {
-      _logger.error("Message handling pipeline get an exception. MsgId:" + _message.getMessageId(), e);
+      _logger.error("Message handling pipeline get an exception. MsgId:" + _message.getMessageId(),
+          e);
     }
   }
 }

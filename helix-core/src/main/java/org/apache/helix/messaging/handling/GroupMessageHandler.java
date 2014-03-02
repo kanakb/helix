@@ -29,7 +29,7 @@ import org.apache.helix.PropertyKey;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.Attributes;
+import org.apache.helix.api.model.IMessage.Attributes;
 
 public class GroupMessageHandler {
   class CurrentStateUpdate {

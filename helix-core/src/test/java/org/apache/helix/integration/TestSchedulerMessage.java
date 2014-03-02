@@ -41,17 +41,18 @@ import org.apache.helix.PropertyKey;
 import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.PropertyType;
 import org.apache.helix.TestHelper;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.manager.zk.DefaultSchedulerMessageHandlerFactory;
 import org.apache.helix.messaging.AsyncCallback;
 import org.apache.helix.messaging.handling.HelixTaskResult;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageState;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageState;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.StatusUpdate;
 import org.apache.helix.monitoring.ZKPathDataDumpTask;
 import org.apache.helix.util.HelixUtil;
@@ -211,8 +212,8 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.setTgtName("CONTROLLER");
     // TODO: change it to "ADMIN" ?
     schedulerMessage.setSrcName("CONTROLLER");
-    schedulerMessage.getRecord().setSimpleField(
-        DefaultSchedulerMessageHandlerFactory.SCHEDULER_TASK_QUEUE, "TestSchedulerMsg");
+    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+        "TestSchedulerMsg");
     // Template for the individual message sent to each participant
     Message msg = new Message(_factory.getMessageType(), "Template");
     msg.setTgtSessionId("*");
@@ -472,8 +473,8 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     cr2.setInstanceName("*");
     cr2.setSessionSpecific(false);
 
-    schedulerMessage.getRecord().setSimpleField(
-        DefaultSchedulerMessageHandlerFactory.SCHEDULER_TASK_QUEUE, "TestSchedulerMsg2");
+    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+        "TestSchedulerMsg2");
     MockAsyncCallback callback = new MockAsyncCallback();
     manager.getMessagingService().sendAndWait(cr2, schedulerMessage, callback, -1);
     String msgId =
@@ -632,8 +633,8 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField("TIMEOUT", "-1");
     schedulerMessage.getRecord().setSimpleField("WAIT_ALL", "true");
 
-    schedulerMessage.getRecord().setSimpleField(
-        DefaultSchedulerMessageHandlerFactory.SCHEDULER_TASK_QUEUE, "TestSchedulerMsg3");
+    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+        "TestSchedulerMsg3");
     Criteria cr2 = new Criteria();
     cr2.setRecipientInstanceType(InstanceType.CONTROLLER);
     cr2.setInstanceName("*");
@@ -772,8 +773,8 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField("TIMEOUT", "-1");
     schedulerMessage.getRecord().setSimpleField("WAIT_ALL", "true");
 
-    schedulerMessage.getRecord().setSimpleField(
-        DefaultSchedulerMessageHandlerFactory.SCHEDULER_TASK_QUEUE, "TestSchedulerMsg4");
+    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+        "TestSchedulerMsg4");
     Criteria cr2 = new Criteria();
     cr2.setRecipientInstanceType(InstanceType.CONTROLLER);
     cr2.setInstanceName("*");
@@ -939,8 +940,8 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setMapField("MessageTemplate", msg.getRecord().getSimpleFields());
     schedulerMessage.getRecord().setSimpleField("TIMEOUT", "-1");
     schedulerMessage.getRecord().setSimpleField("WAIT_ALL", "true");
-    schedulerMessage.getRecord().setSimpleField(
-        DefaultSchedulerMessageHandlerFactory.SCHEDULER_TASK_QUEUE, "TestSchedulerMsgContraints");
+    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+        "TestSchedulerMsgContraints");
 
     Criteria cr2 = new Criteria();
     cr2.setRecipientInstanceType(InstanceType.CONTROLLER);

@@ -1,6 +1,6 @@
 package org.apache.helix.manager.zk;
 
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

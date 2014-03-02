@@ -21,7 +21,7 @@ package org.apache.helix.tools;
 
 import java.util.UUID;
 
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.PartitionId;
@@ -30,8 +30,8 @@ import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.LiveInstance.LiveInstanceProperty;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageState;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageState;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.util.HelixUtil;
 
 public class MessagePoster {

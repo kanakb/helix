@@ -25,18 +25,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.helix.HelixManager;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.stages.ResourceCurrentState;
 import org.apache.helix.model.ResourceAssignment;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 public class LockManagerRebalancer implements HelixRebalancer {
@@ -68,7 +68,7 @@ public class LockManagerRebalancer implements HelixRebalancer {
 
     // Get the state model (should be a simple lock/unlock model) and the highest-priority state
     StateModelDefId stateModelDefId = config.getStateModelDefId();
-    StateModelDefinition stateModelDef = cluster.getStateModelMap().get(stateModelDefId);
+    IStateModelDefinition stateModelDef = cluster.getStateModelMap().get(stateModelDefId);
     if (stateModelDef.getStatesPriorityList().size() < 1) {
       LOG.error("Invalid state model definition. There should be at least one state.");
       return assignment;

@@ -30,9 +30,10 @@ import java.util.TreeSet;
 
 import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixDefinedState;
-import org.apache.helix.HelixProperty;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.NamespacedConfig;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ParticipantId;
@@ -40,12 +41,12 @@ import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.api.id.StateModelFactoryId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.rebalancer.config.CustomRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.FullAutoRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;
@@ -724,7 +725,7 @@ public class IdealState extends HelixProperty {
    * @param assignment the new resource assignment
    * @param stateModelDef state model of the resource
    */
-  public void updateFromAssignment(ResourceAssignment assignment, StateModelDefinition stateModelDef) {
+  public void updateFromAssignment(ResourceAssignment assignment, IStateModelDefinition stateModelDef) {
     // clear all preference lists and maps
     _record.getMapFields().clear();
     _record.getListFields().clear();
@@ -741,8 +742,8 @@ public class IdealState extends HelixProperty {
 
       // update the ideal state in order of state priorities
       for (State state : stateModelDef.getTypedStatesPriorityList()) {
-        if (!state.equals(State.from(HelixDefinedState.DROPPED))
-            && !state.equals(State.from(HelixDefinedState.ERROR))) {
+        if (!state.equals(HelixDefinedState.from(HelixDefinedState.DROPPED))
+            && !state.equals(HelixDefinedState.from(HelixDefinedState.ERROR))) {
           List<ParticipantId> stateParticipants = inverseMap.get(state);
           for (ParticipantId participant : stateParticipants) {
             preferenceList.add(participant);

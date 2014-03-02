@@ -24,9 +24,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.State;
-import org.apache.helix.manager.zk.DefaultSchedulerMessageHandlerFactory;
+import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.model.StateModelDefinition.StateModelDefinitionProperty;
 import org.apache.helix.model.Transition;
@@ -300,7 +300,7 @@ public class StateModelConfigGenerator {
   }
 
   public static ZNRecord generateConfigForScheduledTaskQueue() {
-    ZNRecord record = new ZNRecord(DefaultSchedulerMessageHandlerFactory.SCHEDULER_TASK_QUEUE);
+    ZNRecord record = new ZNRecord(StateModelDefId.SCHEDULER_TASK_QUEUE.toString());
     record.setSimpleField(StateModelDefinitionProperty.INITIAL_STATE.toString(), "OFFLINE");
     List<String> statePriorityList = new ArrayList<String>();
     statePriorityList.add("COMPLETED");

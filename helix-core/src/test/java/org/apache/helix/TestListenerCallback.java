@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.api.HelixProperty;
 import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.InstanceConfig;
 import org.testng.Assert;
@@ -93,7 +94,7 @@ public class TestListenerCallback extends ZkUnitTestBase {
     Builder keyBuilder = accessor.keyBuilder();
     String instanceName = "localhost_12918";
     HelixProperty value = accessor.getProperty(keyBuilder.instanceConfig(instanceName));
-    value._record.setSimpleField("" + System.currentTimeMillis(), "newValue");
+    value.getRecord().setSimpleField("" + System.currentTimeMillis(), "newValue");
     listener._instanceConfigChanged = false;
     accessor.setProperty(keyBuilder.instanceConfig(instanceName), value);
     Thread.sleep(1000); // wait zk callback
@@ -101,7 +102,7 @@ public class TestListenerCallback extends ZkUnitTestBase {
         "Should get instanceConfig callback invoked since we change instanceConfig");
 
     value = accessor.getProperty(keyBuilder.clusterConfig());
-    value._record.setSimpleField("" + System.currentTimeMillis(), "newValue");
+    value.getRecord().setSimpleField("" + System.currentTimeMillis(), "newValue");
     listener._configChanged = false;
     accessor.setProperty(keyBuilder.clusterConfig(), value);
     Thread.sleep(1000); // wait zk callback
@@ -110,14 +111,14 @@ public class TestListenerCallback extends ZkUnitTestBase {
 
     String resourceName = "TestDB_0";
     value = new HelixProperty(resourceName);
-    value._record.setSimpleField("" + System.currentTimeMillis(), "newValue");
+    value.getRecord().setSimpleField("" + System.currentTimeMillis(), "newValue");
     listener._configChanged = false;
     accessor.setProperty(keyBuilder.resourceConfig(resourceName), value);
     Thread.sleep(1000); // wait zk callback
     Assert.assertTrue(listener._configChanged,
         "Should get resourceConfig callback invoked since we add resourceConfig");
 
-    value._record.setSimpleField("" + System.currentTimeMillis(), "newValue");
+    value.getRecord().setSimpleField("" + System.currentTimeMillis(), "newValue");
     listener._configChanged = false;
     accessor.setProperty(keyBuilder.resourceConfig(resourceName), value);
     Thread.sleep(1000); // wait zk callback

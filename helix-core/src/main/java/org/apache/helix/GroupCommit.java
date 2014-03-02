@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.I0Itec.zkclient.exception.ZkNoNodeException;
+import org.apache.helix.api.ZNRecord;
 import org.apache.log4j.Logger;
 
 // TODO: move to mananger.zk

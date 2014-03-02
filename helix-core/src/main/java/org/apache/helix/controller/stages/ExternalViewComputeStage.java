@@ -31,9 +31,10 @@ import org.apache.helix.HelixDefinedState;
 import org.apache.helix.HelixManager;
 import org.apache.helix.PropertyKey;
 import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.ZNRecord;
-import org.apache.helix.ZNRecordDelta;
-import org.apache.helix.ZNRecordDelta.MergeOperation;
+import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.ZNRecordDelta;
+import org.apache.helix.api.ZNRecordDelta.MergeOperation;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
 import org.apache.helix.api.config.State;
@@ -45,11 +46,10 @@ import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.StatusUpdate;
 import org.apache.helix.monitoring.mbeans.ClusterStatusMonitor;
 import org.apache.log4j.Logger;
@@ -124,7 +124,7 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
         if (idealState != null) {
           StateModelDefId stateModelDefId = idealState.getStateModelDefId();
           if (stateModelDefId != null
-              && !stateModelDefId.equals(StateModelDefId.SchedulerTaskQueue)) {
+              && !stateModelDefId.equals(StateModelDefId.SCHEDULER_TASK_QUEUE)) {
             clusterStatusMonitor.onExternalViewChange(view, idealState);
           }
         }
@@ -144,7 +144,7 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
         if (rebalancerConfig != null
             && rebalancerConfig.getStateModelDefId() != null
             && rebalancerConfig.getStateModelDefId().equalsIgnoreCase(
-                StateModelDefId.SchedulerTaskQueue)) {
+                StateModelDefId.SCHEDULER_TASK_QUEUE)) {
           updateScheduledTaskStatus(resourceId, view, manager, schedulerTaskConfig);
         }
       }

@@ -3,6 +3,7 @@ package org.apache.helix.controller.rebalancer.config;
 import java.util.Set;
 
 import org.apache.helix.api.config.Partition;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
@@ -35,7 +36,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * Abstract RebalancerConfig that functions for generic subunits. Use a subclass that more
  * concretely defines the subunits.
  */
-public abstract class BasicRebalancerConfig implements RebalancerConfig {
+public abstract class BasicRebalancerConfig extends AbstractRebalancerConfig implements RebalancerConfig {
   private ResourceId _resourceId;
   private StateModelDefId _stateModelDefId;
   private StateModelFactoryId _stateModelFactoryId;

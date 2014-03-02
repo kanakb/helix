@@ -26,7 +26,7 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.integration.ZkStandAloneCMTestBase;
 import org.apache.helix.messaging.DefaultMessagingService;
 import org.apache.helix.model.ConfigScope;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.builder.ConfigScopeBuilder;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.testng.Assert;

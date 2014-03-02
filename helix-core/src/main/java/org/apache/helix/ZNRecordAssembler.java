@@ -21,6 +21,8 @@ package org.apache.helix;
 
 import java.util.List;
 
+import org.apache.helix.api.ZNRecord;
+
 /**
  * Constructs ZNRecords from collections of ZNRecords
  */

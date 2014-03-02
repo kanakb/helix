@@ -30,6 +30,7 @@ import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.context.ControllerContextProvider;
@@ -38,7 +39,7 @@ import org.apache.helix.controller.pipeline.StageException;
 import org.apache.helix.controller.rebalancer.FallbackRebalancer;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
+import org.apache.helix.controller.rebalancer.config.AbstractRebalancerConfig;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.helix.model.StateModelDefinition;
@@ -94,7 +95,7 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
    * @return assignment for the dropped resource
    */
   private ResourceAssignment mapDroppedResource(Cluster cluster, ResourceId resourceId,
-      ResourceCurrentState currentStateOutput, StateModelDefinition stateModelDef) {
+      ResourceCurrentState currentStateOutput, IStateModelDefinition stateModelDef) {
     ResourceAssignment partitionMapping = new ResourceAssignment(resourceId);
     Set<PartitionId> mappedPartitions =
         currentStateOutput.getCurrentStateMappedPartitions(resourceId);
@@ -125,7 +126,7 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
    */
   private void mapDroppedAndDisabledPartitions(Cluster cluster,
       ResourceAssignment resourceAssignment, ResourceCurrentState currentStateOutput,
-      StateModelDefinition stateModelDef) {
+      IStateModelDefinition stateModelDef) {
     // get the total partition set: mapped and current state
     ResourceId resourceId = resourceAssignment.getResourceId();
     Set<PartitionId> mappedPartitions = Sets.newHashSet();
@@ -143,7 +144,7 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
       Set<ParticipantId> errorParticipants = Sets.newHashSet();
       for (ParticipantId participantId : currentStateMap.keySet()) {
         State state = currentStateMap.get(participantId);
-        if (state.equals(State.from(HelixDefinedState.ERROR))) {
+        if (state.equals(HelixDefinedState.from(HelixDefinedState.ERROR))) {
           errorParticipants.add(participantId);
         }
       }
@@ -178,8 +179,9 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
         LOG.debug("Processing resource:" + resourceId);
       }
       ResourceConfig resourceConfig = resourceMap.get(resourceId);
-      RebalancerConfig rebalancerConfig = resourceConfig.getRebalancerConfig();
-      StateModelDefinition stateModelDef =
+      AbstractRebalancerConfig rebalancerConfig =
+          (AbstractRebalancerConfig) resourceConfig.getRebalancerConfig();
+      IStateModelDefinition stateModelDef =
           stateModelDefs.get(rebalancerConfig.getStateModelDefId());
       ResourceAssignment resourceAssignment = null;
       if (rebalancerConfig != null) {

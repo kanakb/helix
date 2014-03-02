@@ -5,6 +5,8 @@ import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.UserConfig;
+import org.apache.helix.api.config.builder.ClusterConfigBuilder;
+import org.apache.helix.api.config.builder.ResourceConfigBuilder;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
@@ -95,7 +97,7 @@ public class TestUpdateConfig {
     SemiAutoRebalancerConfig rebalancerContext =
         new SemiAutoRebalancerConfig.Builder(resourceId).build();
     ResourceConfig config =
-        new ResourceConfig.Builder(resourceId).userConfig(userConfig)
+        ResourceConfigBuilder.newInstance().with(resourceId).userConfig(userConfig)
             .rebalancerConfig(rebalancerContext).bucketSize(OLD_BUCKET_SIZE).batchMessageMode(true)
             .build();
 
@@ -127,7 +129,7 @@ public class TestUpdateConfig {
     UserConfig userConfig = new UserConfig(Scope.cluster(clusterId));
     userConfig.setSimpleField("key1", "value1");
     ClusterConfig config =
-        new ClusterConfig.Builder(clusterId).userConfig(userConfig).autoJoin(true).build();
+        ClusterConfigBuilder.newInstance().withClusterId(clusterId).userConfig(userConfig).autoJoin(true).build();
 
     // update: overwrite user config, change auto join
     UserConfig newUserConfig = new UserConfig(Scope.cluster(clusterId));

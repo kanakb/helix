@@ -36,9 +36,9 @@ import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 import com.google.common.base.Predicate;
@@ -97,7 +97,7 @@ public class ConstraintBasedAssignment {
    * @param cluster the cluster the resource belongs to
    * @return map of state to upper bound
    */
-  public static Map<State, String> stateConstraints(StateModelDefinition stateModelDef,
+  public static Map<State, String> stateConstraints(IStateModelDefinition stateModelDef,
       ResourceId resourceId, ClusterConfig cluster) {
     Map<State, String> stateMap = Maps.newHashMap();
     for (State state : stateModelDef.getTypedStatesPriorityList()) {
@@ -127,9 +127,9 @@ public class ConstraintBasedAssignment {
         if ((participants == null || !participants.contains(participantId))
             && !disabledParticipants.contains(participantId)) {
           // if dropped and not disabled, transit to DROPPED
-          participantStateMap.put(participantId, State.from(HelixDefinedState.DROPPED));
+          participantStateMap.put(participantId, HelixDefinedState.from(HelixDefinedState.DROPPED));
         } else if ((currentStateMap.get(participantId) == null || !currentStateMap.get(
-            participantId).equals(State.from(HelixDefinedState.ERROR)))
+            participantId).equals(HelixDefinedState.from(HelixDefinedState.ERROR)))
             && disabledParticipants.contains(participantId)) {
           // if disabled and not in ERROR state, transit to initial-state (e.g. OFFLINE)
           participantStateMap.put(participantId, initialState);
@@ -152,7 +152,7 @@ public class ConstraintBasedAssignment {
    */
   public static Map<ParticipantId, State> computeAutoBestStateForPartition(
       Map<State, String> upperBounds, Set<ParticipantId> liveParticipantSet,
-      StateModelDefinition stateModelDef, List<ParticipantId> participantPreferenceList,
+      IStateModelDefinition stateModelDef, List<ParticipantId> participantPreferenceList,
       Map<ParticipantId, State> currentStateMap, Set<ParticipantId> disabledParticipantsForPartition) {
     // drop and disable participants if necessary
     Map<ParticipantId, State> participantStateMap =
@@ -191,8 +191,8 @@ public class ConstraintBasedAssignment {
           boolean notInErrorState =
               currentStateMap == null
                   || currentStateMap.get(participantId) == null
-                  || !currentStateMap.get(participantId)
-                      .equals(State.from(HelixDefinedState.ERROR));
+                  || !currentStateMap.get(participantId).equals(
+                      HelixDefinedState.from(HelixDefinedState.ERROR));
 
           if (liveParticipantSet.contains(participantId) && !assigned[i] && notInErrorState
               && !disabledParticipantsForPartition.contains(participantId)) {
@@ -218,7 +218,7 @@ public class ConstraintBasedAssignment {
    * @return state count map: state->count
    */
   public static LinkedHashMap<State, Integer> stateCount(Map<State, String> upperBounds,
-      StateModelDefinition stateModelDef, int liveNodesNb, int totalReplicas) {
+      IStateModelDefinition stateModelDef, int liveNodesNb, int totalReplicas) {
     LinkedHashMap<State, Integer> stateCountMap = new LinkedHashMap<State, Integer>();
     List<State> statesPriorityList = stateModelDef.getTypedStatesPriorityList();
 
@@ -268,7 +268,7 @@ public class ConstraintBasedAssignment {
    * @return
    */
   public static Map<ParticipantId, State> computeCustomizedBestStateForPartition(
-      Set<ParticipantId> liveParticipantSet, StateModelDefinition stateModelDef,
+      Set<ParticipantId> liveParticipantSet, IStateModelDefinition stateModelDef,
       Map<ParticipantId, State> preferenceMap, Map<ParticipantId, State> currentStateMap,
       Set<ParticipantId> disabledParticipantsForPartition) {
     Map<ParticipantId, State> participantStateMap = new HashMap<ParticipantId, State>();
@@ -280,9 +280,9 @@ public class ConstraintBasedAssignment {
         if ((preferenceMap == null || !preferenceMap.containsKey(participantId))
             && !disabledParticipantsForPartition.contains(participantId)) {
           // if dropped and not disabled, transit to DROPPED
-          participantStateMap.put(participantId, State.from(HelixDefinedState.DROPPED));
+          participantStateMap.put(participantId, HelixDefinedState.from(HelixDefinedState.DROPPED));
         } else if ((currentStateMap.get(participantId) == null || !currentStateMap.get(
-            participantId).equals(State.from(HelixDefinedState.ERROR)))
+            participantId).equals(HelixDefinedState.from(HelixDefinedState.ERROR)))
             && disabledParticipantsForPartition.contains(participantId)) {
           // if disabled and not in ERROR state, transit to initial-state (e.g. OFFLINE)
           participantStateMap.put(participantId, stateModelDef.getTypedInitialState());
@@ -297,8 +297,10 @@ public class ConstraintBasedAssignment {
 
     for (ParticipantId participantId : preferenceMap.keySet()) {
       boolean notInErrorState =
-          currentStateMap == null || currentStateMap.get(participantId) == null
-              || !currentStateMap.get(participantId).equals(State.from(HelixDefinedState.ERROR));
+          currentStateMap == null
+              || currentStateMap.get(participantId) == null
+              || !currentStateMap.get(participantId).equals(
+                  HelixDefinedState.from(HelixDefinedState.ERROR));
 
       if (liveParticipantSet.contains(participantId) && notInErrorState
           && !disabledParticipantsForPartition.contains(participantId)) {

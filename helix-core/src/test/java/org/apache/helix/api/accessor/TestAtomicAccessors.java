@@ -4,11 +4,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.ZNRecord;
 import org.apache.helix.ZkUnitTestBase;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.UserConfig;
+import org.apache.helix.api.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.lock.HelixLock;
 import org.apache.helix.lock.HelixLockable;
@@ -57,7 +58,7 @@ public class TestAtomicAccessors extends ZkUnitTestBase {
 
     // set up the cluster (non-atomically since this concurrency comes later)
     ClusterAccessor accessor = new ClusterAccessor(clusterId, helixAccessor);
-    ClusterConfig config = new ClusterConfig.Builder(clusterId).build();
+    ClusterConfig config = ClusterConfigBuilder.newInstance().withClusterId(clusterId).build();
     boolean created = accessor.createCluster(config);
     Assert.assertTrue(created);
 

@@ -1,6 +1,7 @@
 package org.apache.helix.model;
 
 import org.apache.helix.api.config.State;
+import org.apache.helix.api.model.ITransition;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -24,7 +25,7 @@ import org.apache.helix.api.config.State;
 /**
  * Defines a transition from one state to another
  */
-public class Transition {
+public class Transition implements ITransition {
   final private State _fromState;
   final private State _toState;
 
@@ -47,16 +48,25 @@ public class Transition {
     this(State.from(fromState), State.from(toState));
   }
 
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.ITransition#toString()
+   */
   @Override
   public String toString() {
     return _fromState + "-" + _toState;
   }
 
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.ITransition#hashCode()
+   */
   @Override
   public int hashCode() {
     return toString().hashCode();
   }
 
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.ITransition#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object that) {
     if (that == null || !(that instanceof Transition)) {
@@ -65,34 +75,34 @@ public class Transition {
     return this.toString().equalsIgnoreCase(that.toString());
   }
 
-  /**
-   * Get the source state
-   * @return source state name
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.ITransition#getTypedFromState()
    */
+  @Override
   public State getTypedFromState() {
     return _fromState;
   }
 
-  /**
-   * Get the destination state
-   * @return destination state name
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.ITransition#getTypedToState()
    */
+  @Override
   public State getTypedToState() {
     return _toState;
   }
 
-  /**
-   * Get the source state
-   * @return source state name
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.ITransition#getFromState()
    */
+  @Override
   public String getFromState() {
     return _fromState.toString();
   }
 
-  /**
-   * Get the destination state
-   * @return destination state name
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.ITransition#getToState()
    */
+  @Override
   public String getToState() {
     return _toState.toString();
   }

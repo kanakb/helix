@@ -22,14 +22,15 @@ package org.apache.helix.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
+import org.apache.helix.api.model.IConstraintItem;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintAttribute;
 import org.apache.helix.model.builder.ConstraintItemBuilder;
 import org.apache.log4j.Logger;
 
 /**
  * A single constraint and its associated attributes
  */
-public class ConstraintItem {
+public class ConstraintItem implements IConstraintItem {
   private static Logger LOG = Logger.getLogger(ConstraintItem.class);
 
   // attributes e.g. {STATE:MASTER, RESOURCE:TestDB, INSTANCE:localhost_12918}
@@ -57,12 +58,10 @@ public class ConstraintItem {
     _constraintValue = constraintValue;
   }
 
-  /**
-   * Check if this constraint follows these attributes. Note that it is possible that this
-   * constraint could consist of attributes in addition to those that are specified.
-   * @param attributes attributes to check
-   * @return true if the constraint follows every attribute, false otherwise
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IConstrantItem#match(java.util.Map)
    */
+  @Override
   public boolean match(Map<ConstraintAttribute, String> attributes) {
     for (ConstraintAttribute key : _attributes.keySet()) {
       if (!attributes.containsKey(key)) {
@@ -76,11 +75,10 @@ public class ConstraintItem {
     return true;
   }
 
-  /**
-   * filter out attributes that are not specified by this constraint
-   * @param attributes attributes to filter
-   * @return attributes of this constraint that are in the provided attributes
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IConstrantItem#filter(java.util.Map)
    */
+  @Override
   public Map<ConstraintAttribute, String> filter(Map<ConstraintAttribute, String> attributes) {
     Map<ConstraintAttribute, String> ret = new HashMap<ConstraintAttribute, String>();
     for (ConstraintAttribute key : _attributes.keySet()) {
@@ -91,31 +89,33 @@ public class ConstraintItem {
     return ret;
   }
 
-  /**
-   * Get the actual entities that the constraint operates on
-   * @return the constraint value
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IConstrantItem#getConstraintValue()
    */
+  @Override
   public String getConstraintValue() {
     return _constraintValue;
   }
 
-  /**
-   * Get all the attributes of the constraint
-   * @return scope-value pairs of attributes
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IConstrantItem#getAttributes()
    */
+  @Override
   public Map<ConstraintAttribute, String> getAttributes() {
     return _attributes;
   }
 
-  /**
-   * Get the value of a specific attribute in this cluster
-   * @param attr the attribute to look up
-   * @return the attribute value, or null if the attribute is not present
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IConstrantItem#getAttributeValue(org.apache.helix.api.model.IClusterConstraints.ConstraintAttribute)
    */
+  @Override
   public String getAttributeValue(ConstraintAttribute attr) {
     return _attributes.get(attr);
   }
 
+  /* (non-Javadoc)
+   * @see org.apache.helix.model.IConstrantItem#toString()
+   */
   @Override
   public String toString() {
     StringBuffer sb = new StringBuffer();

@@ -33,11 +33,11 @@ import org.apache.helix.PropertyPathConfig;
 import org.apache.helix.PropertyType;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.SessionId;
-import org.apache.helix.manager.zk.DefaultSchedulerMessageHandlerFactory;
+import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.webapp.RestAdminApplication;
 import org.apache.log4j.Logger;
@@ -143,7 +143,7 @@ public class SchedulerTasksResource extends ServerResource {
           ClusterRepresentationUtil.getFormJsonParameterString(form, TASKQUEUENAME);
       if (taskQueueName != null && taskQueueName.length() > 0) {
         schedulerMessage.getRecord().setSimpleField(
-            DefaultSchedulerMessageHandlerFactory.SCHEDULER_TASK_QUEUE, taskQueueName);
+            StateModelDefId.SCHEDULER_TASK_QUEUE.toString(), taskQueueName);
       }
       accessor.setProperty(
           accessor.keyBuilder().controllerMessage(schedulerMessage.getMessageId().stringify()),

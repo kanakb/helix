@@ -15,12 +15,15 @@ import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.config.UserConfig;
+import org.apache.helix.api.config.builder.ClusterConfigBuilder;
+import org.apache.helix.api.config.builder.ResourceConfigBuilder;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.FullAutoRebalancerConfig;
@@ -69,7 +72,7 @@ public class LogicalModelExample {
     }
 
     // get a state model definition
-    StateModelDefinition lockUnlock = getLockUnlockModel();
+    IStateModelDefinition lockUnlock = getLockUnlockModel();
 
     // set up a resource with the state model definition
     ResourceConfig resource = getResource(lockUnlock);
@@ -87,9 +90,10 @@ public class LogicalModelExample {
     userConfig.setIntField("sampleInt", 1);
 
     // fully specify the cluster with a ClusterConfig
-    ClusterConfig.Builder clusterBuilder =
-        new ClusterConfig.Builder(clusterId).addResource(resource).addParticipant(participant)
-            .addStateModelDefinition(lockUnlock).userConfig(userConfig).autoJoin(true);
+    ClusterConfigBuilder clusterBuilder =
+        ClusterConfigBuilder.newInstance().withClusterId(clusterId).addResource(resource)
+            .addParticipant(participant).addStateModelDefinition(lockUnlock).userConfig(userConfig)
+            .autoJoin(true);
 
     // add a transition constraint (this time with a resource scope)
     clusterBuilder.addTransitionConstraint(Scope.resource(resource.getId()),
@@ -204,7 +208,7 @@ public class LogicalModelExample {
     return participantBuilder.build();
   }
 
-  private static ResourceConfig getResource(StateModelDefinition stateModelDef) {
+  private static ResourceConfig getResource(IStateModelDefinition stateModelDef) {
     // identify the resource
     ResourceId resourceId = ResourceId.from("exampleResource");
 
@@ -226,13 +230,13 @@ public class LogicalModelExample {
     userConfig.setBooleanField("sampleBoolean", true);
 
     // create the configuration for a new resource
-    ResourceConfig.Builder resourceBuilder =
-        new ResourceConfig.Builder(resourceId).rebalancerConfig(rebalanceConfigBuilder.build())
-            .userConfig(userConfig);
+    ResourceConfigBuilder resourceBuilder =
+        ResourceConfigBuilder.newInstance().with(resourceId)
+            .rebalancerConfig(rebalanceConfigBuilder.build()).userConfig(userConfig);
     return resourceBuilder.build();
   }
 
-  private static StateModelDefinition getLockUnlockModel() {
+  private static IStateModelDefinition getLockUnlockModel() {
     final State LOCKED = State.from("LOCKED");
     final State RELEASED = State.from("RELEASED");
     final State DROPPED = State.from("DROPPED");

@@ -26,19 +26,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.ReplicatedRebalancerConfig;
 import org.apache.helix.model.Message;
 import org.apache.helix.model.StateModelDefinition;
@@ -107,7 +108,7 @@ public class MessageSelectionStage extends AbstractBaseStage {
 
     for (ResourceId resourceId : resourceMap.keySet()) {
       ResourceConfig resource = resourceMap.get(resourceId);
-      StateModelDefinition stateModelDef =
+      IStateModelDefinition stateModelDef =
           stateModelDefMap.get(resource.getRebalancerConfig().getStateModelDefId());
 
       if (stateModelDef == null) {
@@ -269,7 +270,7 @@ public class MessageSelectionStage extends AbstractBaseStage {
    * @param cluster
    * @return
    */
-  private Map<State, Bounds> computeStateConstraints(StateModelDefinition stateModelDefinition,
+  private Map<State, Bounds> computeStateConstraints(IStateModelDefinition stateModelDefinition,
       RebalancerConfig rebalancerConfig, Cluster cluster) {
     ReplicatedRebalancerConfig config =
         (rebalancerConfig != null) ? BasicRebalancerConfig.convert(rebalancerConfig,
@@ -311,7 +312,7 @@ public class MessageSelectionStage extends AbstractBaseStage {
 
   // TODO: if state transition priority is not provided then use lexicographical sorting
   // so that behavior is consistent
-  private Map<String, Integer> getStateTransitionPriorityMap(StateModelDefinition stateModelDef) {
+  private Map<String, Integer> getStateTransitionPriorityMap(IStateModelDefinition stateModelDef) {
     Map<String, Integer> stateTransitionPriorities = new HashMap<String, Integer>();
     List<String> stateTransitionPriorityList = stateModelDef.getStateTransitionPriorityList();
     for (int i = 0; i < stateTransitionPriorityList.size(); i++) {

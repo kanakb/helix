@@ -34,17 +34,19 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.helix.HelixDefinedState;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.config.UserConfig;
+import org.apache.helix.api.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
@@ -118,7 +120,7 @@ public class TestNewAutoRebalanceStrategy {
       states.put(stateNames[i], stateCounts[i]);
     }
 
-    StateModelDefinition stateModelDef = getIncompleteStateModelDef(name, stateNames[0], states);
+    IStateModelDefinition stateModelDef = getIncompleteStateModelDef(name, stateNames[0], states);
 
     new AutoRebalanceTester(partitions, states, liveNodes, currentMapping, allNodes, maxPerNode,
         stateModelDef, new AutoRebalanceStrategy.DefaultPlacementScheme())
@@ -133,7 +135,7 @@ public class TestNewAutoRebalanceStrategy {
    * @param states ordered map of state to count
    * @return incomplete StateModelDefinition for rebalancing
    */
-  private StateModelDefinition getIncompleteStateModelDef(String modelName, String initialState,
+  private IStateModelDefinition getIncompleteStateModelDef(String modelName, String initialState,
       LinkedHashMap<String, Integer> states) {
     StateModelDefinition.Builder builder =
         new StateModelDefinition.Builder(StateModelDefId.from(modelName));
@@ -162,13 +164,13 @@ public class TestNewAutoRebalanceStrategy {
     private Map<String, Map<String, String>> _currentMapping;
     private List<String> _allNodes;
     private int _maxPerNode;
-    private StateModelDefinition _stateModelDef;
+    private IStateModelDefinition _stateModelDef;
     private ReplicaPlacementScheme _placementScheme;
     private Random _random;
 
     public AutoRebalanceTester(List<String> partitions, LinkedHashMap<String, Integer> states,
         List<String> liveNodes, Map<String, Map<String, String>> currentMapping,
-        List<String> allNodes, int maxPerNode, StateModelDefinition stateModelDef,
+        List<String> allNodes, int maxPerNode, IStateModelDefinition stateModelDef,
         ReplicaPlacementScheme placementScheme) {
       _partitions = partitions;
       _states = states;
@@ -223,8 +225,9 @@ public class TestNewAutoRebalanceStrategy {
       final Map<PartitionId, Map<ParticipantId, State>> mapResult =
           new HashMap<PartitionId, Map<ParticipantId, State>>();
       ClusterId clusterId = ClusterId.from("clusterId");
-      ClusterConfig.Builder clusterConfigBuilder =
-          new ClusterConfig.Builder(clusterId).addStateModelDefinition(_stateModelDef);
+      ClusterConfigBuilder clusterConfigBuilder =
+          ClusterConfigBuilder.newInstance().withClusterId(clusterId)
+              .addStateModelDefinition(_stateModelDef);
       ClusterConfig clusterConfig = clusterConfigBuilder.build();
       for (String partition : _partitions) {
         PartitionId partitionId = PartitionId.from(partition);

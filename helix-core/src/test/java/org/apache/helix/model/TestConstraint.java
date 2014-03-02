@@ -27,14 +27,14 @@ import java.util.TreeMap;
 
 import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
-import org.apache.helix.ZNRecord;
 import org.apache.helix.ZkUnitTestBase;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
-import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintAttribute;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

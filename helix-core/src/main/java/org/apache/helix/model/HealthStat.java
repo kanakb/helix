@@ -23,11 +23,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.helix.HelixProperty;
-import org.apache.helix.ZNRecord;
 import org.apache.helix.alerts.ExpressionParser;
 import org.apache.helix.alerts.StatsHolder;
-import org.apache.helix.model.Message.Attributes;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.IMessage.Attributes;
 import org.apache.log4j.Logger;
 
 /**

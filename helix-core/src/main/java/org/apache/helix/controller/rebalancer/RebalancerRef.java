@@ -43,9 +43,8 @@ public class RebalancerRef {
     _class = null;
   }
 
-  /**
-   * Get an instantiated HelixRebalancer
-   * @return HelixRebalancer or null if instantiation failed
+  /* (non-Javadoc)
+   * @see org.apache.helix.controller.rebalancer.IRebalancerRefId#getRebalancer()
    */
   @JsonIgnore
   public HelixRebalancer getRebalancer() {
@@ -57,9 +56,8 @@ public class RebalancerRef {
     return null;
   }
 
-  /**
-   * Get the class object of this rebalancer ref
-   * @return Class
+  /* (non-Javadoc)
+   * @see org.apache.helix.controller.rebalancer.IRebalancerRefId#getRebalancerClass()
    */
   @JsonIgnore
   public Class<? extends HelixRebalancer> getRebalancerClass() {

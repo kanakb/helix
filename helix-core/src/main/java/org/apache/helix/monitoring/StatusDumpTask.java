@@ -29,7 +29,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixTimerTask;
 import org.apache.helix.PropertyKey;
 import org.apache.helix.PropertyType;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.store.ZNRecordJsonSerializer;
 import org.apache.helix.util.HelixUtil;

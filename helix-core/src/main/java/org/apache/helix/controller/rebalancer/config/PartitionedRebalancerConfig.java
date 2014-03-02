@@ -7,9 +7,11 @@ import java.util.Set;
 
 import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.api.config.Partition;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.controller.rebalancer.CustomRebalancer;
 import org.apache.helix.controller.rebalancer.FullAutoRebalancer;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
@@ -17,7 +19,6 @@ import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.rebalancer.SemiAutoRebalancer;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.task.TaskRebalancer;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -190,7 +191,7 @@ public class PartitionedRebalancerConfig extends BasicRebalancerConfig implement
    * @param participantSet the set of participant ids to configure for
    */
   @JsonIgnore
-  public void generateDefaultConfiguration(StateModelDefinition stateModelDef,
+  public void generateDefaultConfiguration(IStateModelDefinition stateModelDef,
       Set<ParticipantId> participantSet) {
     // the base config does not understand enough to know do to anything
   }

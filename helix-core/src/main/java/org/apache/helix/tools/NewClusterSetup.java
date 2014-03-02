@@ -43,19 +43,21 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.accessor.ParticipantAccessor;
 import org.apache.helix.api.accessor.ResourceAccessor;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ParticipantConfig;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.config.Scope.ScopeType;
+import org.apache.helix.api.config.builder.ClusterConfigBuilder;
+import org.apache.helix.api.config.builder.ResourceConfigBuilder;
 import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
@@ -67,15 +69,16 @@ import org.apache.helix.api.snapshot.RunningInstance;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.CustomRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.RebalancerConfigHolder;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
+import org.apache.helix.api.id.ConstraintId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
@@ -272,8 +275,8 @@ public class NewClusterSetup {
     defaultStateModelDefs.add(new StateModelDefinition(StateModelConfigGenerator
         .generateConfigForMasterSlave()));
 
-    ClusterConfig.Builder builder =
-        new ClusterConfig.Builder(ClusterId.from(clusterName))
+    ClusterConfigBuilder builder =
+        ClusterConfigBuilder.newInstance().withClusterId(ClusterId.from(clusterName))
             .addStateModelDefinitions(defaultStateModelDefs);
 
     ClusterAccessor accessor = clusterAccessor(clusterName);
@@ -305,9 +308,9 @@ public class NewClusterSetup {
     idealState.setStateModelDefId(stateModelDefId);
 
     RebalancerConfig rebalancerCtx = PartitionedRebalancerConfig.from(idealState);
-    ResourceConfig.Builder builder =
-        new ResourceConfig.Builder(resourceId).rebalancerConfig(rebalancerCtx).bucketSize(
-            bucketSize);
+    ResourceConfigBuilder builder =
+        ResourceConfigBuilder.newInstance().with(resourceId).rebalancerConfig(rebalancerCtx)
+            .bucketSize(bucketSize);
 
     ClusterAccessor accessor = clusterAccessor(clusterName);
     accessor.addResourceToCluster(builder.build());
@@ -412,9 +415,9 @@ public class NewClusterSetup {
               (ZNRecord) (new ZNRecordSerializer().deserialize(readFile(idealStateJsonFile))));
 
       RebalancerConfig rebalancerCtx = PartitionedRebalancerConfig.from(idealState);
-      ResourceConfig.Builder builder =
-          new ResourceConfig.Builder(ResourceId.from(resourceName)).rebalancerConfig(rebalancerCtx)
-              .bucketSize(idealState.getBucketSize());
+      ResourceConfigBuilder builder =
+          ResourceConfigBuilder.newInstance().with(ResourceId.from(resourceName))
+              .rebalancerConfig(rebalancerCtx).bucketSize(idealState.getBucketSize());
 
       ClusterAccessor accessor = clusterAccessor(clusterName);
       accessor.addResourceToCluster(builder.build());
@@ -809,7 +812,7 @@ public class NewClusterSetup {
     ClusterAccessor accessor = clusterAccessor(clusterName);
     Map<StateModelDefId, StateModelDefinition> stateModelDefs =
         accessor.readStateModelDefinitions();
-    StateModelDefinition stateModelDef = stateModelDefs.get(stateModelDefId);
+    IStateModelDefinition stateModelDef = stateModelDefs.get(stateModelDefId);
     StringBuilder sb = new StringBuilder("StateModelDefinition: ").append(stateModelDef.toString());
     System.out.println(sb.toString());
   }

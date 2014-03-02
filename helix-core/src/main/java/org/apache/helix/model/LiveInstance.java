@@ -19,8 +19,8 @@ package org.apache.helix.model;
  * under the License.
  */
 
-import org.apache.helix.HelixProperty;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.HelixVersion;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.ProcId;

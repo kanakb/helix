@@ -2,10 +2,10 @@ package org.apache.helix.model.builder;
 
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintAttribute;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.Transition;
 
 /*

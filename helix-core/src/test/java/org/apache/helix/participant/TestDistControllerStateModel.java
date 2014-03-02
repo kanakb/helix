@@ -25,7 +25,7 @@ import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.participant.DistClusterControllerStateModel;
 import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeMethod;

@@ -26,7 +26,8 @@ import java.util.Map;
 
 import org.I0Itec.zkclient.serialize.ZkSerializer;
 import org.apache.helix.HelixException;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.SerializableZNRecord;
+import org.apache.helix.api.ZNRecord;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -109,7 +110,7 @@ public class ZNRecordSerializer implements ZkSerializer {
     deserializationConfig.set(DeserializationConfig.Feature.AUTO_DETECT_SETTERS, true);
     deserializationConfig.set(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, true);
     try {
-      ZNRecord zn = mapper.readValue(bais, ZNRecord.class);
+      ZNRecord zn = mapper.readValue(bais, SerializableZNRecord.class);
       return zn;
     } catch (Exception e) {
       logger.error("Exception during deserialization of bytes: " + new String(bytes), e);

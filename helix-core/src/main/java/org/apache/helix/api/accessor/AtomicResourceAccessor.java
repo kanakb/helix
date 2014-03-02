@@ -1,12 +1,12 @@
 package org.apache.helix.api.accessor;
 
 import org.apache.helix.HelixDataAccessor;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.snapshot.Resource;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.lock.HelixLock;
 import org.apache.helix.lock.HelixLockable;
 import org.apache.log4j.Logger;

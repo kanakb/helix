@@ -27,18 +27,19 @@ import java.util.Map;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ContextId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.BasicControllerContext;
 import org.apache.helix.controller.context.ControllerContextHolder;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.stages.ResourceCurrentState;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
@@ -74,7 +75,7 @@ public class TestCustomizedIdealStateRebalancer extends
     public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
         ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState) {
       PartitionedRebalancerConfig config = PartitionedRebalancerConfig.from(rebalancerConfig);
-      StateModelDefinition stateModelDef =
+      IStateModelDefinition stateModelDef =
           cluster.getStateModelMap().get(config.getStateModelDefId());
       List<ParticipantId> liveParticipants =
           new ArrayList<ParticipantId>(cluster.getLiveParticipantMap().keySet());

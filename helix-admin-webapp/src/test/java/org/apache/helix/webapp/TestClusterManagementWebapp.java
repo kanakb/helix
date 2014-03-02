@@ -29,7 +29,8 @@ import java.util.Map;
 
 import org.apache.helix.PropertyPathConfig;
 import org.apache.helix.PropertyType;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
 import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.tools.AdminTestBase;
@@ -100,7 +101,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
 
     ZNRecord r = new ZNRecord("Test");
     r.merge(zn);
-    StateModelDefinition newStateModel = new StateModelDefinition(r);
+    IStateModelDefinition newStateModel = new StateModelDefinition(r);
 
     httpUrlBase = "http://localhost:" + ADMIN_PORT + "/clusters/" + clusterName + "/StateModelDefs";
     resourceRef = new Reference(httpUrlBase);

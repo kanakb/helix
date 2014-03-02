@@ -1,5 +1,7 @@
 package org.apache.helix;
 
+import org.apache.helix.api.config.State;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -37,5 +39,12 @@ package org.apache.helix;
  */
 public enum HelixDefinedState {
   ERROR,
-  DROPPED
+  DROPPED;
+  
+  public static State from(HelixDefinedState state){
+    if (state == null) {
+      return null;
+    }
+    return new State(state.toString());
+  }
 }

@@ -29,6 +29,7 @@ import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixDefinedState;
 import org.apache.helix.PropertyKey;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.State;
@@ -43,7 +44,6 @@ import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.CustomRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.RebalancerConfigHolder;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
 import org.apache.helix.model.ExternalView;
@@ -339,7 +339,7 @@ public class ResourceAccessor {
         Map<ParticipantId, State> stateMap = extView.getStateMap(partitionId);
         for (ParticipantId participantId : stateMap.keySet()) {
           State state = stateMap.get(participantId);
-          if (state.equals(State.from(HelixDefinedState.ERROR))) {
+          if (state.equals(HelixDefinedState.from(HelixDefinedState.ERROR))) {
             if (!resetPartitionIds.containsKey(participantId)) {
               resetPartitionIds.put(participantId, new HashSet<PartitionId>());
             }

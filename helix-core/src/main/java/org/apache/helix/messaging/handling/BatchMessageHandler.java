@@ -39,7 +39,7 @@ import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.Attributes;
+import org.apache.helix.api.model.IMessage.Attributes;
 import org.apache.log4j.Logger;
 
 public class BatchMessageHandler extends MessageHandler {

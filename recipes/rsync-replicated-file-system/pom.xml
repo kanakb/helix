@@ -48,8 +48,7 @@ under the License.
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>6.0.1</version>
-    </dependency>
+      </dependency>
     <dependency>
       <groupId>org.apache.helix</groupId>
       <artifactId>helix-core</artifactId>
@@ -85,6 +84,12 @@ under the License.
       <groupId>com.github.sgroschupf</groupId>
       <artifactId>zkclient</artifactId>
       <version>0.1</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.helix</groupId>
+    	<artifactId>helix-api</artifactId>
+    	<version>0.7.1-incubating-SNAPSHOT</version>
+    	<type>bundle</type>
     </dependency>
   </dependencies>
   <build>

@@ -29,11 +29,11 @@ import java.util.UUID;
 
 import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixException;
-import org.apache.helix.HelixProperty;
 import org.apache.helix.InstanceType;
 import org.apache.helix.PropertyKey;
 import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.PartitionId;
@@ -41,6 +41,7 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.api.id.StateModelFactoryId;
+import org.apache.helix.api.model.IMessage;
 import org.apache.helix.controller.stages.ClusterEvent;
 import org.apache.helix.manager.zk.DefaultSchedulerMessageHandlerFactory;
 
@@ -49,60 +50,7 @@ import com.google.common.collect.Lists;
 /**
  * Messages sent internally among nodes in the system to respond to changes in state.
  */
-public class Message extends HelixProperty {
-  /**
-   * The major categories of messages that are sent
-   */
-  public enum MessageType {
-    STATE_TRANSITION,
-    SCHEDULER_MSG,
-    USER_DEFINE_MSG,
-    CONTROLLER_MSG,
-    TASK_REPLY,
-    NO_OP,
-    PARTICIPANT_ERROR_REPORT
-  };
-
-  /**
-   * Properties attached to Messages
-   */
-  public enum Attributes {
-    MSG_ID,
-    SRC_SESSION_ID,
-    TGT_SESSION_ID,
-    SRC_NAME,
-    TGT_NAME,
-    SRC_INSTANCE_TYPE,
-    MSG_STATE,
-    PARTITION_NAME,
-    RESOURCE_NAME,
-    FROM_STATE,
-    TO_STATE,
-    STATE_MODEL_DEF,
-    CREATE_TIMESTAMP,
-    READ_TIMESTAMP,
-    EXECUTE_START_TIMESTAMP,
-    MSG_TYPE,
-    MSG_SUBTYPE,
-    CORRELATION_ID,
-    MESSAGE_RESULT,
-    EXE_SESSION_ID,
-    TIMEOUT,
-    RETRY_COUNT,
-    STATE_MODEL_FACTORY_NAME,
-    BUCKET_SIZE,
-    PARENT_MSG_ID, // used for group message mode
-    INNER_MESSAGE
-  }
-
-  /**
-   * The current processed state of the message
-   */
-  public enum MessageState {
-    NEW,
-    READ, // not used
-    UNPROCESSABLE // get exception when create handler
-  }
+public class Message extends HelixProperty implements IMessage{
 
   /**
    * Compares the creation time of two Messages
@@ -893,6 +841,7 @@ public class Message extends HelixProperty {
    * Get timeout
    * @return timeout or -1 if not available
    */
+  @Override
   public int getTimeout() {
     String timeoutStr = _record.getSimpleField(Attributes.TIMEOUT.name());
     int timeout = -1;

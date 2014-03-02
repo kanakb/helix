@@ -35,8 +35,11 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SpectatorId;
 import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.controller.context.ControllerContext;
+import org.apache.helix.core.config.builder.ClusterConfigBuilderImpl;
+import org.apache.helix.api.model.IClusterConstraints;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.model.Transition;
 
@@ -118,7 +121,7 @@ public class Cluster {
           }
         });
     _config =
-        new ClusterConfig.Builder(id).addResources(resourceConfigMap.values())
+        new ClusterConfigBuilderImpl().withClusterId(id).addResources(resourceConfigMap.values())
             .addParticipants(participantConfigMap.values()).addConstraints(constraintMap.values())
             .addStateModelDefinitions(stateModelMap.values()).pausedStatus(isPaused)
             .userConfig(userConfig).autoJoin(autoJoinAllowed).build();
@@ -215,7 +218,7 @@ public class Cluster {
    * Get all the constraints on the cluster
    * @return map of constraint type to constraints
    */
-  public Map<ConstraintType, ClusterConstraints> getConstraintMap() {
+  public Map<ConstraintType, IClusterConstraints> getConstraintMap() {
     return _config.getConstraintMap();
   }
 
@@ -223,8 +226,8 @@ public class Cluster {
    * Get all the state model definitions on the cluster
    * @return map of state model definition id to state model definition
    */
-  public Map<StateModelDefId, StateModelDefinition> getStateModelMap() {
-    return _config.getStateModelMap();
+  public <T extends IStateModelDefinition> Map<StateModelDefId, T> getStateModelMap() {
+    return (Map<StateModelDefId, T>) _config.getStateModelMap();
   }
 
   /**
@@ -248,8 +251,8 @@ public class Cluster {
    * @param type the type of constrant to query
    * @return cluster constraints, or null if none
    */
-  public ClusterConstraints getConstraint(ConstraintType type) {
-    return _config.getConstraintMap().get(type);
+  public <T extends IClusterConstraints> T getConstraint(ConstraintType type) {
+    return (T) _config.getConstraintMap().get(type);
   }
 
   /**

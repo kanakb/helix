@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.helix.api.HelixProperty;
 import org.apache.helix.controller.context.ControllerContextHolder;
 import org.apache.helix.model.AlertStatus;
 import org.apache.helix.model.Alerts;

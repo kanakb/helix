@@ -50,11 +50,10 @@ import org.apache.helix.PropertyKey;
 import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.PropertyPathConfig;
 import org.apache.helix.PropertyType;
-import org.apache.helix.ZNRecord;
 import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.StatsHolder;
+import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
@@ -62,9 +61,11 @@ import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
+import org.apache.helix.api.id.ConstraintId;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.model.Alerts;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.ExternalView;
@@ -76,8 +77,8 @@ import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.Message.MessageState;
-import org.apache.helix.model.Message.MessageType;
+import org.apache.helix.api.model.IMessage.MessageState;
+import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.PauseSignal;
 import org.apache.helix.model.PersistentStats;
 import org.apache.helix.model.StateModelDefinition;
@@ -986,7 +987,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     idealState.setReplicas(Integer.toString(replica));
     int partitions = idealState.getNumPartitions();
     String stateModelName = idealState.getStateModelDefId().stringify();
-    StateModelDefinition stateModDef = getStateModelDef(clusterName, stateModelName);
+    IStateModelDefinition stateModDef = getStateModelDef(clusterName, stateModelName);
 
     if (stateModDef == null) {
       throw new HelixException("cannot find state model: " + stateModelName);
@@ -1161,7 +1162,7 @@ public class ZKHelixAdmin implements HelixAdmin {
 
     Map<String, Object> balancedRecord =
         DefaultTwoStateStrategy.calculateNextIdealState(instanceNames, previousIdealState);
-    StateModelDefinition stateModDef =
+    IStateModelDefinition stateModDef =
         this.getStateModelDef(clusterName, currentIdealState.getStateModelDefId().stringify());
 
     if (stateModDef == null) {

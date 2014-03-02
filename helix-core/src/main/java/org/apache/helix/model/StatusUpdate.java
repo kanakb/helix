@@ -19,8 +19,8 @@ package org.apache.helix.model;
  * under the License.
  */
 
-import org.apache.helix.HelixProperty;
-import org.apache.helix.ZNRecord;
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
 
 /**
  * Wraps updates to Helix constructs, e.g. state transitions and controller task statuses

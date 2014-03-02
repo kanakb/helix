@@ -21,8 +21,9 @@ package org.apache.helix.task;
 
 import java.util.Map;
 import java.util.TreeMap;
-import org.apache.helix.HelixProperty;
-import org.apache.helix.ZNRecord;
+
+import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.ZNRecord;
 
 /**
  * Provides a typed interface to the context information stored by {@link TaskRebalancer} in the
