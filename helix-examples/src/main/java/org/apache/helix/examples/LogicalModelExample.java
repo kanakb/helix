@@ -1,7 +1,6 @@
 package org.apache.helix.examples;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.helix.HelixConnection;
 import org.apache.helix.NotificationContext;
@@ -38,7 +37,6 @@ import org.apache.helix.participant.statemachine.StateModelInfo;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -109,9 +107,6 @@ public class LogicalModelExample {
     // create the cluster
     createCluster(cluster, connection);
 
-    // update the resource
-    updateResource(resource, clusterId, connection);
-
     // update the participant
     updateParticipant(participant, clusterId, connection);
 
@@ -173,20 +168,6 @@ public class LogicalModelExample {
     accessor.updateParticipant(participant.getId(), delta);
   }
 
-  private static void updateResource(ResourceConfig resource, ClusterId clusterId,
-      HelixConnection connection) {
-    // add some fields to the resource user config, then update it using the resource config delta
-    ResourceAccessor accessor = connection.createResourceAccessor(clusterId);
-    UserConfig userConfig = resource.getUserConfig();
-    Map<String, String> mapField = Maps.newHashMap();
-    mapField.put("k1", "v1");
-    mapField.put("k2", "v2");
-    userConfig.setMapField("sampleMap", mapField);
-    ResourceConfig.Delta delta =
-        new ResourceConfig.Delta(resource.getId()).setUserConfig(userConfig);
-    accessor.updateResource(resource.getId(), delta);
-  }
-
   private static void createCluster(ClusterConfig cluster, HelixConnection connection) {
     ClusterAccessor accessor = connection.createClusterAccessor(cluster.getId());
     accessor.createCluster(cluster);
@@ -222,8 +203,9 @@ public class LogicalModelExample {
     // this resource will be rebalanced in FULL_AUTO mode, so use the FullAutoRebalancerConfig
     // builder
     FullAutoRebalancerConfig.Builder rebalanceConfigBuilder =
-        new FullAutoRebalancerConfig.Builder(resourceId).replicaCount(1).addPartition(partition1)
-            .addPartition(partition2).stateModelDefId(stateModelDef.getStateModelDefId());
+        new FullAutoRebalancerConfig.Builder().withResourceId(resourceId).withReplicaCount(1)
+            .withPartition(partition1.getId()).withPartition(partition2.getId())
+            .withStateModelDefId(stateModelDef.getStateModelDefId());
 
     // create (optional) user-defined configuration properties for the resource
     UserConfig userConfig = new UserConfig(Scope.resource(resourceId));

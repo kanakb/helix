@@ -1,30 +1,5 @@
 package org.apache.helix.controller.rebalancer.config;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.model.IStateModelDefinition;
-import org.apache.helix.controller.rebalancer.RebalancerRef;
-import org.apache.helix.controller.rebalancer.SemiAutoRebalancer;
-import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
-import org.apache.helix.controller.strategy.AutoRebalanceStrategy;
-import org.apache.helix.controller.strategy.AutoRebalanceStrategy.DefaultPlacementScheme;
-import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
-import org.apache.helix.model.IdealState;
-import org.apache.helix.model.IdealState.RebalanceMode;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
-import com.google.common.collect.Maps;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -44,140 +19,108 @@ import com.google.common.collect.Maps;
  * under the License.
  */
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.helix.api.config.RebalancerConfig;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.controller.rebalancer.SemiAutoRebalancer;
+import org.apache.helix.model.IdealState;
+import org.apache.helix.model.IdealState.RebalanceMode;
+
+import com.google.common.collect.Maps;
+
 /**
  * RebalancerConfig for SEMI_AUTO rebalancer mode. It indicates the preferred locations of each
  * partition replica. By default, it corresponds to {@link SemiAutoRebalancer}
  */
-public final class SemiAutoRebalancerConfig extends PartitionedRebalancerConfig {
-  @JsonProperty("preferenceLists")
-  private Map<PartitionId, List<ParticipantId>> _preferenceLists;
-
+public final class SemiAutoRebalancerConfig extends AbstractAutoRebalancerConfig {
   /**
    * Instantiate a SemiAutoRebalancerConfig
    */
-  public SemiAutoRebalancerConfig() {
-    if (getClass().equals(SemiAutoRebalancerConfig.class)) {
-      // only mark this as semi auto mode if this specifc config is used
-      setRebalanceMode(RebalanceMode.SEMI_AUTO);
-    } else {
-      setRebalanceMode(RebalanceMode.USER_DEFINED);
-    }
-    setRebalancerRef(RebalancerRef.from(SemiAutoRebalancer.class));
-    _preferenceLists = Maps.newHashMap();
-  }
-
-  /**
-   * Get the preference lists of all partitions of the resource
-   * @return map of partition id to list of participant ids
-   */
-  public Map<PartitionId, List<ParticipantId>> getPreferenceLists() {
-    return _preferenceLists;
-  }
-
-  /**
-   * Set the preference lists of all partitions of the resource
-   * @param preferenceLists
-   */
-  public void setPreferenceLists(Map<PartitionId, List<ParticipantId>> preferenceLists) {
-    _preferenceLists = preferenceLists;
+  protected SemiAutoRebalancerConfig(IdealState idealState) {
+    super(idealState);
   }
 
   /**
    * Get the preference list of a partition
    * @param partitionId the partition to look up
-   * @return list of participant ids
+   * @return list of participant IDs
    */
-  @JsonIgnore
   public List<ParticipantId> getPreferenceList(PartitionId partitionId) {
-    return _preferenceLists.get(partitionId);
+    List<ParticipantId> preferenceList = getIdealState().getPreferenceList(partitionId);
+    if (preferenceList != null) {
+      return preferenceList;
+    } else {
+      return Collections.emptyList();
+    }
   }
 
   /**
-   * Generate preference lists based on a default cluster setup
-   * @param stateModelDef the state model definition to follow
-   * @param participantSet the set of participant ids to configure for
+   * Builder for a SEMI_AUTO RebalancerConfig
    */
-  @Override
-  @JsonIgnore
-  public void generateDefaultConfiguration(IStateModelDefinition stateModelDef,
-      Set<ParticipantId> participantSet) {
-    // compute default upper bounds
-    Map<State, String> upperBounds = Maps.newHashMap();
-    for (State state : stateModelDef.getTypedStatesPriorityList()) {
-      upperBounds.put(state, stateModelDef.getNumParticipantsPerState(state));
-    }
+  public static class Builder extends AbstractBuilder<Builder> {
+    // TODO: need a way to set this in a default way
+    private Map<PartitionId, List<ParticipantId>> _preferenceLists = Maps.newHashMap();
 
-    // determine the current mapping
-    Map<PartitionId, Map<ParticipantId, State>> currentMapping = Maps.newHashMap();
-    for (PartitionId partitionId : getPartitionSet()) {
-      List<ParticipantId> preferenceList = getPreferenceList(partitionId);
-      if (preferenceList != null && !preferenceList.isEmpty()) {
-        Set<ParticipantId> disabledParticipants = Collections.emptySet();
-        Map<ParticipantId, State> emptyCurrentState = Collections.emptyMap();
-        Map<ParticipantId, State> initialMap =
-            ConstraintBasedAssignment.computeAutoBestStateForPartition(upperBounds, participantSet,
-                stateModelDef, preferenceList, emptyCurrentState, disabledParticipants);
-        currentMapping.put(partitionId, initialMap);
+    @Override
+    public Builder withExistingConfig(RebalancerConfig config) {
+      super.withExistingConfig(config);
+      SemiAutoRebalancerConfig semiAutoConfig =
+          BasicRebalancerConfig.convert(config, SemiAutoRebalancerConfig.class);
+      if (semiAutoConfig != null) {
+        for (PartitionId partitionId : config.getPartitionSet()) {
+          withPreferenceList(partitionId, semiAutoConfig.getPreferenceList(partitionId));
+        }
       }
-    }
-
-    // determine the preference
-    LinkedHashMap<State, Integer> stateCounts =
-        ConstraintBasedAssignment.stateCount(upperBounds, stateModelDef, participantSet.size(),
-            getReplicaCount());
-    ReplicaPlacementScheme placementScheme = new DefaultPlacementScheme();
-    List<ParticipantId> participantList = new ArrayList<ParticipantId>(participantSet);
-    List<PartitionId> partitionList = new ArrayList<PartitionId>(getPartitionSet());
-    AutoRebalanceStrategy strategy =
-        new AutoRebalanceStrategy(ResourceId.from(""), partitionList, stateCounts,
-            getMaxPartitionsPerParticipant(), placementScheme);
-    Map<String, List<String>> rawPreferenceLists =
-        strategy.typedComputePartitionAssignment(participantList, currentMapping, participantList)
-            .getListFields();
-    Map<PartitionId, List<ParticipantId>> preferenceLists =
-        Maps.newHashMap(IdealState.preferenceListsFromStringLists(rawPreferenceLists));
-    setPreferenceLists(preferenceLists);
-  }
-
-  /**
-   * Build a SemiAutoRebalancerConfig. By default, it corresponds to {@link SemiAutoRebalancer}
-   */
-  public static final class Builder extends PartitionedRebalancerConfig.AbstractBuilder<Builder> {
-    private final Map<PartitionId, List<ParticipantId>> _preferenceLists;
-
-    /**
-     * Instantiate for a resource
-     * @param resourceId resource id
-     */
-    public Builder(ResourceId resourceId) {
-      super(resourceId);
-      super.rebalancerRef(RebalancerRef.from(SemiAutoRebalancer.class));
-      super.rebalanceMode(RebalanceMode.SEMI_AUTO);
-      _preferenceLists = Maps.newHashMap();
+      return getThis();
     }
 
     /**
-     * Add a preference list for a partition
-     * @param partitionId partition to set
-     * @param preferenceList ordered list of participants who can serve the partition
+     * Set the ordered list of participants that can serve a partition
+     * @param partitionId the partition to assign
+     * @param preferenceList list of participant IDs ordered by state preference
      * @return Builder
      */
-    public Builder preferenceList(PartitionId partitionId, List<ParticipantId> preferenceList) {
+    public Builder withPreferenceList(PartitionId partitionId, List<ParticipantId> preferenceList) {
       _preferenceLists.put(partitionId, preferenceList);
-      return self();
+      return getThis();
+    }
+
+    /**
+     * Set the ordered lists of participants that can serve partitions
+     * @param preferenceLists map of partition ID to list of participant ID ordered by state
+     *          preference
+     * @return Builder
+     */
+    public Builder withPreferenceLists(Map<PartitionId, List<ParticipantId>> preferenceLists) {
+      _preferenceLists.clear();
+      _preferenceLists.putAll(preferenceLists);
+      return getThis();
     }
 
     @Override
-    protected Builder self() {
+    protected IdealState toIdealState() {
+      IdealState idealState = super.toIdealState();
+      idealState.setRebalanceMode(RebalanceMode.SEMI_AUTO);
+      idealState.getRecord().setListFields(
+          IdealState.stringListsFromPreferenceLists(_preferenceLists));
+      return idealState;
+    }
+
+    @Override
+    protected Builder getThis() {
       return this;
     }
 
+    /**
+     * Return an instantiated SemiAutoRebalancerConfig
+     */
     @Override
     public SemiAutoRebalancerConfig build() {
-      SemiAutoRebalancerConfig config = new SemiAutoRebalancerConfig();
-      super.update(config);
-      config.setPreferenceLists(_preferenceLists);
-      return config;
+      return new SemiAutoRebalancerConfig(toIdealState());
     }
   }
 }

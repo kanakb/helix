@@ -34,7 +34,7 @@ import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
-import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
+import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.stages.ResourceCurrentState;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.log4j.Logger;
@@ -57,7 +57,8 @@ public class LockManagerRebalancer implements HelixRebalancer {
   public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
       ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState) {
     // get a typed context
-    PartitionedRebalancerConfig config = PartitionedRebalancerConfig.from(rebalancerConfig);
+    BasicRebalancerConfig config =
+        BasicRebalancerConfig.convert(rebalancerConfig, BasicRebalancerConfig.class);
 
     // Initialize an empty mapping of locks to participants
     ResourceAssignment assignment = new ResourceAssignment(config.getResourceId());

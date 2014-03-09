@@ -32,23 +32,13 @@ import com.google.common.collect.Sets;
  * Full configuration of a Helix resource. Typically used to add or modify resources on a cluster
  */
 public class ResourceConfig {
-  /**
-   * Type of a resource. A resource is any entity that can be managed by Helix.
-   */
-  public enum ResourceType {
-    /**
-     * A resource that is persistent, and potentially partitioned and replicated.
-     */
-    DATA
-  }
-
   private final ResourceId _id;
+  private final Map<PartitionId, Partition> _partitionMap;
   private final RebalancerConfig _rebalancerConfig;
   private final SchedulerTaskConfig _schedulerTaskConfig;
   private final UserConfig _userConfig;
   private final int _bucketSize;
   private final boolean _batchMessageMode;
-  private final ResourceType _resourceType;
 
   /**
    * Instantiate a configuration. Consider using ResourceConfig.Builder
@@ -60,11 +50,11 @@ public class ResourceConfig {
    * @param bucketSize bucket size for this resource
    * @param batchMessageMode whether or not batch messaging is allowed
    */
-  public ResourceConfig(ResourceId id, ResourceType resourceType,
+  public ResourceConfig(ResourceId id, Map<PartitionId, Partition> partitionMap,
       SchedulerTaskConfig schedulerTaskConfig, RebalancerConfig rebalancerConfig,
       UserConfig userConfig, int bucketSize, boolean batchMessageMode) {
     _id = id;
-    _resourceType = resourceType;
+    _partitionMap = partitionMap;
     _schedulerTaskConfig = schedulerTaskConfig;
     _rebalancerConfig = rebalancerConfig;
     _userConfig = userConfig;
@@ -73,28 +63,28 @@ public class ResourceConfig {
   }
 
   /**
-   * Get the subunits of the resource
-   * @return map of subunit id to subunit or empty map if none
+   * Get the partitions of the resource
+   * @return map of partition id to partition or empty map if none
    */
-  public Map<? extends PartitionId, ? extends Partition> getSubUnitMap() {
-    return _rebalancerConfig.getSubUnitMap();
+  public Map<PartitionId, Partition> getPartitionMap() {
+    return _partitionMap;
   }
 
   /**
-   * Get a subunit that the resource contains
-   * @param subUnitId the subunit id to look up
+   * Get a partition that the resource contains
+   * @param partitionId the partitionId id to look up
    * @return Partition or null if none is present with the given id
    */
-  public Partition getSubUnit(PartitionId subUnitId) {
-    return getSubUnitMap().get(subUnitId);
+  public Partition getPartition(PartitionId subUnitId) {
+    return getPartitionMap().get(subUnitId);
   }
 
   /**
-   * Get the set of subunit ids that the resource contains
-   * @return subunit id set, or empty if none
+   * Get the set of partition ids that the resource contains
+   * @return partition id set, or empty if none
    */
-  public Set<? extends PartitionId> getSubUnitSet() {
-    return getSubUnitMap().keySet();
+  public Set<PartitionId> getPartitionIdSet() {
+    return getPartitionMap().keySet();
   }
 
   /**
@@ -111,14 +101,6 @@ public class ResourceConfig {
    */
   public ResourceId getId() {
     return _id;
-  }
-
-  /**
-   * Get the resource type
-   * @return ResourceType
-   */
-  public ResourceType getType() {
-    return _resourceType;
   }
 
   /**
@@ -155,7 +137,7 @@ public class ResourceConfig {
 
   @Override
   public String toString() {
-    return getSubUnitMap().toString();
+    return getPartitionMap().toString();
   }
 
   /**
@@ -163,7 +145,6 @@ public class ResourceConfig {
    */
   public static class Delta {
     private enum Fields {
-      TYPE,
       REBALANCER_CONFIG,
       USER_CONFIG,
       BUCKET_SIZE,
@@ -180,17 +161,6 @@ public class ResourceConfig {
     public Delta(ResourceId resourceId) {
       _builder = ResourceConfigBuilder.newInstance().with(resourceId);
       _updateFields = Sets.newHashSet();
-    }
-
-    /**
-     * Set the type of this resource
-     * @param type ResourceType
-     * @return Delta
-     */
-    public Delta setType(ResourceType type) {
-      _builder.type(type);
-      _updateFields.add(Fields.TYPE);
-      return this;
     }
 
     /**
@@ -245,15 +215,12 @@ public class ResourceConfig {
     public ResourceConfig mergeInto(ResourceConfig orig) {
       ResourceConfig deltaConfig = _builder.build();
       ResourceConfigBuilder builder =
-          ResourceConfigBuilder.newInstance().with(orig.getId()).type(orig.getType())
+          ResourceConfigBuilder.newInstance().with(orig.getId())
               .rebalancerConfig(orig.getRebalancerConfig())
               .schedulerTaskConfig(orig.getSchedulerTaskConfig()).userConfig(orig.getUserConfig())
               .bucketSize(orig.getBucketSize()).batchMessageMode(orig.getBatchMessageMode());
       for (Fields field : _updateFields) {
         switch (field) {
-        case TYPE:
-          builder.type(deltaConfig.getType());
-          break;
         case REBALANCER_CONFIG:
           builder.rebalancerConfig(deltaConfig.getRebalancerConfig());
           break;
@@ -272,5 +239,4 @@ public class ResourceConfig {
     }
   }
 
-  
 }

@@ -81,7 +81,7 @@ public class CurrentStateComputationStage extends AbstractBaseStage {
 
         if (!message.getBatchMessageMode()) {
           PartitionId partitionId = message.getPartitionId();
-          Partition partition = resource.getSubUnit(partitionId);
+          Partition partition = resource.getPartition(partitionId);
           if (partition != null) {
             currentStateOutput.setPendingState(resourceId, partitionId, participantId,
                 message.getTypedToState());
@@ -92,7 +92,7 @@ public class CurrentStateComputationStage extends AbstractBaseStage {
           List<PartitionId> partitionNames = message.getPartitionIds();
           if (!partitionNames.isEmpty()) {
             for (PartitionId partitionId : partitionNames) {
-              Partition partition = resource.getSubUnit(partitionId);
+              Partition partition = resource.getPartition(partitionId);
               if (partition != null) {
                 currentStateOutput.setPendingState(resourceId, partitionId, participantId,
                     message.getTypedToState());

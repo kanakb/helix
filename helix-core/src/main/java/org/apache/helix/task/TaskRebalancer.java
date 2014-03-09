@@ -34,7 +34,6 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.PropertyKey;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.accessor.ResourceAccessor;
 import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
@@ -44,7 +43,6 @@ import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
 import org.apache.helix.controller.stages.ResourceCurrentState;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.ResourceAssignment;
@@ -142,27 +140,22 @@ public class TaskRebalancer implements HelixRebalancer {
 
     Set<ParticipantId> liveInstances = cluster.getLiveParticipantMap().keySet();
 
-    IdealState tgtResourceIs =
-        ResourceAccessor.rebalancerConfigToIdealState(tgtResourceRebalancerCfg, cluster
-            .getResource(resourceId).getBucketSize(), cluster.getResource(resourceId)
-            .getBatchMessageMode());
     ResourceAssignment newAssignment =
-        computeResourceMapping(resourceName, workflowCfg, taskCfg, prevAssignment, tgtResourceIs,
-            liveInstances, currentState, workflowCtx, taskCtx, partitionsToDrop);
+        computeResourceMapping(resourceName, workflowCfg, taskCfg, prevAssignment,
+            tgtResourceRebalancerCfg, liveInstances, currentState, workflowCtx, taskCtx,
+            partitionsToDrop);
 
-    PartitionedRebalancerConfig userConfig =
-        BasicRebalancerConfig.convert(rebalancerConfig, PartitionedRebalancerConfig.class);
+    BasicRebalancerConfig userConfig =
+        BasicRebalancerConfig.convert(rebalancerConfig, BasicRebalancerConfig.class);
     if (!partitionsToDrop.isEmpty()) {
       for (Integer pId : partitionsToDrop) {
-        userConfig.getPartitionMap().remove(PartitionId.from(pName(resourceName, pId)));
+        // TODO: this won't work
+        userConfig.getPartitionSet().remove(PartitionId.from(pName(resourceName, pId)));
       }
       HelixDataAccessor accessor = _manager.getHelixDataAccessor();
       PropertyKey propertyKey = accessor.keyBuilder().idealStates(resourceName);
 
-      IdealState taskIs =
-          ResourceAccessor.rebalancerConfigToIdealState(rebalancerConfig,
-              cluster.getResource(resourceId).getBucketSize(), cluster.getResource(resourceId)
-                  .getBatchMessageMode());
+      IdealState taskIs = BasicRebalancerConfig.toIdealState(rebalancerConfig);
       accessor.setProperty(propertyKey, taskIs);
     }
 
@@ -176,7 +169,7 @@ public class TaskRebalancer implements HelixRebalancer {
 
   private static ResourceAssignment computeResourceMapping(String taskResource,
       WorkflowConfig workflowConfig, TaskConfig taskCfg, ResourceAssignment prevAssignment,
-      IdealState tgtResourceIs, Iterable<ParticipantId> liveInstances,
+      RebalancerConfig tgtResourceRebalancerCfg, Iterable<ParticipantId> liveInstances,
       ResourceCurrentState currStateOutput, WorkflowContext workflowCtx, TaskContext taskCtx,
       Set<Integer> partitionsToDropFromIs) {
 
@@ -202,7 +195,7 @@ public class TaskRebalancer implements HelixRebalancer {
     Map<Integer, PartitionAssignment> paMap = new TreeMap<Integer, PartitionAssignment>();
 
     // Process all the current assignments of task partitions.
-    Set<Integer> allPartitions = getAllTaskPartitions(tgtResourceIs, taskCfg);
+    Set<Integer> allPartitions = getAllTaskPartitions(tgtResourceRebalancerCfg, taskCfg);
     Map<String, SortedSet<Integer>> taskAssignments =
         getTaskPartitionAssignments(liveInstances, prevAssignment, allPartitions);
     for (String instance : taskAssignments.keySet()) {
@@ -312,7 +305,7 @@ public class TaskRebalancer implements HelixRebalancer {
           if (taskCtx.getPartitionNumAttempts(pId) >= taskCfg.getMaxAttemptsPerPartition()) {
             workflowCtx.setTaskState(taskResource, TaskState.FAILED);
             workflowCtx.setWorkflowState(TaskState.FAILED);
-            addAllPartitions(tgtResourceIs.getPartitionSet(), partitionsToDropFromIs);
+            addAllPartitions(tgtResourceRebalancerCfg.getPartitionSet(), partitionsToDropFromIs);
             return emptyAssignment(ResourceId.from(taskResource));
           }
         }
@@ -353,7 +346,7 @@ public class TaskRebalancer implements HelixRebalancer {
       addCompletedPartitions(excludeSet, taskCtx, allPartitions);
       // Get instance->[partition, ...] mappings for the target resource.
       Map<String, SortedSet<Integer>> tgtPartitionAssignments =
-          getTgtPartitionAssignment(currStateOutput, liveInstances, tgtResourceIs,
+          getTgtPartitionAssignment(currStateOutput, liveInstances, tgtResourceRebalancerCfg,
               taskCfg.getTargetPartitionStates(), allPartitions);
       for (Map.Entry<String, SortedSet<Integer>> entry : taskAssignments.entrySet()) {
         String instance = entry.getKey();
@@ -522,9 +515,9 @@ public class TaskRebalancer implements HelixRebalancer {
     return accessor.keyBuilder().resourceConfig(resource);
   }
 
-  private static void addAllPartitions(Set<String> pNames, Set<Integer> pIds) {
-    for (String pName : pNames) {
-      pIds.add(pId(pName));
+  private static void addAllPartitions(Set<PartitionId> set, Set<Integer> pIds) {
+    for (PartitionId partitionId : set) {
+      pIds.add(pId(partitionId.toString()));
     }
   }
 
@@ -548,15 +541,16 @@ public class TaskRebalancer implements HelixRebalancer {
    * If a set of partition ids was explicitly specified in the config, that is used. Otherwise, we
    * use the list of all partition ids from the target resource.
    */
-  private static Set<Integer> getAllTaskPartitions(IdealState tgtResourceIs, TaskConfig taskCfg) {
+  private static Set<Integer> getAllTaskPartitions(RebalancerConfig tgtResourceRebalancerCfg,
+      TaskConfig taskCfg) {
     Set<Integer> taskPartitions = new HashSet<Integer>();
     if (taskCfg.getTargetPartitions() != null) {
       for (Integer pId : taskCfg.getTargetPartitions()) {
         taskPartitions.add(pId);
       }
     } else {
-      for (String pName : tgtResourceIs.getPartitionSet()) {
-        taskPartitions.add(pId(pName));
+      for (PartitionId partitionId : tgtResourceRebalancerCfg.getPartitionSet()) {
+        taskPartitions.add(pId(partitionId.toString()));
       }
     }
 
@@ -595,7 +589,7 @@ public class TaskRebalancer implements HelixRebalancer {
    * Get partition assignments for the target resource, but only for the partitions of interest.
    * @param currStateOutput The current state of the instances in the cluster.
    * @param instanceList The set of instances.
-   * @param tgtIs The ideal state of the target resource.
+   * @param tgtResourceRebalancerCfg The ideal state of the target resource.
    * @param tgtStates Only partitions in this set of states will be considered. If null, partitions
    *          do not need to
    *          be in any specific state to be considered.
@@ -603,20 +597,20 @@ public class TaskRebalancer implements HelixRebalancer {
    * @return A map of instance vs set of partition ids assigned to that instance.
    */
   private static Map<String, SortedSet<Integer>> getTgtPartitionAssignment(
-      ResourceCurrentState currStateOutput, Iterable<ParticipantId> instanceList, IdealState tgtIs,
-      Set<String> tgtStates, Set<Integer> includeSet) {
+      ResourceCurrentState currStateOutput, Iterable<ParticipantId> instanceList,
+      RebalancerConfig tgtResourceRebalancerCfg, Set<String> tgtStates, Set<Integer> includeSet) {
     Map<String, SortedSet<Integer>> result = new HashMap<String, SortedSet<Integer>>();
     for (ParticipantId instance : instanceList) {
       result.put(instance.stringify(), new TreeSet<Integer>());
     }
 
-    for (String pName : tgtIs.getPartitionSet()) {
-      int pId = pId(pName);
+    for (PartitionId partitionId : tgtResourceRebalancerCfg.getPartitionSet()) {
+      int pId = pId(partitionId.toString());
       if (includeSet.contains(pId)) {
         for (ParticipantId instance : instanceList) {
           State s =
-              currStateOutput.getCurrentState(ResourceId.from(tgtIs.getResourceName()),
-                  PartitionId.from(pName), instance);
+              currStateOutput.getCurrentState(tgtResourceRebalancerCfg.getResourceId(),
+                  PartitionId.from(partitionId.toString()), instance);
           String state = (s == null ? null : s.toString());
           if (tgtStates == null || tgtStates.contains(state)) {
             result.get(instance).add(pId);

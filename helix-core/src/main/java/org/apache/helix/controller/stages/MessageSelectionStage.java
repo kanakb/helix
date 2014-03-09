@@ -39,8 +39,8 @@ import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
+import org.apache.helix.controller.rebalancer.config.AbstractAutoRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.ReplicatedRebalancerConfig;
 import org.apache.helix.model.Message;
 import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
@@ -272,9 +272,10 @@ public class MessageSelectionStage extends AbstractBaseStage {
    */
   private Map<State, Bounds> computeStateConstraints(IStateModelDefinition stateModelDefinition,
       RebalancerConfig rebalancerConfig, Cluster cluster) {
-    ReplicatedRebalancerConfig config =
+    AbstractAutoRebalancerConfig config =
         (rebalancerConfig != null) ? BasicRebalancerConfig.convert(rebalancerConfig,
-            ReplicatedRebalancerConfig.class) : null;
+            AbstractAutoRebalancerConfig.class) : null;
+
     Map<State, Bounds> stateConstraints = new HashMap<State, Bounds>();
 
     List<State> statePriorityList = stateModelDefinition.getTypedStatesPriorityList();
@@ -287,7 +288,11 @@ public class MessageSelectionStage extends AbstractBaseStage {
         // idealState is null when resource has been dropped,
         // R can't be evaluated and ignore state constraints
         if (config != null) {
-          if (config.anyLiveParticipant()) {
+          boolean anyLiveParticipant = true;
+          for (PartitionId partitionId : config.getPartitionSet()) {
+            anyLiveParticipant = anyLiveParticipant && config.getAnyLiveParticipant(partitionId);
+          }
+          if (anyLiveParticipant) {
             max = cluster.getLiveParticipantMap().size();
           } else {
             max = config.getReplicaCount();

@@ -141,7 +141,7 @@ public class MessageGenerationStage extends AbstractBaseStage {
             if (rebalancerConfig != null
                 && rebalancerConfig.getStateModelDefId().equalsIgnoreCase(
                     StateModelDefId.SCHEDULER_TASK_QUEUE)) {
-              if (resourceConfig.getSubUnitMap().size() > 0) {
+              if (resourceConfig.getPartitionMap().size() > 0) {
                 // TODO refactor it -- we need a way to read in scheduler tasks a priori
                 Message innerMsg =
                     resourceConfig.getSchedulerTaskConfig().getInnerMessage(subUnitId);

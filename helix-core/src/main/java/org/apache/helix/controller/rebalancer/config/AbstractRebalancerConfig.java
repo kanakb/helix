@@ -1,8 +1,5 @@
 package org.apache.helix.controller.rebalancer.config;
 
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.controller.rebalancer.RebalancerRef;
-import org.apache.helix.controller.serializer.StringSerializer;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,6 +19,14 @@ import org.apache.helix.controller.serializer.StringSerializer;
  * under the License.
  */
 
+import org.apache.helix.api.config.RebalancerConfig;
+import org.apache.helix.controller.rebalancer.HelixRebalancer;
+import org.apache.helix.controller.serializer.StringSerializer;
+import org.apache.helix.model.IdealState.RebalanceMode;
+
+/*
+ * TODO: all the methods in this class should belong in the base interface
+ */
 public abstract class AbstractRebalancerConfig implements RebalancerConfig {
 
   /**
@@ -34,6 +39,12 @@ public abstract class AbstractRebalancerConfig implements RebalancerConfig {
    * Get a reference to the class used to rebalance this resource
    * @return RebalancerRef
    */
-  public abstract RebalancerRef getRebalancerRef();
+  public abstract Class<? extends HelixRebalancer> getRebalancerClass();
+
+  /**
+   * Get the rebalancer mode of the resource
+   * @return RebalanceMode
+   */
+  public abstract RebalanceMode getRebalanceMode();
 
 }

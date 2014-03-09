@@ -21,9 +21,7 @@ package org.apache.helix.controller.rebalancer;
 
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Reference to a class that extends {@link HelixRebalancer}. It loads the class automatically.
@@ -31,19 +29,17 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class RebalancerRef {
   private static final Logger LOG = Logger.getLogger(RebalancerRef.class);
 
-  @JsonProperty("rebalancerClassName")
   private final String _rebalancerClassName;
 
-  @JsonIgnore
   private Class<? extends HelixRebalancer> _class;
 
-  @JsonCreator
-  private RebalancerRef(@JsonProperty("rebalancerClassName") String rebalancerClassName) {
+  private RebalancerRef(String rebalancerClassName) {
     _rebalancerClassName = rebalancerClassName;
     _class = null;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.controller.rebalancer.IRebalancerRefId#getRebalancer()
    */
   @JsonIgnore
@@ -56,7 +52,8 @@ public class RebalancerRef {
     return null;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.controller.rebalancer.IRebalancerRefId#getRebalancerClass()
    */
   @JsonIgnore

@@ -36,6 +36,7 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
+import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.rebalancer.config.AbstractRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
@@ -167,13 +168,11 @@ public class TestNewStages extends ZkUnitTestBase {
     ResourceId resourceId = ResourceId.from("TestDB0");
     Resource resource = cluster.getResource(resourceId);
     ResourceCurrentState currentStateOutput = new ResourceCurrentState();
+    AbstractRebalancerConfig config = (AbstractRebalancerConfig) resource.getRebalancerConfig();
+    RebalancerRef rebalancerRef = RebalancerRef.from(config.getRebalancerClass());
     ResourceAssignment semiAutoResult =
-        ((AbstractRebalancerConfig) resource
-            .getRebalancerConfig())
-            .getRebalancerRef()
-            .getRebalancer()
-            .computeResourceMapping(resource.getRebalancerConfig(), null, cluster,
-                currentStateOutput);
+        rebalancerRef.getRebalancer().computeResourceMapping(resource.getRebalancerConfig(), null,
+            cluster, currentStateOutput);
     verifySemiAutoRebalance(resource, semiAutoResult);
 
     System.out.println("END " + testName + " at " + new Date(System.currentTimeMillis()));
@@ -185,7 +184,8 @@ public class TestNewStages extends ZkUnitTestBase {
    * @param assignment the assignment to verify
    */
   private void verifySemiAutoRebalance(Resource resource, ResourceAssignment assignment) {
-    Assert.assertEquals(assignment.getMappedPartitionIds().size(), resource.getSubUnitSet().size());
+    Assert.assertEquals(assignment.getMappedPartitionIds().size(), resource.getPartitionSet()
+        .size());
     SemiAutoRebalancerConfig context =
         BasicRebalancerConfig.convert(resource.getRebalancerConfig(),
             SemiAutoRebalancerConfig.class);

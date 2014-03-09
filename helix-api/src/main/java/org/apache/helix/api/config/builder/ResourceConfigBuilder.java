@@ -3,7 +3,6 @@ package org.apache.helix.api.config.builder;
 import org.apache.commons.discovery.tools.DiscoverClass;
 import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.config.ResourceConfig.ResourceType;
 import org.apache.helix.api.config.SchedulerTaskConfig;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ResourceId;
@@ -11,13 +10,6 @@ import org.apache.helix.api.id.ResourceId;
 public abstract class ResourceConfigBuilder {
 
   public abstract ResourceConfigBuilder with(ResourceId id);
-
-  /**
-   * Set the type of this resource
-   * @param type ResourceType
-   * @return Builder
-   */
-  public abstract ResourceConfigBuilder type(ResourceType type);
 
   /**
    * Set the rebalancer configuration
@@ -58,15 +50,14 @@ public abstract class ResourceConfigBuilder {
    * @return instantiated Resource
    */
   public abstract ResourceConfig build();
-  
+
   /**
    * Returns a new instance of the resource config builder
-   * 
    * @return ResourceConfigBuilder
    */
   public static ResourceConfigBuilder newInstance() {
     try {
-      return new DiscoverClass().newInstance(ResourceConfigBuilder.class, 
+      return new DiscoverClass().newInstance(ResourceConfigBuilder.class,
           "org.apache.helix.core.config.builder.ResourceConfigBuilderImpl");
     } catch (Throwable e) {
       throw new IllegalStateException(e);

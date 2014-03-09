@@ -95,7 +95,7 @@ public class TestUpdateConfig {
     UserConfig userConfig = new UserConfig(Scope.resource(resourceId));
     userConfig.setSimpleField("key1", "value1");
     SemiAutoRebalancerConfig rebalancerContext =
-        new SemiAutoRebalancerConfig.Builder(resourceId).build();
+        new SemiAutoRebalancerConfig.Builder().withResourceId(resourceId).build();
     ResourceConfig config =
         ResourceConfigBuilder.newInstance().with(resourceId).userConfig(userConfig)
             .rebalancerConfig(rebalancerContext).bucketSize(OLD_BUCKET_SIZE).batchMessageMode(true)
@@ -106,7 +106,7 @@ public class TestUpdateConfig {
     UserConfig newUserConfig = new UserConfig(Scope.resource(resourceId));
     newUserConfig.setSimpleField("key2", "value2");
     FullAutoRebalancerConfig newRebalancerContext =
-        new FullAutoRebalancerConfig.Builder(resourceId).build();
+        new FullAutoRebalancerConfig.Builder().withResourceId(resourceId).build();
     ResourceConfig updated =
         new ResourceConfig.Delta(resourceId).setBucketSize(NEW_BUCKET_SIZE)
             .setUserConfig(newUserConfig).setRebalancerConfig(newRebalancerContext)
@@ -129,7 +129,8 @@ public class TestUpdateConfig {
     UserConfig userConfig = new UserConfig(Scope.cluster(clusterId));
     userConfig.setSimpleField("key1", "value1");
     ClusterConfig config =
-        ClusterConfigBuilder.newInstance().withClusterId(clusterId).userConfig(userConfig).autoJoin(true).build();
+        ClusterConfigBuilder.newInstance().withClusterId(clusterId).userConfig(userConfig)
+            .autoJoin(true).build();
 
     // update: overwrite user config, change auto join
     UserConfig newUserConfig = new UserConfig(Scope.cluster(clusterId));

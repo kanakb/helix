@@ -22,7 +22,6 @@ package org.apache.helix.controller.stages;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
@@ -34,7 +33,7 @@ import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
-import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
+import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.model.CurrentState;
 import org.apache.log4j.Logger;
 
@@ -89,8 +88,8 @@ public class ResourceComputationStage extends AbstractBaseStage {
     Map<ResourceId, ResourceConfigBuilder> resCfgBuilderMap =
         new HashMap<ResourceId, ResourceConfigBuilder>();
 
-    Map<ResourceId, PartitionedRebalancerConfig.Builder> rebCtxBuilderMap =
-        new HashMap<ResourceId, PartitionedRebalancerConfig.Builder>();
+    Map<ResourceId, BasicRebalancerConfig.Builder> rebCtxBuilderMap =
+        new HashMap<ResourceId, BasicRebalancerConfig.Builder>();
 
     for (Participant liveParticipant : cluster.getLiveParticipantMap().values()) {
       for (ResourceId resourceId : liveParticipant.getCurrentStateMap().keySet()) {
@@ -105,22 +104,23 @@ public class ResourceComputationStage extends AbstractBaseStage {
         }
 
         if (!resCfgBuilderMap.containsKey(resourceId)) {
-          PartitionedRebalancerConfig.Builder rebCtxBuilder =
-              new PartitionedRebalancerConfig.Builder(resourceId);
-          rebCtxBuilder.stateModelDefId(currentState.getStateModelDefId());
-          rebCtxBuilder.stateModelFactoryId(StateModelFactoryId.from(currentState
+          BasicRebalancerConfig.Builder rebCtxBuilder =
+              new BasicRebalancerConfig.Builder().withResourceId(resourceId);
+          rebCtxBuilder.withStateModelDefId(currentState.getStateModelDefId());
+          rebCtxBuilder.withStateModelFactoryId(StateModelFactoryId.from(currentState
               .getStateModelFactoryName()));
           rebCtxBuilderMap.put(resourceId, rebCtxBuilder);
 
-          ResourceConfigBuilder resCfgBuilder = ResourceConfigBuilder.newInstance().with(resourceId);
+          ResourceConfigBuilder resCfgBuilder =
+              ResourceConfigBuilder.newInstance().with(resourceId);
           resCfgBuilder.bucketSize(currentState.getBucketSize());
           resCfgBuilder.batchMessageMode(currentState.getBatchMessageMode());
           resCfgBuilderMap.put(resourceId, resCfgBuilder);
         }
 
-        PartitionedRebalancerConfig.Builder rebCtxBuilder = rebCtxBuilderMap.get(resourceId);
+        BasicRebalancerConfig.Builder rebCtxBuilder = rebCtxBuilderMap.get(resourceId);
         for (PartitionId partitionId : currentState.getTypedPartitionStateMap().keySet()) {
-          rebCtxBuilder.addPartition(new Partition(partitionId));
+          rebCtxBuilder.withPartition(partitionId);
         }
       }
     }
@@ -128,7 +128,7 @@ public class ResourceComputationStage extends AbstractBaseStage {
     Map<ResourceId, ResourceConfig> resCfgMap = new HashMap<ResourceId, ResourceConfig>();
     for (ResourceId resourceId : resCfgBuilderMap.keySet()) {
       ResourceConfigBuilder resCfgBuilder = resCfgBuilderMap.get(resourceId);
-      PartitionedRebalancerConfig.Builder rebCtxBuilder = rebCtxBuilderMap.get(resourceId);
+      BasicRebalancerConfig.Builder rebCtxBuilder = rebCtxBuilderMap.get(resourceId);
       resCfgBuilder.rebalancerConfig(rebCtxBuilder.build());
       resCfgMap.put(resourceId, resCfgBuilder.build());
     }

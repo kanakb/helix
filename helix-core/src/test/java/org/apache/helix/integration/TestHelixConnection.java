@@ -30,10 +30,8 @@ import org.apache.helix.PropertyKey;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.accessor.ClusterAccessor;
-import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
@@ -44,8 +42,8 @@ import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.api.model.IStateModelDefinition;
-import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.api.role.HelixParticipant;
+import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.model.ExternalView;
@@ -126,9 +124,9 @@ public class TestHelixConnection extends ZkUnitTestBase {
             .addTransition(master, slave, 1).addTransition(offline, dropped).initialState(offline)
             .upperBound(master, 1).dynamicUpperBound(slave, "R").build();
     RebalancerConfig rebalancerCtx =
-        new SemiAutoRebalancerConfig.Builder(resourceId).addPartitions(1).replicaCount(1)
-            .stateModelDefId(stateModelDefId)
-            .preferenceList(PartitionId.from("testDB_0"), Arrays.asList(participantId)).build();
+        new SemiAutoRebalancerConfig.Builder().withResourceId(resourceId).withPartitionCount(1)
+            .withReplicaCount(1).withStateModelDefId(stateModelDefId)
+            .withPreferenceList(PartitionId.from("testDB_0"), Arrays.asList(participantId)).build();
     clusterAccessor.createCluster(ClusterConfigBuilder.newInstance().withClusterId(clusterId)
         .addStateModelDefinition(stateModelDef).build());
     clusterAccessor.addResourceToCluster(ResourceConfigBuilder.newInstance().with(resourceId)

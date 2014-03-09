@@ -1,25 +1,15 @@
 package org.apache.helix.controller.rebalancer.config;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
 
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.controller.rebalancer.CustomRebalancer;
-import org.apache.helix.controller.rebalancer.RebalancerRef;
-import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
-import org.apache.helix.controller.strategy.AutoRebalanceStrategy;
-import org.apache.helix.controller.strategy.AutoRebalanceStrategy.DefaultPlacementScheme;
-import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
+import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
-import org.apache.helix.model.ResourceAssignment;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.common.collect.Maps;
 
@@ -46,37 +36,12 @@ import com.google.common.collect.Maps;
  * RebalancerConfig for a resource that should be rebalanced in CUSTOMIZED mode. By default, it
  * corresponds to {@link CustomRebalancer}
  */
-public class CustomRebalancerConfig extends PartitionedRebalancerConfig {
-  private Map<PartitionId, Map<ParticipantId, State>> _preferenceMaps;
-
+public final class CustomRebalancerConfig extends BasicRebalancerConfig {
   /**
    * Instantiate a CustomRebalancerConfig
    */
-  public CustomRebalancerConfig() {
-    if (getClass().equals(CustomRebalancerConfig.class)) {
-      // only mark this as customized mode if this specifc config is used
-      setRebalanceMode(RebalanceMode.CUSTOMIZED);
-    } else {
-      setRebalanceMode(RebalanceMode.USER_DEFINED);
-    }
-    setRebalancerRef(RebalancerRef.from(CustomRebalancer.class));
-    _preferenceMaps = Maps.newHashMap();
-  }
-
-  /**
-   * Get the preference maps of the partitions and replicas of the resource
-   * @return map of partition to participant and state
-   */
-  public Map<PartitionId, Map<ParticipantId, State>> getPreferenceMaps() {
-    return _preferenceMaps;
-  }
-
-  /**
-   * Set the preference maps of the partitions and replicas of the resource
-   * @param preferenceMaps map of partition to participant and state
-   */
-  public void setPreferenceMaps(Map<PartitionId, Map<ParticipantId, State>> preferenceMaps) {
-    _preferenceMaps = preferenceMaps;
+  protected CustomRebalancerConfig(IdealState idealState) {
+    super(idealState);
   }
 
   /**
@@ -84,86 +49,81 @@ public class CustomRebalancerConfig extends PartitionedRebalancerConfig {
    * @param partitionId the partition to look up
    * @return map of participant to state
    */
-  @JsonIgnore
   public Map<ParticipantId, State> getPreferenceMap(PartitionId partitionId) {
-    return _preferenceMaps.get(partitionId);
+    Map<ParticipantId, State> preferenceMap = getIdealState().getParticipantStateMap(partitionId);
+    if (preferenceMap != null) {
+      return preferenceMap;
+    } else {
+      return Collections.emptyMap();
+    }
   }
 
   /**
-   * Generate preference maps based on a default cluster setup
-   * @param stateModelDef the state model definition to follow
-   * @param participantSet the set of participant ids to configure for
+   * Builder for a CUSTOMIZED RebalancerConfig
    */
-  @Override
-  @JsonIgnore
-  public void generateDefaultConfiguration(IStateModelDefinition stateModelDef,
-      Set<ParticipantId> participantSet) {
-    // compute default upper bounds
-    Map<State, String> upperBounds = Maps.newHashMap();
-    for (State state : stateModelDef.getTypedStatesPriorityList()) {
-      upperBounds.put(state, stateModelDef.getNumParticipantsPerState(state));
-    }
+  public static class Builder extends AbstractBuilder<Builder> {
+    // TODO: need a way to set this in a default way
+    private Map<PartitionId, Map<ParticipantId, State>> _preferenceMaps = Maps.newHashMap();
 
-    // determine the current mapping
-    Map<PartitionId, Map<ParticipantId, State>> currentMapping = getPreferenceMaps();
-
-    // determine the preference maps
-    LinkedHashMap<State, Integer> stateCounts =
-        ConstraintBasedAssignment.stateCount(upperBounds, stateModelDef, participantSet.size(),
-            getReplicaCount());
-    ReplicaPlacementScheme placementScheme = new DefaultPlacementScheme();
-    List<ParticipantId> participantList = new ArrayList<ParticipantId>(participantSet);
-    List<PartitionId> partitionList = new ArrayList<PartitionId>(getPartitionSet());
-    AutoRebalanceStrategy strategy =
-        new AutoRebalanceStrategy(ResourceId.from(""), partitionList, stateCounts,
-            getMaxPartitionsPerParticipant(), placementScheme);
-    Map<String, Map<String, String>> rawPreferenceMaps =
-        strategy.typedComputePartitionAssignment(participantList, currentMapping, participantList)
-            .getMapFields();
-    Map<PartitionId, Map<ParticipantId, State>> preferenceMaps =
-        Maps.newHashMap(ResourceAssignment.replicaMapsFromStringMaps(rawPreferenceMaps));
-    setPreferenceMaps(preferenceMaps);
-  }
-
-  /**
-   * Build a CustomRebalancerConfig. By default, it corresponds to {@link CustomRebalancer}
-   */
-  public static final class Builder extends PartitionedRebalancerConfig.AbstractBuilder<Builder> {
-    private final Map<PartitionId, Map<ParticipantId, State>> _preferenceMaps;
-
-    /**
-     * Instantiate for a resource
-     * @param resourceId resource id
-     */
-    public Builder(ResourceId resourceId) {
-      super(resourceId);
-      super.rebalancerRef(RebalancerRef.from(CustomRebalancer.class));
-      super.rebalanceMode(RebalanceMode.CUSTOMIZED);
-      _preferenceMaps = Maps.newHashMap();
+    @Override
+    public Builder withExistingConfig(RebalancerConfig config) {
+      super.withExistingConfig(config);
+      CustomRebalancerConfig customConfig =
+          BasicRebalancerConfig.convert(config, CustomRebalancerConfig.class);
+      if (customConfig != null) {
+        for (PartitionId partitionId : config.getPartitionSet()) {
+          withPreferenceMap(partitionId, customConfig.getPreferenceMap(partitionId));
+        }
+      }
+      return getThis();
     }
 
     /**
-     * Add a preference map for a partition
-     * @param partitionId partition to set
-     * @param preferenceList map of participant id to state indicating where replicas are served
+     * Add a preference map for a partition. These are the participants and states that Helix will
+     * assign for this partition.
+     * @param partitionId the partition to assign
+     * @param preferenceMap the participants that serve the partition and the state at each
+     *          participant
      * @return Builder
      */
-    public Builder preferenceMap(PartitionId partitionId, Map<ParticipantId, State> preferenceMap) {
+    public Builder withPreferenceMap(PartitionId partitionId,
+        Map<ParticipantId, State> preferenceMap) {
       _preferenceMaps.put(partitionId, preferenceMap);
-      return self();
+      return getThis();
+    }
+
+    /**
+     * Add a collection of preference maps for a partition. These are the participants and states
+     * that Helix will assign for each partition.
+     * @param preferenceMaps map of partition ID to participant ID to state
+     * @return Builder
+     */
+    public Builder withPreferenceMaps(Map<PartitionId, Map<ParticipantId, State>> preferenceMaps) {
+      _preferenceMaps.clear();
+      _preferenceMaps.putAll(preferenceMaps);
+      return getThis();
     }
 
     @Override
-    protected Builder self() {
+    protected IdealState toIdealState() {
+      IdealState idealState = super.toIdealState();
+      idealState.setRebalanceMode(RebalanceMode.CUSTOMIZED);
+      idealState.getRecord().setMapFields(
+          IdealState.stringMapsFromParticipantStateMaps(_preferenceMaps));
+      return idealState;
+    }
+
+    @Override
+    protected Builder getThis() {
       return this;
     }
 
+    /**
+     * Return an instantiated CustomRebalancerConfig
+     */
     @Override
     public CustomRebalancerConfig build() {
-      CustomRebalancerConfig config = new CustomRebalancerConfig();
-      super.update(config);
-      config.setPreferenceMaps(_preferenceMaps);
-      return config;
+      return new CustomRebalancerConfig(toIdealState());
     }
   }
 }

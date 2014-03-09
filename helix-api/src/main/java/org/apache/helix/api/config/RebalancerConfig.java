@@ -1,6 +1,5 @@
 package org.apache.helix.api.config;
 
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.api.id.PartitionId;
@@ -34,25 +33,12 @@ import org.apache.helix.api.id.StateModelFactoryId;
  * how the configuration should be serialized.
  */
 public interface RebalancerConfig {
-  /**
-   * Get a map of resource partition identifiers to partitions. A partition is a subunit of a
-   * resource, e.g. a subtask of a task
-   * @return map of (subunit id, subunit) pairs
-   */
-  public Map<? extends PartitionId, ? extends Partition> getSubUnitMap();
 
   /**
-   * Get the subunits of the resource (e.g. partitions)
+   * Get the partitions of the resource
    * @return set of subunit ids
    */
-  public Set<? extends PartitionId> getSubUnitIdSet();
-
-  /**
-   * Get a specific subunit
-   * @param subUnitId the id of the subunit
-   * @return SubUnit
-   */
-  public Partition getSubUnit(PartitionId subUnitId);
+  public Set<PartitionId> getPartitionSet();
 
   /**
    * Get the resource to rebalance
@@ -77,5 +63,14 @@ public interface RebalancerConfig {
    * @return participant group tag, or null
    */
   public String getParticipantGroupTag();
+
+  /**
+   * Get the maximum number of replicas of a state with dynamic upper bound "R" that each resource
+   * partition can have.
+   * @return replica count
+   */
+  public int getReplicaCount();
+  // TODO: getRebalancerRef needs to be at this level
+  // TODO: getRebalanceMode needs to be at this level
 
 }

@@ -79,8 +79,8 @@ public class TestResourceComputationStage extends BaseStageTest {
         ResourceId.from(resourceName));
     AssertJUnit.assertEquals(resource.values().iterator().next().getRebalancerConfig()
         .getStateModelDefId(), idealState.getStateModelDefId());
-    AssertJUnit
-        .assertEquals(resource.values().iterator().next().getSubUnitSet().size(), partitions);
+    AssertJUnit.assertEquals(resource.values().iterator().next().getPartitionIdSet().size(),
+        partitions);
   }
 
   @Test
@@ -106,7 +106,7 @@ public class TestResourceComputationStage extends BaseStageTest {
       AssertJUnit.assertEquals(resourceMap.get(resourceId).getId(), resourceId);
       AssertJUnit.assertEquals(resourceMap.get(resourceId).getRebalancerConfig()
           .getStateModelDefId(), idealState.getStateModelDefId());
-      AssertJUnit.assertEquals(resourceMap.get(resourceId).getSubUnitSet().size(),
+      AssertJUnit.assertEquals(resourceMap.get(resourceId).getPartitionIdSet().size(),
           idealState.getNumPartitions());
     }
   }
@@ -180,7 +180,7 @@ public class TestResourceComputationStage extends BaseStageTest {
       AssertJUnit.assertEquals(resourceMap.get(resourceId).getId(), resourceId);
       AssertJUnit.assertEquals(resourceMap.get(resourceId).getRebalancerConfig()
           .getStateModelDefId(), idealState.getStateModelDefId());
-      AssertJUnit.assertEquals(resourceMap.get(resourceId).getSubUnitSet().size(),
+      AssertJUnit.assertEquals(resourceMap.get(resourceId).getPartitionIdSet().size(),
           idealState.getNumPartitions());
     }
     // Test the data derived from CurrentState
@@ -189,13 +189,13 @@ public class TestResourceComputationStage extends BaseStageTest {
     AssertJUnit.assertEquals(resourceMap.get(oldResourceId).getId(), oldResourceId);
     AssertJUnit.assertEquals(resourceMap.get(oldResourceId).getRebalancerConfig()
         .getStateModelDefId(), currentState.getStateModelDefId());
-    AssertJUnit.assertEquals(resourceMap.get(oldResourceId).getSubUnitSet().size(), currentState
-        .getTypedPartitionStateMap().size());
-    AssertJUnit.assertNotNull(resourceMap.get(oldResourceId).getSubUnit(
+    AssertJUnit.assertEquals(resourceMap.get(oldResourceId).getPartitionIdSet().size(),
+        currentState.getTypedPartitionStateMap().size());
+    AssertJUnit.assertNotNull(resourceMap.get(oldResourceId).getPartition(
         PartitionId.from("testResourceOld_0")));
-    AssertJUnit.assertNotNull(resourceMap.get(oldResourceId).getSubUnit(
+    AssertJUnit.assertNotNull(resourceMap.get(oldResourceId).getPartition(
         PartitionId.from("testResourceOld_1")));
-    AssertJUnit.assertNotNull(resourceMap.get(oldResourceId).getSubUnit(
+    AssertJUnit.assertNotNull(resourceMap.get(oldResourceId).getPartition(
         PartitionId.from("testResourceOld_2")));
 
   }

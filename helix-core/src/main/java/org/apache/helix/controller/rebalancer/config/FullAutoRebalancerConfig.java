@@ -1,8 +1,8 @@
 package org.apache.helix.controller.rebalancer.config;
 
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.controller.rebalancer.FullAutoRebalancer;
-import org.apache.helix.controller.rebalancer.RebalancerRef;
+import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
 
 /*
@@ -28,42 +28,68 @@ import org.apache.helix.model.IdealState.RebalanceMode;
  * RebalancerConfig for FULL_AUTO rebalancing mode. By default, it corresponds to
  * {@link FullAutoRebalancer}
  */
-public class FullAutoRebalancerConfig extends PartitionedRebalancerConfig {
-  public FullAutoRebalancerConfig() {
-    if (getClass().equals(FullAutoRebalancerConfig.class)) {
-      // only mark this as full auto mode if this specifc config is used
-      setRebalanceMode(RebalanceMode.FULL_AUTO);
-    } else {
-      setRebalanceMode(RebalanceMode.USER_DEFINED);
-    }
-    setRebalancerRef(RebalancerRef.from(FullAutoRebalancer.class));
+public final class FullAutoRebalancerConfig extends AbstractAutoRebalancerConfig {
+
+  protected FullAutoRebalancerConfig(IdealState idealState) {
+    super(idealState);
   }
 
   /**
-   * Builder for a full auto rebalancer config. By default, it corresponds to
-   * {@link FullAutoRebalancer}
+   * Get the maximum number of partitions that a participant can serve
+   * @return maximum number of partitions per participant
    */
-  public static final class Builder extends PartitionedRebalancerConfig.AbstractBuilder<Builder> {
+  public int getMaxPartitionsPerParticipant() {
+    return getIdealState().getMaxPartitionsPerInstance();
+  }
+
+  /**
+   * Builder for a FULL_AUTO RebalancerConfig
+   */
+  public static class Builder extends AbstractBuilder<Builder> {
+    private Integer _maxPartitionsPerParticipant;
+
+    @Override
+    public Builder withExistingConfig(RebalancerConfig config) {
+      super.withExistingConfig(config);
+      FullAutoRebalancerConfig fullAutoConfig =
+          BasicRebalancerConfig.convert(config, FullAutoRebalancerConfig.class);
+      if (fullAutoConfig != null) {
+        withMaxPartitionsPerParticipant(fullAutoConfig.getMaxPartitionsPerParticipant());
+      }
+      return getThis();
+    }
+
     /**
-     * Instantiate with a resource
-     * @param resourceId resource id
+     * Set the number of partitions that a participant can serve at a maximum
+     * @param maxPartitionsPerParticipant the maximum as an integer
+     * @return Builder
      */
-    public Builder(ResourceId resourceId) {
-      super(resourceId);
-      super.rebalancerRef(RebalancerRef.from(FullAutoRebalancer.class));
-      super.rebalanceMode(RebalanceMode.FULL_AUTO);
+    public Builder withMaxPartitionsPerParticipant(int maxPartitionsPerParticipant) {
+      _maxPartitionsPerParticipant = maxPartitionsPerParticipant;
+      return getThis();
     }
 
     @Override
-    protected Builder self() {
+    protected IdealState toIdealState() {
+      IdealState idealState = super.toIdealState();
+      idealState.setRebalanceMode(RebalanceMode.FULL_AUTO);
+      if (_maxPartitionsPerParticipant != null) {
+        idealState.setMaxPartitionsPerInstance(_maxPartitionsPerParticipant);
+      }
+      return idealState;
+    }
+
+    @Override
+    protected Builder getThis() {
       return this;
     }
 
+    /**
+     * Return an instantiated FullAutoRebalancerConfig
+     */
     @Override
     public FullAutoRebalancerConfig build() {
-      FullAutoRebalancerConfig config = new FullAutoRebalancerConfig();
-      super.update(config);
-      return config;
+      return new FullAutoRebalancerConfig(toIdealState());
     }
   }
 }

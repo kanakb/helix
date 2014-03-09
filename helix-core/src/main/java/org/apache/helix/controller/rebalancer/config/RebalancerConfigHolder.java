@@ -23,6 +23,7 @@ import org.apache.helix.api.config.NamespacedConfig;
 import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
+import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.serializer.StringSerializer;
 import org.apache.helix.model.ResourceConfiguration;
 import org.apache.helix.util.HelixUtil;
@@ -127,10 +128,11 @@ public final class RebalancerConfigHolder {
   public HelixRebalancer getRebalancer() {
     // cache the rebalancer to avoid loading and instantiating it excessively
     if (_rebalancer == null) {
-      if (_config == null || _config.getRebalancerRef() == null) {
+      if (_config == null || _config.getRebalancerClass() == null) {
         return null;
       }
-      _rebalancer = _config.getRebalancerRef().getRebalancer();
+      RebalancerRef rebalancerRef = RebalancerRef.from(_config.getRebalancerClass());
+      _rebalancer = rebalancerRef.getRebalancer();
     }
     return _rebalancer;
   }

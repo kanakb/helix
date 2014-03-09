@@ -39,7 +39,7 @@ import org.apache.helix.controller.context.BasicControllerContext;
 import org.apache.helix.controller.context.ControllerContextHolder;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
-import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
+import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.stages.ResourceCurrentState;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
@@ -74,7 +74,8 @@ public class TestCustomizedIdealStateRebalancer extends
     @Override
     public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
         ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState) {
-      PartitionedRebalancerConfig config = PartitionedRebalancerConfig.from(rebalancerConfig);
+      BasicRebalancerConfig config =
+          BasicRebalancerConfig.convert(rebalancerConfig, BasicRebalancerConfig.class);
       IStateModelDefinition stateModelDef =
           cluster.getStateModelMap().get(config.getStateModelDefId());
       List<ParticipantId> liveParticipants =

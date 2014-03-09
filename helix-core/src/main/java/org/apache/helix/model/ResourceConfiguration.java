@@ -4,7 +4,6 @@ import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.NamespacedConfig;
 import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.ResourceConfig.ResourceType;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.controller.rebalancer.config.RebalancerConfigHolder;
@@ -35,8 +34,7 @@ import com.google.common.base.Optional;
  * Persisted configuration properties for a resource
  */
 public class ResourceConfiguration extends HelixProperty {
-  public enum Fields {
-    TYPE
+  private enum Fields {
   }
 
   /**
@@ -61,22 +59,6 @@ public class ResourceConfiguration extends HelixProperty {
    */
   public ResourceConfiguration(ZNRecord record) {
     super(record);
-  }
-
-  /**
-   * Set the resource type
-   * @param type ResourceType type
-   */
-  public void setType(ResourceType type) {
-    _record.setEnumField(Fields.TYPE.toString(), type);
-  }
-
-  /**
-   * Get the resource type
-   * @return ResourceType type
-   */
-  public ResourceType getType() {
-    return _record.getEnumField(Fields.TYPE.toString(), ResourceType.class, ResourceType.DATA);
   }
 
   /**
@@ -108,7 +90,7 @@ public class ResourceConfiguration extends HelixProperty {
    * Get a RebalancerConfig if available
    * @return RebalancerConfig, or null
    */
-  public RebalancerConfig getRebalancerConfig(Class<? extends RebalancerConfig> clazz) {
+  public <T extends RebalancerConfig> T getRebalancerConfig(Class<T> clazz) {
     RebalancerConfigHolder config = new RebalancerConfigHolder(this);
     return config.getRebalancerConfig(clazz);
   }

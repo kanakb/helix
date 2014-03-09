@@ -19,44 +19,32 @@ package org.apache.helix.api.accessor;
  * under the License.
  */
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixDefinedState;
 import org.apache.helix.PropertyKey;
 import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.State;
-import org.apache.helix.api.config.ResourceConfig.ResourceType;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.snapshot.Resource;
-import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.CustomRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.RebalancerConfigHolder;
-import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
-import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.helix.model.ResourceConfiguration;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 public class ResourceAccessor {
   private static final Logger LOG = Logger.getLogger(ResourceAccessor.class);
@@ -93,23 +81,6 @@ public class ResourceAccessor {
   }
 
   /**
-   * Update a resource configuration
-   * @param resourceId the resource id to update
-   * @param resourceDelta changes to the resource
-   * @return ResourceConfig, or null if the resource is not persisted
-   */
-  public ResourceConfig updateResource(ResourceId resourceId, ResourceConfig.Delta resourceDelta) {
-    Resource resource = readResource(resourceId);
-    if (resource == null) {
-      LOG.error("Resource " + resourceId + " does not exist, cannot be updated");
-      return null;
-    }
-    ResourceConfig config = resourceDelta.mergeInto(resource.getConfig());
-    setResource(config);
-    return config;
-  }
-
-  /**
    * save resource assignment
    * @param resourceId
    * @param resourceAssignment
@@ -130,64 +101,6 @@ public class ResourceAccessor {
   }
 
   /**
-   * Set a physical resource configuration, which may include user-defined configuration, as well as
-   * rebalancer configuration
-   * @param resourceId
-   * @param configuration
-   * @return true if set, false otherwise
-   */
-  private boolean setConfiguration(ResourceId resourceId, ResourceConfiguration configuration,
-      RebalancerConfig rebalancerConfig) {
-    boolean status = true;
-    if (configuration != null) {
-      status =
-          _accessor.setProperty(_keyBuilder.resourceConfig(resourceId.stringify()), configuration);
-    }
-    // set an ideal state if the resource supports it
-    IdealState idealState =
-        rebalancerConfigToIdealState(rebalancerConfig, configuration.getBucketSize(),
-            configuration.getBatchMessageMode());
-    if (idealState != null) {
-      status =
-          status
-              && _accessor.setProperty(_keyBuilder.idealStates(resourceId.stringify()), idealState);
-    }
-    return status;
-  }
-
-  /**
-   * Set the config of the rebalancer. This includes all properties required for rebalancing this
-   * resource
-   * @param resourceId the resource to update
-   * @param config the new rebalancer config
-   * @return true if the config was set, false otherwise
-   */
-  public boolean setRebalancerConfig(ResourceId resourceId, RebalancerConfig config) {
-    ResourceConfiguration resourceConfig = new ResourceConfiguration(resourceId);
-    PartitionedRebalancerConfig partitionedConfig = PartitionedRebalancerConfig.from(config);
-    if (partitionedConfig == null
-        || partitionedConfig.getRebalanceMode() == RebalanceMode.USER_DEFINED) {
-      // only persist if this is not easily convertible to an ideal state
-      resourceConfig.addNamespacedConfig(new RebalancerConfigHolder(config).toNamespacedConfig());
-    }
-
-    // update the ideal state if applicable
-    IdealState oldIdealState =
-        _accessor.getProperty(_keyBuilder.idealStates(resourceId.stringify()));
-    if (oldIdealState != null) {
-      IdealState idealState =
-          rebalancerConfigToIdealState(config, oldIdealState.getBucketSize(),
-              oldIdealState.getBatchMessageMode());
-      if (idealState != null) {
-        _accessor.setProperty(_keyBuilder.idealStates(resourceId.stringify()), idealState);
-      }
-    }
-
-    return _accessor.updateProperty(_keyBuilder.resourceConfig(resourceId.stringify()),
-        resourceConfig);
-  }
-
-  /**
    * Read the user config of the resource
    * @param resourceId the resource to to look up
    * @return UserConfig, or null
@@ -196,32 +109,6 @@ public class ResourceAccessor {
     ResourceConfiguration resourceConfig =
         _accessor.getProperty(_keyBuilder.resourceConfig(resourceId.stringify()));
     return resourceConfig != null ? UserConfig.from(resourceConfig) : null;
-  }
-
-  /**
-   * Read the rebalancer config of the resource
-   * @param resourceId the resource to to look up
-   * @return RebalancerConfig, or null
-   */
-  public RebalancerConfig readRebalancerConfig(ResourceId resourceId) {
-    IdealState idealState = _accessor.getProperty(_keyBuilder.idealStates(resourceId.stringify()));
-    if (idealState != null && idealState.getRebalanceMode() != RebalanceMode.USER_DEFINED) {
-      return PartitionedRebalancerConfig.from(idealState);
-    }
-    ResourceConfiguration resourceConfig =
-        _accessor.getProperty(_keyBuilder.resourceConfig(resourceId.stringify()));
-    return resourceConfig.getRebalancerConfig(RebalancerConfig.class);
-  }
-
-  /**
-   * Set the user config of the resource, overwriting existing user configs
-   * @param resourceId the resource to update
-   * @param userConfig the new user config
-   * @return true if the user config was set, false otherwise
-   */
-  public boolean setUserConfig(ResourceId resourceId, UserConfig userConfig) {
-    ResourceConfig.Delta delta = new ResourceConfig.Delta(resourceId).setUserConfig(userConfig);
-    return updateResource(resourceId, delta) != null;
   }
 
   /**
@@ -236,51 +123,6 @@ public class ResourceAccessor {
     resourceConfig.addNamespacedConfig(userConfig);
     return _accessor.updateProperty(_keyBuilder.resourceConfig(resourceId.stringify()),
         resourceConfig);
-  }
-
-  /**
-   * Clear any user-specified configuration from the resource
-   * @param resourceId the resource to update
-   * @return true if the config was cleared, false otherwise
-   */
-  public boolean dropUserConfig(ResourceId resourceId) {
-    return setUserConfig(resourceId, new UserConfig(Scope.resource(resourceId)));
-  }
-
-  /**
-   * Persist an existing resource's logical configuration
-   * @param resourceConfig logical resource configuration
-   * @return true if resource is set, false otherwise
-   */
-  public boolean setResource(ResourceConfig resourceConfig) {
-    if (resourceConfig == null || resourceConfig.getRebalancerConfig() == null) {
-      LOG.error("Resource not fully defined with a rebalancer context");
-      return false;
-    }
-    ResourceId resourceId = resourceConfig.getId();
-    ResourceConfiguration config = new ResourceConfiguration(resourceId);
-    UserConfig userConfig = resourceConfig.getUserConfig();
-    if (userConfig != null
-        && (!userConfig.getSimpleFields().isEmpty() || !userConfig.getListFields().isEmpty() || !userConfig
-            .getMapFields().isEmpty())) {
-      config.addNamespacedConfig(userConfig);
-    } else {
-      userConfig = null;
-    }
-    PartitionedRebalancerConfig partitionedConfig =
-        PartitionedRebalancerConfig.from(resourceConfig.getRebalancerConfig());
-    if (partitionedConfig == null
-        || partitionedConfig.getRebalanceMode() == RebalanceMode.USER_DEFINED) {
-      // only persist if this is not easily convertible to an ideal state
-      config.addNamespacedConfig(new RebalancerConfigHolder(resourceConfig.getRebalancerConfig())
-          .toNamespacedConfig());
-      config.setBucketSize(resourceConfig.getBucketSize());
-      config.setBatchMessageMode(resourceConfig.getBatchMessageMode());
-    } else if (userConfig == null) {
-      config = null;
-    }
-    setConfiguration(resourceId, config, resourceConfig.getRebalancerConfig());
-    return true;
   }
 
   /**
@@ -356,105 +198,6 @@ public class ResourceAccessor {
   }
 
   /**
-   * Generate a default assignment for partitioned resources
-   * @param resourceId the resource to update
-   * @param replicaCount the new replica count (or -1 to use the existing one)
-   * @param participantGroupTag the new participant group tag (or null to use the existing one)
-   * @return true if assignment successful, false otherwise
-   */
-  public boolean generateDefaultAssignment(ResourceId resourceId, int replicaCount,
-      String participantGroupTag) {
-    Resource resource = readResource(resourceId);
-    RebalancerConfig config = resource.getRebalancerConfig();
-    PartitionedRebalancerConfig partitionedConfig = PartitionedRebalancerConfig.from(config);
-    if (partitionedConfig == null) {
-      LOG.error("Only partitioned resource types are supported");
-      return false;
-    }
-    if (replicaCount != -1) {
-      partitionedConfig.setReplicaCount(replicaCount);
-    }
-    if (participantGroupTag != null) {
-      partitionedConfig.setParticipantGroupTag(participantGroupTag);
-    }
-    StateModelDefinition stateModelDef =
-        _accessor.getProperty(_keyBuilder.stateModelDef(partitionedConfig.getStateModelDefId()
-            .stringify()));
-    List<InstanceConfig> participantConfigs =
-        _accessor.getChildValues(_keyBuilder.instanceConfigs());
-    Set<ParticipantId> participantSet = Sets.newHashSet();
-    for (InstanceConfig participantConfig : participantConfigs) {
-      participantSet.add(participantConfig.getParticipantId());
-    }
-    partitionedConfig.generateDefaultConfiguration(stateModelDef, participantSet);
-    setRebalancerConfig(resourceId, partitionedConfig);
-    return true;
-  }
-
-  /**
-   * Get an ideal state from a rebalancer config if the resource is partitioned
-   * @param config RebalancerConfig instance
-   * @param bucketSize bucket size to use
-   * @param batchMessageMode true if batch messaging allowed, false otherwise
-   * @return IdealState, or null
-   */
-  public static IdealState rebalancerConfigToIdealState(RebalancerConfig config, int bucketSize,
-      boolean batchMessageMode) {
-    PartitionedRebalancerConfig partitionedConfig = PartitionedRebalancerConfig.from(config);
-    if (partitionedConfig != null) {
-      if (!PartitionedRebalancerConfig.isBuiltinConfig(partitionedConfig.getClass())) {
-        // don't proceed if this resource cannot be described by an ideal state
-        return null;
-      }
-      IdealState idealState = new IdealState(partitionedConfig.getResourceId());
-      idealState.setRebalanceMode(partitionedConfig.getRebalanceMode());
-
-      RebalancerRef ref = partitionedConfig.getRebalancerRef();
-      if (ref != null) {
-        idealState.setRebalancerRef(partitionedConfig.getRebalancerRef());
-      }
-      String replicas = null;
-      if (partitionedConfig.anyLiveParticipant()) {
-        replicas = StateModelToken.ANY_LIVEINSTANCE.toString();
-      } else {
-        replicas = Integer.toString(partitionedConfig.getReplicaCount());
-      }
-      idealState.setReplicas(replicas);
-      idealState.setNumPartitions(partitionedConfig.getPartitionSet().size());
-      idealState.setInstanceGroupTag(partitionedConfig.getParticipantGroupTag());
-      idealState.setMaxPartitionsPerInstance(partitionedConfig.getMaxPartitionsPerParticipant());
-      idealState.setStateModelDefId(partitionedConfig.getStateModelDefId());
-      idealState.setStateModelFactoryId(partitionedConfig.getStateModelFactoryId());
-      idealState.setBucketSize(bucketSize);
-      idealState.setBatchMessageMode(batchMessageMode);
-      idealState.setRebalancerConfigClass(config.getClass());
-      if (SemiAutoRebalancerConfig.class.equals(config.getClass())) {
-        SemiAutoRebalancerConfig semiAutoConfig =
-            BasicRebalancerConfig.convert(config, SemiAutoRebalancerConfig.class);
-        for (PartitionId partitionId : semiAutoConfig.getPartitionSet()) {
-          idealState.setPreferenceList(partitionId, semiAutoConfig.getPreferenceList(partitionId));
-        }
-      } else if (CustomRebalancerConfig.class.equals(config.getClass())) {
-        CustomRebalancerConfig customConfig =
-            BasicRebalancerConfig.convert(config, CustomRebalancerConfig.class);
-        for (PartitionId partitionId : customConfig.getPartitionSet()) {
-          idealState
-              .setParticipantStateMap(partitionId, customConfig.getPreferenceMap(partitionId));
-        }
-      } else {
-        for (PartitionId partitionId : partitionedConfig.getPartitionSet()) {
-          List<ParticipantId> preferenceList = Collections.emptyList();
-          idealState.setPreferenceList(partitionId, preferenceList);
-          Map<ParticipantId, State> participantStateMap = Collections.emptyMap();
-          idealState.setParticipantStateMap(partitionId, participantStateMap);
-        }
-      }
-      return idealState;
-    }
-    return null;
-  }
-
-  /**
    * Create a resource snapshot instance from the physical model
    * @param resourceId the resource id
    * @param resourceConfiguration physical resource configuration
@@ -468,10 +211,8 @@ public class ResourceAccessor {
       ExternalView externalView, ResourceAssignment resourceAssignment) {
     UserConfig userConfig;
     RebalancerConfig rebalancerConfig = null;
-    ResourceType type = ResourceType.DATA;
     if (resourceConfiguration != null) {
       userConfig = resourceConfiguration.getUserConfig();
-      type = resourceConfiguration.getType();
     } else {
       userConfig = new UserConfig(Scope.resource(resourceId));
     }
@@ -481,12 +222,11 @@ public class ResourceAccessor {
       if (resourceConfiguration != null
           && idealState.getRebalanceMode() == RebalanceMode.USER_DEFINED) {
         // prefer rebalancer config for user_defined data rebalancing
-        rebalancerConfig =
-            resourceConfiguration.getRebalancerConfig(PartitionedRebalancerConfig.class);
+        rebalancerConfig = resourceConfiguration.getRebalancerConfig(RebalancerConfig.class);
       }
       if (rebalancerConfig == null) {
         // prefer ideal state for non-user_defined data rebalancing
-        rebalancerConfig = PartitionedRebalancerConfig.from(idealState);
+        rebalancerConfig = BasicRebalancerConfig.from(idealState);
       }
       bucketSize = idealState.getBucketSize();
       batchMessageMode = idealState.getBatchMessageMode();
@@ -497,10 +237,10 @@ public class ResourceAccessor {
       rebalancerConfig = resourceConfiguration.getRebalancerConfig(RebalancerConfig.class);
     }
     if (rebalancerConfig == null) {
-      rebalancerConfig = new PartitionedRebalancerConfig();
+      rebalancerConfig = new BasicRebalancerConfig.Builder().build();
     }
-    return new Resource(resourceId, type, idealState, resourceAssignment, externalView,
-        rebalancerConfig, userConfig, bucketSize, batchMessageMode);
+    return new Resource(resourceId, idealState, resourceAssignment, externalView, rebalancerConfig,
+        userConfig, bucketSize, batchMessageMode);
   }
 
   /**

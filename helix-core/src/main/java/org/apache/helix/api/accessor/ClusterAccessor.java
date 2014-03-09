@@ -42,6 +42,7 @@ import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.Scope;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.id.ContextId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.ParticipantId;
@@ -49,23 +50,21 @@ import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.IClusterConstraints;
+import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Controller;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.context.ControllerContext;
 import org.apache.helix.controller.context.ControllerContextHolder;
-import org.apache.helix.controller.rebalancer.RebalancerRef;
-import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
+import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.RebalancerConfigHolder;
 import org.apache.helix.controller.stages.ClusterDataCache;
-import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.model.Alerts;
 import org.apache.helix.model.ClusterConfiguration;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.api.model.IClusterConstraints;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
@@ -351,12 +350,6 @@ public class ClusterAccessor {
       IdealState idealState = idealStateMap.get(resourceName);
       extraReadsRequired =
           extraReadsRequired || (idealState.getRebalanceMode() == RebalanceMode.USER_DEFINED);
-      RebalancerRef ref = idealState.getRebalancerRef();
-      if (ref != null) {
-        extraReadsRequired =
-            extraReadsRequired
-                || !PartitionedRebalancerConfig.isBuiltinRebalancer(ref.getRebalancerClass());
-      }
     }
     for (String resourceName : resourceConfigMap.keySet()) {
       if (extraReadsRequired) {
@@ -766,19 +759,20 @@ public class ClusterAccessor {
     }
 
     // Create an IdealState from a RebalancerConfig (if the resource supports it)
-    IdealState idealState =
-        ResourceAccessor.rebalancerConfigToIdealState(resource.getRebalancerConfig(),
-            resource.getBucketSize(), resource.getBatchMessageMode());
-    if (idealState != null) {
+    BasicRebalancerConfig basicConfig =
+        BasicRebalancerConfig.convert(resource.getRebalancerConfig(), BasicRebalancerConfig.class);
+    IdealState idealState = null;
+    if (basicConfig != null) {
+      idealState = BasicRebalancerConfig.toIdealState(basicConfig);
       _accessor.setProperty(_keyBuilder.idealStates(resourceId.stringify()), idealState);
     }
 
     // Add resource user config
     if (resource.getUserConfig() != null) {
       ResourceConfiguration configuration = new ResourceConfiguration(resourceId);
-      configuration.setType(resource.getType());
       configuration.addNamespacedConfig(resource.getUserConfig());
-      PartitionedRebalancerConfig partitionedConfig = PartitionedRebalancerConfig.from(config);
+      BasicRebalancerConfig partitionedConfig =
+          configuration.getRebalancerConfig(BasicRebalancerConfig.class);
       if (idealState == null
           && (partitionedConfig == null || partitionedConfig.getRebalanceMode() == RebalanceMode.USER_DEFINED)) {
         // only persist if this is not easily convertible to an ideal state

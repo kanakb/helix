@@ -186,7 +186,7 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
       ResourceAssignment resourceAssignment = null;
       if (rebalancerConfig != null) {
         // use a cached rebalancer if possible
-        RebalancerRef ref = rebalancerConfig.getRebalancerRef();
+        RebalancerRef ref = RebalancerRef.from(rebalancerConfig.getRebalancerClass());
         HelixRebalancer rebalancer = null;
         if (_rebalancerMap.containsKey(resourceId)) {
           HelixRebalancer candidateRebalancer = _rebalancerMap.get(resourceId);

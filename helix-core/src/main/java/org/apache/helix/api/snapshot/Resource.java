@@ -23,10 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.config.ResourceConfig.ResourceType;
 import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.config.RebalancerConfig;
+import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
 import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.id.PartitionId;
@@ -37,6 +36,8 @@ import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.Message;
 import org.apache.helix.model.ResourceAssignment;
+
+import com.google.common.collect.Maps;
 
 /**
  * Represent a resource entity in helix cluster
@@ -50,7 +51,6 @@ public class Resource {
   /**
    * Construct a resource
    * @param id resource id
-   * @param type ResourceType type
    * @param idealState ideal state of the resource
    * @param externalView external view of the resource
    * @param resourceAssignment current resource assignment of the cluster
@@ -59,14 +59,17 @@ public class Resource {
    * @param bucketSize the bucket size to use for physically saved state
    * @param batchMessageMode true if batch messaging allowed, false otherwise
    */
-  public Resource(ResourceId id, ResourceType type, IdealState idealState,
-      ResourceAssignment resourceAssignment, ExternalView externalView,
-      RebalancerConfig rebalancerConfig, UserConfig userConfig, int bucketSize,
-      boolean batchMessageMode) {
+  public Resource(ResourceId id, IdealState idealState, ResourceAssignment resourceAssignment,
+      ExternalView externalView, RebalancerConfig rebalancerConfig, UserConfig userConfig,
+      int bucketSize, boolean batchMessageMode) {
     SchedulerTaskConfig schedulerTaskConfig = schedulerTaskConfig(idealState);
+    Map<PartitionId, Partition> partitionMap = Maps.newHashMap();
+    for (PartitionId partitionId : rebalancerConfig.getPartitionSet()) {
+      partitionMap.put(partitionId, new Partition(partitionId));
+    }
     _config =
-        new ResourceConfig(id, type, schedulerTaskConfig, rebalancerConfig, userConfig, bucketSize,
-            batchMessageMode);
+        new ResourceConfig(id, partitionMap, schedulerTaskConfig, rebalancerConfig, userConfig,
+            bucketSize, batchMessageMode);
     _externalView = externalView;
     _resourceAssignment = resourceAssignment;
     _idealState = idealState;
@@ -115,28 +118,28 @@ public class Resource {
   }
 
   /**
-   * Get the subunits of the resource
-   * @return map of subunit id to partition or empty map if none
+   * Get the partitions of the resource
+   * @return map of partition id to partition or empty map if none
    */
-  public Map<? extends PartitionId, ? extends Partition> getSubUnitMap() {
-    return _config.getSubUnitMap();
+  public Map<PartitionId, Partition> getPartitionMap() {
+    return _config.getPartitionMap();
   }
 
   /**
-   * Get a subunit that the resource contains
-   * @param subUnitId the subunit id to look up
+   * Get a partition that the resource contains
+   * @param partitionId the partitionId id to look up
    * @return Partition or null if none is present with the given id
    */
-  public Partition getSubUnit(PartitionId subUnitId) {
-    return _config.getSubUnit(subUnitId);
+  public Partition getPartition(PartitionId partitionId) {
+    return _config.getPartition(partitionId);
   }
 
   /**
    * Get the set of subunit ids that the resource contains
    * @return subunit id set, or empty if none
    */
-  public Set<? extends PartitionId> getSubUnitSet() {
-    return _config.getSubUnitSet();
+  public Set<? extends PartitionId> getPartitionSet() {
+    return _config.getPartitionIdSet();
   }
 
   /**

@@ -33,7 +33,7 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
-import org.apache.helix.controller.rebalancer.config.PartitionedRebalancerConfig;
+import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.controller.stages.ClusterDataCache;
 import org.apache.helix.controller.stages.CurrentStateOutput;
@@ -69,7 +69,8 @@ public class FallbackRebalancer implements HelixRebalancer {
     }
 
     // get the config
-    PartitionedRebalancerConfig config = PartitionedRebalancerConfig.from(rebalancerConfig);
+    BasicRebalancerConfig config =
+        BasicRebalancerConfig.convert(rebalancerConfig, BasicRebalancerConfig.class);
     if (config == null) {
       LOG.info("Resource is not partitioned");
       return null;
