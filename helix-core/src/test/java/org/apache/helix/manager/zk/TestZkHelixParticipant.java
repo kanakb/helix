@@ -23,13 +23,14 @@ import java.util.Date;
 
 import org.apache.helix.HelixConnection;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.integration.TestHelixConnection;
 import org.testng.Assert;
@@ -77,7 +78,7 @@ public class TestZkHelixParticipant extends ZkUnitTestBase {
     // check live-instance znode for localhost_12918/12919 exist
     HelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     for (int i = 0; i < n; i++) {
       Assert.assertNotNull(accessor.getProperty(keyBuilder.liveInstance(participants[i].getParticipantId().stringify())));

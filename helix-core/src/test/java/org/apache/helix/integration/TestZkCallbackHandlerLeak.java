@@ -28,10 +28,11 @@ import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.IZkDataListener;
 import org.apache.helix.CurrentStateChangeListener;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkTestHelper;
 import org.apache.helix.ZkUnitTestBase;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.integration.manager.ZkTestManager;
@@ -367,7 +368,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
 
     MockParticipantManager participantToExpire = participants[0];
     String oldSessionId = participantToExpire.getSessionId();
-    PropertyKey.Builder keyBuilder = new PropertyKey.Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
 
     // check manager#hanlders
     Assert.assertEquals(participantToExpire.getHandlers().size(), 3,

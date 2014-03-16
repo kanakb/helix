@@ -32,8 +32,9 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.log4j.Logger;
@@ -190,7 +191,7 @@ public class IntegrationTestUtil {
         util.readZNode(path);
       } else if (cmd.hasOption(readLeader)) {
         String clusterName = cmd.getOptionValue(readLeader);
-        PropertyKey.Builder keyBuilder = new PropertyKey.Builder(clusterName);
+        PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
         util.readZNode(keyBuilder.controllerLeader().getPath());
       } else {
         printUsage(cliOptions);

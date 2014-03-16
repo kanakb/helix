@@ -26,12 +26,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.mock.participant.ErrTransition;
@@ -183,7 +183,7 @@ public class TestDrop extends ZkIntegrationTestBase {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     InstanceConfig config = accessor.getProperty(keyBuilder.instanceConfig("localhost_12918"));
     List<String> disabledPartitions = config.getDisabledPartitions();
     // System.out.println("disabledPartitions: " + disabledPartitions);
@@ -232,7 +232,7 @@ public class TestDrop extends ZkIntegrationTestBase {
 
     HelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuiler = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuiler = accessor.keyBuilder();
     accessor.setProperty(keyBuiler.idealStates("TestDB0"), isBuilder.build());
 
     // start controller
@@ -348,7 +348,7 @@ public class TestDrop extends ZkIntegrationTestBase {
     // make sure schemata external view is empty
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<ZNRecord>(_gZkClient);
     ZKHelixDataAccessor accessor = new ZKHelixDataAccessor(clusterName, baseAccessor);
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     ExternalView extView = accessor.getProperty(keyBuilder.externalView("schemata"));
     Assert.assertEquals(extView.getPartitionSet().size(), 0,
         "schemata externalView should be empty but was \"" + extView + "\"");
@@ -385,7 +385,7 @@ public class TestDrop extends ZkIntegrationTestBase {
 
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<ZNRecord>(_gZkClient);
     ZKHelixDataAccessor accessor = new ZKHelixDataAccessor(clusterName, baseAccessor);
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ClusterControllerManager controller =
         new ClusterControllerManager(ZK_ADDR, clusterName, "controller_0");

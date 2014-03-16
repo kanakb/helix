@@ -38,8 +38,8 @@ import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.IZkStateListener;
 import org.I0Itec.zkclient.ZkConnection;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
@@ -231,7 +231,7 @@ public class ZkTestHelper {
     boolean result = true;
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<ZNRecord>(zkclient);
     ZKHelixDataAccessor accessor = new ZKHelixDataAccessor(clusterName, baseAccessor);
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ExternalView extView = accessor.getProperty(keyBuilder.externalView(resourceName));
     Map<String, Map<String, String>> actualStateMap = extView.getRecord().getMapFields();

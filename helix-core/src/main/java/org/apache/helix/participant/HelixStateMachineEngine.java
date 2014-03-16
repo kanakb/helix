@@ -27,25 +27,26 @@ import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.MapKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
-import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.messaging.handling.BatchMessageHandler;
 import org.apache.helix.messaging.handling.BatchMessageWrapper;
 import org.apache.helix.messaging.handling.HelixStateTransitionHandler;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.TaskExecutor;
 import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageType;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.HelixStateModelFactoryAdaptor;
 import org.apache.helix.participant.statemachine.StateModel;
@@ -75,7 +76,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
   }
 
   public StateModelFactory<? extends StateModel> getStateModelFactory(String stateModelName) {
-    return getStateModelFactory(stateModelName, HelixConstants.DEFAULT_STATE_MODEL_FACTORY);
+    return getStateModelFactory(stateModelName, StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
   }
 
   public StateModelFactory<? extends StateModel> getStateModelFactory(String stateModelName,
@@ -90,7 +91,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
   public boolean registerStateModelFactory(String stateModelDef,
       StateModelFactory<? extends StateModel> factory) {
     return registerStateModelFactory(stateModelDef, factory,
-        HelixConstants.DEFAULT_STATE_MODEL_FACTORY);
+        StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
   }
 
   @Override
@@ -128,7 +129,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
         nopMsg.setSrcName(_manager.getInstanceName());
 
         HelixDataAccessor accessor = _manager.getHelixDataAccessor();
-        Builder keyBuilder = accessor.keyBuilder();
+        PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
         if (_manager.getInstanceType() == InstanceType.CONTROLLER
             || _manager.getInstanceType() == InstanceType.CONTROLLER_PARTICIPANT) {
@@ -188,7 +189,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
 
     String factoryName = message.getStateModelFactoryName();
     if (factoryName == null) {
-      factoryName = HelixConstants.DEFAULT_STATE_MODEL_FACTORY;
+      factoryName = StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY;
     }
 
     StateModelFactory<? extends StateModel> stateModelFactory =
@@ -202,7 +203,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
     // check if the state model definition exists and cache it
     if (!_stateModelDefs.containsKey(stateModelId.stringify())) {
       HelixDataAccessor accessor = _manager.getHelixDataAccessor();
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
       StateModelDefinition stateModelDef =
           accessor.getProperty(keyBuilder.stateModelDef(stateModelId.stringify()));
       if (stateModelDef == null) {
@@ -273,8 +274,8 @@ public class HelixStateMachineEngine implements StateMachineEngine {
   @Override
   public boolean registerStateModelFactory(StateModelDefId stateModelDefId,
       HelixStateModelFactory<? extends StateModel> factory) {
-    return registerStateModelFactory(stateModelDefId, HelixConstants.DEFAULT_STATE_MODEL_FACTORY,
-        factory);
+    return registerStateModelFactory(stateModelDefId,
+        StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY, factory);
   }
 
   @Override
@@ -311,7 +312,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
 
   @Override
   public boolean removeStateModelFactory(StateModelDefId stateModelDefId) {
-    return removeStateModelFactory(stateModelDefId, HelixConstants.DEFAULT_STATE_MODEL_FACTORY);
+    return removeStateModelFactory(stateModelDefId, StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
   }
 
   @Override

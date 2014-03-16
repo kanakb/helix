@@ -39,17 +39,17 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.HelixDefinedState;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyPathConfig;
-import org.apache.helix.PropertyType;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.accessor.ClusterAccessor;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.PropertyPathConfig;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.pipeline.Stage;
 import org.apache.helix.controller.pipeline.StageContext;
@@ -242,7 +242,7 @@ public class ClusterStateVerifier {
   static boolean verifyBestPossAndExtView(HelixDataAccessor accessor,
       Map<String, Map<String, String>> errStates, String clusterName, Set<String> resources) {
     try {
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
       Map<String, IdealState> idealStates = accessor.getChildValuesMap(keyBuilder.idealStates());
       if (idealStates == null) {
@@ -380,7 +380,7 @@ public class ClusterStateVerifier {
   }
 
   static boolean verifyMasterNbInExtView(HelixDataAccessor accessor) {
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     Map<String, IdealState> idealStates = accessor.getChildValuesMap(keyBuilder.idealStates());
     if (idealStates == null || idealStates.size() == 0) {

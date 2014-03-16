@@ -26,12 +26,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.I0Itec.zkclient.IZkChildListener;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.HelixProperty.HelixPropertyAttribute;
+import org.apache.helix.api.model.HelixProperty.HelixPropertyAttribute;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.mock.participant.ErrTransition;
@@ -79,7 +79,7 @@ public class TestBatchMessage extends ZkIntegrationTestBase {
     // enable batch message
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     IdealState idealState = accessor.getProperty(keyBuilder.idealStates("TestDB0"));
     idealState.setBatchMessageMode(true);
     accessor.setProperty(keyBuilder.idealStates("TestDB0"), idealState);
@@ -164,7 +164,7 @@ public class TestBatchMessage extends ZkIntegrationTestBase {
     // enable batch message
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     IdealState idealState = accessor.getProperty(keyBuilder.idealStates("TestDB0"));
     idealState.setBatchMessageMode(true);
     accessor.setProperty(keyBuilder.idealStates("TestDB0"), idealState);
@@ -218,7 +218,7 @@ public class TestBatchMessage extends ZkIntegrationTestBase {
     // enable batch message
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     IdealState idealState = accessor.getProperty(keyBuilder.idealStates("TestDB0"));
     idealState.setBatchMessageMode(true);
     accessor.setProperty(keyBuilder.idealStates("TestDB0"), idealState);
@@ -290,7 +290,7 @@ public class TestBatchMessage extends ZkIntegrationTestBase {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     // register a message listener so we know how many message generated
     TestZkChildListener listener = new TestZkChildListener();

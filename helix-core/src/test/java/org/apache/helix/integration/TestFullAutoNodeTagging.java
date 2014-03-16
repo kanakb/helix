@@ -26,10 +26,11 @@ import java.util.Set;
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
@@ -239,7 +240,7 @@ public class TestFullAutoNodeTagging extends ZkUnitTestBase {
     public boolean verify() {
       BaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<ZNRecord>(_zkClient);
       HelixDataAccessor accessor = new ZKHelixDataAccessor(_clusterName, baseAccessor);
-      PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
       ExternalView externalView = accessor.getProperty(keyBuilder.externalView(_resourceName));
 
       Set<String> taggedNodeSet = ImmutableSet.copyOf(_taggedNodes);

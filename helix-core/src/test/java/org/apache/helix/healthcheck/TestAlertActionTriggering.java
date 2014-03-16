@@ -26,13 +26,13 @@ import java.util.Map;
 import org.apache.helix.ConfigAccessor;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.integration.ZkStandAloneCMTestBaseWithPropertyServerCheck;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.HealthStat;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
@@ -60,7 +60,7 @@ public class TestAlertActionTriggering extends ZkStandAloneCMTestBaseWithPropert
       record.setSimpleField("TimeStamp", new Date().getTime() + "");
       record.setMapField(_statName, valMap);
       HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-      Builder keyBuilder = helixDataAccessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
       helixDataAccessor.setProperty(
           keyBuilder.healthReport(manager.getInstanceName(), record.getId()),
           new HealthStat(record));
@@ -81,7 +81,7 @@ public class TestAlertActionTriggering extends ZkStandAloneCMTestBaseWithPropert
       record.setSimpleField("TimeStamp", new Date().getTime() + "");
       record.setMapField("TestStat@DB=TestDB;Partition=TestDB_3", valMap);
       HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-      Builder keyBuilder = helixDataAccessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
       helixDataAccessor.setProperty(
           keyBuilder.healthReport(manager.getInstanceName(), record.getId()),
           new HealthStat(record));
@@ -130,14 +130,14 @@ public class TestAlertActionTriggering extends ZkStandAloneCMTestBaseWithPropert
     task.aggregate();
     Thread.sleep(4000);
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
 
     boolean result =
         ClusterStateVerifier.verifyByZkCallback(new BestPossAndExtViewZkVerifier(ZK_ADDR,
             CLUSTER_NAME));
     Assert.assertTrue(result);
 
-    Builder kb = manager.getHelixDataAccessor().keyBuilder();
+    PropertyKeyBuilder kb = manager.getHelixDataAccessor().keyBuilder();
     ExternalView externalView =
         manager.getHelixDataAccessor().getProperty(kb.externalView("TestDB"));
     // Test the DISABLE_INSTANCE alerts

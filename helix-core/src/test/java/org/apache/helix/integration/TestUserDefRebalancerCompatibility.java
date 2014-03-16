@@ -21,9 +21,9 @@ package org.apache.helix.integration;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.controller.rebalancer.Rebalancer;
 import org.apache.helix.controller.stages.ClusterDataCache;
 import org.apache.helix.controller.stages.CurrentStateOutput;
@@ -88,7 +88,7 @@ public class TestUserDefRebalancerCompatibility extends
       Thread.sleep(1000);
       HelixDataAccessor accessor =
           new ZKHelixDataAccessor(CLUSTER_NAME, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
       ExternalView ev = accessor.getProperty(keyBuilder.externalView(db2));
       Assert.assertEquals(ev.getPartitionSet().size(), 60);
       for (String partition : ev.getPartitionSet()) {

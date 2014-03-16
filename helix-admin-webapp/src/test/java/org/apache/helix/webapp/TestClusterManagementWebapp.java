@@ -27,12 +27,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.PropertyPathConfig;
-import org.apache.helix.PropertyType;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.PropertyPathConfig;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.tools.AdminTestBase;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.webapp.resources.ClusterRepresentationUtil;
@@ -101,7 +100,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
 
     ZNRecord r = new ZNRecord("Test");
     r.merge(zn);
-    IStateModelDefinition newStateModel = new StateModelDefinition(r);
+    StateModelDefinition newStateModel = new StateModelDefinition(r);
 
     httpUrlBase = "http://localhost:" + ADMIN_PORT + "/clusters/" + clusterName + "/StateModelDefs";
     resourceRef = new Reference(httpUrlBase);

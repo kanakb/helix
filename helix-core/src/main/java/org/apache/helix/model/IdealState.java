@@ -29,19 +29,19 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.helix.HelixConstants;
-import org.apache.helix.HelixDefinedState;
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.NamespacedConfig;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.config.UserConfig;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.id.StateModelFactoryId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.NamespacedConfig;
+import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
@@ -226,7 +226,7 @@ public class IdealState extends HelixProperty {
    * Set the RebalancerConfig implementation class for this resource
    * @param clazz the class object
    */
-  public void setRebalancerConfigClass(Class<? extends RebalancerConfig> clazz) {
+  public void setRebalancerConfigClass(Class<? extends RebalancerConfiguration> clazz) {
     String className = clazz.getName();
     _record.setSimpleField(IdealStateProperty.REBALANCER_CONFIG_NAME.toString(), className);
   }
@@ -235,12 +235,12 @@ public class IdealState extends HelixProperty {
    * Get the class representing the rebalancer config of this resource
    * @return The rebalancer config class
    */
-  public Class<? extends RebalancerConfig> getRebalancerConfigClass() {
+  public Class<? extends RebalancerConfiguration> getRebalancerConfigClass() {
     // try to extract the class from the persisted data
     String className = _record.getSimpleField(IdealStateProperty.REBALANCER_CONFIG_NAME.toString());
     if (className != null) {
       try {
-        return HelixUtil.loadClass(getClass(), className).asSubclass(RebalancerConfig.class);
+        return HelixUtil.loadClass(getClass(), className).asSubclass(RebalancerConfiguration.class);
       } catch (ClassNotFoundException e) {
         logger.error(className + " is not a valid class");
       }
@@ -331,7 +331,7 @@ public class IdealState extends HelixProperty {
     case CUSTOMIZED:
       return _record.getMapFields().keySet();
     case USER_DEFINED:
-      Class<? extends RebalancerConfig> configClass = getRebalancerConfigClass();
+      Class<? extends RebalancerConfiguration> configClass = getRebalancerConfigClass();
       if (configClass.equals(SemiAutoRebalancerConfig.class)
           || configClass.equals(FullAutoRebalancerConfig.class)) {
         return _record.getListFields().keySet();
@@ -415,7 +415,7 @@ public class IdealState extends HelixProperty {
     boolean useListFields = false;
     RebalanceMode rebalanceMode = getRebalanceMode();
     if (rebalanceMode == RebalanceMode.USER_DEFINED) {
-      Class<? extends RebalancerConfig> configClass = getRebalancerConfigClass();
+      Class<? extends RebalancerConfiguration> configClass = getRebalancerConfigClass();
       if (configClass.equals(SemiAutoRebalancerConfig.class)
           || configClass.equals(FullAutoRebalancerConfig.class)) {
         // override: if the user defined rebalancer expects auto-type inputs, use the list fields
@@ -644,7 +644,7 @@ public class IdealState extends HelixProperty {
    */
   public String getStateModelFactoryName() {
     return _record.getStringField(IdealStateProperty.STATE_MODEL_FACTORY_NAME.toString(),
-        HelixConstants.DEFAULT_STATE_MODEL_FACTORY);
+        StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
   }
 
   /**
@@ -725,8 +725,7 @@ public class IdealState extends HelixProperty {
    * @param assignment the new resource assignment
    * @param stateModelDef state model of the resource
    */
-  public void updateFromAssignment(ResourceAssignment assignment,
-      IStateModelDefinition stateModelDef) {
+  public void updateFromAssignment(ResourceAssignment assignment, StateModelDefinition stateModelDef) {
     // clear all preference lists and maps
     _record.getMapFields().clear();
     _record.getListFields().clear();

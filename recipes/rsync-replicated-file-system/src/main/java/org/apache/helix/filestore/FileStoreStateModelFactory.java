@@ -20,7 +20,7 @@ package org.apache.helix.filestore;
  */
 
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 
 public class FileStoreStateModelFactory extends HelixStateModelFactory<FileStoreStateModel> {

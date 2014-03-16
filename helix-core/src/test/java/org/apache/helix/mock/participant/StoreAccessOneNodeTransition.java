@@ -25,8 +25,8 @@ import org.apache.helix.AccessOption;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.store.zk.ZkHelixPropertyStore;
 
 // simulate access property store and update one znode

@@ -24,9 +24,9 @@ import java.util.Map;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.tools.ClusterSetup;
@@ -70,7 +70,7 @@ public class IdealStateResource extends ServerResource {
 
   StringRepresentation getIdealStateRepresentation(String clusterName, String resourceName)
       throws JsonGenerationException, JsonMappingException, IOException {
-    Builder keyBuilder = new PropertyKey.Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     ZkClient zkClient = (ZkClient) getContext().getAttributes().get(RestAdminApplication.ZKCLIENT);
 
     String message =

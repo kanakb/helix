@@ -23,11 +23,11 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.helix.HelixException;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.ZkUnitTestBase;
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
@@ -110,7 +110,7 @@ public class TestZNRecordSizeLimit extends ZkUnitTestBase {
     // oversized data should not create any new data on zk
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(className, new ZkBaseDataAccessor<ZNRecord>(zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     IdealState idealState = new IdealState("currentState");
     idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
@@ -233,7 +233,7 @@ public class TestZNRecordSizeLimit extends ZkUnitTestBase {
     // oversized data should not create any new data on zk
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(className, new ZkBaseDataAccessor<ZNRecord>(zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     // ZNRecord statusUpdates = new ZNRecord("statusUpdates");
     IdealState idealState = new IdealState("currentState");

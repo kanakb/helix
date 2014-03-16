@@ -29,22 +29,21 @@ import java.util.Set;
 
 import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.HelixProperty;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.ClusterConfiguration;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.ResourceConfiguration;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.controller.context.ControllerContextHolder;
-import org.apache.helix.model.ClusterConfiguration;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
+import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.Message;
 import org.apache.helix.model.PauseSignal;
-import org.apache.helix.model.ResourceConfiguration;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.ImmutableList;
@@ -98,7 +97,7 @@ public class ClusterDataCache {
     LOG.info("START: ClusterDataCache.refresh()");
     long startTime = System.currentTimeMillis();
 
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     if (_init) {
       _idealStateCacheMap = accessor.getChildValuesMap(keyBuilder.idealStates());
@@ -371,7 +370,7 @@ public class ClusterDataCache {
    * @param stateModelDefRef
    * @return
    */
-  public IStateModelDefinition getStateModelDef(String stateModelDefRef) {
+  public StateModelDefinition getStateModelDef(String stateModelDefRef) {
     return _stateModelDefMap.get(stateModelDefRef);
   }
 

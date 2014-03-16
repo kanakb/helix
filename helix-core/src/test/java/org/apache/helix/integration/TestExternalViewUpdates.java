@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
@@ -76,7 +76,7 @@ public class TestExternalViewUpdates extends ZkIntegrationTestBase {
     Assert.assertTrue(result);
 
     // need to verify that each ExternalView's version number is 2
-    Builder keyBuilder = new Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     ZkBaseDataAccessor<ZNRecord> accessor = new ZkBaseDataAccessor<ZNRecord>(_gZkClient);
     String parentPath = keyBuilder.externalViews().getPath();
     List<String> childNames = accessor.getChildNames(parentPath, 0);

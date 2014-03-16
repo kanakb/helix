@@ -31,24 +31,24 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.HelixDefinedState;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.MapKey;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.ZNRecordBucketizer;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.ZNRecordDelta;
 import org.apache.helix.api.ZNRecordDelta.MergeOperation;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
 import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.Attributes;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.Attributes;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelFactory;
 import org.apache.helix.participant.statemachine.StateModelParser;
@@ -168,7 +168,7 @@ public class HelixStateTransitionHandler extends MessageHandler {
     String instanceName = _manager.getInstanceName();
 
     HelixDataAccessor accessor = _manager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     int bucketSize = _message.getBucketSize();
     ZNRecordBucketizer bucketizer = new ZNRecordBucketizer(bucketSize);
@@ -373,7 +373,7 @@ public class HelixStateTransitionHandler extends MessageHandler {
   @Override
   public void onError(Exception e, ErrorCode code, ErrorType type) {
     HelixDataAccessor accessor = _manager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     String instanceName = _manager.getInstanceName();
     ResourceId resourceId = _message.getResourceId();
     PartitionId partition = _message.getPartitionId();

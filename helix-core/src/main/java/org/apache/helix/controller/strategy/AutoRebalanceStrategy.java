@@ -35,10 +35,10 @@ import java.util.TreeSet;
 
 import org.apache.helix.HelixManager;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.log4j.Logger;
 

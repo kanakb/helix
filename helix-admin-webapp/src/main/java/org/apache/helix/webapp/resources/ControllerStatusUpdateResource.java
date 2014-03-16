@@ -21,8 +21,7 @@ package org.apache.helix.webapp.resources;
 
 import java.io.IOException;
 
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.webapp.RestAdminApplication;
 import org.apache.log4j.Logger;
@@ -69,7 +68,7 @@ public class ControllerStatusUpdateResource extends ServerResource {
   StringRepresentation getControllerStatusUpdateRepresentation(String zkServerAddress,
       String clusterName, String sessionId, String messageType, String messageId)
       throws JsonGenerationException, JsonMappingException, IOException {
-    Builder keyBuilder = new PropertyKey.Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     ZkClient zkClient = (ZkClient) getContext().getAttributes().get(RestAdminApplication.ZKCLIENT);
     String message =
         ClusterRepresentationUtil.getPropertyAsString(zkClient, clusterName,

@@ -44,14 +44,7 @@ import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.ZkServer;
 import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.apache.commons.io.FileUtils;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.integration.manager.ZkTestManager;
 import org.apache.helix.manager.zk.CallbackHandler;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
@@ -62,10 +55,16 @@ import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState.RebalanceMode;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageType;
-import org.apache.helix.model.StateModelDefinition;
-import org.apache.helix.model.StateModelDefinition.StateModelDefinitionProperty;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.store.zk.ZNode;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.util.ZKClientPool;
@@ -224,7 +223,7 @@ public class TestHelper {
     try {
       ZKHelixDataAccessor accessor =
           new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(zkClient));
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
       for (String instanceName : instanceNames) {
         List<String> sessionIds = accessor.getChildNames(keyBuilder.sessions(instanceName));
@@ -307,7 +306,7 @@ public class TestHelper {
     try {
       ZKHelixDataAccessor accessor =
           new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(zkClient));
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
       for (String resGroupPartitionKey : stateMap.keySet()) {
         Map<String, String> retMap = getResourceAndPartitionKey(resGroupPartitionKey);

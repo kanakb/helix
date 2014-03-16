@@ -30,11 +30,11 @@ import java.util.Set;
 
 import org.apache.helix.HelixManager;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.controller.context.ControllerContextProvider;
@@ -63,11 +63,11 @@ public class FullAutoRebalancer implements HelixRebalancer {
   }
 
   @Override
-  public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
+  public ResourceAssignment computeResourceMapping(RebalancerConfiguration rebalancerConfig,
       ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState) {
     FullAutoRebalancerConfig config =
         BasicRebalancerConfig.convert(rebalancerConfig, FullAutoRebalancerConfig.class);
-    IStateModelDefinition stateModelDef =
+    StateModelDefinition stateModelDef =
         cluster.getStateModelMap().get(config.getStateModelDefId());
     // Compute a preference list based on the current ideal state
     List<PartitionId> partitions = new ArrayList<PartitionId>(config.getPartitionSet());

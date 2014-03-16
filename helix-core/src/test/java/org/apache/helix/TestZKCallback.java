@@ -24,13 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
-import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.CurrentState;
@@ -38,8 +31,17 @@ import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageType;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.tools.ClusterSetup;
 import org.testng.AssertJUnit;
 import org.testng.annotations.AfterClass;
@@ -140,7 +142,7 @@ public class TestZKCallback extends ZkUnitTestBase {
 
     testListener.Reset();
     HelixDataAccessor accessor = testHelixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ExternalView extView = new ExternalView("db-12345");
     accessor.setProperty(keyBuilder.externalView("db-12345"), extView);
@@ -187,7 +189,7 @@ public class TestZKCallback extends ZkUnitTestBase {
     message.setToState(State.from("toState"));
     message.setFromState(State.from("fromState"));
     message.setTgtName("testTarget");
-    message.setStateModelFactoryName(HelixConstants.DEFAULT_STATE_MODEL_FACTORY);
+    message.setStateModelFactoryName(StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
 
     accessor.setProperty(keyBuilder.message("localhost_8900", message.getId()), message);
     Thread.sleep(500);

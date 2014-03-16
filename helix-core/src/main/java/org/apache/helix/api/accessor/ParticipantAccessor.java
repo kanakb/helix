@@ -34,24 +34,27 @@ import org.I0Itec.zkclient.DataUpdater;
 import org.apache.helix.AccessOption;
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.HelixDefinedState;
 import org.apache.helix.HelixException;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ParticipantConfig;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.Scope;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.config.UserConfig;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IMessage.MessageState;
-import org.apache.helix.api.model.IMessage.MessageType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageState;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.api.snapshot.RunningInstance;
@@ -62,8 +65,6 @@ import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.Message;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;
 
@@ -76,7 +77,7 @@ public class ParticipantAccessor {
 
   private final HelixDataAccessor _accessor;
   private final ClusterId _clusterId;
-  private final PropertyKey.Builder _keyBuilder;
+  private final PropertyKeyBuilder _keyBuilder;
 
   public ParticipantAccessor(ClusterId clusterId, HelixDataAccessor accessor) {
     _clusterId = clusterId;
@@ -319,7 +320,7 @@ public class ParticipantAccessor {
     }
 
     // need the rebalancer config for the resource
-    RebalancerConfig config = resource.getRebalancerConfig();
+    RebalancerConfiguration config = resource.getRebalancerConfig();
     if (config == null) {
       LOG.error("Rebalancer config for resource does not exist");
       return false;

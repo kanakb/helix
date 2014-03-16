@@ -22,9 +22,10 @@ package org.apache.helix;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.HelixProperty;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.model.InstanceConfig;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -91,7 +92,7 @@ public class TestListenerCallback extends ZkUnitTestBase {
 
     // test change content
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     String instanceName = "localhost_12918";
     HelixProperty value = accessor.getProperty(keyBuilder.instanceConfig(instanceName));
     value.getRecord().setSimpleField("" + System.currentTimeMillis(), "newValue");

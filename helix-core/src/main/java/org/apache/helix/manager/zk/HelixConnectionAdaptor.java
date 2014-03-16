@@ -33,24 +33,24 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerProperties;
 import org.apache.helix.IdealStateChangeListener;
 import org.apache.helix.InstanceConfigChangeListener;
-import org.apache.helix.InstanceType;
 import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.MessageListener;
 import org.apache.helix.PreConnectCallback;
-import org.apache.helix.PropertyKey;
 import org.apache.helix.ScopedConfigChangeListener;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.Id;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.Id;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.api.role.HelixRole;
 import org.apache.helix.healthcheck.ParticipantHealthReportCollector;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.participant.StateMachineEngine;
 import org.apache.helix.store.zk.ZkHelixPropertyStore;
 import org.apache.log4j.Logger;
@@ -235,8 +235,7 @@ public class HelixConnectionAdaptor implements HelixManager {
       engine = autoController.getStateMachineEngine();
       break;
     default:
-      LOG.info("helix manager type: " + _role.getType()
-          + " does NOT have state-machine-engine");
+      LOG.info("helix manager type: " + _role.getType() + " does NOT have state-machine-engine");
       break;
     }
 

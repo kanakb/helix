@@ -34,14 +34,15 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.IdealStateChangeListener;
 import org.apache.helix.InstanceConfigChangeListener;
-import org.apache.helix.InstanceType;
 import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
@@ -52,8 +53,6 @@ import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.Message;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.model.builder.ConstraintItemBuilder;
 import org.apache.helix.participant.StateMachineEngine;
 import org.apache.helix.participant.statemachine.StateModel;
@@ -84,7 +83,7 @@ public class TestMessageThrottle2 extends ZkIntegrationTestBase {
     });
 
     // wait for node2 becoming MASTER
-    final Builder keyBuilder = new Builder(clusterName);
+    final PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     final HelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
     TestHelper.verify(new TestHelper.Verifier() {
@@ -164,7 +163,7 @@ public class TestMessageThrottle2 extends ZkIntegrationTestBase {
   ZNRecord generateConfigForMasterSlave() {
     ZNRecord record = new ZNRecord("MasterSlave");
     record.setSimpleField(
-        org.apache.helix.model.StateModelDefinition.StateModelDefinitionProperty.INITIAL_STATE
+        org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty.INITIAL_STATE
             .toString(), "OFFLINE");
     List<String> statePriorityList = new ArrayList<String>();
     statePriorityList.add("MASTER");
@@ -174,7 +173,7 @@ public class TestMessageThrottle2 extends ZkIntegrationTestBase {
     statePriorityList.add("ERROR");
     record
         .setListField(
-            org.apache.helix.model.StateModelDefinition.StateModelDefinitionProperty.STATE_PRIORITY_LIST
+            org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty.STATE_PRIORITY_LIST
                 .toString(), statePriorityList);
     for (String state : statePriorityList) {
       String key = state + ".meta";
@@ -231,7 +230,7 @@ public class TestMessageThrottle2 extends ZkIntegrationTestBase {
     stateTransitionPriorityList.add("SLAVE-OFFLINE");
     stateTransitionPriorityList.add("OFFLINE-DROPPED");
     record.setListField(
-        org.apache.helix.model.StateModelDefinition.StateModelDefinitionProperty.STATE_TRANSITION_PRIORITYLIST
+        org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty.STATE_TRANSITION_PRIORITYLIST
             .toString(), stateTransitionPriorityList);
     return record;
     // ZNRecordSerializer serializer = new ZNRecordSerializer();

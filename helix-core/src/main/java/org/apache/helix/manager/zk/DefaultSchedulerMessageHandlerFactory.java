@@ -32,23 +32,23 @@ import org.apache.helix.Criteria;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.messaging.AsyncCallback;
 import org.apache.helix.messaging.handling.HelixTaskResult;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageType;
-import org.apache.helix.model.StatusUpdate;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StatusUpdate;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.util.StatusUpdateUtil;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -60,7 +60,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFactory {
   public static final String WAIT_ALL = "WAIT_ALL";
   public static final String SCHEDULER_MSG_ID = "SchedulerMessageId";
-  public static final String CONTROLLER_MSG_ID = "controllerMsgId";
   public static final int TASKQUEUE_BUCKET_NUM = 10;
 
   public static class SchedulerAsyncCallback extends AsyncCallback {
@@ -108,7 +107,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
       _resultSummaryMap.put("Summary", summary);
 
       HelixDataAccessor accessor = manager.getHelixDataAccessor();
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
       ZNRecord statusUpdate =
           accessor.getProperty(
               keyBuilder.controllerTaskStatus(MessageType.SCHEDULER_MSG.toString(), originalMessage
@@ -161,7 +160,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
     void handleMessageUsingScheduledTaskQueue(Criteria recipientCriteria, Message messageTemplate,
         MessageId controllerMsgId) {
       HelixDataAccessor accessor = _manager.getHelixDataAccessor();
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
       Map<String, String> sendSummary = new HashMap<String, String>();
       sendSummary.put("MessageCount", "0");
@@ -201,7 +200,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
             newAddedScheduledTasks.setPartitionState(PartitionId.from(partitionId),
                 ParticipantId.from(instanceName), State.from("COMPLETED"));
             task.getRecord().setSimpleField(instanceName, "COMPLETED");
-            task.getRecord().setSimpleField(CONTROLLER_MSG_ID, controllerMsgId.stringify());
+            task.getRecord().setSimpleField(Message.CONTROLLER_MSG_ID, controllerMsgId.stringify());
 
             List<String> priorityList = new LinkedList<String>();
             priorityList.add(instanceName);
@@ -325,7 +324,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
       }
 
       HelixDataAccessor accessor = _manager.getHelixDataAccessor();
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
       // Record the number of messages sent into status updates
       Map<String, String> sendSummary = new HashMap<String, String>();

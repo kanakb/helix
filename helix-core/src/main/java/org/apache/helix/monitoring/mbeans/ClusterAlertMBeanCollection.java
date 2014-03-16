@@ -33,11 +33,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import org.apache.helix.PropertyType;
 import org.apache.helix.alerts.AlertParser;
 import org.apache.helix.alerts.AlertValueAndStatus;
 import org.apache.helix.alerts.Tuple;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyType;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;

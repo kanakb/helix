@@ -19,7 +19,7 @@ package org.apache.helix.participant.statemachine;
  * under the License.
  */
 
-import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.model.id.PartitionId;
 
 public class HelixStateModelFactoryAdaptor<T extends StateModel> extends StateModelFactory<T> {
   final HelixStateModelFactory<T> _factory;

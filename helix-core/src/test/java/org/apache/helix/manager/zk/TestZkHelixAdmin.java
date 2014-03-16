@@ -27,22 +27,23 @@ import java.util.Map;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyPathConfig;
-import org.apache.helix.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.id.ConstraintId;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.PropertyPathConfig;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintAttribute;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
+import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
+import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.model.ExternalView;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.InstanceConfig;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.model.builder.ConstraintItemBuilder;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.tools.StateModelConfigGenerator;
@@ -217,7 +218,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     tool.setConfig(new HelixConfigScopeBuilder(ConfigScopeProperty.RESOURCE)
         .forCluster(clusterName).forResource("test-db").build(), resourceConfig);
 
-    PropertyKey.Builder keyBuilder = new PropertyKey.Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     Assert.assertTrue(_gZkClient.exists(keyBuilder.idealStates("test-db").getPath()),
         "test-db ideal-state should exist");
     Assert.assertTrue(_gZkClient.exists(keyBuilder.resourceConfig("test-db").getPath()),
@@ -267,7 +268,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
 
     HelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    PropertyKey.Builder keyBuilder = new PropertyKey.Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     constraints =
         accessor.getProperty(keyBuilder.constraint(ConstraintType.MESSAGE_CONSTRAINT.toString()));
     Assert.assertNotNull(constraints, "message-constraint should exist");

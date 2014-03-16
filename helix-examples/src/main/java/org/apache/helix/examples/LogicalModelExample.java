@@ -11,26 +11,25 @@ import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.config.Scope;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.config.UserConfig;
-import org.apache.helix.api.config.builder.ClusterConfigBuilder;
+import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
-import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.Transition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.FullAutoRebalancerConfig;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.model.ExternalView;
-import org.apache.helix.model.Message;
-import org.apache.helix.model.StateModelDefinition;
-import org.apache.helix.model.Transition;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
@@ -70,7 +69,7 @@ public class LogicalModelExample {
     }
 
     // get a state model definition
-    IStateModelDefinition lockUnlock = getLockUnlockModel();
+    StateModelDefinition lockUnlock = getLockUnlockModel();
 
     // set up a resource with the state model definition
     ResourceConfig resource = getResource(lockUnlock);
@@ -89,7 +88,7 @@ public class LogicalModelExample {
 
     // fully specify the cluster with a ClusterConfig
     ClusterConfigBuilder clusterBuilder =
-        ClusterConfigBuilder.newInstance().withClusterId(clusterId).addResource(resource)
+        new ClusterConfigBuilder().withClusterId(clusterId).addResource(resource)
             .addParticipant(participant).addStateModelDefinition(lockUnlock).userConfig(userConfig)
             .autoJoin(true);
 
@@ -189,7 +188,7 @@ public class LogicalModelExample {
     return participantBuilder.build();
   }
 
-  private static ResourceConfig getResource(IStateModelDefinition stateModelDef) {
+  private static ResourceConfig getResource(StateModelDefinition stateModelDef) {
     // identify the resource
     ResourceId resourceId = ResourceId.from("exampleResource");
 
@@ -218,7 +217,7 @@ public class LogicalModelExample {
     return resourceBuilder.build();
   }
 
-  private static IStateModelDefinition getLockUnlockModel() {
+  private static StateModelDefinition getLockUnlockModel() {
     final State LOCKED = State.from("LOCKED");
     final State RELEASED = State.from("RELEASED");
     final State DROPPED = State.from("DROPPED");

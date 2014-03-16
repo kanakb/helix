@@ -23,11 +23,10 @@ import java.io.IOException;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.manager.zk.ZkClient;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.webapp.RestAdminApplication;
 import org.apache.log4j.Logger;
@@ -69,7 +68,7 @@ public class StateModelResource extends ServerResource {
 
   StringRepresentation getStateModelRepresentation(String clusterName, String modelName)
       throws JsonGenerationException, JsonMappingException, IOException {
-    Builder keyBuilder = new PropertyKey.Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     ZkClient zkClient = (ZkClient) getContext().getAttributes().get(RestAdminApplication.ZKCLIENT);
 
     String message =

@@ -19,15 +19,15 @@ package org.apache.helix.api;
  * under the License.
  */
 
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ProcId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.id.StateModelFactoryId;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

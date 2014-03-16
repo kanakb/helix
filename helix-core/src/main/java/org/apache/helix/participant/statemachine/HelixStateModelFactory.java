@@ -23,8 +23,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.messaging.handling.BatchMessageWrapper;
 
 /**

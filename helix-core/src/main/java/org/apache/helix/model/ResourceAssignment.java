@@ -24,12 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.State;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;

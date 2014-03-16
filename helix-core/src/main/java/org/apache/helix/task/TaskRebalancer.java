@@ -32,13 +32,13 @@ import java.util.TreeSet;
 import org.apache.helix.AccessOption;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
@@ -65,7 +65,7 @@ public class TaskRebalancer implements HelixRebalancer {
   }
 
   @Override
-  public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
+  public ResourceAssignment computeResourceMapping(RebalancerConfiguration rebalancerConfig,
       ResourceAssignment helixPrevAssignment, Cluster cluster, ResourceCurrentState currentState) {
     final ResourceId resourceId = rebalancerConfig.getResourceId();
     final String resourceName = resourceId.stringify();
@@ -135,7 +135,7 @@ public class TaskRebalancer implements HelixRebalancer {
     Set<Integer> partitionsToDrop = new TreeSet<Integer>();
 
     ResourceId tgtResourceId = ResourceId.from(taskCfg.getTargetResource());
-    RebalancerConfig tgtResourceRebalancerCfg =
+    RebalancerConfiguration tgtResourceRebalancerCfg =
         cluster.getResource(tgtResourceId).getRebalancerConfig();
 
     Set<ParticipantId> liveInstances = cluster.getLiveParticipantMap().keySet();
@@ -169,7 +169,7 @@ public class TaskRebalancer implements HelixRebalancer {
 
   private static ResourceAssignment computeResourceMapping(String taskResource,
       WorkflowConfig workflowConfig, TaskConfig taskCfg, ResourceAssignment prevAssignment,
-      RebalancerConfig tgtResourceRebalancerCfg, Iterable<ParticipantId> liveInstances,
+      RebalancerConfiguration tgtResourceRebalancerCfg, Iterable<ParticipantId> liveInstances,
       ResourceCurrentState currStateOutput, WorkflowContext workflowCtx, TaskContext taskCtx,
       Set<Integer> partitionsToDropFromIs) {
 
@@ -541,8 +541,8 @@ public class TaskRebalancer implements HelixRebalancer {
    * If a set of partition ids was explicitly specified in the config, that is used. Otherwise, we
    * use the list of all partition ids from the target resource.
    */
-  private static Set<Integer> getAllTaskPartitions(RebalancerConfig tgtResourceRebalancerCfg,
-      TaskConfig taskCfg) {
+  private static Set<Integer> getAllTaskPartitions(
+      RebalancerConfiguration tgtResourceRebalancerCfg, TaskConfig taskCfg) {
     Set<Integer> taskPartitions = new HashSet<Integer>();
     if (taskCfg.getTargetPartitions() != null) {
       for (Integer pId : taskCfg.getTargetPartitions()) {
@@ -598,7 +598,8 @@ public class TaskRebalancer implements HelixRebalancer {
    */
   private static Map<String, SortedSet<Integer>> getTgtPartitionAssignment(
       ResourceCurrentState currStateOutput, Iterable<ParticipantId> instanceList,
-      RebalancerConfig tgtResourceRebalancerCfg, Set<String> tgtStates, Set<Integer> includeSet) {
+      RebalancerConfiguration tgtResourceRebalancerCfg, Set<String> tgtStates,
+      Set<Integer> includeSet) {
     Map<String, SortedSet<Integer>> result = new HashMap<String, SortedSet<Integer>>();
     for (ParticipantId instance : instanceList) {
       result.put(instance.stringify(), new TreeSet<Integer>());

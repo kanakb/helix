@@ -28,18 +28,18 @@ import java.util.Map;
 
 import org.apache.helix.AccessOption;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.model.ConfigScope;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.builder.ConfigScopeBuilder;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
-import org.apache.helix.InstanceType;
 import org.apache.helix.LiveInstanceInfoProvider;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkTestHelper;
 import org.apache.helix.ZkUnitTestBase;
@@ -92,7 +92,7 @@ public class TestZkClusterManager extends ZkUnitTestBase {
       // OK
     }
 
-    Builder keyBuilder = new Builder(controller.getClusterName());
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(controller.getClusterName());
     controller.addControllerListener(listener);
     AssertJUnit.assertTrue(listener.isControllerChangeListenerInvoked);
     controller.removeListener(keyBuilder.controller(), listener);

@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
@@ -54,7 +54,7 @@ public class LockManagerRebalancer implements HelixRebalancer {
    * model.
    */
   @Override
-  public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
+  public ResourceAssignment computeResourceMapping(RebalancerConfiguration rebalancerConfig,
       ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState) {
     // get a typed context
     BasicRebalancerConfig config =
@@ -69,7 +69,7 @@ public class LockManagerRebalancer implements HelixRebalancer {
 
     // Get the state model (should be a simple lock/unlock model) and the highest-priority state
     StateModelDefId stateModelDefId = config.getStateModelDefId();
-    IStateModelDefinition stateModelDef = cluster.getStateModelMap().get(stateModelDefId);
+    StateModelDefinition stateModelDef = cluster.getStateModelMap().get(stateModelDefId);
     if (stateModelDef.getStatesPriorityList().size() < 1) {
       LOG.error("Invalid state model definition. There should be at least one state.");
       return assignment;

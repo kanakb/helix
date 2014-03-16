@@ -25,16 +25,10 @@ import java.util.List;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.accessor.ClusterAccessor;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
 import org.apache.helix.controller.pipeline.Pipeline;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
@@ -43,8 +37,14 @@ import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.Attributes;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.Attributes;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.State;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -172,7 +172,7 @@ public class TestRebalancePipeline extends ZkUnitTestBase {
     // round1: controller sends O->S to both node0 and node1
     Thread.sleep(1000);
 
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     List<String> messages = accessor.getChildNames(keyBuilder.messages("localhost_0"));
     Assert.assertEquals(messages.size(), 1);
     messages = accessor.getChildNames(keyBuilder.messages("localhost_1"));
@@ -300,7 +300,7 @@ public class TestRebalancePipeline extends ZkUnitTestBase {
 
     // round3: remove O->S for localhost_0, controller should now send O->DROPPED to
     // localhost_0
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     List<String> msgIds = accessor.getChildNames(keyBuilder.messages("localhost_0"));
     accessor.removeProperty(keyBuilder.message("localhost_0", msgIds.get(0)));
     runPipeline(event, dataRefresh);
@@ -409,7 +409,7 @@ public class TestRebalancePipeline extends ZkUnitTestBase {
       String resourceKey, String sessionId, String state) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     CurrentState curState = new CurrentState(resourceGroupName);
     curState.setState(PartitionId.from(resourceKey), State.from(state));
@@ -422,7 +422,7 @@ public class TestRebalancePipeline extends ZkUnitTestBase {
   protected void setupInstances(String clusterName, int[] instances) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     for (int i = 0; i < instances.length; i++) {
       String instance = "localhost_" + instances[i];
       InstanceConfig instanceConfig = new InstanceConfig(instance);

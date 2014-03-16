@@ -24,12 +24,12 @@ import java.lang.management.ManagementFactory;
 import org.apache.helix.ControllerChangeListener;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyType;
-import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.controller.restlet.ZKPropertyTransferServer;
 import org.apache.helix.model.LeaderHistory;
@@ -76,7 +76,7 @@ public class ZkHelixLeaderElection implements ControllerChangeListener {
 
     try {
       HelixDataAccessor accessor = _manager.getHelixDataAccessor();
-      PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
       if (changeContext.getType().equals(NotificationContext.Type.INIT)
           || changeContext.getType().equals(NotificationContext.Type.CALLBACK)) {
@@ -126,7 +126,7 @@ public class ZkHelixLeaderElection implements ControllerChangeListener {
    */
   public static boolean tryUpdateController(HelixManager manager) {
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     LiveInstance leader = new LiveInstance(manager.getInstanceName());
     try {
@@ -174,7 +174,7 @@ public class ZkHelixLeaderElection implements ControllerChangeListener {
    */
   public static void updateHistory(HelixManager manager) {
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     LeaderHistory history = accessor.getProperty(keyBuilder.controllerLeaderHistory());
     if (history == null) {

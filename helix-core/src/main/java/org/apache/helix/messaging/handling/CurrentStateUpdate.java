@@ -19,7 +19,7 @@ package org.apache.helix.messaging.handling;
  * under the License.
  */
 
-import org.apache.helix.PropertyKey;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.model.CurrentState;
 
 public class CurrentStateUpdate {

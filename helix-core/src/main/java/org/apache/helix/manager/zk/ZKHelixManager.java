@@ -45,17 +45,19 @@ import org.apache.helix.HelixTimerTask;
 import org.apache.helix.HelixConstants.ChangeType;
 import org.apache.helix.IdealStateChangeListener;
 import org.apache.helix.InstanceConfigChangeListener;
-import org.apache.helix.InstanceType;
 import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.MessageListener;
 import org.apache.helix.PreConnectCallback;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyPathConfig;
-import org.apache.helix.PropertyType;
 import org.apache.helix.ScopedConfigChangeListener;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ClusterConfiguration;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.PropertyPathConfig;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.healthcheck.HealthStatsAggregationTask;
 import org.apache.helix.healthcheck.HealthStatsAggregator;
@@ -64,7 +66,6 @@ import org.apache.helix.healthcheck.ParticipantHealthReportCollectorImpl;
 import org.apache.helix.healthcheck.ParticipantHealthReportTask;
 import org.apache.helix.messaging.DefaultMessagingService;
 import org.apache.helix.model.ConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.builder.ConfigScopeBuilder;
 import org.apache.helix.monitoring.ZKPathDataDumpTask;
@@ -81,7 +82,8 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
 
   public static final int FLAPPING_TIME_WINDIOW = 300000; // Default to 300 sec
   public static final int MAX_DISCONNECT_THRESHOLD = 5;
-  public static final String ALLOW_PARTICIPANT_AUTO_JOIN = "allowParticipantAutoJoin";
+  public static final String ALLOW_PARTICIPANT_AUTO_JOIN =
+      ClusterConfiguration.ALLOW_PARTICIPANT_AUTO_JOIN;
 
   protected final String _zkAddress;
   private final String _clusterName;
@@ -102,7 +104,7 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
 
   private BaseDataAccessor<ZNRecord> _baseDataAccessor;
   private ZKHelixDataAccessor _dataAccessor;
-  private final Builder _keyBuilder;
+  private final PropertyKeyBuilder _keyBuilder;
   private ConfigAccessor _configAccessor;
   private ZkHelixPropertyStore<ZNRecord> _helixPropertyStore;
   protected LiveInstanceInfoProvider _liveInstanceInfoProvider = null;
@@ -196,7 +198,7 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
     _properties = new HelixManagerProperties("cluster-manager-version.properties");
     _version = _properties.getVersion();
 
-    _keyBuilder = new Builder(clusterName);
+    _keyBuilder = new PropertyKeyBuilder(clusterName);
     _messagingService = new DefaultMessagingService(this);
 
     /**
@@ -329,16 +331,16 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
 
   @Override
   public void addIdealStateChangeListener(final IdealStateChangeListener listener) throws Exception {
-    addListener(listener, new Builder(_clusterName).idealStates(), ChangeType.IDEAL_STATE,
-        new EventType[] {
+    addListener(listener, new PropertyKeyBuilder(_clusterName).idealStates(),
+        ChangeType.IDEAL_STATE, new EventType[] {
             EventType.NodeDataChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
   }
 
   @Override
   public void addLiveInstanceChangeListener(LiveInstanceChangeListener listener) throws Exception {
-    addListener(listener, new Builder(_clusterName).liveInstances(), ChangeType.LIVE_INSTANCE,
-        new EventType[] {
+    addListener(listener, new PropertyKeyBuilder(_clusterName).liveInstances(),
+        ChangeType.LIVE_INSTANCE, new EventType[] {
             EventType.NodeDataChanged, EventType.NodeChildrenChanged, EventType.NodeDeleted,
             EventType.NodeCreated
         });
@@ -346,8 +348,8 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
 
   @Override
   public void addConfigChangeListener(ConfigChangeListener listener) throws Exception {
-    addListener(listener, new Builder(_clusterName).instanceConfigs(), ChangeType.INSTANCE_CONFIG,
-        new EventType[] {
+    addListener(listener, new PropertyKeyBuilder(_clusterName).instanceConfigs(),
+        ChangeType.INSTANCE_CONFIG, new EventType[] {
           EventType.NodeChildrenChanged
         });
   }
@@ -355,8 +357,8 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
   @Override
   public void addInstanceConfigChangeListener(InstanceConfigChangeListener listener)
       throws Exception {
-    addListener(listener, new Builder(_clusterName).instanceConfigs(), ChangeType.INSTANCE_CONFIG,
-        new EventType[] {
+    addListener(listener, new PropertyKeyBuilder(_clusterName).instanceConfigs(),
+        ChangeType.INSTANCE_CONFIG, new EventType[] {
           EventType.NodeChildrenChanged
         });
   }
@@ -364,7 +366,7 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
   @Override
   public void addConfigChangeListener(ScopedConfigChangeListener listener, ConfigScopeProperty scope)
       throws Exception {
-    Builder keyBuilder = new Builder(_clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(_clusterName);
 
     PropertyKey propertyKey = null;
     switch (scope) {
@@ -394,15 +396,15 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
   // ClusterMessagingService
   @Override
   public void addMessageListener(MessageListener listener, String instanceName) {
-    addListener(listener, new Builder(_clusterName).messages(instanceName), ChangeType.MESSAGE,
-        new EventType[] {
+    addListener(listener, new PropertyKeyBuilder(_clusterName).messages(instanceName),
+        ChangeType.MESSAGE, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
   }
 
   @Override
   public void addControllerMessageListener(MessageListener listener) {
-    addListener(listener, new Builder(_clusterName).controllerMessages(),
+    addListener(listener, new PropertyKeyBuilder(_clusterName).controllerMessages(),
         ChangeType.MESSAGES_CONTROLLER, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
@@ -411,7 +413,8 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
   @Override
   public void addCurrentStateChangeListener(CurrentStateChangeListener listener,
       String instanceName, String sessionId) throws Exception {
-    addListener(listener, new Builder(_clusterName).currentStates(instanceName, sessionId),
+    addListener(listener,
+        new PropertyKeyBuilder(_clusterName).currentStates(instanceName, sessionId),
         ChangeType.CURRENT_STATE, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
@@ -420,23 +423,23 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
   @Override
   public void addHealthStateChangeListener(HealthStateChangeListener listener, String instanceName)
       throws Exception {
-    addListener(listener, new Builder(_clusterName).healthReports(instanceName), ChangeType.HEALTH,
-        new EventType[] {
+    addListener(listener, new PropertyKeyBuilder(_clusterName).healthReports(instanceName),
+        ChangeType.HEALTH, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
   }
 
   @Override
   public void addExternalViewChangeListener(ExternalViewChangeListener listener) throws Exception {
-    addListener(listener, new Builder(_clusterName).externalViews(), ChangeType.EXTERNAL_VIEW,
-        new EventType[] {
+    addListener(listener, new PropertyKeyBuilder(_clusterName).externalViews(),
+        ChangeType.EXTERNAL_VIEW, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
   }
 
   @Override
   public void addControllerListener(ControllerChangeListener listener) {
-    addListener(listener, new Builder(_clusterName).controller(), ChangeType.CONTROLLER,
+    addListener(listener, new PropertyKeyBuilder(_clusterName).controller(), ChangeType.CONTROLLER,
         new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });

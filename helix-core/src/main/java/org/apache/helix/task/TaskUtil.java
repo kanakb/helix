@@ -27,12 +27,13 @@ import org.apache.helix.AccessOption;
 import org.apache.helix.ConfigAccessor;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.HelixConfigScope;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.log4j.Logger;
@@ -88,7 +89,7 @@ public class TaskUtil {
     LOG.debug(String.format("Requesting a state transition to %s for partition %s.", state,
         partition));
     try {
-      PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
       PropertyKey key = keyBuilder.currentState(instance, sessionId, resource);
       CurrentState currStateDelta = new CurrentState(resource);
       currStateDelta.setRequestedState(PartitionId.from(partition), State.from(state.name()));

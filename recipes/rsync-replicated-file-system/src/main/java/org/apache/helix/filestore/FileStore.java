@@ -21,8 +21,8 @@ package org.apache.helix.filestore;
 
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.InstanceType;
-import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.participant.StateMachineEngine;
 

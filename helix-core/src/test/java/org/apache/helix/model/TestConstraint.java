@@ -25,16 +25,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.MessageId;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintAttribute;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.IMessage.MessageType;
+import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
+import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -106,7 +107,7 @@ public class TestConstraint extends ZkUnitTestBase {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     accessor.setProperty(keyBuilder.constraint(ConstraintType.MESSAGE_CONSTRAINT.toString()),
         new ClusterConstraints(record));
@@ -184,7 +185,7 @@ public class TestConstraint extends ZkUnitTestBase {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     accessor.setProperty(keyBuilder.constraint(ConstraintType.STATE_CONSTRAINT.toString()),
         new ClusterConstraints(record));

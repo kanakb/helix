@@ -22,14 +22,14 @@ package org.apache.helix.participant;
 import java.util.Date;
 
 import org.apache.helix.HelixManager;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyPathConfig;
-import org.apache.helix.PropertyType;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyPathConfig;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.model.LiveInstance;
@@ -54,7 +54,7 @@ public class TestDistControllerElection extends ZkUnitTestBase {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     TestHelper.setupEmptyCluster(_gZkClient, clusterName);
 
@@ -103,7 +103,7 @@ public class TestDistControllerElection extends ZkUnitTestBase {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     TestHelper.setupEmptyCluster(_gZkClient, clusterName);
 

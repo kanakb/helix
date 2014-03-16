@@ -25,11 +25,13 @@ import java.util.Map;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.alerts.AlertValueAndStatus;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.State;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.healthcheck.ParticipantHealthReportCollectorImpl;
 import org.apache.helix.integration.ZkIntegrationTestBase;
 import org.apache.helix.integration.manager.ClusterControllerManager;
@@ -38,7 +40,7 @@ import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.mock.participant.MockEspressoHealthReportProvider;
 import org.apache.helix.mock.participant.MockTransition;
-import org.apache.helix.model.Message;
+import org.apache.helix.model.AlertHistory;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.apache.log4j.Logger;
@@ -149,8 +151,7 @@ public class TestSimpleWildcardAlert extends ZkIntegrationTestBase {
     {
       String instanceName = "localhost_" + (12944 + i);
 
-      participants[i] =
-          new MockParticipantManager(ZK_ADDR, clusterName, instanceName);
+      participants[i] = new MockParticipantManager(ZK_ADDR, clusterName, instanceName);
       participants[i].setTransition(new SimpleAlertTransition(i * 5));
       participants[i].syncStart();
     }
@@ -170,7 +171,7 @@ public class TestSimpleWildcardAlert extends ZkIntegrationTestBase {
     // other verifications go here
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     ZNRecord record = accessor.getProperty(keyBuilder.alertStatus()).getRecord();
     Map<String, Map<String, String>> recMap = record.getMapFields();
     for (int i = 0; i < 2; i++) {
@@ -189,7 +190,9 @@ public class TestSimpleWildcardAlert extends ZkIntegrationTestBase {
       Assert.assertEquals(Double.parseDouble(val), (double) i * 5 + 0.1);
       Assert.assertTrue(fired);
     }
-    ZNRecord alertHistory = accessor.getProperty(keyBuilder.alertHistory()).getRecord();
+    ZNRecord alertHistory =
+        accessor.getProperty(keyBuilder.alertHistory())
+            .getRecord();
 
     String deltakey = (String) (alertHistory.getMapFields().keySet().toArray()[0]);
     Map<String, String> delta = alertHistory.getMapField(deltakey);
@@ -226,7 +229,9 @@ public class TestSimpleWildcardAlert extends ZkIntegrationTestBase {
       Assert.assertEquals(Double.parseDouble(val), (double) i * 5 + 0.1);
       Assert.assertTrue(fired);
     }
-    alertHistory = accessor.getProperty(keyBuilder.alertHistory()).getRecord();
+    alertHistory =
+        accessor.getProperty(keyBuilder.alertHistory())
+            .getRecord();
 
     deltakey = (String) (alertHistory.getMapFields().keySet().toArray()[1]);
     delta = alertHistory.getMapField(deltakey);

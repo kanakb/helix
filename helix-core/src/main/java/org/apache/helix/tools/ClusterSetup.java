@@ -39,24 +39,24 @@ import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.HelixException;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
+import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.model.ExternalView;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.model.builder.ConstraintItemBuilder;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.util.HelixUtil;
@@ -242,7 +242,7 @@ public class ClusterSetup {
   public void dropInstanceFromCluster(String clusterName, String instanceId) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     InstanceConfig instanceConfig = toInstanceConfig(instanceId);
     instanceId = instanceConfig.getInstanceName();
@@ -273,7 +273,7 @@ public class ClusterSetup {
   public void swapInstance(String clusterName, String oldInstanceName, String newInstanceName) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     InstanceConfig oldConfig = accessor.getProperty(keyBuilder.instanceConfig(oldInstanceName));
     if (oldConfig == null) {
@@ -312,8 +312,8 @@ public class ClusterSetup {
         accessor.getChildValues(accessor.keyBuilder().idealStates());
     for (IdealState idealState : existingIdealStates) {
       swapInstanceInIdealState(idealState, oldInstanceName, newInstanceName);
-      accessor.setProperty(
-          accessor.keyBuilder().idealStates(idealState.getResourceId().stringify()), idealState);
+      accessor.setProperty(accessor.keyBuilder()
+          .idealStates(idealState.getResourceId().stringify()), idealState);
     }
   }
 

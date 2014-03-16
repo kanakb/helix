@@ -28,8 +28,8 @@ import java.util.Map;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.stages.HealthDataCache;
 import org.apache.helix.model.PersistentStats;
 import org.apache.log4j.Logger;
@@ -52,14 +52,14 @@ public class StatsHolder {
   Map<String, Map<String, String>> _statMap;
   Map<String, Map<String, MatchResult>> _statAlertMatchResult;
 
-  private Builder _keyBuilder;
+  private PropertyKeyBuilder _keyBuilder;
 
   // PersistentStats _persistentStats;
 
   public StatsHolder(HelixManager manager, HealthDataCache cache) {
     _accessor = manager.getHelixDataAccessor();
     _cache = cache;
-    _keyBuilder = new PropertyKey.Builder(manager.getClusterName());
+    _keyBuilder = new PropertyKeyBuilder(manager.getClusterName());
     updateCache(_cache);
     _statAlertMatchResult = new HashMap<String, Map<String, MatchResult>>();
 

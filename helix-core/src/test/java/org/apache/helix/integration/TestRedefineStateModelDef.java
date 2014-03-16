@@ -24,18 +24,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -115,7 +115,7 @@ public class TestRedefineStateModelDef extends ZkUnitTestBase {
   private void autoRebalance(String clusterName) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     IdealState idealState = accessor.getProperty(keyBuilder.idealStates("TestDB0"));
 
     idealState.setReplicas("" + 2);
@@ -134,7 +134,7 @@ public class TestRedefineStateModelDef extends ZkUnitTestBase {
   private void redefineStateModelDef(String clusterName) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     StateModelDefinition masterSlave =
         accessor.getProperty(keyBuilder.stateModelDef("MasterSlave"));

@@ -53,11 +53,12 @@ import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.MessageListener;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.Type;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyPathConfig;
 import org.apache.helix.ScopedConfigChangeListener;
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.PropertyPathConfig;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.role.HelixRole;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.ExternalView;
@@ -65,7 +66,6 @@ import org.apache.helix.model.HealthStat;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.Message;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.Watcher.Event.EventType;
 
@@ -116,8 +116,7 @@ public class ZkCallbackHandler implements IZkChildListener, IZkDataListener
    */
   private List<NotificationContext.Type> _expectTypes = nextNotificationType.get(Type.FINALIZE);
 
-  public ZkCallbackHandler(HelixRole role, ZkClient client,
-      PropertyKey propertyKey,
+  public ZkCallbackHandler(HelixRole role, ZkClient client, PropertyKey propertyKey,
       Object listener, EventType[] eventTypes, ChangeType changeType) {
     if (listener == null) {
       throw new HelixException("listener could not be null");
@@ -253,12 +252,12 @@ public class ZkCallbackHandler implements IZkChildListener, IZkDataListener
   private void subscribeChildChange(String path, NotificationContext context) {
     NotificationContext.Type type = context.getType();
     if (type == NotificationContext.Type.INIT || type == NotificationContext.Type.CALLBACK) {
-      logger.info(_instanceName + " subscribes child-change. path: " + path
-          + ", listener: " + _listener);
+      logger.info(_instanceName + " subscribes child-change. path: " + path + ", listener: "
+          + _listener);
       _zkClient.subscribeChildChanges(path, this);
     } else if (type == NotificationContext.Type.FINALIZE) {
-      logger.info(_instanceName + " unsubscribe child-change. path: " + path
-          + ", listener: " + _listener);
+      logger.info(_instanceName + " unsubscribe child-change. path: " + path + ", listener: "
+          + _listener);
 
       _zkClient.unsubscribeChildChanges(path, this);
     }
@@ -268,14 +267,14 @@ public class ZkCallbackHandler implements IZkChildListener, IZkDataListener
     NotificationContext.Type type = context.getType();
     if (type == NotificationContext.Type.INIT || type == NotificationContext.Type.CALLBACK) {
       if (logger.isDebugEnabled()) {
-        logger.debug(_instanceName + " subscribe data-change. path: " + path
-            + ", listener: " + _listener);
+        logger.debug(_instanceName + " subscribe data-change. path: " + path + ", listener: "
+            + _listener);
       }
       _zkClient.subscribeDataChanges(path, this);
 
     } else if (type == NotificationContext.Type.FINALIZE) {
-      logger.info(_instanceName + " unsubscribe data-change. path: " + path
-          + ", listener: " + _listener);
+      logger.info(_instanceName + " unsubscribe data-change. path: " + path + ", listener: "
+          + _listener);
 
       _zkClient.unsubscribeDataChanges(path, this);
     }
@@ -382,14 +381,14 @@ public class ZkCallbackHandler implements IZkChildListener, IZkDataListener
     try {
       updateNotificationTime(System.nanoTime());
       if (dataPath != null && dataPath.startsWith(_path)) {
-        logger.info(_instanceName + " unsubscribe data-change. path: " + dataPath
-            + ", listener: " + _listener);
+        logger.info(_instanceName + " unsubscribe data-change. path: " + dataPath + ", listener: "
+            + _listener);
         _zkClient.unsubscribeDataChanges(dataPath, this);
 
         // only needed for bucketized parent, but OK if we don't have child-change
         // watch on the bucketized parent path
-        logger.info(_instanceName + " unsubscribe child-change. path: " + dataPath
-            + ", listener: " + _listener);
+        logger.info(_instanceName + " unsubscribe child-change. path: " + dataPath + ", listener: "
+            + _listener);
         _zkClient.unsubscribeChildChanges(dataPath, this);
         // No need to invoke() since this event will handled by child-change on parent-node
         // NotificationContext changeContext = new NotificationContext(_manager);
@@ -425,8 +424,8 @@ public class ZkCallbackHandler implements IZkChildListener, IZkDataListener
       }
     } catch (Exception e) {
       String msg =
-          "exception in handling child-change. instance: " + _instanceName
-              + ", parentPath: " + parentPath + ", listener: " + _listener;
+          "exception in handling child-change. instance: " + _instanceName + ", parentPath: "
+              + parentPath + ", listener: " + _listener;
       ZKExceptionHandler.getInstance().handle(msg, e);
     }
   }

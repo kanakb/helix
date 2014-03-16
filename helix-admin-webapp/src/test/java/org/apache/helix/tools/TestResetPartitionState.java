@@ -26,17 +26,17 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.State;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.mock.participant.ErrTransition;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.Message;
 import org.apache.helix.webapp.resources.JsonParameters;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -181,7 +181,7 @@ public class TestResetPartitionState extends AdminTestBase {
     // old errors
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     LiveInstance liveInstance = accessor.getProperty(keyBuilder.liveInstance(instance));
     accessor.removeProperty(keyBuilder.stateTransitionStatus(instance, liveInstance.getTypedSessionId()

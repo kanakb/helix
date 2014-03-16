@@ -1,23 +1,5 @@
 package org.apache.helix.controller.rebalancer;
 
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.helix.HelixManager;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.model.IStateModelDefinition;
-import org.apache.helix.api.snapshot.Cluster;
-import org.apache.helix.controller.context.ControllerContextProvider;
-import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
-import org.apache.helix.controller.rebalancer.config.CustomRebalancerConfig;
-import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
-import org.apache.helix.controller.stages.ResourceCurrentState;
-import org.apache.helix.model.ResourceAssignment;
-import org.apache.log4j.Logger;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -37,6 +19,24 @@ import org.apache.log4j.Logger;
  * under the License.
  */
 
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.helix.HelixManager;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
+import org.apache.helix.api.snapshot.Cluster;
+import org.apache.helix.controller.context.ControllerContextProvider;
+import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
+import org.apache.helix.controller.rebalancer.config.CustomRebalancerConfig;
+import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
+import org.apache.helix.controller.stages.ResourceCurrentState;
+import org.apache.helix.model.ResourceAssignment;
+import org.apache.log4j.Logger;
+
 public class CustomRebalancer implements HelixRebalancer {
 
   private static final Logger LOG = Logger.getLogger(CustomRebalancer.class);
@@ -47,11 +47,11 @@ public class CustomRebalancer implements HelixRebalancer {
   }
 
   @Override
-  public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
+  public ResourceAssignment computeResourceMapping(RebalancerConfiguration rebalancerConfig,
       ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState) {
     CustomRebalancerConfig config =
         BasicRebalancerConfig.convert(rebalancerConfig, CustomRebalancerConfig.class);
-    IStateModelDefinition stateModelDef =
+    StateModelDefinition stateModelDef =
         cluster.getStateModelMap().get(config.getStateModelDefId());
     if (LOG.isDebugEnabled()) {
       LOG.debug("Processing resource:" + config.getResourceId());

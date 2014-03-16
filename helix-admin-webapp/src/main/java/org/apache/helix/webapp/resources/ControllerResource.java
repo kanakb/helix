@@ -27,10 +27,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.helix.HelixException;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyType;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
@@ -40,9 +39,6 @@ import org.apache.helix.util.StatusUpdateUtil.Level;
 import org.apache.helix.webapp.RestAdminApplication;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.restlet.Context;
-import org.restlet.Request;
-import org.restlet.Response;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
@@ -61,7 +57,7 @@ public class ControllerResource extends ServerResource {
 
   StringRepresentation getControllerRepresentation(String clusterName)
       throws JsonGenerationException, JsonMappingException, IOException {
-    Builder keyBuilder = new PropertyKey.Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     ZkClient zkClient = (ZkClient) getContext().getAttributes().get(RestAdminApplication.ZKCLIENT);
 
     ZKHelixDataAccessor accessor =

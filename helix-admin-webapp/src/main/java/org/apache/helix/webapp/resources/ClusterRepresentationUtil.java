@@ -29,11 +29,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyType;
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
@@ -205,7 +205,7 @@ public class ClusterRepresentationUtil {
       String instanceName) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord liveInstance = accessor.getProperty(keyBuilder.liveInstance(instanceName)).getRecord();
 

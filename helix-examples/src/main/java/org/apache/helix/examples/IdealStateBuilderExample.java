@@ -19,6 +19,7 @@ package org.apache.helix.examples;
  * under the License.
  */
 
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
@@ -26,7 +27,6 @@ import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.model.builder.AutoModeISBuilder;
 import org.apache.helix.model.builder.AutoRebalanceModeISBuilder;
 import org.apache.helix.model.builder.CustomModeISBuilder;

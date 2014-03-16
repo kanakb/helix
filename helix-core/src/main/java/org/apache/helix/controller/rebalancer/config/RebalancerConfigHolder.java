@@ -19,13 +19,13 @@ package org.apache.helix.controller.rebalancer.config;
  * under the License.
  */
 
-import org.apache.helix.api.config.NamespacedConfig;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.Scope;
+import org.apache.helix.api.model.NamespacedConfig;
+import org.apache.helix.api.model.ResourceConfiguration;
+import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.serializer.StringSerializer;
-import org.apache.helix.model.ResourceConfiguration;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;
 
@@ -51,7 +51,7 @@ public final class RebalancerConfigHolder {
    * @param config rebalancer config
    * @param rebalancerRef reference to the rebalancer class that will be used
    */
-  public RebalancerConfigHolder(RebalancerConfig config) {
+  public RebalancerConfigHolder(RebalancerConfiguration config) {
     AbstractRebalancerConfig abstractConfig = (AbstractRebalancerConfig) config;
     _backingConfig =
         new NamespacedConfig(Scope.resource(config.getResourceId()),
@@ -108,8 +108,8 @@ public final class RebalancerConfigHolder {
     String className = _backingConfig.getSimpleField(Fields.REBALANCER_CONFIG_CLASS.toString());
     if (className != null) {
       try {
-        Class<? extends RebalancerConfig> configClass =
-            HelixUtil.loadClass(getClass(), className).asSubclass(RebalancerConfig.class);
+        Class<? extends RebalancerConfiguration> configClass =
+            HelixUtil.loadClass(getClass(), className).asSubclass(RebalancerConfiguration.class);
         String serialized = _backingConfig.getSimpleField(Fields.REBALANCER_CONFIG.toString());
         return (AbstractRebalancerConfig) _serializer.deserialize(configClass, serialized);
       } catch (ClassNotFoundException e) {
@@ -142,7 +142,7 @@ public final class RebalancerConfigHolder {
    * @param configClass specific class of the RebalancerConfig
    * @return RebalancerConfig subclass instance, or null if conversion is not possible
    */
-  public <T extends RebalancerConfig> T getRebalancerConfig(Class<T> configClass) {
+  public <T extends RebalancerConfiguration> T getRebalancerConfig(Class<T> configClass) {
     if (_config != null) {
       try {
         return configClass.cast(_config);
@@ -183,7 +183,7 @@ public final class RebalancerConfigHolder {
    * @param config instantiated RebalancerConfig
    * @return RebalancerConfigHolder
    */
-  public static RebalancerConfigHolder from(RebalancerConfig config) {
+  public static RebalancerConfigHolder from(RebalancerConfiguration config) {
     return new RebalancerConfigHolder(config);
   }
 }

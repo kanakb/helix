@@ -1,7 +1,7 @@
 package org.apache.helix.controller.rebalancer;
 
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.config.RebalancerConfig;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.stages.ResourceCurrentState;
@@ -63,6 +63,6 @@ public interface HelixRebalancer {
    * @param cluster complete snapshot of the cluster
    * @param currentState the current states of all partitions
    */
-  public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
+  public ResourceAssignment computeResourceMapping(RebalancerConfiguration rebalancerConfig,
       ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState);
 }

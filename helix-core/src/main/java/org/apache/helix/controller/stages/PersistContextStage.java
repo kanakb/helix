@@ -25,8 +25,9 @@ import java.util.Set;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.id.ContextId;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.controller.context.ControllerContext;
 import org.apache.helix.controller.context.ControllerContextHolder;
 import org.apache.helix.controller.context.ControllerContextProvider;
@@ -42,7 +43,7 @@ public class PersistContextStage extends AbstractBaseStage {
   public void process(ClusterEvent event) throws Exception {
     HelixManager helixManager = event.getAttribute("helixmanager");
     HelixDataAccessor accessor = helixManager.getHelixDataAccessor();
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     ControllerContextProvider contextProvider =
         event.getAttribute(AttributeName.CONTEXT_PROVIDER.toString());
 

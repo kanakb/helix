@@ -23,16 +23,17 @@ import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.accessor.ParticipantAccessor;
 import org.apache.helix.api.accessor.ResourceAccessor;
-import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.api.role.HelixRole;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.store.HelixPropertyStore;
 
 /**

@@ -30,9 +30,14 @@ import java.util.concurrent.Future;
 import org.I0Itec.zkclient.DataUpdater;
 import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.IZkDataListener;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.healthcheck.HealthReportProvider;
 import org.apache.helix.healthcheck.ParticipantHealthReportCollector;
 import org.apache.helix.messaging.AsyncCallback;
@@ -40,8 +45,6 @@ import org.apache.helix.messaging.handling.HelixTaskExecutor;
 import org.apache.helix.messaging.handling.HelixTaskResult;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
 import org.apache.helix.messaging.handling.MessageTask;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
-import org.apache.helix.model.Message;
 import org.apache.helix.participant.StateMachineEngine;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
@@ -486,7 +489,7 @@ public class Mocks {
   {
     private final String _clusterName;
     Map<String, ZNRecord> data = new HashMap<String, ZNRecord>();
-    private final Builder _propertyKeyBuilder;
+    private final PropertyKeyBuilder _propertyKeyBuilder;
 
     public MockAccessor() {
       this("testCluster-" + Math.random() * 10000 % 999);
@@ -494,7 +497,7 @@ public class Mocks {
 
     public MockAccessor(String clusterName) {
       _clusterName = clusterName;
-      _propertyKeyBuilder = new PropertyKey.Builder(_clusterName);
+      _propertyKeyBuilder = new PropertyKeyBuilder(_clusterName);
     }
 
     Map<String, ZNRecord> map = new HashMap<String, ZNRecord>();
@@ -677,7 +680,7 @@ public class Mocks {
     }
 
     @Override
-    public Builder keyBuilder() {
+    public PropertyKeyBuilder keyBuilder() {
       return _propertyKeyBuilder;
     }
 

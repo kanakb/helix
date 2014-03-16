@@ -24,9 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.util.StringTemplate;
 import org.apache.helix.model.builder.ConfigScopeBuilder;
-import org.apache.helix.util.StringTemplate;
 import org.apache.log4j.Logger;
 
 /**

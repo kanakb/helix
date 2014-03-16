@@ -19,8 +19,8 @@ package org.apache.helix.task;
  * under the License.
  */
 
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixProperty;
 
 import java.util.Map;
 import java.util.TreeMap;

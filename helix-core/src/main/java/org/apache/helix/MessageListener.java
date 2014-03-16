@@ -21,7 +21,7 @@ package org.apache.helix;
 
 import java.util.List;
 
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 
 /**
  * Interface to implement when there is a change to messages

@@ -19,7 +19,7 @@ package org.apache.helix.recipes.rabbitmq;
  * under the License.
  */
 
-import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 
 public class ConsumerStateModelFactory extends HelixStateModelFactory<ConsumerStateModel> {

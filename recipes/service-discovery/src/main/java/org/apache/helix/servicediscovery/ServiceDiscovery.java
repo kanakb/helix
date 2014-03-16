@@ -30,16 +30,16 @@ import java.util.TimerTask;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.InstanceType;
 import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZKHelixManager;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 
@@ -164,7 +164,7 @@ public class ServiceDiscovery {
   }
 
   private void refreshCache() {
-    Builder propertyKeyBuilder = new PropertyKey.Builder(cluster);
+    PropertyKeyBuilder propertyKeyBuilder = new PropertyKeyBuilder(cluster);
     HelixDataAccessor helixDataAccessor = admin.getHelixDataAccessor();
     List<LiveInstance> liveInstances =
         helixDataAccessor.getChildValues(propertyKeyBuilder.liveInstances());

@@ -24,21 +24,21 @@ import java.util.Date;
 import org.apache.helix.Mocks.MockManager;
 import org.apache.helix.Mocks.MockStateModel;
 import org.apache.helix.Mocks.MockStateModelAnnotated;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.messaging.handling.HelixStateTransitionHandler;
 import org.apache.helix.messaging.handling.HelixTask;
 import org.apache.helix.messaging.handling.HelixTaskExecutor;
 import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageType;
-import org.apache.helix.model.StateModelDefinition;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.participant.statemachine.StateModelFactory;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.testng.AssertJUnit;
@@ -60,14 +60,14 @@ public class TestHelixTaskHandler {
     message.setResourceId(ResourceId.from("TestDB"));
     message.setTgtName("localhost");
     message.setStateModelDef(StateModelDefId.from("MasterSlave"));
-    message.setStateModelFactoryName(HelixConstants.DEFAULT_STATE_MODEL_FACTORY);
+    message.setStateModelFactoryName(StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
     MockStateModel stateModel = new MockStateModel();
     NotificationContext context;
     MockManager manager = new MockManager("clusterName");
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
     StateModelDefinition stateModelDef =
         new StateModelDefinition(StateModelConfigGenerator.generateConfigForMasterSlave());
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     accessor.setProperty(keyBuilder.stateModelDef("MasterSlave"), stateModelDef);
 
     context = new NotificationContext(manager);
@@ -99,7 +99,7 @@ public class TestHelixTaskHandler {
     message.setResourceId(ResourceId.from("TestDB"));
     message.setTgtName("localhost");
     message.setStateModelDef(StateModelDefId.from("MasterSlave"));
-    message.setStateModelFactoryName(HelixConstants.DEFAULT_STATE_MODEL_FACTORY);
+    message.setStateModelFactoryName(StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
     MockStateModelAnnotated stateModel = new MockStateModelAnnotated();
     NotificationContext context;
 
@@ -108,7 +108,7 @@ public class TestHelixTaskHandler {
 
     StateModelDefinition stateModelDef =
         new StateModelDefinition(StateModelConfigGenerator.generateConfigForMasterSlave());
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     accessor.setProperty(keyBuilder.stateModelDef("MasterSlave"), stateModelDef);
 
     context = new NotificationContext(manager);

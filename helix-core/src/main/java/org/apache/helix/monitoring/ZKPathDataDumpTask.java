@@ -26,9 +26,9 @@ import java.util.TimerTask;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyType;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.util.HelixUtil;
@@ -62,7 +62,7 @@ public class ZKPathDataDumpTask extends TimerTask {
     logger.info("Scanning status updates ...");
     try {
       HelixDataAccessor accessor = _manager.getHelixDataAccessor();
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
       List<String> instances = accessor.getChildNames(keyBuilder.instanceConfigs());
       for (String instanceName : instances) {

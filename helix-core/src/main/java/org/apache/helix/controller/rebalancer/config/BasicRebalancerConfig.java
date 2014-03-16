@@ -26,13 +26,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.id.StateModelFactoryId;
+import org.apache.helix.api.model.ResourceConfiguration;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.serializer.DefaultStringSerializer;
@@ -43,7 +44,8 @@ import org.apache.helix.model.IdealState.RebalanceMode;
 /**
  * Raw RebalancerConfig that functions for generic resources. This class is backed by an IdealState.
  */
-public class BasicRebalancerConfig extends AbstractRebalancerConfig implements RebalancerConfig {
+public class BasicRebalancerConfig extends AbstractRebalancerConfig implements
+    RebalancerConfiguration {
   private final IdealState _idealState;
   private final Class<? extends StringSerializer> _serializer;
 
@@ -108,7 +110,8 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements R
    * @param clazz the target class
    * @return An instance of clazz, or null if the conversion is not possible
    */
-  public static <T extends RebalancerConfig> T convert(RebalancerConfig config, Class<T> clazz) {
+  public static <T extends RebalancerConfiguration> T convert(RebalancerConfiguration config,
+      Class<T> clazz) {
     try {
       return clazz.cast(config);
     } catch (ClassCastException e) {
@@ -141,12 +144,17 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements R
     }
   }
 
+  public static BasicRebalancerConfig from(ResourceConfiguration config) {
+    RebalancerConfigHolder holder = new RebalancerConfigHolder(config);
+    return holder.getRebalancerConfig(BasicRebalancerConfig.class);
+  }
+
   /**
    * Convert a RebalancerConfig into an IdealState
    * @param config instantiated RebalancerConfig
    * @return IdealState corresponding to the RebalancerConfig
    */
-  public static IdealState toIdealState(RebalancerConfig config) {
+  public static IdealState toIdealState(RebalancerConfiguration config) {
     BasicRebalancerConfig basicConfig =
         BasicRebalancerConfig.convert(config, BasicRebalancerConfig.class);
     if (basicConfig != null) {
@@ -173,7 +181,7 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements R
     private RebalanceMode _mode = RebalanceMode.USER_DEFINED;
 
     @Override
-    public Builder withExistingConfig(RebalancerConfig config) {
+    public Builder withExistingConfig(RebalancerConfiguration config) {
       super.withExistingConfig(config);
       AbstractRebalancerConfig abstractConfig =
           BasicRebalancerConfig.convert(config, AbstractRebalancerConfig.class);
@@ -225,7 +233,7 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements R
      * @param config instantiated config
      * @return Builder
      */
-    public T withExistingConfig(RebalancerConfig config) {
+    public T withExistingConfig(RebalancerConfiguration config) {
       AbstractRebalancerConfig abstractConfig =
           BasicRebalancerConfig.convert(config, AbstractRebalancerConfig.class);
       if (abstractConfig != null) {

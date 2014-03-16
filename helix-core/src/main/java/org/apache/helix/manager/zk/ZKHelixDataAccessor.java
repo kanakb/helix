@@ -32,16 +32,16 @@ import org.apache.helix.ControllerChangeListener;
 import org.apache.helix.GroupCommit;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyType;
 import org.apache.helix.ZNRecordAssembler;
 import org.apache.helix.ZNRecordBucketizer;
 import org.apache.helix.ZNRecordUpdater;
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.restlet.ZNRecordUpdate;
 import org.apache.helix.controller.restlet.ZNRecordUpdate.OpCode;
 import org.apache.helix.controller.restlet.ZkPropertyTransferClient;
@@ -54,7 +54,7 @@ public class ZKHelixDataAccessor implements HelixDataAccessor, ControllerChangeL
   private final BaseDataAccessor<ZNRecord> _baseDataAccessor;
   final InstanceType _instanceType;
   private final String _clusterName;
-  private final Builder _propertyKeyBuilder;
+  private final PropertyKeyBuilder _propertyKeyBuilder;
   ZkPropertyTransferClient _zkPropertyTransferClient = null;
   private final GroupCommit _groupCommit = new GroupCommit();
   String _zkPropertyTransferSvcUrl = null;
@@ -68,7 +68,7 @@ public class ZKHelixDataAccessor implements HelixDataAccessor, ControllerChangeL
     _clusterName = clusterName;
     _instanceType = instanceType;
     _baseDataAccessor = baseDataAccessor;
-    _propertyKeyBuilder = new PropertyKey.Builder(_clusterName);
+    _propertyKeyBuilder = new PropertyKeyBuilder(_clusterName);
   }
 
   @Override
@@ -369,7 +369,7 @@ public class ZKHelixDataAccessor implements HelixDataAccessor, ControllerChangeL
   }
 
   @Override
-  public Builder keyBuilder() {
+  public PropertyKeyBuilder keyBuilder() {
     return _propertyKeyBuilder;
   }
 

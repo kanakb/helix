@@ -20,13 +20,11 @@ package org.apache.helix.webapp.resources;
  */
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.LiveInstance;
@@ -35,7 +33,6 @@ import org.apache.helix.webapp.RestAdminApplication;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.restlet.data.MediaType;
-import org.restlet.data.Method;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
@@ -85,7 +82,7 @@ public class ClusterResource extends ServerResource {
 
     HelixDataAccessor accessor =
         ClusterRepresentationUtil.getClusterDataAccessor(zkClient, clusterName);
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     if (leader != null) {

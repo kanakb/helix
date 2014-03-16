@@ -26,20 +26,21 @@ import org.apache.helix.api.command.ClusterCommand;
 import org.apache.helix.api.command.ResourceCommand;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.config.Scope;
-import org.apache.helix.api.config.UserConfig;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.Id;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.snapshot.Cluster;
-import org.apache.helix.api.snapshot.Participant;
-import org.apache.helix.api.snapshot.Resource;
+import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.api.model.IStateModelDefinition;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
-import org.apache.helix.model.Transition;
+import org.apache.helix.model.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.Id;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.Transition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.snapshot.Cluster;
+import org.apache.helix.api.snapshot.Resource;
+import org.apache.helix.api.snapshot.Participant;
+import org.apache.helix.api.snapshot.RunningInstance;
 
 /**
  * Starting point for all cluster administration tasks. TODO: define failure behavior
@@ -83,9 +84,9 @@ public interface HelixAdministrator extends HelixStartable {
 
   List<StateModelDefId> listStateModelDefinitions(ClusterId clusterId);
 
-  void addStateModelDef(ClusterId clusterId, IStateModelDefinition stateModelDef);
+  void addStateModelDef(ClusterId clusterId, StateModelDefinition stateModelDef);
 
-  IStateModelDefinition readStateModelDef(ClusterId clusterId, StateModelDefId stateModelDefId);
+  StateModelDefinition readStateModelDef(ClusterId clusterId, StateModelDefId stateModelDefId);
 
   void dropStateModelDef(ClusterId clusterId, StateModelDefId stateModelDefId);
 

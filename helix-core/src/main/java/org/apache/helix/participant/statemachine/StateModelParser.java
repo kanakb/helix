@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 
 /**
  * Finds the method in stateModel to generate

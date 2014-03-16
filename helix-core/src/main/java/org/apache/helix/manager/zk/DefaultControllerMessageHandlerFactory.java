@@ -21,11 +21,11 @@ package org.apache.helix.manager.zk;
 
 import org.apache.helix.HelixException;
 import org.apache.helix.NotificationContext;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.messaging.handling.HelixTaskResult;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.log4j.Logger;
 
 public class DefaultControllerMessageHandlerFactory implements MessageHandlerFactory {
@@ -36,8 +36,8 @@ public class DefaultControllerMessageHandlerFactory implements MessageHandlerFac
     String type = message.getMsgType();
 
     if (!type.equals(getMessageType())) {
-      throw new HelixException("Unexpected msg type for message " + message.getMessageId() + " type:"
-          + message.getMsgType());
+      throw new HelixException("Unexpected msg type for message " + message.getMessageId()
+          + " type:" + message.getMsgType());
     }
 
     return new DefaultControllerMessageHandler(message, context);
@@ -74,7 +74,8 @@ public class DefaultControllerMessageHandlerFactory implements MessageHandlerFac
 
     @Override
     public void onError(Exception e, ErrorCode code, ErrorType type) {
-      _logger.error("Message handling pipeline get an exception. MsgId:" + _message.getMessageId(), e);
+      _logger.error("Message handling pipeline get an exception. MsgId:" + _message.getMessageId(),
+          e);
     }
   }
 }

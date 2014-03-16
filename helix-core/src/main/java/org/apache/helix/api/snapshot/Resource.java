@@ -24,17 +24,16 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.api.config.Partition;
-import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
-import org.apache.helix.api.config.UserConfig;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IMessage;
+import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.Message;
 import org.apache.helix.model.ResourceAssignment;
 
 import com.google.common.collect.Maps;
@@ -60,7 +59,7 @@ public class Resource {
    * @param batchMessageMode true if batch messaging allowed, false otherwise
    */
   public Resource(ResourceId id, IdealState idealState, ResourceAssignment resourceAssignment,
-      ExternalView externalView, RebalancerConfig rebalancerConfig, UserConfig userConfig,
+      ExternalView externalView, RebalancerConfiguration rebalancerConfig, UserConfig userConfig,
       int bucketSize, boolean batchMessageMode) {
     SchedulerTaskConfig schedulerTaskConfig = schedulerTaskConfig(idealState);
     Map<PartitionId, Partition> partitionMap = Maps.newHashMap();
@@ -98,7 +97,7 @@ public class Resource {
       }
     }
 
-    Map<PartitionId, IMessage> innerMsgMap = new HashMap<PartitionId, IMessage>();
+    Map<PartitionId, Message> innerMsgMap = new HashMap<PartitionId, Message>();
     if (idealState.getStateModelDefId().equalsIgnoreCase(StateModelDefId.SCHEDULER_TASK_QUEUE)) {
       for (PartitionId partitionId : idealState.getPartitionIdSet()) {
         // TODO refactor: scheduler-task-queue state model uses map-field to store inner-messages
@@ -162,7 +161,7 @@ public class Resource {
    * Get the resource properties configuring rebalancing
    * @return RebalancerConfig properties
    */
-  public RebalancerConfig getRebalancerConfig() {
+  public RebalancerConfiguration getRebalancerConfig() {
     return _config.getRebalancerConfig();
   }
 

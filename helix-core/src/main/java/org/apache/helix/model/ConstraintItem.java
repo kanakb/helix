@@ -22,15 +22,14 @@ package org.apache.helix.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.helix.api.model.IConstraintItem;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintAttribute;
+import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.model.builder.ConstraintItemBuilder;
 import org.apache.log4j.Logger;
 
 /**
  * A single constraint and its associated attributes
  */
-public class ConstraintItem implements IConstraintItem {
+public class ConstraintItem {
   private static Logger LOG = Logger.getLogger(ConstraintItem.class);
 
   // attributes e.g. {STATE:MASTER, RESOURCE:TestDB, INSTANCE:localhost_12918}
@@ -58,10 +57,10 @@ public class ConstraintItem implements IConstraintItem {
     _constraintValue = constraintValue;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IConstrantItem#match(java.util.Map)
    */
-  @Override
   public boolean match(Map<ConstraintAttribute, String> attributes) {
     for (ConstraintAttribute key : _attributes.keySet()) {
       if (!attributes.containsKey(key)) {
@@ -75,10 +74,10 @@ public class ConstraintItem implements IConstraintItem {
     return true;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IConstrantItem#filter(java.util.Map)
    */
-  @Override
   public Map<ConstraintAttribute, String> filter(Map<ConstraintAttribute, String> attributes) {
     Map<ConstraintAttribute, String> ret = new HashMap<ConstraintAttribute, String>();
     for (ConstraintAttribute key : _attributes.keySet()) {
@@ -89,34 +88,35 @@ public class ConstraintItem implements IConstraintItem {
     return ret;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IConstrantItem#getConstraintValue()
    */
-  @Override
   public String getConstraintValue() {
     return _constraintValue;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IConstrantItem#getAttributes()
    */
-  @Override
   public Map<ConstraintAttribute, String> getAttributes() {
     return _attributes;
   }
 
-  /* (non-Javadoc)
-   * @see org.apache.helix.model.IConstrantItem#getAttributeValue(org.apache.helix.api.model.IClusterConstraints.ConstraintAttribute)
+  /*
+   * (non-Javadoc)
+   * @see org.apache.helix.model.IConstrantItem#getAttributeValue(org.apache.helix.api.model.
+   * IClusterConstraints.ConstraintAttribute)
    */
-  @Override
   public String getAttributeValue(ConstraintAttribute attr) {
     return _attributes.get(attr);
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IConstrantItem#toString()
    */
-  @Override
   public String toString() {
     StringBuffer sb = new StringBuffer();
     sb.append(_attributes + ":" + _constraintValue);

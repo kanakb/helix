@@ -28,8 +28,6 @@ import java.util.Map;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyType;
 import org.apache.helix.alerts.AlertParser;
 import org.apache.helix.alerts.AlertProcessor;
 import org.apache.helix.alerts.AlertValueAndStatus;
@@ -37,8 +35,10 @@ import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.ExpressionParser;
 import org.apache.helix.alerts.StatsHolder;
 import org.apache.helix.alerts.Tuple;
-import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageContext;
 import org.apache.helix.controller.pipeline.StageException;
@@ -105,7 +105,7 @@ public class StatsAggregationStage extends AbstractBaseStage {
     // DataAccessor accessor = manager.getDataAccessor();
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
     // boolean retVal = accessor.setProperty(PropertyType.PERSISTENTSTATS, record);
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     boolean retVal = accessor.setProperty(keyBuilder.persistantStat(), new PersistentStats(record));
     if (retVal == false) {
       logger.error("attempt to persist derived stats failed");
@@ -317,7 +317,7 @@ public class StatsAggregationStage extends AbstractBaseStage {
 
   public static String parseResourceName(String actualStatName, HelixManager manager) {
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    Builder kb = accessor.keyBuilder();
+    PropertyKeyBuilder kb = accessor.keyBuilder();
     List<IdealState> idealStates = accessor.getChildValues(kb.idealStates());
     for (IdealState idealState : idealStates) {
       String resourceName = idealState.getResourceId().stringify();
@@ -350,7 +350,7 @@ public class StatsAggregationStage extends AbstractBaseStage {
 
   public static String parseInstanceName(String actualStatName, HelixManager manager) {
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    Builder kb = accessor.keyBuilder();
+    PropertyKeyBuilder kb = accessor.keyBuilder();
     List<LiveInstance> liveInstances = accessor.getChildValues(kb.liveInstances());
     for (LiveInstance instance : liveInstances) {
       String instanceName = instance.getInstanceName();
@@ -372,7 +372,7 @@ public class StatsAggregationStage extends AbstractBaseStage {
       String date = dateFormat.format(new Date());
 
       HelixDataAccessor accessor = manager.getHelixDataAccessor();
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
       HelixProperty property = accessor.getProperty(keyBuilder.alertHistory());
       ZNRecord alertFiredHistory;

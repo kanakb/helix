@@ -22,7 +22,7 @@ package org.apache.helix.participant.statemachine;
 import java.lang.reflect.Method;
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;

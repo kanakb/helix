@@ -26,29 +26,29 @@ import java.util.Map;
 import org.apache.helix.HelixConnection;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.config.ParticipantConfig;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.config.builder.ClusterConfigBuilder;
+import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
-import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.model.ExternalView;
-import org.apache.helix.model.Message;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
@@ -117,17 +117,17 @@ public class TestHelixConnection extends ZkUnitTestBase {
     ClusterAccessor clusterAccessor = connection.createClusterAccessor(clusterId);
     clusterAccessor.dropCluster();
 
-    IStateModelDefinition stateModelDef =
+    StateModelDefinition stateModelDef =
         new StateModelDefinition.Builder(stateModelDefId).addState(master, 1).addState(slave, 2)
             .addState(offline, 3).addState(dropped).addTransition(offline, slave, 3)
             .addTransition(slave, offline, 4).addTransition(slave, master, 2)
             .addTransition(master, slave, 1).addTransition(offline, dropped).initialState(offline)
             .upperBound(master, 1).dynamicUpperBound(slave, "R").build();
-    RebalancerConfig rebalancerCtx =
+    RebalancerConfiguration rebalancerCtx =
         new SemiAutoRebalancerConfig.Builder().withResourceId(resourceId).withPartitionCount(1)
             .withReplicaCount(1).withStateModelDefId(stateModelDefId)
             .withPreferenceList(PartitionId.from("testDB_0"), Arrays.asList(participantId)).build();
-    clusterAccessor.createCluster(ClusterConfigBuilder.newInstance().withClusterId(clusterId)
+    clusterAccessor.createCluster(new ClusterConfigBuilder().withClusterId(clusterId)
         .addStateModelDefinition(stateModelDef).build());
     clusterAccessor.addResourceToCluster(ResourceConfigBuilder.newInstance().with(resourceId)
         .rebalancerConfig(rebalancerCtx).build());
@@ -147,7 +147,7 @@ public class TestHelixConnection extends ZkUnitTestBase {
 
     // verify
     final HelixDataAccessor accessor = connection.createDataAccessor(clusterId);
-    final PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    final PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     boolean success = TestHelper.verify(new TestHelper.Verifier() {
 
       @Override

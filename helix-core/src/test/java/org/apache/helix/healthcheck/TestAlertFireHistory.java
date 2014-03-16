@@ -27,14 +27,15 @@ import java.util.TreeMap;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixTimerTask;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.integration.ZkStandAloneCMTestBaseWithPropertyServerCheck;
 import org.apache.helix.model.AlertHistory;
 import org.apache.helix.model.HealthStat;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -67,7 +68,7 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
       record.setSimpleField("TimeStamp", new Date().getTime() + "");
       record.setMapField(_statName, valMap);
       HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-      Builder keyBuilder = helixDataAccessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
       helixDataAccessor.setProperty(
           keyBuilder.healthReport(manager.getInstanceName(), record.getId()),
           new HealthStat(record));
@@ -107,9 +108,11 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
     task.aggregate();
     Thread.sleep(100);
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
 
-    AlertHistory history = manager.getHelixDataAccessor().getProperty(keyBuilder.alertHistory());
+    AlertHistory history =
+        manager.getHelixDataAccessor().getProperty(
+            keyBuilder.alertHistory());
 
     Assert.assertEquals(history, null);
 
@@ -119,7 +122,9 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
     task.aggregate();
     Thread.sleep(100);
 
-    history = manager.getHelixDataAccessor().getProperty(keyBuilder.alertHistory());
+    history =
+        manager.getHelixDataAccessor().getProperty(
+            keyBuilder.alertHistory());
     //
     Assert.assertNotNull(history);
     Assert.assertEquals(history.getRecord().getMapFields().size(), 1);
@@ -145,8 +150,9 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
 
     int historySize = 0;
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
-    HelixProperty property = helixDataAccessor.getProperty(keyBuilder.alertHistory());
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
+    HelixProperty property =
+        helixDataAccessor.getProperty(keyBuilder.alertHistory());
     ZNRecord history = null;
     if (property != null) {
       history = property.getRecord();
@@ -158,7 +164,9 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
     task.aggregate();
     Thread.sleep(100);
 
-    history = helixDataAccessor.getProperty(keyBuilder.alertHistory()).getRecord();
+    history =
+        helixDataAccessor.getProperty(
+            keyBuilder.alertHistory()).getRecord();
     //
     Assert.assertEquals(history.getMapFields().size(), 1 + historySize);
     TreeMap<String, Map<String, String>> recordMap = new TreeMap<String, Map<String, String>>();
@@ -177,7 +185,9 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
     setHealthData(metrics1, metrics2);
     task.aggregate();
     Thread.sleep(100);
-    history = helixDataAccessor.getProperty(keyBuilder.alertHistory()).getRecord();
+    history =
+        helixDataAccessor.getProperty(
+            keyBuilder.alertHistory()).getRecord();
     // no change
     Assert.assertEquals(history.getMapFields().size(), 1 + historySize);
     recordMap = new TreeMap<String, Map<String, String>>();
@@ -202,7 +212,9 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
     setHealthData(metrics3, metrics4);
     task.aggregate();
     Thread.sleep(100);
-    history = helixDataAccessor.getProperty(keyBuilder.alertHistory()).getRecord();
+    history =
+        helixDataAccessor.getProperty(
+            keyBuilder.alertHistory()).getRecord();
     // new delta should be recorded
     Assert.assertEquals(history.getMapFields().size(), 2 + historySize);
     recordMap = new TreeMap<String, Map<String, String>>();
@@ -233,7 +245,9 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
 
     for (int i = 0; i < 10; i++) {
       Thread.sleep(500);
-      history = helixDataAccessor.getProperty(keyBuilder.alertHistory()).getRecord();
+      history =
+          helixDataAccessor.getProperty(
+              keyBuilder.alertHistory()).getRecord();
       recordMap = new TreeMap<String, Map<String, String>>();
       recordMap.putAll(history.getMapFields());
       lastRecord = recordMap.lastEntry().getValue();
@@ -276,7 +290,9 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
       setHealthData(metricsx, metricsy);
       task.aggregate();
       Thread.sleep(100);
-      history = helixDataAccessor.getProperty(keyBuilder.alertHistory()).getRecord();
+      history =
+          helixDataAccessor.getProperty(
+              keyBuilder.alertHistory()).getRecord();
 
       Assert.assertEquals(history.getMapFields().size(), Math.min(3 + i + 1 + historySize, 30));
       recordMap = new TreeMap<String, Map<String, String>>();
@@ -359,7 +375,9 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
       task.aggregate();
       for (int j = 0; j < 10; j++) {
         Thread.sleep(100);
-        history = helixDataAccessor.getProperty(keyBuilder.alertHistory()).getRecord();
+        history =
+            helixDataAccessor.getProperty(
+                keyBuilder.alertHistory()).getRecord();
         recordMap = new TreeMap<String, Map<String, String>>();
         recordMap.putAll(history.getMapFields());
         lastRecord = recordMap.lastEntry().getValue();
@@ -420,4 +438,3 @@ public class TestAlertFireHistory extends ZkStandAloneCMTestBaseWithPropertyServ
   }
 
 }
-

@@ -28,10 +28,11 @@ import java.util.Set;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.messaging.handling.MessageHandler.ErrorCode;
@@ -40,7 +41,6 @@ import org.apache.helix.mock.participant.MockTransition;
 import org.apache.helix.mock.participant.SleepTransition;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.Message;
 import org.apache.helix.participant.statemachine.StateModelFactory;
 import org.apache.helix.participant.statemachine.StateModelInfo;
 import org.apache.helix.participant.statemachine.StateTransitionError;
@@ -201,7 +201,7 @@ public class TestStateTransitionTimeout extends ZkStandAloneCMTestBase {
     Assert.assertTrue(result);
     HelixDataAccessor accessor = _participants[0].getHelixDataAccessor();
 
-    Builder kb = accessor.keyBuilder();
+    PropertyKeyBuilder kb = accessor.keyBuilder();
     ExternalView ev = accessor.getProperty(kb.externalView(TEST_DB));
     for (PartitionId p : idealState.getPartitionIdSet()) {
       ParticipantId idealMaster = idealState.getPreferenceList(p).get(0);

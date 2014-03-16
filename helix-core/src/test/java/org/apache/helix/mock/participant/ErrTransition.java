@@ -25,9 +25,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.statemachine.State;
 
 // simulate error transition
 public class ErrTransition extends MockTransition {

@@ -22,9 +22,9 @@ package org.apache.helix;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.testng.Assert;

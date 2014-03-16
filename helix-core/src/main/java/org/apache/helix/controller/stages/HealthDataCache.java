@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.model.AlertStatus;
 import org.apache.helix.model.Alerts;
 import org.apache.helix.model.HealthStat;
@@ -70,7 +70,7 @@ public class HealthDataCache {
   }
 
   public boolean refresh(HelixDataAccessor accessor) {
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     _liveInstanceMap = accessor.getChildValuesMap(keyBuilder.liveInstances());
 
     Map<String, Map<String, HealthStat>> hsMap = new HashMap<String, Map<String, HealthStat>>();

@@ -24,17 +24,17 @@ import java.util.UUID;
 
 import org.apache.helix.Criteria;
 import org.apache.helix.Criteria.DataSource;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageState;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.messaging.AsyncCallback;
 import org.apache.helix.messaging.handling.HelixTaskResult;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageState;
-import org.apache.helix.api.model.IMessage.MessageType;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 

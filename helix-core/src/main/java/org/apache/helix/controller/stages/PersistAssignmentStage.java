@@ -23,8 +23,9 @@ import java.util.List;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
@@ -49,7 +50,7 @@ public class PersistAssignmentStage extends AbstractBaseStage {
       Cluster cluster = event.getAttribute("Cluster");
       HelixManager helixManager = event.getAttribute("helixmanager");
       HelixDataAccessor accessor = helixManager.getHelixDataAccessor();
-      PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
       BestPossibleStateOutput assignments =
           event.getAttribute(AttributeName.BEST_POSSIBLE_STATE.toString());
       List<ResourceAssignment> changedAssignments = Lists.newLinkedList();

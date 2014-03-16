@@ -20,14 +20,14 @@ package org.apache.helix.api.accessor;
  */
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.snapshot.Controller;
 import org.apache.helix.model.LiveInstance;
 
 public class ControllerAccessor {
   private final HelixDataAccessor _accessor;
-  private final PropertyKey.Builder _keyBuilder;
+  private final PropertyKeyBuilder _keyBuilder;
 
   public ControllerAccessor(HelixDataAccessor accessor) {
     _accessor = accessor;

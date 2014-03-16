@@ -22,8 +22,8 @@ package org.apache.helix;
 import java.util.Map;
 
 import org.apache.helix.Mocks.MockManager;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.healthcheck.PerformanceHealthReportProvider;
 import org.apache.helix.model.HealthStat;
 import org.testng.AssertJUnit;
@@ -58,7 +58,7 @@ public class TestPerformanceHealthReportProvider {
     }
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
 
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     accessor.setProperty(keyBuilder.healthReport(INSTANCE_NAME, record.getId()), new HealthStat(
         record));
   }

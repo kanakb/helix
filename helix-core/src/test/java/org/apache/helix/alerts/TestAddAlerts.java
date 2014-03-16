@@ -23,8 +23,8 @@ import java.util.Map;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.Mocks.MockManager;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.stages.HealthDataCache;
 import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeMethod;
@@ -63,7 +63,7 @@ public class TestAddAlerts {
         EXP + "(accumulate()(dbFoo.partition10.latency))" + CMP + "(GREATER)" + CON + "(10)";
     _alertsHolder.addAlert(alert);
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.alerts()).getRecord();
     System.out.println("alert: " + alert);
@@ -82,7 +82,7 @@ public class TestAddAlerts {
     _alertsHolder.addAlert(alert2);
 
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.alerts()).getRecord();
     // System.out.println("alert: "+alert1);
@@ -101,7 +101,7 @@ public class TestAddAlerts {
     _alertsHolder.addAlert(alert1);
 
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.alerts()).getRecord();
     // System.out.println("alert: "+alert1);

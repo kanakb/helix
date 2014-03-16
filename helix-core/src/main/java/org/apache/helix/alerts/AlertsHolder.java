@@ -28,8 +28,8 @@ import java.util.Map;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.stages.HealthDataCache;
 import org.apache.helix.model.AlertStatus;
 import org.apache.helix.model.Alerts;
@@ -49,7 +49,7 @@ public class AlertsHolder {
 
   private final HelixManager _manager;
 
-  private Builder _keyBuilder;
+  private PropertyKeyBuilder _keyBuilder;
 
   public AlertsHolder(HelixManager manager, HealthDataCache cache) {
     this(manager, cache, new StatsHolder(manager, cache));
@@ -60,7 +60,7 @@ public class AlertsHolder {
     _accessor = manager.getHelixDataAccessor();
     _cache = cache;
     _statsHolder = statHolder;
-    _keyBuilder = new PropertyKey.Builder(_manager.getClusterName());
+    _keyBuilder = new PropertyKeyBuilder(_manager.getClusterName());
     updateCache(_cache);
   }
 

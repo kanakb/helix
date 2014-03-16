@@ -26,8 +26,9 @@ import java.util.concurrent.TimeUnit;
 import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.IZkDataListener;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
@@ -39,7 +40,7 @@ public abstract class ClusterVerifier implements IZkChildListener, IZkDataListen
   protected final ZkClient _zkclient;
   protected final String _clusterName;
   protected final HelixDataAccessor _accessor;
-  protected final PropertyKey.Builder _keyBuilder;
+  protected final PropertyKeyBuilder _keyBuilder;
   private CountDownLatch _countdown;
 
   static class ClusterVerifyTrigger {

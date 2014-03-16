@@ -22,8 +22,8 @@ package org.apache.helix.model.builder;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.helix.api.model.IClusterConstraints.ConstraintAttribute;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintValue;
+import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
+import org.apache.helix.model.ClusterConstraints.ConstraintValue;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.log4j.Logger;
 

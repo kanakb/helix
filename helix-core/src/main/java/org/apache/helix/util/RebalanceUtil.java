@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.helix.HelixException;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.model.IdealState;
 
 import com.google.common.base.Functions;
@@ -105,7 +105,7 @@ public class RebalanceUtil {
     return result;
   }
 
-  public static String[] parseStates(String clusterName, IStateModelDefinition stateModDef) {
+  public static String[] parseStates(String clusterName, StateModelDefinition stateModDef) {
     String[] result = new String[2];
     String masterStateValue = null, slaveStateValue = null;
 

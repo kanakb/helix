@@ -29,12 +29,12 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixTimerTask;
-import org.apache.helix.InstanceType;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.accessor.ClusterAccessor;
-import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
-import org.apache.helix.api.id.Id;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.Id;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.healthcheck.HealthStatsAggregationTask;
@@ -59,7 +59,8 @@ public class ZkHelixController implements SingleClusterController {
   final HelixManager _manager;
   final ZkHelixLeaderElection _leaderElection;
 
-  public ZkHelixController(ZkHelixConnection connection, ClusterId clusterId, ControllerId controllerId) {
+  public ZkHelixController(ZkHelixConnection connection, ClusterId clusterId,
+      ControllerId controllerId) {
     _connection = connection;
     _clusterId = clusterId;
     _controllerId = controllerId;
@@ -178,7 +179,7 @@ public class ZkHelixController implements SingleClusterController {
 
   @Override
   public boolean isLeader() {
-    PropertyKey.Builder keyBuilder = _accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = _accessor.keyBuilder();
     try {
       LiveInstance leader = _accessor.getProperty(keyBuilder.controllerLeader());
       if (leader != null) {
@@ -200,8 +201,7 @@ public class ZkHelixController implements SingleClusterController {
       /**
        * setup controller message listener and register message handlers
        */
-      _connection.addControllerMessageListener(this, _messagingService.getExecutor(),
-          _clusterId);
+      _connection.addControllerMessageListener(this, _messagingService.getExecutor(), _clusterId);
       MessageHandlerFactory defaultControllerMsgHandlerFactory =
           new DefaultControllerMessageHandlerFactory();
       _messagingService.getExecutor().registerMessageHandlerFactory(
@@ -224,15 +224,14 @@ public class ZkHelixController implements SingleClusterController {
       _connection.addIdealStateChangeListener(this, pipeline, _clusterId);
       _connection.addControllerListener(this, pipeline, _clusterId);
     } catch (ZkInterruptedException e) {
-      LOG.warn("zk connection is interrupted during addListenersToController()"
-          + e);
+      LOG.warn("zk connection is interrupted during addListenersToController()" + e);
     } catch (Exception e) {
       LOG.error("Error addListenersToController", e);
     }
   }
 
   void removeListenersFromController(GenericHelixController pipeline) {
-    PropertyKey.Builder keyBuilder = new PropertyKey.Builder(_manager.getClusterName());
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(_manager.getClusterName());
     /**
      * reset generic-controller
      */

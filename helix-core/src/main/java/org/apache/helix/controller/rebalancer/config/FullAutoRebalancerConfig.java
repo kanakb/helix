@@ -1,6 +1,6 @@
 package org.apache.helix.controller.rebalancer.config;
 
-import org.apache.helix.api.config.RebalancerConfig;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.FullAutoRebalancer;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
@@ -49,7 +49,7 @@ public final class FullAutoRebalancerConfig extends AbstractAutoRebalancerConfig
     private Integer _maxPartitionsPerParticipant;
 
     @Override
-    public Builder withExistingConfig(RebalancerConfig config) {
+    public Builder withExistingConfig(RebalancerConfiguration config) {
       super.withExistingConfig(config);
       FullAutoRebalancerConfig fullAutoConfig =
           BasicRebalancerConfig.convert(config, FullAutoRebalancerConfig.class);

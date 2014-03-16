@@ -28,7 +28,7 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.Type;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.InstanceConfig;
@@ -56,7 +56,7 @@ public class CustomCodeInvoker implements LiveInstanceChangeListener, ConfigChan
         HelixManager manager = context.getManager();
         // DataAccessor accessor = manager.getDataAccessor();
         HelixDataAccessor accessor = manager.getHelixDataAccessor();
-        Builder keyBuilder = accessor.keyBuilder();
+        PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
         String instance = manager.getInstanceName();
         String sessionId = manager.getSessionId();

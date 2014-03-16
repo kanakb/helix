@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.helix.HelixConstants;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 
 /**
  * A resource contains a set of partitions and its replicas are managed by a state model
@@ -68,7 +68,7 @@ public class Resource {
    */
   public void setStateModelFactoryName(String factoryName) {
     if (factoryName == null) {
-      _stateModelFactoryName = HelixConstants.DEFAULT_STATE_MODEL_FACTORY;
+      _stateModelFactoryName = StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY;
     } else {
       _stateModelFactoryName = factoryName;
     }

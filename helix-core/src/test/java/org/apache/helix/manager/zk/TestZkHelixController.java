@@ -23,12 +23,13 @@ import java.util.Date;
 
 import org.apache.helix.HelixConnection;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.model.LiveInstance;
 import org.testng.Assert;
@@ -67,7 +68,7 @@ public class TestZkHelixController extends ZkUnitTestBase {
 
     // check leader znode exists
     HelixDataAccessor accessor = connection.createDataAccessor(clusterId);
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     Assert.assertNotNull(leader);
     Assert.assertEquals(leader.getInstanceName(), controllerId.stringify());
@@ -125,7 +126,7 @@ public class TestZkHelixController extends ZkUnitTestBase {
     // check live-instance znode for localhost_12918 exists
     final HelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    final PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    final PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     Assert.assertNotNull(leader);
     Assert.assertEquals(leader.getInstanceName(), controllerId.stringify());

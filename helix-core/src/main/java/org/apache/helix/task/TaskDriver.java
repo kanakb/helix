@@ -39,8 +39,8 @@ import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.InstanceType;
-import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.InstanceType;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.builder.CustomModeISBuilder;
 import org.apache.log4j.Logger;
@@ -284,13 +284,11 @@ public class TaskDriver {
 
     Option clusterNameOption =
         OptionBuilder.isRequired().hasArgs(1).withArgName("clusterName")
-            .withLongOpt(CLUSTER_NAME_OPTION)
-            .withDescription("Target cluster name").create();
+            .withLongOpt(CLUSTER_NAME_OPTION).withDescription("Target cluster name").create();
 
     Option taskResourceOption =
         OptionBuilder.isRequired().hasArgs(1).withArgName("resourceName")
-            .withLongOpt(RESOURCE_OPTION)
-            .withDescription("Target workflow or task").create();
+            .withLongOpt(RESOURCE_OPTION).withDescription("Target workflow or task").create();
 
     OptionGroup group = new OptionGroup();
     group.addOption(zkAddressOption);

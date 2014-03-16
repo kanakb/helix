@@ -25,24 +25,52 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.apache.helix.api.HelixProperty;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.statemachine.Transition;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.id.ConstraintId;
-import org.apache.helix.api.model.IClusterConstraints;
-import org.apache.helix.api.model.IConstraintItem;
-import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.builder.ConstraintItemBuilder;
 import org.apache.log4j.Logger;
 
 /**
  * All of the constraints on a given cluster and its subcomponents, both physical and logical.
  */
-public class ClusterConstraints extends HelixProperty implements IClusterConstraints{
+public class ClusterConstraints extends HelixProperty {
   private static Logger LOG = Logger.getLogger(ClusterConstraints.class);
 
+  public enum ConstraintAttribute {
+    STATE,
+    STATE_MODEL,
+    MESSAGE_TYPE,
+    TRANSITION,
+    RESOURCE,
+    PARTITION,
+    INSTANCE,
+    CONSTRAINT_VALUE
+  }
+
+  /**
+   * Possible special values that constraint attributes can take
+   */
+  public enum ConstraintValue {
+    ANY,
+    N,
+    R
+  }
+
+  /**
+   * What is being constrained
+   */
+  public enum ConstraintType {
+    STATE_CONSTRAINT,
+    MESSAGE_CONSTRAINT
+  }
+
   // constraint-id -> constraint-item
-  private final Map<ConstraintId, IConstraintItem> _constraints =
-      new HashMap<ConstraintId, IConstraintItem>();
+  private final Map<ConstraintId, ConstraintItem> _constraints =
+      new HashMap<ConstraintId, ConstraintItem>();
 
   /**
    * Instantiate constraints as a given type
@@ -52,10 +80,10 @@ public class ClusterConstraints extends HelixProperty implements IClusterConstra
     super(type.toString());
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IClusterConstraints#getType()
    */
-  @Override
   public ConstraintType getType() {
     return ConstraintType.valueOf(getId());
   }
@@ -81,11 +109,13 @@ public class ClusterConstraints extends HelixProperty implements IClusterConstra
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.apache.helix.model.IClusterConstraints#addConstraintItem(org.apache.helix.api.id.ConstraintId, org.apache.helix.model.ConstraintItem)
+  /*
+   * (non-Javadoc)
+   * @see
+   * org.apache.helix.model.IClusterConstraints#addConstraintItem(org.apache.helix.api.id.ConstraintId
+   * , org.apache.helix.model.ConstraintItem)
    */
-  @Override
-  public void addConstraintItem(ConstraintId constraintId, IConstraintItem item) {
+  public void addConstraintItem(ConstraintId constraintId, ConstraintItem item) {
     Map<String, String> map = new TreeMap<String, String>();
     for (ConstraintAttribute attr : item.getAttributes().keySet()) {
       map.put(attr.toString(), item.getAttributeValue(attr));
@@ -95,64 +125,68 @@ public class ClusterConstraints extends HelixProperty implements IClusterConstra
     _constraints.put(constraintId, item);
   }
 
-  /* (non-Javadoc)
-   * @see org.apache.helix.model.IClusterConstraints#addConstraintItem(java.lang.String, org.apache.helix.model.ConstraintItem)
+  /*
+   * (non-Javadoc)
+   * @see org.apache.helix.model.IClusterConstraints#addConstraintItem(java.lang.String,
+   * org.apache.helix.model.ConstraintItem)
    */
-  @Override
-  public void addConstraintItem(String constraintId, IConstraintItem item) {
+  public void addConstraintItem(String constraintId, ConstraintItem item) {
     addConstraintItem(ConstraintId.from(constraintId), item);
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IClusterConstraints#addConstraintItems(java.util.Map)
    */
-  @Override
-  public  <T extends IConstraintItem> void addConstraintItems(Map<String, T> items) {
+  public <T extends ConstraintItem> void addConstraintItems(Map<String, T> items) {
     for (String constraintId : items.keySet()) {
       addConstraintItem(constraintId, items.get(constraintId));
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.apache.helix.model.IClusterConstraints#removeConstraintItem(org.apache.helix.api.id.ConstraintId)
+  /*
+   * (non-Javadoc)
+   * @see org.apache.helix.model.IClusterConstraints#removeConstraintItem(org.apache.helix.api.id.
+   * ConstraintId)
    */
-  @Override
   public void removeConstraintItem(ConstraintId constraintId) {
     _constraints.remove(constraintId);
     _record.getMapFields().remove(constraintId.toString());
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IClusterConstraints#removeConstraintItem(java.lang.String)
    */
-  @Override
   public void removeConstraintItem(String constraintId) {
     removeConstraintItem(ConstraintId.from(constraintId));
   }
 
-  /* (non-Javadoc)
-   * @see org.apache.helix.model.IClusterConstraints#getConstraintItem(org.apache.helix.api.id.ConstraintId)
+  /*
+   * (non-Javadoc)
+   * @see
+   * org.apache.helix.model.IClusterConstraints#getConstraintItem(org.apache.helix.api.id.ConstraintId
+   * )
    */
-  @Override
-  public <T extends IConstraintItem> T getConstraintItem(ConstraintId constraintId) {
+  public <T extends ConstraintItem> T getConstraintItem(ConstraintId constraintId) {
     return (T) _constraints.get(constraintId);
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IClusterConstraints#getConstraintItem(java.lang.String)
    */
-  @Override
-  public <T extends IConstraintItem> T getConstraintItem(String constraintId) {
+  public <T extends ConstraintItem> T getConstraintItem(String constraintId) {
     return getConstraintItem(ConstraintId.from(constraintId));
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IClusterConstraints#match(java.util.Map)
    */
-  @Override
-  public <T extends IConstraintItem> Set<T> match(Map<ConstraintAttribute, String> attributes) {
+  public <T extends ConstraintItem> Set<T> match(Map<ConstraintAttribute, String> attributes) {
     Set<T> matches = new HashSet<T>();
-    for (IConstraintItem item : _constraints.values()) {
+    for (ConstraintItem item : _constraints.values()) {
       if (item.match(attributes)) {
         matches.add((T) item);
       }
@@ -160,11 +194,11 @@ public class ClusterConstraints extends HelixProperty implements IClusterConstra
     return matches;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IClusterConstraints#getConstraintItems()
    */
-  @Override
-  public <T extends IConstraintItem> Map<ConstraintId, T> getConstraintItems() {
+  public <T extends ConstraintItem> Map<ConstraintId, T> getConstraintItems() {
     return (Map<ConstraintId, T>) _constraints;
   }
 
@@ -195,10 +229,10 @@ public class ClusterConstraints extends HelixProperty implements IClusterConstra
     return attributes;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.apache.helix.model.IClusterConstraints#isValid()
    */
-  @Override
   public boolean isValid() {
     return true;
   }

@@ -41,47 +41,45 @@ import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.apache.helix.AccessOption;
 import org.apache.helix.ConfigAccessor;
 import org.apache.helix.HelixAdmin;
-import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.HelixDefinedState;
 import org.apache.helix.HelixException;
-import org.apache.helix.InstanceType;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyPathConfig;
-import org.apache.helix.PropertyType;
 import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.StatsHolder;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
 import org.apache.helix.api.id.ConstraintId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.PropertyPathConfig;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageState;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.model.Alerts;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
+import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.ExternalView;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageState;
-import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.PauseSignal;
 import org.apache.helix.model.PersistentStats;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.util.HelixUtil;
 import org.apache.helix.util.RebalanceUtil;
 import org.apache.log4j.Logger;
@@ -171,7 +169,7 @@ public class ZKHelixAdmin implements HelixAdmin {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     return accessor.getProperty(keyBuilder.instanceConfig(instanceName));
   }
@@ -288,7 +286,7 @@ public class ZKHelixAdmin implements HelixAdmin {
   public void enableCluster(String clusterName, boolean enabled) {
     HelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     if (enabled) {
       accessor.removeProperty(keyBuilder.pause());
@@ -302,7 +300,7 @@ public class ZKHelixAdmin implements HelixAdmin {
       List<String> partitionNames) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     // check the instance is alive
     LiveInstance liveInstance = accessor.getProperty(keyBuilder.liveInstance(instanceName));
@@ -407,7 +405,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     // TODO: not mp-safe
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     List<ExternalView> extViews = accessor.getChildValues(keyBuilder.externalViews());
 
     Set<String> resetInstanceNames = new HashSet<String>(instanceNames);
@@ -433,7 +431,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     // TODO: not mp-safe
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     List<ExternalView> extViews = accessor.getChildValues(keyBuilder.externalViews());
 
     Set<String> resetResourceNames = new HashSet<String>(resourceNames);
@@ -567,7 +565,7 @@ public class ZKHelixAdmin implements HelixAdmin {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     for (String instanceName : instances) {
       InstanceConfig config = accessor.getProperty(keyBuilder.instanceConfig(instanceName));
@@ -634,7 +632,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     idealState.setRebalanceMode(mode);
     idealState.setReplicas("" + 0);
     idealState.setStateModelFactoryId(StateModelFactoryId
-        .from(HelixConstants.DEFAULT_STATE_MODEL_FACTORY));
+        .from(StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY));
     if (maxPartitionsPerInstance > 0 && maxPartitionsPerInstance < Integer.MAX_VALUE) {
       idealState.setMaxPartitionsPerInstance(maxPartitionsPerInstance);
     }
@@ -665,7 +663,7 @@ public class ZKHelixAdmin implements HelixAdmin {
   public IdealState getResourceIdealState(String clusterName, String resourceName) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     return accessor.getProperty(keyBuilder.idealStates(resourceName));
   }
@@ -674,7 +672,7 @@ public class ZKHelixAdmin implements HelixAdmin {
   public void setResourceIdealState(String clusterName, String resourceName, IdealState idealState) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     accessor.setProperty(keyBuilder.idealStates(resourceName), idealState);
   }
@@ -683,7 +681,7 @@ public class ZKHelixAdmin implements HelixAdmin {
   public ExternalView getResourceExternalView(String clusterName, String resourceName) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     return accessor.getProperty(keyBuilder.externalView(resourceName));
   }
 
@@ -702,7 +700,7 @@ public class ZKHelixAdmin implements HelixAdmin {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     accessor.setProperty(keyBuilder.stateModelDef(stateModel.getId()), stateModel);
   }
 
@@ -710,7 +708,7 @@ public class ZKHelixAdmin implements HelixAdmin {
   public void dropResource(String clusterName, String resourceName) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     accessor.removeProperty(keyBuilder.idealStates(resourceName));
     accessor.removeProperty(keyBuilder.resourceConfig(resourceName));
@@ -725,7 +723,7 @@ public class ZKHelixAdmin implements HelixAdmin {
   public StateModelDefinition getStateModelDef(String clusterName, String stateModelName) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     return accessor.getProperty(keyBuilder.stateModelDef(stateModelName));
   }
@@ -808,7 +806,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     logger.info("Deleting cluster " + clusterName);
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     String root = "/" + clusterName;
     if (accessor.getChildNames(keyBuilder.liveInstances()).size() > 0) {
@@ -916,9 +914,10 @@ public class ZKHelixAdmin implements HelixAdmin {
 
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(grandCluster, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
-    accessor.setProperty(keyBuilder.idealStates(idealState.getResourceId().stringify()), idealState);
+    accessor
+        .setProperty(keyBuilder.idealStates(idealState.getResourceId().stringify()), idealState);
   }
 
   @Override
@@ -987,7 +986,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     idealState.setReplicas(Integer.toString(replica));
     int partitions = idealState.getNumPartitions();
     String stateModelName = idealState.getStateModelDefId().stringify();
-    IStateModelDefinition stateModDef = getStateModelDef(clusterName, stateModelName);
+    StateModelDefinition stateModDef = getStateModelDef(clusterName, stateModelName);
 
     if (stateModDef == null) {
       throw new HelixException("cannot find state model: " + stateModelName);
@@ -1088,12 +1087,11 @@ public class ZKHelixAdmin implements HelixAdmin {
 
   }
 
-  @Override
   public void setConstraint(String clusterName, final ConstraintType constraintType,
       final String constraintId, final ConstraintItem constraintItem) {
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<ZNRecord>(_zkClient);
 
-    Builder keyBuilder = new Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     String path = keyBuilder.constraint(constraintType.toString()).getPath();
 
     baseAccessor.update(path, new DataUpdater<ZNRecord>() {
@@ -1109,12 +1107,11 @@ public class ZKHelixAdmin implements HelixAdmin {
     }, AccessOption.PERSISTENT);
   }
 
-  @Override
   public void removeConstraint(String clusterName, final ConstraintType constraintType,
       final String constraintId) {
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<ZNRecord>(_zkClient);
 
-    Builder keyBuilder = new Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     String path = keyBuilder.constraint(constraintType.toString()).getPath();
 
     baseAccessor.update(path, new DataUpdater<ZNRecord>() {
@@ -1136,7 +1133,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     HelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
 
-    Builder keyBuilder = new Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     return accessor.getProperty(keyBuilder.constraint(constraintType.toString()));
   }
 
@@ -1162,7 +1159,7 @@ public class ZKHelixAdmin implements HelixAdmin {
 
     Map<String, Object> balancedRecord =
         DefaultTwoStateStrategy.calculateNextIdealState(instanceNames, previousIdealState);
-    IStateModelDefinition stateModDef =
+    StateModelDefinition stateModDef =
         this.getStateModelDef(clusterName, currentIdealState.getStateModelDefId().stringify());
 
     if (stateModDef == null) {
@@ -1212,7 +1209,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     }
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     InstanceConfig config = accessor.getProperty(keyBuilder.instanceConfig(instanceName));
     config.addTag(tag);
@@ -1231,7 +1228,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     }
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     InstanceConfig config = accessor.getProperty(keyBuilder.instanceConfig(instanceName));
     config.removeTag(tag);

@@ -34,15 +34,15 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.SessionId;
 import org.apache.helix.model.Error;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageType;
-import org.apache.helix.model.StatusUpdate;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.StatusUpdate;
 import org.apache.log4j.Logger;
 
 /**
@@ -128,7 +128,7 @@ public class StatusUpdateUtil {
     // passing null for sessionID results in searching across all sessions
     public static StatusUpdateContents getStatusUpdateContents(HelixDataAccessor accessor,
         String instance, String resourceGroup, String sessionID, String partition) {
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
       List<ZNRecord> instances =
           HelixProperty.convertToList(accessor.getChildValues(keyBuilder.instanceConfigs()));
@@ -305,8 +305,9 @@ public class StatusUpdateUtil {
 
   String getRecordIdForMessage(Message message) {
     if (message.getMsgType().equals(MessageType.STATE_TRANSITION)) {
-      return message.getPartitionId() + " Trans:" + message.getTypedFromState().toString().charAt(0)
-          + "->" + message.getTypedToState().toString().charAt(0) + "  " + UUID.randomUUID().toString();
+      return message.getPartitionId() + " Trans:"
+          + message.getTypedFromState().toString().charAt(0) + "->"
+          + message.getTypedToState().toString().charAt(0) + "  " + UUID.randomUUID().toString();
     } else {
       return message.getMsgType() + " " + UUID.randomUUID().toString();
     }
@@ -384,7 +385,7 @@ public class StatusUpdateUtil {
       sessionId = SessionId.from("*");
     }
 
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     if (!_recordedMessages.containsKey(message.getMessageId().stringify())) {
       // TODO instanceName of a controller might be any string
       if (instanceName.equalsIgnoreCase("Controller")) {
@@ -481,7 +482,7 @@ public class StatusUpdateUtil {
       sessionId = SessionId.from("*");
     }
 
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     // TODO remove the hard code: "controller"
     if (instanceName.equalsIgnoreCase("controller")) {

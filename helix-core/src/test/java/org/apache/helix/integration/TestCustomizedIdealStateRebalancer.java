@@ -26,14 +26,14 @@ import java.util.Map;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.State;
 import org.apache.helix.api.id.ContextId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.BasicControllerContext;
 import org.apache.helix.controller.context.ControllerContextHolder;
@@ -51,7 +51,6 @@ import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.ResourceAssignment;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.apache.helix.tools.ClusterStateVerifier.ZkVerifier;
 import org.testng.Assert;
@@ -72,11 +71,11 @@ public class TestCustomizedIdealStateRebalancer extends
      * which is in the highest-priority state.
      */
     @Override
-    public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
+    public ResourceAssignment computeResourceMapping(RebalancerConfiguration rebalancerConfig,
         ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState) {
       BasicRebalancerConfig config =
           BasicRebalancerConfig.convert(rebalancerConfig, BasicRebalancerConfig.class);
-      IStateModelDefinition stateModelDef =
+      StateModelDefinition stateModelDef =
           cluster.getStateModelMap().get(config.getStateModelDefId());
       List<ParticipantId> liveParticipants =
           new ArrayList<ParticipantId>(cluster.getLiveParticipantMap().keySet());
@@ -123,7 +122,7 @@ public class TestCustomizedIdealStateRebalancer extends
     Thread.sleep(1000);
     HelixDataAccessor accessor =
         new ZKHelixDataAccessor(CLUSTER_NAME, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     ExternalView ev = accessor.getProperty(keyBuilder.externalView(db2));
     Assert.assertEquals(ev.getPartitionSet().size(), 60);
     for (String partition : ev.getPartitionSet()) {
@@ -159,7 +158,7 @@ public class TestCustomizedIdealStateRebalancer extends
       try {
         HelixDataAccessor accessor =
             new ZKHelixDataAccessor(_clusterName, new ZkBaseDataAccessor<ZNRecord>(_client));
-        Builder keyBuilder = accessor.keyBuilder();
+        PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
         IdealState idealState = accessor.getProperty(keyBuilder.idealStates(_resourceName));
         int numberOfPartitions = idealState.getRecord().getListFields().size();
         String stateModelDefName = idealState.getStateModelDefId().stringify();

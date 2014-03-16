@@ -22,9 +22,9 @@ package org.apache.helix.model.builder;
 import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixException;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.id.StateModelFactoryId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.model.IdealState;
 
 public abstract class IdealStateBuilder {
@@ -50,7 +50,7 @@ public abstract class IdealStateBuilder {
    * uses the implementation specified per state model.<br/>
    * This is optional
    */
-  private String stateModelFactoryName = HelixConstants.DEFAULT_STATE_MODEL_FACTORY;
+  private String stateModelFactoryName = StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY;
   /**
    * Helix rebalancer strategies. AUTO, SEMI_AUTO, CUSTOMIZED
    */

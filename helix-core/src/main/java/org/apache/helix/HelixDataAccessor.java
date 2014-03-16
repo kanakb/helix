@@ -23,8 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.I0Itec.zkclient.DataUpdater;
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.PropertyKey;
 
 /**
  * Interface used to interact with Helix Data Types like IdealState, Config,
@@ -140,7 +141,7 @@ public interface HelixDataAccessor {
    * Get key builder for the accessor
    * @return instantiated PropertyKey.Builder
    */
-  PropertyKey.Builder keyBuilder();
+  PropertyKeyBuilder keyBuilder();
 
   /**
    * Get underlying base data accessor

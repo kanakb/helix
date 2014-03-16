@@ -20,7 +20,7 @@ package org.apache.helix.examples;
  */
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelFactory;
 

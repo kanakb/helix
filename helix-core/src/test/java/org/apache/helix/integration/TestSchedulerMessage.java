@@ -35,11 +35,7 @@ import java.util.concurrent.CountDownLatch;
 import org.apache.helix.Criteria;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyType;
 import org.apache.helix.TestHelper;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.manager.zk.DefaultSchedulerMessageHandlerFactory;
@@ -47,13 +43,17 @@ import org.apache.helix.messaging.AsyncCallback;
 import org.apache.helix.messaging.handling.HelixTaskResult;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IClusterConstraints.ConstraintType;
+import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.model.ConstraintItem;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageState;
-import org.apache.helix.api.model.IMessage.MessageType;
-import org.apache.helix.model.StatusUpdate;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageState;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.statemachine.StatusUpdate;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.monitoring.ZKPathDataDumpTask;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Level;
@@ -241,7 +241,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField("TIMEOUT", "-1");
 
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
     helixDataAccessor.createProperty(keyBuilder.controllerMessage(schedulerMessage.getMsgId()),
         schedulerMessage);
 
@@ -329,7 +329,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField("TIMEOUT", "-1");
 
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
     helixDataAccessor.createProperty(keyBuilder.controllerMessage(schedulerMessage.getMsgId()),
         schedulerMessage);
 
@@ -482,7 +482,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
             .get(DefaultSchedulerMessageHandlerFactory.SCHEDULER_MSG_ID);
 
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
     for (int i = 0; i < 10; i++) {
       Thread.sleep(200);
       PropertyKey controllerTaskStatus =
@@ -559,7 +559,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField("TIMEOUT", "-1");
 
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
     PropertyKey controllerMessageKey = keyBuilder.controllerMessage(schedulerMessage.getMsgId());
     helixDataAccessor.setProperty(controllerMessageKey, schedulerMessage);
 
@@ -670,7 +670,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
               DefaultSchedulerMessageHandlerFactory.SCHEDULER_MSG_ID);
 
       HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-      Builder keyBuilder = helixDataAccessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
 
       for (int j = 0; j < 100; j++) {
         Thread.sleep(200);
@@ -814,7 +814,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     Assert.assertTrue(success, "If not specifying participant, controller will send 60 messages");
 
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
     ArrayList<String> msgIds = new ArrayList<String>();
     for (int i = 0; i < NODE_NR; i++) {
       callback = new MockAsyncCallback();
@@ -957,7 +957,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     mapper.writeValue(sw, cr);
 
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
 
     // Set contraints that only 1 msg per participant
     Map<String, String> constraints = new TreeMap<String, String>();

@@ -27,30 +27,30 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.HelixDefinedState;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.ZNRecordDelta;
 import org.apache.helix.api.ZNRecordDelta.MergeOperation;
-import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageType;
-import org.apache.helix.model.StatusUpdate;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StatusUpdate;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.monitoring.mbeans.ClusterStatusMonitor;
 import org.apache.log4j.Logger;
 
@@ -73,7 +73,7 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
     }
 
     HelixDataAccessor dataAccessor = manager.getHelixDataAccessor();
-    PropertyKey.Builder keyBuilder = dataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = dataAccessor.keyBuilder();
 
     ResourceCurrentState currentStateOutput =
         event.getAttribute(AttributeName.CURRENT_STATE.toString());
@@ -91,7 +91,7 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
       // if resource ideal state has bucket size, set it
       // otherwise resource has been dropped, use bucket size from current state instead
       ResourceConfig resource = resourceMap.get(resourceId);
-      RebalancerConfig rebalancerConfig = resource.getRebalancerConfig();
+      RebalancerConfiguration rebalancerConfig = resource.getRebalancerConfig();
       SchedulerTaskConfig schedulerTaskConfig = resource.getSchedulerTaskConfig();
 
       if (resource.getBucketSize() > 0) {
@@ -172,7 +172,7 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
   private void updateScheduledTaskStatus(ResourceId resourceId, ExternalView ev,
       HelixManager manager, SchedulerTaskConfig schedulerTaskConfig) {
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord finishedTasks = new ZNRecord(ev.getResourceName());
 

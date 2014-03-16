@@ -20,7 +20,7 @@ package org.apache.helix.messaging.handling;
  */
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 
 public interface MessageHandlerFactory {
   MessageHandler createHandler(Message message, NotificationContext context);

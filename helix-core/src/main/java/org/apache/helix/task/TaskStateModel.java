@@ -25,9 +25,10 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
 import org.apache.helix.participant.statemachine.Transition;
@@ -222,8 +223,7 @@ public class TaskStateModel extends StateModel {
 
     _taskRunner =
         new TaskRunner(this, task, msg.getResourceName(), taskPartition, msg.getTgtName(),
-            _manager,
-            msg.getTgtSessionId());
+            _manager, msg.getTgtSessionId());
     _taskExecutor.submit(_taskRunner);
     _taskRunner.waitTillStarted();
 

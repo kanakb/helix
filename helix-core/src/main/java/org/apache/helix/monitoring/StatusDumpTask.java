@@ -27,10 +27,10 @@ import java.util.TimerTask;
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixTimerTask;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.store.ZNRecordJsonSerializer;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;
@@ -45,7 +45,7 @@ public class StatusDumpTask extends HelixTimerTask {
 
   class StatusDumpTimerTask extends TimerTask {
     final HelixDataAccessor _accessor;
-    final PropertyKey.Builder _keyBuilder;
+    final PropertyKeyBuilder _keyBuilder;
     final BaseDataAccessor<ZNRecord> _baseAccessor;
     final ZNRecordJsonSerializer _serializer;
     final long _thresholdNoChangeInMs;

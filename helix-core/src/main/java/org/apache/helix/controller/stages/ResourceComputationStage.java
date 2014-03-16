@@ -22,12 +22,12 @@ package org.apache.helix.controller.stages;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelFactoryId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
@@ -65,7 +65,7 @@ public class ResourceComputationStage extends AbstractBaseStage {
 
     for (ResourceId resourceId : cluster.getResourceMap().keySet()) {
       Resource resource = cluster.getResource(resourceId);
-      RebalancerConfig rebalancerCfg = resource.getRebalancerConfig();
+      RebalancerConfiguration rebalancerCfg = resource.getRebalancerConfig();
 
       ResourceConfigBuilder resCfgBuilder = ResourceConfigBuilder.newInstance().with(resourceId);
       resCfgBuilder.bucketSize(resource.getBucketSize());

@@ -33,21 +33,20 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.helix.HelixDefinedState;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.config.builder.ClusterConfigBuilder;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.core.config.builder.ClusterConfigBuilder;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -118,7 +117,7 @@ public class TestAutoRebalanceStrategy {
       states.put(stateNames[i], stateCounts[i]);
     }
 
-    IStateModelDefinition stateModelDef = getIncompleteStateModelDef(name, stateNames[0], states);
+    StateModelDefinition stateModelDef = getIncompleteStateModelDef(name, stateNames[0], states);
 
     new AutoRebalanceTester(partitions, states, liveNodes, currentMapping, allNodes, maxPerNode,
         stateModelDef, new AutoRebalanceStrategy.DefaultPlacementScheme())
@@ -133,7 +132,7 @@ public class TestAutoRebalanceStrategy {
    * @param states ordered map of state to count
    * @return incomplete StateModelDefinition for rebalancing
    */
-  private IStateModelDefinition getIncompleteStateModelDef(String modelName, String initialState,
+  private StateModelDefinition getIncompleteStateModelDef(String modelName, String initialState,
       LinkedHashMap<String, Integer> states) {
     StateModelDefinition.Builder builder =
         new StateModelDefinition.Builder(StateModelDefId.from(modelName));
@@ -162,13 +161,13 @@ public class TestAutoRebalanceStrategy {
     private Map<String, Map<String, String>> _currentMapping;
     private List<String> _allNodes;
     private int _maxPerNode;
-    private IStateModelDefinition _stateModelDef;
+    private StateModelDefinition _stateModelDef;
     private ReplicaPlacementScheme _placementScheme;
     private Random _random;
 
     public AutoRebalanceTester(List<String> partitions, LinkedHashMap<String, Integer> states,
         List<String> liveNodes, Map<String, Map<String, String>> currentMapping,
-        List<String> allNodes, int maxPerNode, IStateModelDefinition stateModelDef,
+        List<String> allNodes, int maxPerNode, StateModelDefinition stateModelDef,
         ReplicaPlacementScheme placementScheme) {
       _partitions = partitions;
       _states = states;
@@ -224,7 +223,7 @@ public class TestAutoRebalanceStrategy {
       for (String partition : _partitions) {
         Map<String, String> rawCurStateMap = _currentMapping.get(partition);
         ClusterConfig cluster =
-            ClusterConfigBuilder.newInstance().withClusterId(ClusterId.from("cluster")).addStateModelDefinition(
+            new ClusterConfigBuilder().withClusterId(ClusterId.from("cluster")).addStateModelDefinition(
                 _stateModelDef).build();
         Set<ParticipantId> liveParticipantSet = Sets.newHashSet();
         for (String node : _liveNodes) {
@@ -601,7 +600,7 @@ public class TestAutoRebalanceStrategy {
             PartitionId.from("resource_0"), PartitionId.from("resource_1"),
             PartitionId.from("resource_2")
         };
-    final IStateModelDefinition STATE_MODEL =
+    final StateModelDefinition STATE_MODEL =
         new StateModelDefinition(StateModelConfigGenerator.generateConfigForMasterSlave());
     final int REPLICA_COUNT = 2;
     final ParticipantId[] NODES = {

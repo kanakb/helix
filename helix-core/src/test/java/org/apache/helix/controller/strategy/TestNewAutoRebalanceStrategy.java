@@ -33,27 +33,26 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.helix.HelixDefinedState;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.api.config.Scope;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.config.UserConfig;
-import org.apache.helix.api.config.builder.ClusterConfigBuilder;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.core.config.builder.ClusterConfigBuilder;
+import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
 import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.Message;
 import org.apache.helix.model.ResourceAssignment;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
@@ -120,7 +119,7 @@ public class TestNewAutoRebalanceStrategy {
       states.put(stateNames[i], stateCounts[i]);
     }
 
-    IStateModelDefinition stateModelDef = getIncompleteStateModelDef(name, stateNames[0], states);
+    StateModelDefinition stateModelDef = getIncompleteStateModelDef(name, stateNames[0], states);
 
     new AutoRebalanceTester(partitions, states, liveNodes, currentMapping, allNodes, maxPerNode,
         stateModelDef, new AutoRebalanceStrategy.DefaultPlacementScheme())
@@ -135,7 +134,7 @@ public class TestNewAutoRebalanceStrategy {
    * @param states ordered map of state to count
    * @return incomplete StateModelDefinition for rebalancing
    */
-  private IStateModelDefinition getIncompleteStateModelDef(String modelName, String initialState,
+  private StateModelDefinition getIncompleteStateModelDef(String modelName, String initialState,
       LinkedHashMap<String, Integer> states) {
     StateModelDefinition.Builder builder =
         new StateModelDefinition.Builder(StateModelDefId.from(modelName));
@@ -164,13 +163,13 @@ public class TestNewAutoRebalanceStrategy {
     private Map<String, Map<String, String>> _currentMapping;
     private List<String> _allNodes;
     private int _maxPerNode;
-    private IStateModelDefinition _stateModelDef;
+    private StateModelDefinition _stateModelDef;
     private ReplicaPlacementScheme _placementScheme;
     private Random _random;
 
     public AutoRebalanceTester(List<String> partitions, LinkedHashMap<String, Integer> states,
         List<String> liveNodes, Map<String, Map<String, String>> currentMapping,
-        List<String> allNodes, int maxPerNode, IStateModelDefinition stateModelDef,
+        List<String> allNodes, int maxPerNode, StateModelDefinition stateModelDef,
         ReplicaPlacementScheme placementScheme) {
       _partitions = partitions;
       _states = states;
@@ -226,7 +225,7 @@ public class TestNewAutoRebalanceStrategy {
           new HashMap<PartitionId, Map<ParticipantId, State>>();
       ClusterId clusterId = ClusterId.from("clusterId");
       ClusterConfigBuilder clusterConfigBuilder =
-          ClusterConfigBuilder.newInstance().withClusterId(clusterId)
+          new ClusterConfigBuilder().withClusterId(clusterId)
               .addStateModelDefinition(_stateModelDef);
       ClusterConfig clusterConfig = clusterConfigBuilder.build();
       for (String partition : _partitions) {

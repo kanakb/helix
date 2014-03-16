@@ -23,9 +23,9 @@ import org.apache.helix.ControllerChangeListener;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZkHelixLeaderElection;
@@ -67,7 +67,7 @@ public class DistClusterControllerElection implements ControllerChangeListener {
           || changeContext.getType().equals(NotificationContext.Type.CALLBACK)) {
         // DataAccessor dataAccessor = manager.getDataAccessor();
         HelixDataAccessor accessor = manager.getHelixDataAccessor();
-        Builder keyBuilder = accessor.keyBuilder();
+        PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
         while (accessor.getProperty(keyBuilder.controllerLeader()) == null) {
           boolean success = ZkHelixLeaderElection.tryUpdateController(manager);

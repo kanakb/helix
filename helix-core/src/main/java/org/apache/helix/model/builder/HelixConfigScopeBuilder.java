@@ -21,8 +21,8 @@ package org.apache.helix.model.builder;
 
 import java.util.Arrays;
 
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 
 /**
  * config-scope builder that replaces @link ConfigScopeBuilder

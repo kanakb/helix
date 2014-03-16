@@ -20,7 +20,7 @@ package org.apache.helix.mock.participant;
  */
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.log4j.Logger;
 
 public class MockTransition {

@@ -26,25 +26,25 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.id.StateModelFactoryId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageState;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageState;
-import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.model.ResourceAssignment;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 /**
@@ -76,7 +76,7 @@ public class MessageGenerationStage extends AbstractBaseStage {
       ResourceConfig resourceConfig = resourceMap.get(resourceId);
       int bucketSize = resourceConfig.getBucketSize();
 
-      RebalancerConfig rebalancerCfg = resourceConfig.getRebalancerConfig();
+      RebalancerConfiguration rebalancerCfg = resourceConfig.getRebalancerConfig();
       StateModelDefinition stateModelDef = stateModelDefMap.get(rebalancerCfg.getStateModelDefId());
 
       ResourceAssignment resourceAssignment =
@@ -131,7 +131,7 @@ public class MessageGenerationStage extends AbstractBaseStage {
             SessionId sessionId =
                 cluster.getLiveParticipantMap().get(participantId).getRunningInstance()
                     .getSessionId();
-            RebalancerConfig rebalancerConfig = resourceConfig.getRebalancerConfig();
+            RebalancerConfiguration rebalancerConfig = resourceConfig.getRebalancerConfig();
             Message message =
                 createMessage(manager, resourceId, subUnitId, participantId, currentState,
                     nextState, sessionId, StateModelDefId.from(stateModelDef.getId()),
@@ -162,7 +162,7 @@ public class MessageGenerationStage extends AbstractBaseStage {
                 message.setExecutionTimeout(timeout);
               }
             }
-            message.setClusterEvent(event);
+            message.setClusterEventName(event.getName());
 
             if (!messageMap.containsKey(desiredState)) {
               messageMap.put(desiredState, new ArrayList<Message>());

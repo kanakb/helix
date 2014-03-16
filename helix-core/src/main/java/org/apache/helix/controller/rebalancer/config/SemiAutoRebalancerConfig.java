@@ -23,9 +23,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.SemiAutoRebalancer;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
@@ -66,7 +66,7 @@ public final class SemiAutoRebalancerConfig extends AbstractAutoRebalancerConfig
     private Map<PartitionId, List<ParticipantId>> _preferenceLists = Maps.newHashMap();
 
     @Override
-    public Builder withExistingConfig(RebalancerConfig config) {
+    public Builder withExistingConfig(RebalancerConfiguration config) {
       super.withExistingConfig(config);
       SemiAutoRebalancerConfig semiAutoConfig =
           BasicRebalancerConfig.convert(config, SemiAutoRebalancerConfig.class);

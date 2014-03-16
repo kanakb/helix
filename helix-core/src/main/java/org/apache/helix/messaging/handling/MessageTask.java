@@ -22,7 +22,7 @@ package org.apache.helix.messaging.handling;
 import java.util.concurrent.Callable;
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 
 public interface MessageTask extends Callable<HelixTaskResult> {
   String getTaskId();

@@ -24,7 +24,8 @@ import java.util.List;
 import org.I0Itec.zkclient.exception.ZkInterruptedException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixTimerTask;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.messaging.DefaultMessagingService;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
@@ -85,7 +86,7 @@ public class ControllerManagerHelper {
   }
 
   public void removeListenersFromController(GenericHelixController controller) {
-    PropertyKey.Builder keyBuilder = new PropertyKey.Builder(_manager.getClusterName());
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(_manager.getClusterName());
     /**
      * reset generic-controller
      */

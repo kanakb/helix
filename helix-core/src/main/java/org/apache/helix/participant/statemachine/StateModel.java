@@ -20,7 +20,7 @@ package org.apache.helix.participant.statemachine;
  */
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.log4j.Logger;
 
 public abstract class StateModel {

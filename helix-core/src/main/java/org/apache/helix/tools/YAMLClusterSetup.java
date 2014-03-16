@@ -12,14 +12,14 @@ import java.util.Set;
 
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixException;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZKHelixManager;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.tools.YAMLClusterSetup.YAMLClusterConfig.ParticipantConfig;
 import org.apache.helix.tools.YAMLClusterSetup.YAMLClusterConfig.ResourceConfig;

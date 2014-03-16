@@ -21,8 +21,8 @@ package org.apache.helix.model.builder;
 
 import java.util.ArrayList;
 
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.model.IdealState.RebalanceMode;
 
 /**

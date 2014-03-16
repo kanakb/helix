@@ -28,10 +28,10 @@ import java.util.regex.Pattern;
 
 import org.apache.helix.Criteria;
 import org.apache.helix.Criteria.DataSource;
-import org.apache.helix.api.HelixProperty;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.Lists;
@@ -49,7 +49,7 @@ public class CriteriaEvaluator {
   public List<Map<String, String>> evaluateCriteria(Criteria recipientCriteria, HelixManager manager) {
     // get the data
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     Set<Map<String, String>> selected = Sets.newHashSet();
     List<HelixProperty> properties;
     if (recipientCriteria.getDataSource() == DataSource.EXTERNALVIEW) {

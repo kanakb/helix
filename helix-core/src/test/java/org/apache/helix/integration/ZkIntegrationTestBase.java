@@ -23,7 +23,7 @@ import java.util.logging.Level;
 
 import org.I0Itec.zkclient.ZkServer;
 import org.apache.helix.ConfigAccessor;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
@@ -83,7 +83,7 @@ public class ZkIntegrationTestBase {
   protected String getCurrentLeader(ZkClient zkClient, String clusterName) {
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(zkClient));
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     if (leader == null) {

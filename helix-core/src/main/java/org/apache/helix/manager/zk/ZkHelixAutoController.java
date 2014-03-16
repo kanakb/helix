@@ -21,13 +21,13 @@ package org.apache.helix.manager.zk;
 
 import org.apache.helix.ClusterMessagingService;
 import org.apache.helix.HelixConnection;
-import org.apache.helix.InstanceType;
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.PreConnectCallback;
-import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
-import org.apache.helix.api.id.Id;
-import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.Id;
+import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.participant.StateMachineEngine;
 import org.apache.log4j.Logger;

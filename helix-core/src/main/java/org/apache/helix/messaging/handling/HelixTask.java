@@ -24,16 +24,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.MapKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.config.State;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.Attributes;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.messaging.handling.MessageHandler.ErrorCode;
 import org.apache.helix.messaging.handling.MessageHandler.ErrorType;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.Attributes;
-import org.apache.helix.api.model.IMessage.MessageType;
 import org.apache.helix.monitoring.StateTransitionContext;
 import org.apache.helix.monitoring.StateTransitionDataPoint;
 import org.apache.helix.util.StatusUpdateUtil;
@@ -179,7 +179,7 @@ public class HelixTask implements MessageTask {
   }
 
   private void removeMessageFromZk(HelixDataAccessor accessor, Message message) {
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     if (message.getTgtName().equalsIgnoreCase("controller")) {
       // TODO: removeProperty returns boolean
       accessor.removeProperty(keyBuilder.controllerMessage(message.getMessageId().stringify()));
@@ -206,12 +206,12 @@ public class HelixTask implements MessageTask {
       replyMessage.setSrcInstanceType(_manager.getInstanceType());
 
       if (message.getSrcInstanceType() == InstanceType.PARTICIPANT) {
-        Builder keyBuilder = accessor.keyBuilder();
+        PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
         accessor.setProperty(
             keyBuilder.message(message.getMsgSrc(), replyMessage.getMessageId().stringify()),
             replyMessage);
       } else if (message.getSrcInstanceType() == InstanceType.CONTROLLER) {
-        Builder keyBuilder = accessor.keyBuilder();
+        PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
         accessor.setProperty(keyBuilder.controllerMessage(replyMessage.getMessageId().stringify()),
             replyMessage);
       }

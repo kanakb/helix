@@ -35,7 +35,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.helix.ConfigAccessor;
-import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
@@ -43,15 +42,16 @@ import org.apache.helix.MessageListener;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.MapKey;
 import org.apache.helix.NotificationContext.Type;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
 import org.apache.helix.model.ConfigScope;
 import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageState;
-import org.apache.helix.api.model.IMessage.MessageType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageState;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.model.builder.ConfigScopeBuilder;
 import org.apache.helix.monitoring.ParticipantMonitor;
 import org.apache.helix.participant.HelixStateMachineEngine;
@@ -338,10 +338,10 @@ public class HelixTaskExecutor implements MessageListener, TaskExecutor {
 
   private void updateMessageState(List<Message> readMsgs, HelixDataAccessor accessor,
       String instanceName) {
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     List<PropertyKey> readMsgKeys = new ArrayList<PropertyKey>();
     for (Message msg : readMsgs) {
-      readMsgKeys.add(msg.getKey(keyBuilder, instanceName));
+      readMsgKeys.add(keyBuilder.getKey(msg.getId(), msg.isControlerMsg(), instanceName));
     }
     accessor.setChildren(readMsgKeys, readMsgs);
   }
@@ -407,7 +407,7 @@ public class HelixTaskExecutor implements MessageListener, TaskExecutor {
 
     HelixManager manager = changeContext.getManager();
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     // message handlers created
     List<MessageHandler> handlers = new ArrayList<MessageHandler>();
@@ -428,7 +428,8 @@ public class HelixTaskExecutor implements MessageListener, TaskExecutor {
       if (message.getMsgType().equalsIgnoreCase(MessageType.NO_OP.toString())) {
         LOG.info("Dropping NO-OP message. mid: " + message.getId() + ", from: "
             + message.getMsgSrc());
-        accessor.removeProperty(message.getKey(keyBuilder, instanceName));
+        accessor.removeProperty(keyBuilder.getKey(message.getId(), message.isControlerMsg(),
+            instanceName));
         continue;
       }
 
@@ -441,7 +442,8 @@ public class HelixTaskExecutor implements MessageListener, TaskExecutor {
                 + ", tgtSessionId in message: " + tgtSessionId + ", messageId: "
                 + message.getMessageId();
         LOG.warn(warningMessage);
-        accessor.removeProperty(message.getKey(keyBuilder, instanceName));
+        accessor.removeProperty(keyBuilder.getKey(message.getId(), message.isControlerMsg(),
+            instanceName));
         _statusUpdateUtil.logWarning(message, HelixStateMachineEngine.class, warningMessage,
             accessor);
         continue;
@@ -474,7 +476,8 @@ public class HelixTaskExecutor implements MessageListener, TaskExecutor {
         _statusUpdateUtil.logError(message, HelixStateMachineEngine.class, e, error, accessor);
 
         message.setMsgState(MessageState.UNPROCESSABLE);
-        accessor.removeProperty(message.getKey(keyBuilder, instanceName));
+        accessor.removeProperty(keyBuilder.getKey(message.getId(), message.isControlerMsg(),
+            instanceName));
         LOG.error("Message cannot be processed: " + message.getRecord(), e);
 
         continue;
@@ -509,7 +512,7 @@ public class HelixTaskExecutor implements MessageListener, TaskExecutor {
           if (ftyName != null) {
             metaCurState.setStateModelFactoryName(ftyName);
           } else {
-            metaCurState.setStateModelFactoryName(HelixConstants.DEFAULT_STATE_MODEL_FACTORY);
+            metaCurState.setStateModelFactoryName(StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
           }
 
           metaCurStates.add(metaCurState);

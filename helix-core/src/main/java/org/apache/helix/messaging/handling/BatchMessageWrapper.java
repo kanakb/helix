@@ -20,7 +20,7 @@ package org.apache.helix.messaging.handling;
  */
 
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.Message;
+import org.apache.helix.api.model.ipc.Message;
 
 /**
  * default implementation of handling start/end of batch messages

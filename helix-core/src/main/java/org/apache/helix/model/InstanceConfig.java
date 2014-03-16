@@ -25,12 +25,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.NamespacedConfig;
-import org.apache.helix.api.config.UserConfig;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.NamespacedConfig;
+import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;

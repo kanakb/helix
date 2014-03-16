@@ -21,8 +21,7 @@ package org.apache.helix.webapp.resources;
 
 import java.io.IOException;
 
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.webapp.RestAdminApplication;
 import org.apache.log4j.Logger;
@@ -70,7 +69,7 @@ public class StatusUpdateResource extends ServerResource {
     String instanceSessionId =
         ClusterRepresentationUtil.getInstanceSessionId(zkClient, clusterName, instanceName);
 
-    Builder keyBuilder = new PropertyKey.Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     String message =
         ClusterRepresentationUtil.getInstancePropertiesAsString(zkClient, clusterName,
             keyBuilder.stateTransitionStatus(instanceName, instanceSessionId, resourceGroup),

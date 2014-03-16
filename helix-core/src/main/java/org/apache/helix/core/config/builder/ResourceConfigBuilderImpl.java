@@ -3,13 +3,9 @@ package org.apache.helix.core.config.builder;
 import java.util.Map;
 
 import org.apache.helix.api.config.Partition;
-import org.apache.helix.api.config.RebalancerConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
-import org.apache.helix.api.config.Scope;
-import org.apache.helix.api.config.UserConfig;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
-import org.apache.helix.api.id.PartitionId;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -28,7 +24,11 @@ import org.apache.helix.api.id.PartitionId;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 
 import com.google.common.collect.Maps;
 
@@ -39,7 +39,7 @@ public class ResourceConfigBuilderImpl extends ResourceConfigBuilder {
    * Assembles a ResourceConfig
    */
   private ResourceId _id;
-  private RebalancerConfig _rebalancerConfig;
+  private RebalancerConfiguration _rebalancerConfig;
   private SchedulerTaskConfig _schedulerTaskConfig;
   private UserConfig _userConfig;
   private int _bucketSize;
@@ -74,7 +74,7 @@ public class ResourceConfigBuilderImpl extends ResourceConfigBuilder {
    * @return Builder
    */
   @Override
-  public ResourceConfigBuilder rebalancerConfig(RebalancerConfig rebalancerConfig) {
+  public ResourceConfigBuilder rebalancerConfig(RebalancerConfiguration rebalancerConfig) {
     _rebalancerConfig = rebalancerConfig;
     return this;
   }

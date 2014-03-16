@@ -25,23 +25,24 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.HelixDefinedState;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.Scope;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.config.UserConfig;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.ResourceConfiguration;
+import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.ResourceAssignment;
-import org.apache.helix.model.ResourceConfiguration;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.Maps;
@@ -50,7 +51,7 @@ public class ResourceAccessor {
   private static final Logger LOG = Logger.getLogger(ResourceAccessor.class);
   private final ClusterId _clusterId;
   private final HelixDataAccessor _accessor;
-  private final PropertyKey.Builder _keyBuilder;
+  private final PropertyKeyBuilder _keyBuilder;
 
   public ResourceAccessor(ClusterId clusterId, HelixDataAccessor accessor) {
     _clusterId = clusterId;
@@ -210,7 +211,7 @@ public class ResourceAccessor {
       ResourceConfiguration resourceConfiguration, IdealState idealState,
       ExternalView externalView, ResourceAssignment resourceAssignment) {
     UserConfig userConfig;
-    RebalancerConfig rebalancerConfig = null;
+    RebalancerConfiguration rebalancerConfig = null;
     if (resourceConfiguration != null) {
       userConfig = resourceConfiguration.getUserConfig();
     } else {
@@ -222,7 +223,7 @@ public class ResourceAccessor {
       if (resourceConfiguration != null
           && idealState.getRebalanceMode() == RebalanceMode.USER_DEFINED) {
         // prefer rebalancer config for user_defined data rebalancing
-        rebalancerConfig = resourceConfiguration.getRebalancerConfig(RebalancerConfig.class);
+        rebalancerConfig = resourceConfiguration.getRebalancerConfiguration();
       }
       if (rebalancerConfig == null) {
         // prefer ideal state for non-user_defined data rebalancing
@@ -234,7 +235,7 @@ public class ResourceAccessor {
     } else if (resourceConfiguration != null) {
       bucketSize = resourceConfiguration.getBucketSize();
       batchMessageMode = resourceConfiguration.getBatchMessageMode();
-      rebalancerConfig = resourceConfiguration.getRebalancerConfig(RebalancerConfig.class);
+      rebalancerConfig = resourceConfiguration.getRebalancerConfiguration();
     }
     if (rebalancerConfig == null) {
       rebalancerConfig = new BasicRebalancerConfig.Builder().build();

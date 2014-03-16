@@ -22,17 +22,17 @@ package org.apache.helix.integration;
 import java.util.UUID;
 
 import org.apache.helix.Criteria;
-import org.apache.helix.InstanceType;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.api.id.MessageId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.SessionId;
 import org.apache.helix.manager.zk.DefaultParticipantErrorMessageHandlerFactory;
 import org.apache.helix.manager.zk.DefaultParticipantErrorMessageHandlerFactory.ActionOnError;
 import org.apache.helix.model.ExternalView;
-import org.apache.helix.model.Message;
-import org.apache.helix.api.model.IMessage.MessageType;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.ipc.id.MessageId;
+import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.apache.helix.tools.ClusterStateVerifier.BestPossAndExtViewZkVerifier;
 import org.apache.log4j.Logger;
@@ -85,7 +85,7 @@ public class TestParticipantErrorMessage extends ZkStandAloneCMTestBase {
         ClusterStateVerifier.verifyByZkCallback(new BestPossAndExtViewZkVerifier(ZK_ADDR,
             CLUSTER_NAME));
     Assert.assertTrue(result);
-    Builder kb = _participants[1].getHelixDataAccessor().keyBuilder();
+    PropertyKeyBuilder kb = _participants[1].getHelixDataAccessor().keyBuilder();
     ExternalView externalView =
         _participants[1].getHelixDataAccessor().getProperty(
             kb.externalView("TestDB"));

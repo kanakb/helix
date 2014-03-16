@@ -19,7 +19,7 @@ package org.apache.helix.controller.rebalancer.config;
  * under the License.
  */
 
-import org.apache.helix.api.config.RebalancerConfig;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.serializer.StringSerializer;
 import org.apache.helix.model.IdealState.RebalanceMode;
@@ -27,7 +27,7 @@ import org.apache.helix.model.IdealState.RebalanceMode;
 /*
  * TODO: all the methods in this class should belong in the base interface
  */
-public abstract class AbstractRebalancerConfig implements RebalancerConfig {
+public abstract class AbstractRebalancerConfig implements RebalancerConfiguration {
 
   /**
    * Get the serializer for this config

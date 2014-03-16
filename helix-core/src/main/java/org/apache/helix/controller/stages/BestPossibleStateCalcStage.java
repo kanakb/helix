@@ -22,15 +22,15 @@ package org.apache.helix.controller.stages;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.helix.HelixDefinedState;
 import org.apache.helix.HelixManager;
 import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.context.ControllerContextProvider;
@@ -42,7 +42,6 @@ import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.rebalancer.config.AbstractRebalancerConfig;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.model.ResourceAssignment;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.Maps;
@@ -95,7 +94,7 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
    * @return assignment for the dropped resource
    */
   private ResourceAssignment mapDroppedResource(Cluster cluster, ResourceId resourceId,
-      ResourceCurrentState currentStateOutput, IStateModelDefinition stateModelDef) {
+      ResourceCurrentState currentStateOutput, StateModelDefinition stateModelDef) {
     ResourceAssignment partitionMapping = new ResourceAssignment(resourceId);
     Set<PartitionId> mappedPartitions =
         currentStateOutput.getCurrentStateMappedPartitions(resourceId);
@@ -126,7 +125,7 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
    */
   private void mapDroppedAndDisabledPartitions(Cluster cluster,
       ResourceAssignment resourceAssignment, ResourceCurrentState currentStateOutput,
-      IStateModelDefinition stateModelDef) {
+      StateModelDefinition stateModelDef) {
     // get the total partition set: mapped and current state
     ResourceId resourceId = resourceAssignment.getResourceId();
     Set<PartitionId> mappedPartitions = Sets.newHashSet();
@@ -181,7 +180,7 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
       ResourceConfig resourceConfig = resourceMap.get(resourceId);
       AbstractRebalancerConfig rebalancerConfig =
           (AbstractRebalancerConfig) resourceConfig.getRebalancerConfig();
-      IStateModelDefinition stateModelDef =
+      StateModelDefinition stateModelDef =
           stateModelDefs.get(rebalancerConfig.getStateModelDefId());
       ResourceAssignment resourceAssignment = null;
       if (rebalancerConfig != null) {

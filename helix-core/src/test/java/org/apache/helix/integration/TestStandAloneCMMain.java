@@ -22,7 +22,7 @@ package org.apache.helix.integration;
 import java.util.Date;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.TestHelper.Verifier;
 import org.apache.helix.api.ZNRecord;
@@ -54,7 +54,7 @@ public class TestStandAloneCMMain extends ZkStandAloneCMTestBase {
 
     final HelixDataAccessor accessor =
         new ZKHelixDataAccessor(CLUSTER_NAME, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    final PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    final PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     final String newControllerName = newController.getInstanceName();
     TestHelper.verify(new Verifier() {
 

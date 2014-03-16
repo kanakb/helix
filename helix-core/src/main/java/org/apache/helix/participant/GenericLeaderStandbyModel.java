@@ -24,8 +24,8 @@ import java.util.List;
 import org.apache.helix.HelixConstants.ChangeType;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.model.Message;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
 import org.apache.helix.participant.statemachine.Transition;
@@ -80,7 +80,7 @@ public class GenericLeaderStandbyModel extends StateModel {
       throw new IllegalArgumentException("Require HelixManager in notification conext");
     }
 
-    Builder keyBuilder = new Builder(manager.getClusterName());
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(manager.getClusterName());
     for (ChangeType notificationType : _notificationTypes) {
       if (notificationType == ChangeType.LIVE_INSTANCE) {
         manager.removeListener(keyBuilder.liveInstances(), _particHolder);

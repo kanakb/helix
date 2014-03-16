@@ -34,29 +34,29 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixTimerTask;
-import org.apache.helix.InstanceType;
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.PreConnectCallback;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.accessor.ParticipantAccessor;
 import org.apache.helix.api.config.ParticipantConfig;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.Id;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.StateModelDefId;
-import org.apache.helix.api.model.IStateModelDefinition;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.healthcheck.ParticipantHealthReportCollectorImpl;
 import org.apache.helix.healthcheck.ParticipantHealthReportTask;
 import org.apache.helix.messaging.DefaultMessagingService;
 import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.StateModelDefinition;
-import org.apache.helix.api.model.IMessage.MessageType;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.Id;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.participant.HelixStateMachineEngine;
 import org.apache.helix.participant.StateMachineEngine;
@@ -72,7 +72,7 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
   final ParticipantId _participantId;
   final ZKHelixDataAccessor _accessor;
   final BaseDataAccessor<ZNRecord> _baseAccessor;
-  final PropertyKey.Builder _keyBuilder;
+  final PropertyKeyBuilder _keyBuilder;
   final ConfigAccessor _configAccessor;
   final ClusterAccessor _clusterAccessor;
   final ParticipantAccessor _participantAccessor;
@@ -360,8 +360,8 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
 
     ScheduledTaskStateModelFactory stStateModelFactory =
         new ScheduledTaskStateModelFactory(_messagingService.getExecutor());
-    _stateMachineEngine.registerStateModelFactory(
-        StateModelDefId.SCHEDULER_TASK_QUEUE.toString(), stStateModelFactory);
+    _stateMachineEngine.registerStateModelFactory(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+        stStateModelFactory);
     _messagingService.onConnected();
   }
 

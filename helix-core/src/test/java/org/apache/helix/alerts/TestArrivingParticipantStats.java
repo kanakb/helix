@@ -24,8 +24,8 @@ import java.util.Map;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.Mocks.MockManager;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.stages.HealthDataCache;
 import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeMethod;
@@ -86,7 +86,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -115,7 +115,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -148,7 +148,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -174,7 +174,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -203,7 +203,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -230,7 +230,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -255,7 +255,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -286,7 +286,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -316,7 +316,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -364,7 +364,7 @@ public class TestArrivingParticipantStats {
     _statsHolder.persistStats();
 
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -388,7 +388,7 @@ public class TestArrivingParticipantStats {
     _statsHolder.persistStats();
 
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -419,7 +419,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
 
@@ -454,7 +454,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
     System.out.println("rec: " + rec.toString());
@@ -486,7 +486,7 @@ public class TestArrivingParticipantStats {
 
     // check persistent stats
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     ZNRecord rec = accessor.getProperty(keyBuilder.persistantStat()).getRecord();
     System.out.println("rec: " + rec.toString());

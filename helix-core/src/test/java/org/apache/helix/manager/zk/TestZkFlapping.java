@@ -25,13 +25,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.IZkStateListener;
-import org.apache.helix.PropertyKey;
 import org.apache.helix.HelixDataAccessor;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.TestHelper.Verifier;
 import org.apache.helix.ZkTestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.model.LiveInstance;
@@ -139,7 +140,7 @@ public class TestZkFlapping extends ZkUnitTestBase {
     String clusterName = className + "_" + methodName;
     final HelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    final PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    final PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
@@ -219,7 +220,7 @@ public class TestZkFlapping extends ZkUnitTestBase {
     String clusterName = className + "_" + methodName;
     final HelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    final PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    final PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 

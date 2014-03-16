@@ -19,6 +19,8 @@ package org.apache.helix;
  * under the License.
  */
 
+import org.apache.helix.api.model.PropertyPathConfig;
+import org.apache.helix.api.model.PropertyType;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 

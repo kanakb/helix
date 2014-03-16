@@ -24,13 +24,14 @@ import java.util.Set;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.api.config.RebalancerConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
@@ -60,7 +61,7 @@ public class FallbackRebalancer implements HelixRebalancer {
   }
 
   @Override
-  public ResourceAssignment computeResourceMapping(RebalancerConfig rebalancerConfig,
+  public ResourceAssignment computeResourceMapping(RebalancerConfiguration rebalancerConfig,
       ResourceAssignment prevAssignment, Cluster cluster, ResourceCurrentState currentState) {
     // make sure the manager is not null
     if (_helixManager == null) {
@@ -78,14 +79,14 @@ public class FallbackRebalancer implements HelixRebalancer {
 
     // get the ideal state and rebalancer class
     ResourceId resourceId = config.getResourceId();
-    IStateModelDefinition stateModelDef =
+    StateModelDefinition stateModelDef =
         cluster.getStateModelMap().get(config.getStateModelDefId());
     if (stateModelDef == null) {
       LOG.info("StateModelDefinition unavailable for " + resourceId);
       return null;
     }
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     IdealState idealState = accessor.getProperty(keyBuilder.idealStates(resourceId.stringify()));
     if (idealState == null) {
       LOG.info("No IdealState available for " + resourceId);

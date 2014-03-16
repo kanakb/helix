@@ -29,12 +29,13 @@ import java.util.TreeMap;
 
 import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.util.StringTemplate;
 import org.apache.helix.manager.zk.ZKUtil;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.ConfigScope;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
-import org.apache.helix.util.StringTemplate;
 import org.apache.log4j.Logger;
 
 /**

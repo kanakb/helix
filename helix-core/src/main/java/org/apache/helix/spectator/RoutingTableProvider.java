@@ -33,7 +33,7 @@ import org.apache.helix.ConfigChangeListener;
 import org.apache.helix.ExternalViewChangeListener;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.log4j.Logger;
@@ -115,14 +115,14 @@ public class RoutingTableProvider implements ExternalViewChangeListener, ConfigC
     }
 
     HelixDataAccessor accessor = changeContext.getManager().getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     List<ExternalView> externalViewList = accessor.getChildValues(keyBuilder.externalViews());
     refresh(externalViewList, changeContext);
   }
 
   private void refresh(List<ExternalView> externalViewList, NotificationContext changeContext) {
     HelixDataAccessor accessor = changeContext.getManager().getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     List<InstanceConfig> configList = accessor.getChildValues(keyBuilder.instanceConfigs());
     Map<String, InstanceConfig> instanceConfigMap = new HashMap<String, InstanceConfig>();

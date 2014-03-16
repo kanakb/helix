@@ -24,11 +24,12 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.helix.PreConnectCallback;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkTestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.manager.zk.CallbackHandler;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
@@ -228,7 +229,7 @@ public class TestConsecutiveZkSessionExpiry extends ZkUnitTestBase {
     // verify leader changes to localhost_12919
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     Assert.assertNotNull(accessor.getProperty(keyBuilder.liveInstance("localhost_12918")));
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     Assert.assertNotNull(leader);

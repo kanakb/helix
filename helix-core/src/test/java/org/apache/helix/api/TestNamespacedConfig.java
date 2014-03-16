@@ -3,18 +3,18 @@ package org.apache.helix.api;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.config.Scope;
-import org.apache.helix.api.config.UserConfig;
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.ClusterConfiguration;
+import org.apache.helix.api.model.ResourceConfiguration;
+import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.manager.zk.ZKHelixManager;
-import org.apache.helix.model.ClusterConfiguration;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
-import org.apache.helix.model.ResourceConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

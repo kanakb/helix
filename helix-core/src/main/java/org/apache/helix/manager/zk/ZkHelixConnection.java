@@ -50,23 +50,24 @@ import org.apache.helix.IdealStateChangeListener;
 import org.apache.helix.InstanceConfigChangeListener;
 import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.MessageListener;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.ScopedConfigChangeListener;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.accessor.ParticipantAccessor;
 import org.apache.helix.api.accessor.ResourceAccessor;
-import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.api.role.HelixRole;
 import org.apache.helix.messaging.DefaultMessagingService;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.store.HelixPropertyStore;
 import org.apache.helix.store.zk.ZkHelixPropertyStore;
 import org.apache.log4j.Logger;
@@ -250,7 +251,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
 
   @Override
   public HelixPropertyStore<ZNRecord> createPropertyStore(ClusterId clusterId) {
-    PropertyKey key = new PropertyKey.Builder(clusterId.stringify()).propertyStore();
+    PropertyKey key = new PropertyKeyBuilder(clusterId.stringify()).propertyStore();
     return new ZkHelixPropertyStore<ZNRecord>(new ZkBaseDataAccessor<ZNRecord>(_zkclient),
         key.getPath(), null);
   }
@@ -269,7 +270,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   public void addControllerListener(HelixRole role, ControllerChangeListener listener,
       ClusterId clusterId) {
 
-    addListener(role, listener, new PropertyKey.Builder(clusterId.stringify()).controller(),
+    addListener(role, listener, new PropertyKeyBuilder(clusterId.stringify()).controller(),
         ChangeType.CONTROLLER, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
@@ -280,7 +281,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
       ParticipantId participantId) {
 
     addListener(role, listener,
-        new PropertyKey.Builder(clusterId.stringify()).messages(participantId.stringify()),
+        new PropertyKeyBuilder(clusterId.stringify()).messages(participantId.stringify()),
         ChangeType.MESSAGE, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
@@ -290,8 +291,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   public void addControllerMessageListener(HelixRole role, MessageListener listener,
       ClusterId clusterId) {
 
-    addListener(role, listener,
-        new PropertyKey.Builder(clusterId.stringify()).controllerMessages(),
+    addListener(role, listener, new PropertyKeyBuilder(clusterId.stringify()).controllerMessages(),
         ChangeType.MESSAGES_CONTROLLER, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
@@ -301,7 +301,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   public void addIdealStateChangeListener(HelixRole role, IdealStateChangeListener listener,
       ClusterId clusterId) {
 
-    addListener(role, listener, new PropertyKey.Builder(clusterId.stringify()).idealStates(),
+    addListener(role, listener, new PropertyKeyBuilder(clusterId.stringify()).idealStates(),
         ChangeType.IDEAL_STATE, new EventType[] {
             EventType.NodeDataChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
@@ -311,7 +311,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   public void addLiveInstanceChangeListener(HelixRole role, LiveInstanceChangeListener listener,
       ClusterId clusterId) {
 
-    addListener(role, listener, new PropertyKey.Builder(clusterId.stringify()).liveInstances(),
+    addListener(role, listener, new PropertyKeyBuilder(clusterId.stringify()).liveInstances(),
         ChangeType.LIVE_INSTANCE, new EventType[] {
             EventType.NodeDataChanged, EventType.NodeChildrenChanged, EventType.NodeDeleted,
             EventType.NodeCreated
@@ -322,7 +322,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   public void addConfigChangeListener(HelixRole role, ConfigChangeListener listener,
       ClusterId clusterId) {
 
-    addListener(role, listener, new PropertyKey.Builder(clusterId.stringify()).instanceConfigs(),
+    addListener(role, listener, new PropertyKeyBuilder(clusterId.stringify()).instanceConfigs(),
         ChangeType.INSTANCE_CONFIG, new EventType[] {
           EventType.NodeChildrenChanged
         });
@@ -331,7 +331,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   @Override
   public void addInstanceConfigChangeListener(HelixRole role,
       InstanceConfigChangeListener listener, ClusterId clusterId) {
-    addListener(role, listener, new PropertyKey.Builder(clusterId.stringify()).instanceConfigs(),
+    addListener(role, listener, new PropertyKeyBuilder(clusterId.stringify()).instanceConfigs(),
         ChangeType.INSTANCE_CONFIG, new EventType[] {
           EventType.NodeChildrenChanged
         });
@@ -340,7 +340,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   @Override
   public void addConfigChangeListener(HelixRole role, ScopedConfigChangeListener listener,
       ClusterId clusterId, ConfigScopeProperty scope) {
-    PropertyKey.Builder keyBuilder = new PropertyKey.Builder(clusterId.stringify());
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterId.stringify());
 
     PropertyKey propertyKey = null;
     switch (scope) {
@@ -371,7 +371,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   public void addCurrentStateChangeListener(HelixRole role, CurrentStateChangeListener listener,
       ClusterId clusterId, ParticipantId participantId, SessionId sessionId) {
 
-    addListener(role, listener, new PropertyKey.Builder(clusterId.stringify()).currentStates(
+    addListener(role, listener, new PropertyKeyBuilder(clusterId.stringify()).currentStates(
         participantId.stringify(), sessionId.stringify()), ChangeType.CURRENT_STATE,
         new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
@@ -382,7 +382,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   public void addHealthStateChangeListener(HelixRole role, HealthStateChangeListener listener,
       ClusterId clusterId, ParticipantId participantId) {
     addListener(role, listener,
-        new PropertyKey.Builder(clusterId.stringify()).healthReports(participantId.stringify()),
+        new PropertyKeyBuilder(clusterId.stringify()).healthReports(participantId.stringify()),
         ChangeType.HEALTH, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });
@@ -391,7 +391,7 @@ public class ZkHelixConnection implements HelixConnection, IZkStateListener {
   @Override
   public void addExternalViewChangeListener(HelixRole role, ExternalViewChangeListener listener,
       ClusterId clusterId) {
-    addListener(role, listener, new PropertyKey.Builder(clusterId.stringify()).externalViews(),
+    addListener(role, listener, new PropertyKeyBuilder(clusterId.stringify()).externalViews(),
         ChangeType.EXTERNAL_VIEW, new EventType[] {
             EventType.NodeChildrenChanged, EventType.NodeDeleted, EventType.NodeCreated
         });

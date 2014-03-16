@@ -24,9 +24,10 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.helix.HelixConstants;
-import org.apache.helix.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
@@ -62,7 +63,7 @@ public class TestSchemataSM extends ZkIntegrationTestBase {
     // rebalance ideal-state to use ANY_LIVEINSTANCE for preference list
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     PropertyKey key = keyBuilder.idealStates("TestSchemata0");
     IdealState idealState = accessor.getProperty(key);
     idealState.setReplicas(HelixConstants.StateModelToken.ANY_LIVEINSTANCE.toString());

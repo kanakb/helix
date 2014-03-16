@@ -19,8 +19,8 @@ package org.apache.helix.controller.context;
  * under the License.
  */
 
-import org.apache.helix.api.HelixProperty;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.controller.serializer.StringSerializer;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;

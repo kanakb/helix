@@ -42,9 +42,10 @@ import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.MessageListener;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.Type;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.id.SessionId;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.controller.pipeline.Pipeline;
 import org.apache.helix.controller.pipeline.PipelineRegistry;
 import org.apache.helix.controller.stages.BestPossibleStateCalcStage;
@@ -69,7 +70,6 @@ import org.apache.helix.model.HealthStat;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.model.Message;
 import org.apache.helix.model.PauseSignal;
 import org.apache.helix.monitoring.mbeans.ClusterStatusMonitor;
 import org.apache.log4j.Logger;
@@ -485,7 +485,7 @@ public class GenericHelixController implements ConfigChangeListener, IdealStateC
     HelixDataAccessor accessor = changeContext.getManager().getHelixDataAccessor();
 
     // double check if this controller is the leader
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     if (leader == null) {
       logger
@@ -543,7 +543,7 @@ public class GenericHelixController implements ConfigChangeListener, IdealStateC
     Map<String, LiveInstance> lastSessions = _lastSeenSessions.get();
 
     HelixManager manager = changeContext.getManager();
-    Builder keyBuilder = new Builder(manager.getClusterName());
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(manager.getClusterName());
     if (lastSessions != null) {
       for (String session : lastSessions.keySet()) {
         if (!curSessions.containsKey(session)) {

@@ -24,18 +24,18 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.helix.HelixException;
-import org.apache.helix.PropertyKey.Builder;
-import org.apache.helix.PropertyPathConfig;
-import org.apache.helix.PropertyType;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.PropertyPathConfig;
+import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.LiveInstance;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -355,7 +355,7 @@ public class TestClusterSetup extends ZkUnitTestBase {
         "--zkSvr", ZK_ADDR, "--enableCluster", clusterName, "false"
     });
 
-    Builder keyBuilder = new Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     boolean exists = _gZkClient.exists(keyBuilder.pause().getPath());
     Assert.assertTrue(exists, "pause node under controller should be created");
 
@@ -392,7 +392,7 @@ public class TestClusterSetup extends ZkUnitTestBase {
     // add fake liveInstance
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
-    Builder keyBuilder = new Builder(clusterName);
+    PropertyKeyBuilder keyBuilder = new PropertyKeyBuilder(clusterName);
     LiveInstance liveInstance = new LiveInstance("localhost_12918");
     liveInstance.setSessionId("session_0");
     liveInstance.setHelixVersion("version_0");

@@ -31,14 +31,14 @@ import org.I0Itec.zkclient.ZkServer;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.InstanceType;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.InstanceConfig;
-import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.participant.StateMachineEngine;
 
 public class Quickstart {

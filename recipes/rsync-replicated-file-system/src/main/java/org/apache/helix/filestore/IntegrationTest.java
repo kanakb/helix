@@ -31,10 +31,10 @@ import org.I0Itec.zkclient.ZkServer;
 import org.apache.commons.io.FileUtils;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.HelixControllerMain;
-import org.apache.helix.model.HelixConfigScope;
-import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.tools.ClusterSetup;
 
@@ -173,7 +173,7 @@ public class IntegrationTest {
   private static void printStatus(final HelixManager manager) {
     System.out.println("CLUSTER STATUS");
     HelixDataAccessor helixDataAccessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = helixDataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = helixDataAccessor.keyBuilder();
     System.out.println("External View \n"
         + helixDataAccessor.getProperty(keyBuilder.externalView("repository")));
   }

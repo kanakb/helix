@@ -21,9 +21,9 @@ package org.apache.helix.integration;
 
 import java.util.Date;
 
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.integration.manager.ClusterDistributedController;
 import org.apache.helix.integration.manager.MockParticipantManager;
@@ -106,7 +106,7 @@ public class TestDistributedClusterController extends ZkIntegrationTestBase {
     // stop current leader in controller cluster
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<ZNRecord>(_gZkClient);
     ZKHelixDataAccessor accessor = new ZKHelixDataAccessor(controllerClusterName, baseAccessor);
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     String leaderName = leader.getId();
     int j = Integer.parseInt(leaderName.substring(leaderName.lastIndexOf('_') + 1));

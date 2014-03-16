@@ -30,13 +30,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.HelixConstants.StateModelToken;
-import org.apache.helix.HelixDefinedState;
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.model.IStateModelDefinition;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.HelixDefinedState;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.log4j.Logger;
@@ -97,7 +97,7 @@ public class ConstraintBasedAssignment {
    * @param cluster the cluster the resource belongs to
    * @return map of state to upper bound
    */
-  public static Map<State, String> stateConstraints(IStateModelDefinition stateModelDef,
+  public static Map<State, String> stateConstraints(StateModelDefinition stateModelDef,
       ResourceId resourceId, ClusterConfig cluster) {
     Map<State, String> stateMap = Maps.newHashMap();
     for (State state : stateModelDef.getTypedStatesPriorityList()) {
@@ -152,7 +152,7 @@ public class ConstraintBasedAssignment {
    */
   public static Map<ParticipantId, State> computeAutoBestStateForPartition(
       Map<State, String> upperBounds, Set<ParticipantId> liveParticipantSet,
-      IStateModelDefinition stateModelDef, List<ParticipantId> participantPreferenceList,
+      StateModelDefinition stateModelDef, List<ParticipantId> participantPreferenceList,
       Map<ParticipantId, State> currentStateMap, Set<ParticipantId> disabledParticipantsForPartition) {
     // drop and disable participants if necessary
     Map<ParticipantId, State> participantStateMap =
@@ -218,7 +218,7 @@ public class ConstraintBasedAssignment {
    * @return state count map: state->count
    */
   public static LinkedHashMap<State, Integer> stateCount(Map<State, String> upperBounds,
-      IStateModelDefinition stateModelDef, int liveNodesNb, int totalReplicas) {
+      StateModelDefinition stateModelDef, int liveNodesNb, int totalReplicas) {
     LinkedHashMap<State, Integer> stateCountMap = new LinkedHashMap<State, Integer>();
     List<State> statesPriorityList = stateModelDef.getTypedStatesPriorityList();
 
@@ -268,7 +268,7 @@ public class ConstraintBasedAssignment {
    * @return
    */
   public static Map<ParticipantId, State> computeCustomizedBestStateForPartition(
-      Set<ParticipantId> liveParticipantSet, IStateModelDefinition stateModelDef,
+      Set<ParticipantId> liveParticipantSet, StateModelDefinition stateModelDef,
       Map<ParticipantId, State> preferenceMap, Map<ParticipantId, State> currentStateMap,
       Set<ParticipantId> disabledParticipantsForPartition) {
     Map<ParticipantId, State> participantStateMap = new HashMap<ParticipantId, State>();

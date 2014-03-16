@@ -28,17 +28,17 @@ import java.util.Map;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerProperties;
-import org.apache.helix.PropertyKey;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
-import org.apache.helix.model.Message;
 import org.apache.log4j.Logger;
 
 public class TaskAssignmentStage extends AbstractBaseStage {
@@ -92,7 +92,7 @@ public class TaskAssignmentStage extends AbstractBaseStage {
 
   }
 
-  List<Message> batchMessage(Builder keyBuilder, List<Message> messages,
+  List<Message> batchMessage(PropertyKeyBuilder keyBuilder, List<Message> messages,
       Map<ResourceId, ResourceConfig> resourceMap,
       Map<ParticipantId, Participant> liveParticipantMap, HelixManagerProperties properties) {
     // group messages by its CurrentState path + "/" + fromState + "/" + toState
@@ -140,7 +140,7 @@ public class TaskAssignmentStage extends AbstractBaseStage {
       return;
     }
 
-    Builder keyBuilder = dataAccessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = dataAccessor.keyBuilder();
 
     List<PropertyKey> keys = new ArrayList<PropertyKey>();
     for (Message message : messages) {

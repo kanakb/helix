@@ -25,13 +25,13 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.config.State;
-import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.id.StateModelDefId;
+import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.controller.pipeline.StageContext;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
 import org.apache.helix.model.CurrentState;
@@ -64,7 +64,7 @@ public class TestResourceComputationStage extends BaseStageTest {
     idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
 
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     accessor.setProperty(keyBuilder.idealStates(resourceName), idealState);
     ResourceComputationStage stage = new ResourceComputationStage();
     runStage(event, new ReadClusterDataStage());
@@ -133,7 +133,7 @@ public class TestResourceComputationStage extends BaseStageTest {
       idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
 
       HelixDataAccessor accessor = manager.getHelixDataAccessor();
-      Builder keyBuilder = accessor.keyBuilder();
+      PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
       accessor.setProperty(keyBuilder.idealStates(resourceName), idealState);
 
       idealStates.add(idealState);
@@ -150,7 +150,7 @@ public class TestResourceComputationStage extends BaseStageTest {
     instanceConfig.setPort("3");
 
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
-    Builder keyBuilder = accessor.keyBuilder();
+    PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     accessor.setProperty(keyBuilder.liveInstance(instanceName), liveInstance);
     accessor.setProperty(keyBuilder.instanceConfig(instanceName), instanceConfig);
 

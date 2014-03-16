@@ -25,9 +25,9 @@ import org.apache.helix.ControllerChangeListener;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixTimerTask;
-import org.apache.helix.InstanceType;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.PropertyKey.Builder;
+import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.log4j.Logger;
 
@@ -76,7 +76,7 @@ public class DistributedLeaderElection implements ControllerChangeListener {
         LOG.info(_manager.getInstanceName() + " is trying to acquire leadership for cluster: "
             + _manager.getClusterName());
         HelixDataAccessor accessor = manager.getHelixDataAccessor();
-        Builder keyBuilder = accessor.keyBuilder();
+        PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
         while (accessor.getProperty(keyBuilder.controllerLeader()) == null) {
           boolean success = ZkHelixLeaderElection.tryUpdateController(manager);
