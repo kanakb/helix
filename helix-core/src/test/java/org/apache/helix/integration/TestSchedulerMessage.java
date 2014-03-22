@@ -45,7 +45,7 @@ import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
 import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.model.ConstraintItem;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.PropertyKeyBuilder;
@@ -222,7 +222,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     // Criteria to send individual messages
     Criteria cr = new Criteria();
     cr.setInstanceName("localhost_%");
-    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberRole.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setResource("%");
     cr.setPartition("%");
@@ -310,7 +310,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     // Criteria to send individual messages
     Criteria cr = new Criteria();
     cr.setInstanceName("localhost_%");
-    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberRole.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setResource("%");
     cr.setPartition("%");
@@ -449,7 +449,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     // Criteria to send individual messages
     Criteria cr = new Criteria();
     cr.setInstanceName("localhost_%");
-    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberRole.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setResource("%");
     cr.setPartition("%");
@@ -469,7 +469,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField("WAIT_ALL", "true");
 
     Criteria cr2 = new Criteria();
-    cr2.setRecipientInstanceType(MemberType.CONTROLLER);
+    cr2.setRecipientInstanceType(MemberRole.CONTROLLER);
     cr2.setInstanceName("*");
     cr2.setSessionSpecific(false);
 
@@ -540,7 +540,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     // Criteria to send individual messages
     Criteria cr = new Criteria();
     cr.setInstanceName("localhost_DOESNOTEXIST");
-    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberRole.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setResource("%");
     cr.setPartition("%");
@@ -614,7 +614,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     // Criteria to send individual messages
     Criteria cr = new Criteria();
     cr.setInstanceName("localhost_%");
-    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberRole.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setResource("%");
     cr.setPartition("%");
@@ -636,7 +636,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
         "TestSchedulerMsg3");
     Criteria cr2 = new Criteria();
-    cr2.setRecipientInstanceType(MemberType.CONTROLLER);
+    cr2.setRecipientInstanceType(MemberRole.CONTROLLER);
     cr2.setInstanceName("*");
     cr2.setSessionSpecific(false);
 
@@ -753,7 +753,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     // Criteria to send individual messages
     Criteria cr = new Criteria();
     cr.setInstanceName("localhost_%");
-    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberRole.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setResource("TestDB");
     cr.setPartition("%");
@@ -776,7 +776,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
         "TestSchedulerMsg4");
     Criteria cr2 = new Criteria();
-    cr2.setRecipientInstanceType(MemberType.CONTROLLER);
+    cr2.setRecipientInstanceType(MemberRole.CONTROLLER);
     cr2.setInstanceName("*");
     cr2.setSessionSpecific(false);
 
@@ -922,7 +922,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     // Criteria to send individual messages
     Criteria cr = new Criteria();
     cr.setInstanceName("localhost_%");
-    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberRole.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setResource("%");
     cr.setPartition("%");
@@ -944,7 +944,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
         "TestSchedulerMsgContraints");
 
     Criteria cr2 = new Criteria();
-    cr2.setRecipientInstanceType(MemberType.CONTROLLER);
+    cr2.setRecipientInstanceType(MemberRole.CONTROLLER);
     cr2.setInstanceName("*");
     cr2.setSessionSpecific(false);
 

@@ -33,7 +33,7 @@ import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
@@ -62,7 +62,7 @@ public class ParticipantManagerHelper {
   final String _sessionId;
   final int _sessionTimeout;
   final ConfigAccessor _configAccessor;
-  final MemberType _instanceType;
+  final MemberRole _instanceType;
   final HelixAdmin _helixAdmin;
   final ZKHelixDataAccessor _dataAccessor;
   final DefaultMessagingService _messagingService;

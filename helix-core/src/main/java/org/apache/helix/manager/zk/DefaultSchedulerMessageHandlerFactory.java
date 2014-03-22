@@ -39,7 +39,7 @@ import org.apache.helix.messaging.handling.HelixTaskResult;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
@@ -164,7 +164,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
 
       Map<String, String> sendSummary = new HashMap<String, String>();
       sendSummary.put("MessageCount", "0");
-      Map<MemberType, List<Message>> messages =
+      Map<MemberRole, List<Message>> messages =
           _manager.getMessagingService().generateMessage(recipientCriteria, messageTemplate);
 
       // Calculate tasks, and put them into the idealState of the SCHEDULER_TASK_QUEUE resource.
@@ -299,7 +299,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
           _message.getRecord().getSimpleFields()
               .containsKey(StateModelDefId.SCHEDULER_TASK_QUEUE.toString());
       // If the target is PARTICIPANT, use the ScheduledTaskQueue
-      if (MemberType.PARTICIPANT == recipientCriteria.getRecipientInstanceType()
+      if (MemberRole.PARTICIPANT == recipientCriteria.getRecipientInstanceType()
           && hasSchedulerTaskQueue) {
         handleMessageUsingScheduledTaskQueue(recipientCriteria, messageTemplate,
             _message.getMessageId());

@@ -22,7 +22,7 @@ package org.apache.helix;
 import java.util.List;
 
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.controller.GenericHelixController;
@@ -250,7 +250,7 @@ public interface HelixManager {
    * Get cluster manager instance type
    * @return instance type (e.g. PARTICIPANT, CONTROLLER, SPECTATOR)
    */
-  MemberType getInstanceType();
+  MemberRole getInstanceType();
 
   /**
    * Get cluster manager version

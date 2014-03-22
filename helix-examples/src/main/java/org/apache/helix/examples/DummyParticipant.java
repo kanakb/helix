@@ -22,7 +22,7 @@ package org.apache.helix.examples;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.participant.StateMachineEngine;
@@ -108,7 +108,7 @@ public class DummyParticipant {
     try {
       manager =
           HelixManagerFactory.getZKHelixManager(clusterName, instanceName,
-              MemberType.PARTICIPANT, zkAddr);
+              MemberRole.PARTICIPANT, zkAddr);
 
       StateMachineEngine stateMach = manager.getStateMachineEngine();
       DummyMSModelFactory msModelFactory = new DummyMSModelFactory();

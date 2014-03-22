@@ -31,7 +31,7 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.HelixTimerTask;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.accessor.ClusterAccessor;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.Id;
@@ -173,8 +173,8 @@ public class ZkHelixController implements SingleClusterController {
   }
 
   @Override
-  public MemberType getType() {
-    return MemberType.CONTROLLER;
+  public MemberRole getType() {
+    return MemberRole.CONTROLLER;
   }
 
   @Override

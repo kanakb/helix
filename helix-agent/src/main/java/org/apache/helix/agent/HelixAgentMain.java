@@ -30,7 +30,7 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.manager.zk.ZKHelixManager;
 import org.apache.helix.participant.StateMachineEngine;
@@ -126,7 +126,7 @@ public class HelixAgentMain {
     String stateModelName = cmd.getOptionValue(stateModel);
 
     HelixManager manager =
-        new ZKHelixManager(clusterName, instance, MemberType.PARTICIPANT, zkAddress);
+        new ZKHelixManager(clusterName, instance, MemberRole.PARTICIPANT, zkAddress);
 
     StateMachineEngine stateMach = manager.getStateMachineEngine();
     stateMach.registerStateModelFactory(StateModelDefId.from(stateModelName),

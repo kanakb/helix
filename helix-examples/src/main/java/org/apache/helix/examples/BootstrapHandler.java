@@ -25,7 +25,7 @@ import org.apache.helix.ClusterMessagingService;
 import org.apache.helix.Criteria;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
@@ -68,7 +68,7 @@ public class BootstrapHandler extends StateModelFactory<StateModel> {
       requestBackupUriRequest.setMsgState(MessageState.NEW);
       Criteria recipientCriteria = new Criteria();
       recipientCriteria.setInstanceName("*");
-      recipientCriteria.setRecipientInstanceType(MemberType.PARTICIPANT);
+      recipientCriteria.setRecipientInstanceType(MemberRole.PARTICIPANT);
       recipientCriteria.setResource(message.getResourceId().stringify());
       recipientCriteria.setPartition(message.getPartitionId().stringify());
       recipientCriteria.setSessionSpecific(true);

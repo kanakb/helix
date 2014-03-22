@@ -31,7 +31,7 @@ import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
@@ -119,7 +119,7 @@ public class TestZKCallback extends ZkUnitTestBase {
 
     HelixManager testHelixManager =
         HelixManagerFactory.getZKHelixManager(clusterName, "localhost_8900",
-            MemberType.PARTICIPANT, ZK_ADDR);
+            MemberRole.PARTICIPANT, ZK_ADDR);
     testHelixManager.connect();
 
     TestZKCallback test = new TestZKCallback();

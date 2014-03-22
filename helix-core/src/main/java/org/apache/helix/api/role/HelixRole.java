@@ -21,7 +21,7 @@ package org.apache.helix.api.role;
 
 import org.apache.helix.ClusterMessagingService;
 import org.apache.helix.HelixConnection;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.Id;
 
@@ -51,7 +51,7 @@ public interface HelixRole {
    * helix-role type
    * @return
    */
-  MemberType getType();
+  MemberRole getType();
 
   /**
    * get the messaging-service

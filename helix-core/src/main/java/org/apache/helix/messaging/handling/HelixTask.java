@@ -26,7 +26,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.MapKey;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.Attributes;
@@ -205,12 +205,12 @@ public class HelixTask implements MessageTask {
               taskResult.getTaskResultMap());
       replyMessage.setSrcInstanceType(_manager.getInstanceType());
 
-      if (message.getSrcInstanceType() == MemberType.PARTICIPANT) {
+      if (message.getSrcInstanceType() == MemberRole.PARTICIPANT) {
         PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
         accessor.setProperty(
             keyBuilder.message(message.getMsgSrc(), replyMessage.getMessageId().stringify()),
             replyMessage);
-      } else if (message.getSrcInstanceType() == MemberType.CONTROLLER) {
+      } else if (message.getSrcInstanceType() == MemberRole.CONTROLLER) {
         PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
         accessor.setProperty(keyBuilder.controllerMessage(replyMessage.getMessageId().stringify()),
             replyMessage);

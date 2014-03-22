@@ -31,7 +31,7 @@ import org.apache.helix.ConfigAccessor;
 import org.apache.helix.Criteria;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
@@ -80,7 +80,7 @@ public class DefaultMessagingService implements ClusterMessagingService {
   @Override
   public int send(final Criteria recipientCriteria, final Message message,
       AsyncCallback callbackOnReply, int timeOut, int retryCount) {
-    Map<MemberType, List<Message>> generateMessage = generateMessage(recipientCriteria, message);
+    Map<MemberRole, List<Message>> generateMessage = generateMessage(recipientCriteria, message);
     int totalMessageCount = 0;
     for (List<Message> messages : generateMessage.values()) {
       totalMessageCount += messages.size();
@@ -103,7 +103,7 @@ public class DefaultMessagingService implements ClusterMessagingService {
       _asyncCallbackService.registerAsyncCallback(correlationId, callbackOnReply);
     }
 
-    for (MemberType receiverType : generateMessage.keySet()) {
+    for (MemberRole receiverType : generateMessage.keySet()) {
       List<Message> list = generateMessage.get(receiverType);
       for (Message tempMessage : list) {
         tempMessage.setRetryCount(retryCount);
@@ -116,11 +116,11 @@ public class DefaultMessagingService implements ClusterMessagingService {
         HelixDataAccessor accessor = _manager.getHelixDataAccessor();
         PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
-        if (receiverType == MemberType.CONTROLLER) {
+        if (receiverType == MemberRole.CONTROLLER) {
           accessor.setProperty(keyBuilder.controllerMessage(tempMessage.getId()), tempMessage);
         }
 
-        if (receiverType == MemberType.PARTICIPANT) {
+        if (receiverType == MemberRole.PARTICIPANT) {
           accessor.setProperty(keyBuilder.message(tempMessage.getTgtName(), tempMessage.getId()),
               tempMessage);
         }
@@ -135,17 +135,17 @@ public class DefaultMessagingService implements ClusterMessagingService {
   }
 
   @Override
-  public Map<MemberType, List<Message>> generateMessage(final Criteria recipientCriteria,
+  public Map<MemberRole, List<Message>> generateMessage(final Criteria recipientCriteria,
       final Message message) {
-    Map<MemberType, List<Message>> messagesToSendMap = new HashMap<MemberType, List<Message>>();
-    MemberType instanceType = recipientCriteria.getRecipientInstanceType();
+    Map<MemberRole, List<Message>> messagesToSendMap = new HashMap<MemberRole, List<Message>>();
+    MemberRole instanceType = recipientCriteria.getRecipientInstanceType();
 
-    if (instanceType == MemberType.CONTROLLER) {
+    if (instanceType == MemberRole.CONTROLLER) {
       List<Message> messages = generateMessagesForController(message);
-      messagesToSendMap.put(MemberType.CONTROLLER, messages);
+      messagesToSendMap.put(MemberRole.CONTROLLER, messages);
       // _dataAccessor.setControllerProperty(PropertyType.MESSAGES,
       // newMessage.getRecord(), CreateMode.PERSISTENT);
-    } else if (instanceType == MemberType.PARTICIPANT) {
+    } else if (instanceType == MemberRole.PARTICIPANT) {
       List<Message> messages = new ArrayList<Message>();
       List<Map<String, String>> matchedList =
           _evaluator.evaluateCriteria(recipientCriteria, _manager);
@@ -182,7 +182,7 @@ public class DefaultMessagingService implements ClusterMessagingService {
           }
           messages.add(newMessage);
         }
-        messagesToSendMap.put(MemberType.PARTICIPANT, messages);
+        messagesToSendMap.put(MemberRole.PARTICIPANT, messages);
       }
     }
     return messagesToSendMap;
@@ -228,8 +228,8 @@ public class DefaultMessagingService implements ClusterMessagingService {
       // Read the participant config and cluster config for the per-message type thread pool size.
       // participant config will override the cluster config.
 
-      if (_manager.getInstanceType() == MemberType.PARTICIPANT
-          || _manager.getInstanceType() == MemberType.CONTROLLER_PARTICIPANT) {
+      if (_manager.getInstanceType() == MemberRole.PARTICIPANT
+          || _manager.getInstanceType() == MemberRole.CONTROLLER_PARTICIPANT) {
         scope =
             new ConfigScopeBuilder().forCluster(_manager.getClusterName())
                 .forParticipant(_manager.getInstanceName()).build();
@@ -275,14 +275,14 @@ public class DefaultMessagingService implements ClusterMessagingService {
       HelixDataAccessor accessor = _manager.getHelixDataAccessor();
       PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
-      if (_manager.getInstanceType() == MemberType.CONTROLLER
-          || _manager.getInstanceType() == MemberType.CONTROLLER_PARTICIPANT) {
+      if (_manager.getInstanceType() == MemberRole.CONTROLLER
+          || _manager.getInstanceType() == MemberRole.CONTROLLER_PARTICIPANT) {
         nopMsg.setTgtName("Controller");
         accessor.setProperty(keyBuilder.controllerMessage(nopMsg.getId()), nopMsg);
       }
 
-      if (_manager.getInstanceType() == MemberType.PARTICIPANT
-          || _manager.getInstanceType() == MemberType.CONTROLLER_PARTICIPANT) {
+      if (_manager.getInstanceType() == MemberRole.PARTICIPANT
+          || _manager.getInstanceType() == MemberRole.CONTROLLER_PARTICIPANT) {
         nopMsg.setTgtName(_manager.getInstanceName());
         accessor.setProperty(keyBuilder.message(nopMsg.getTgtName(), nopMsg.getId()), nopMsg);
       }

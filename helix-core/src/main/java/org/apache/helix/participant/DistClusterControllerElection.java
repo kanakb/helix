@@ -24,7 +24,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.controller.HelixControllerMain;
@@ -55,8 +55,8 @@ public class DistClusterControllerElection implements ControllerChangeListener {
       return;
     }
 
-    MemberType type = manager.getInstanceType();
-    if (type != MemberType.CONTROLLER && type != MemberType.CONTROLLER_PARTICIPANT) {
+    MemberRole type = manager.getInstanceType();
+    if (type != MemberRole.CONTROLLER && type != MemberRole.CONTROLLER_PARTICIPANT) {
       LOG.error("fail to become controller because incorrect instanceType (was " + type.toString()
           + ", requires CONTROLLER | CONTROLLER_PARTICIPANT)");
       return;
@@ -73,15 +73,15 @@ public class DistClusterControllerElection implements ControllerChangeListener {
           boolean success = ZkHelixLeaderElection.tryUpdateController(manager);
           if (success) {
             ZkHelixLeaderElection.updateHistory(manager);
-            if (type == MemberType.CONTROLLER) {
+            if (type == MemberRole.CONTROLLER) {
               HelixControllerMain.addListenersToController(manager, _controller);
               manager.startTimerTasks();
-            } else if (type == MemberType.CONTROLLER_PARTICIPANT) {
+            } else if (type == MemberRole.CONTROLLER_PARTICIPANT) {
               String clusterName = manager.getClusterName();
               String controllerName = manager.getInstanceName();
               _leader =
                   HelixManagerFactory.getZKHelixManager(clusterName, controllerName,
-                      MemberType.CONTROLLER, _zkAddr);
+                      MemberRole.CONTROLLER, _zkAddr);
 
               _leader.connect();
               _leader.startTimerTasks();

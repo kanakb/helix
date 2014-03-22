@@ -29,7 +29,7 @@ import java.util.Map;
 import org.apache.helix.AccessOption;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.integration.manager.MockParticipantManager;
@@ -66,7 +66,7 @@ public class TestZkClusterManager extends ZkUnitTestBase {
     }
 
     ZKHelixManager controller =
-        new ZKHelixManager(clusterName, null, MemberType.CONTROLLER, ZK_ADDR);
+        new ZKHelixManager(clusterName, null, MemberRole.CONTROLLER, ZK_ADDR);
 
     try {
       controller.connect();
@@ -160,7 +160,7 @@ public class TestZkClusterManager extends ZkUnitTestBase {
 
     // ///////////////////
     ZKHelixManager manager =
-        new ZKHelixManager(clusterName, "localhost_0", MemberType.PARTICIPANT, ZK_ADDR);
+        new ZKHelixManager(clusterName, "localhost_0", MemberRole.PARTICIPANT, ZK_ADDR);
     manager.connect();
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
 
@@ -170,7 +170,7 @@ public class TestZkClusterManager extends ZkUnitTestBase {
     Assert.assertTrue(liveInstance.getRecord().getMapFields().size() == 0);
     Assert.assertTrue(liveInstance.getRecord().getSimpleFields().size() == 3);
 
-    manager = new ZKHelixManager(clusterName, "localhost_1", MemberType.PARTICIPANT, ZK_ADDR);
+    manager = new ZKHelixManager(clusterName, "localhost_1", MemberRole.PARTICIPANT, ZK_ADDR);
     manager.setLiveInstanceInfoProvider(new provider(false));
 
     manager.connect();
@@ -181,7 +181,7 @@ public class TestZkClusterManager extends ZkUnitTestBase {
     Assert.assertTrue(liveInstance.getRecord().getMapFields().size() == 1);
     Assert.assertTrue(liveInstance.getRecord().getSimpleFields().size() == 4);
 
-    manager = new ZKHelixManager(clusterName, "localhost_2", MemberType.PARTICIPANT, ZK_ADDR);
+    manager = new ZKHelixManager(clusterName, "localhost_2", MemberRole.PARTICIPANT, ZK_ADDR);
     manager.setLiveInstanceInfoProvider(new provider(true));
 
     manager.connect();
@@ -239,7 +239,7 @@ public class TestZkClusterManager extends ZkUnitTestBase {
     }
 
     ZKHelixManager admin =
-        new ZKHelixManager(clusterName, null, MemberType.ADMINISTRATOR, ZK_ADDR);
+        new ZKHelixManager(clusterName, null, MemberRole.ADMINISTRATOR, ZK_ADDR);
 
     TestHelper.setupEmptyCluster(_gZkClient, clusterName);
 

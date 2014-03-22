@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.helix.*;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.integration.ZkIntegrationTestBase;
@@ -101,7 +101,7 @@ public class TestTaskRebalancer extends ZkIntegrationTestBase {
 
     // create cluster manager
     _manager =
-        HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, "Admin", MemberType.ADMINISTRATOR,
+        HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, "Admin", MemberRole.ADMINISTRATOR,
             ZK_ADDR);
     _manager.connect();
     _driver = new TaskDriver(_manager);

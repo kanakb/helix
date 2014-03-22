@@ -30,7 +30,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.ipc.Message;
@@ -138,7 +138,7 @@ public class SchedulerTasksResource extends ServerResource {
 
       schedulerMessage.setTgtSessionId(SessionId.from(leader.getTypedSessionId().stringify()));
       schedulerMessage.setTgtName("CONTROLLER");
-      schedulerMessage.setSrcInstanceType(MemberType.CONTROLLER);
+      schedulerMessage.setSrcInstanceType(MemberRole.CONTROLLER);
       String taskQueueName =
           ClusterRepresentationUtil.getFormJsonParameterString(form, TASKQUEUENAME);
       if (taskQueueName != null && taskQueueName.length() > 0) {

@@ -30,7 +30,7 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkTestHelper;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.PropertyType;
@@ -73,13 +73,13 @@ public class TestParticipantManager extends ZkIntegrationTestBase {
         "MasterSlave", true); // do rebalance
 
     HelixManager participant =
-        new ZKHelixManager(clusterName, "localhost_12918", MemberType.PARTICIPANT, ZK_ADDR);
+        new ZKHelixManager(clusterName, "localhost_12918", MemberRole.PARTICIPANT, ZK_ADDR);
     participant.getStateMachineEngine().registerStateModelFactory("MasterSlave",
         new MockMSModelFactory());
     participant.connect();
 
     HelixManager controller =
-        new ZKHelixManager(clusterName, "controller_0", MemberType.CONTROLLER, ZK_ADDR);
+        new ZKHelixManager(clusterName, "controller_0", MemberRole.CONTROLLER, ZK_ADDR);
     controller.connect();
 
     boolean result =

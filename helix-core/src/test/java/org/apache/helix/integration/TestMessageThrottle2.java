@@ -38,7 +38,7 @@ import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.TestHelper;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
@@ -247,7 +247,7 @@ public class TestMessageThrottle2 extends ZkIntegrationTestBase {
 
     public void start() throws Exception {
       helixManager =
-          new ZKHelixManager(clusterName, instanceName, MemberType.PARTICIPANT, ZK_ADDR);
+          new ZKHelixManager(clusterName, instanceName, MemberRole.PARTICIPANT, ZK_ADDR);
       {
         // hack to set sessionTimeout
         Field sessionTimeout = ZKHelixManager.class.getDeclaredField("_sessionTimeout");

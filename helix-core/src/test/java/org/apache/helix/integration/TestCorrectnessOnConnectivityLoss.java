@@ -26,7 +26,7 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.TestHelper;
-import org.apache.helix.api.model.MemberType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
@@ -80,7 +80,7 @@ public class TestCorrectnessOnConnectivityLoss {
     Map<String, Integer> stateReachedCounts = Maps.newHashMap();
     HelixManager participant =
         HelixManagerFactory.getZKHelixManager(_clusterName, "localhost_12918",
-            MemberType.PARTICIPANT, ZK_ADDR);
+            MemberRole.PARTICIPANT, ZK_ADDR);
     participant.getStateMachineEngine().registerStateModelFactory(
         StateModelDefId.from("OnlineOffline"), new MyStateModelFactory(stateReachedCounts));
     participant.connect();
@@ -114,14 +114,14 @@ public class TestCorrectnessOnConnectivityLoss {
     Map<String, Integer> stateReachedCounts = Maps.newHashMap();
     HelixManager participant =
         HelixManagerFactory.getZKHelixManager(_clusterName, "localhost_12918",
-            MemberType.PARTICIPANT, ZK_ADDR);
+            MemberRole.PARTICIPANT, ZK_ADDR);
     participant.getStateMachineEngine().registerStateModelFactory(
         StateModelDefId.from("OnlineOffline"), new MyStateModelFactory(stateReachedCounts));
     participant.connect();
 
     RoutingTableProvider routingTableProvider = new RoutingTableProvider();
     HelixManager spectator =
-        HelixManagerFactory.getZKHelixManager(_clusterName, "spectator", MemberType.SPECTATOR,
+        HelixManagerFactory.getZKHelixManager(_clusterName, "spectator", MemberRole.SPECTATOR,
             ZK_ADDR);
     spectator.connect();
     spectator.addConfigChangeListener(routingTableProvider);
