@@ -1,4 +1,4 @@
-package org.apache.helix.api.model;
+package org.apache.helix.api.model.configuration;
 
 import org.apache.helix.api.model.id.SpectatorId;
 

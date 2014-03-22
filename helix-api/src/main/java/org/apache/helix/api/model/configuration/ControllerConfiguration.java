@@ -1,4 +1,4 @@
-package org.apache.helix.api.model;
+package org.apache.helix.api.model.configuration;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

@@ -22,8 +22,8 @@ package org.apache.helix.api.snapshot;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.configuration.ParticipantConfiguration;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;

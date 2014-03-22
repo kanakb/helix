@@ -1,4 +1,4 @@
-package org.apache.helix.api.model;
+package org.apache.helix.api.model.configuration;
 
 import org.apache.helix.api.model.id.MemberId;
 
@@ -23,7 +23,7 @@ import org.apache.helix.api.model.id.MemberId;
 public abstract class MemberConfiguration<T extends MemberId> implements HelixConfiguration {
   private T _id;
 
-  public MemberConfiguration(T id) {
+  protected MemberConfiguration(T id) {
     _id = id;
   }
 

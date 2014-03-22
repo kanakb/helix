@@ -51,7 +51,7 @@ import org.apache.helix.MessageListener;
 import org.apache.helix.PreConnectCallback;
 import org.apache.helix.ScopedConfigChangeListener;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.ClusterConfiguration;
+import org.apache.helix.api.model.configuration.ClusterConfiguration;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyPathConfig;

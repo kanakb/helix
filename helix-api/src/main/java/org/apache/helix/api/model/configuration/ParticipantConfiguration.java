@@ -1,8 +1,10 @@
-package org.apache.helix.api.model;
+package org.apache.helix.api.model.configuration;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 
