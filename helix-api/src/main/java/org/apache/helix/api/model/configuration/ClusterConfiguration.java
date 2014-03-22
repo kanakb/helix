@@ -2,10 +2,10 @@ package org.apache.helix.api.model.configuration;
 
 import java.util.Map;
 
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.ClusterId;
 
 import com.google.common.collect.Maps;

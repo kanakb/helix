@@ -29,7 +29,7 @@ import org.I0Itec.zkclient.IZkChildListener;
 import org.apache.helix.TestHelper;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.HelixProperty.HelixPropertyAttribute;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.integration.manager.ClusterControllerManager;

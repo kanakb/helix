@@ -19,8 +19,8 @@ package org.apache.helix.api.model.statemachine;
  * under the License.
  */
 
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.ZNRecord;
 
 /**
  * Wraps updates to Helix constructs, e.g. state transitions and controller task statuses

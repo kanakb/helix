@@ -21,8 +21,8 @@ package org.apache.helix.integration;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.controller.rebalancer.Rebalancer;
 import org.apache.helix.controller.stages.ClusterDataCache;

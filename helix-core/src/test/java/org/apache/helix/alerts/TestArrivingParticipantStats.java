@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.Mocks.MockManager;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.stages.HealthDataCache;
 import org.testng.AssertJUnit;

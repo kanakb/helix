@@ -30,7 +30,7 @@ import java.util.TreeMap;
 import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.apache.helix.AccessOption;
 import org.apache.helix.ZkUnitTestBase;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.store.HelixPropertyListener;

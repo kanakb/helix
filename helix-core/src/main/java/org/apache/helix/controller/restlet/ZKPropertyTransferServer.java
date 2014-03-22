@@ -30,7 +30,7 @@ import java.util.logging.Level;
 
 import org.I0Itec.zkclient.DataUpdater;
 import org.apache.helix.AccessOption;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;

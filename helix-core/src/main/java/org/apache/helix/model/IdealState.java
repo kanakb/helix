@@ -29,10 +29,10 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.helix.HelixConstants;
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.UserConfig;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;

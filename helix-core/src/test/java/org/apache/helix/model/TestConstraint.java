@@ -27,8 +27,8 @@ import java.util.TreeMap;
 
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.ipc.id.MessageId;

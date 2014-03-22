@@ -29,7 +29,7 @@ import java.util.TreeMap;
 import org.I0Itec.zkclient.exception.ZkMarshallingError;
 import org.I0Itec.zkclient.serialize.ZkSerializer;
 import org.apache.helix.HelixException;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;

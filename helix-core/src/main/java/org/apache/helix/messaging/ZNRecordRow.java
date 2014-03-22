@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 
 /**
  * A Normalized form of ZNRecord

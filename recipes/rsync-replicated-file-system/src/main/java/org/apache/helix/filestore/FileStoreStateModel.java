@@ -23,7 +23,7 @@ import org.I0Itec.zkclient.DataUpdater;
 import org.apache.helix.AccessOption;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.participant.statemachine.StateModel;

@@ -24,7 +24,7 @@ import java.util.Date;
 import org.I0Itec.zkclient.ZkServer;
 import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.apache.helix.TestHelper;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.manager.zk.ZkClient;
 import org.testng.Assert;
 import org.testng.annotations.Test;

@@ -21,7 +21,7 @@ package org.apache.helix.store;
 
 import java.util.Date;
 
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 

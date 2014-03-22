@@ -21,7 +21,7 @@ package org.apache.helix.model.builder;
 
 import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixException;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;

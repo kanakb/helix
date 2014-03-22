@@ -24,8 +24,8 @@ import java.util.Date;
 
 import org.apache.helix.HelixException;
 import org.apache.helix.ZkUnitTestBase;
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.model.IdealState;

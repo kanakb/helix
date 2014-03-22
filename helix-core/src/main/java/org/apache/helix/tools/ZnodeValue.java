@@ -22,7 +22,7 @@ package org.apache.helix.tools;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 
 public class ZnodeValue {
   public String _singleValue;

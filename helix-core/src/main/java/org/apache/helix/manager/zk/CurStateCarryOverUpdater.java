@@ -20,7 +20,7 @@ package org.apache.helix.manager.zk;
  */
 
 import org.I0Itec.zkclient.DataUpdater;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;

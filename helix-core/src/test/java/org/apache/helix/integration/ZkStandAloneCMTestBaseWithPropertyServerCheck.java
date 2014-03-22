@@ -22,8 +22,8 @@ package org.apache.helix.integration;
 import java.util.List;
 
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.statemachine.StatusUpdate;
 import org.apache.helix.controller.restlet.ZKPropertyTransferServer;
 import org.apache.helix.controller.restlet.ZkPropertyTransferClient;

@@ -19,11 +19,11 @@ package org.apache.helix;
  * under the License.
  */
 
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.accessor.ParticipantAccessor;
 import org.apache.helix.api.accessor.ResourceAccessor;
 import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.ControllerId;

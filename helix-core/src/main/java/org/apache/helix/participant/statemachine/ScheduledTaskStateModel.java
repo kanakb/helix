@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.helix.HelixException;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.messaging.handling.HelixTaskExecutor;
 import org.apache.helix.messaging.handling.MessageHandler;

@@ -27,8 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.helix.NotificationContext;
 import org.apache.helix.TestHelper;
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.integration.manager.ClusterControllerManager;

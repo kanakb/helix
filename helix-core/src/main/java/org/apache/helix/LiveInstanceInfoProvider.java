@@ -1,6 +1,6 @@
 package org.apache.helix;
 
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

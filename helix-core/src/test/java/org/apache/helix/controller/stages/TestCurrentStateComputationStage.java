@@ -22,9 +22,9 @@ package org.apache.helix.controller.stages;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;

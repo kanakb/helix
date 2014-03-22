@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.ZNRecordDelta;
 import org.apache.log4j.Logger;
 
 /**

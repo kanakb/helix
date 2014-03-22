@@ -25,8 +25,8 @@ import java.util.Map;
 
 import org.apache.helix.alerts.ExpressionParser;
 import org.apache.helix.alerts.StatsHolder;
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message.Attributes;
 import org.apache.log4j.Logger;
 

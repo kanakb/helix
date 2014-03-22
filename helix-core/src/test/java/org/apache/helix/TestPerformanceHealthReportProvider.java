@@ -22,7 +22,7 @@ package org.apache.helix;
 import java.util.Map;
 
 import org.apache.helix.Mocks.MockManager;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.healthcheck.PerformanceHealthReportProvider;
 import org.apache.helix.model.HealthStat;

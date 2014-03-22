@@ -28,6 +28,7 @@ import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;

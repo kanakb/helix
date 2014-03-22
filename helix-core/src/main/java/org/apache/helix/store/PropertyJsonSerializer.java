@@ -23,7 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 
 import org.apache.helix.HelixException;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;

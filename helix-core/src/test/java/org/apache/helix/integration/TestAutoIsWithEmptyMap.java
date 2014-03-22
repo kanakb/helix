@@ -24,9 +24,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.helix.TestHelper;
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.PropertyType;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;

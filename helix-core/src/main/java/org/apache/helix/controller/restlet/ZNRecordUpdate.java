@@ -21,7 +21,7 @@ package org.apache.helix.controller.restlet;
 
 import org.I0Itec.zkclient.DataUpdater;
 import org.apache.helix.ZNRecordUpdater;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;

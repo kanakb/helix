@@ -23,8 +23,8 @@ import java.io.IOException;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.tools.ClusterSetup;

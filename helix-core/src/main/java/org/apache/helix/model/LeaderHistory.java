@@ -22,8 +22,8 @@ package org.apache.helix.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.ZNRecord;
 
 /**
  * The history of instances that have served as the leader controller

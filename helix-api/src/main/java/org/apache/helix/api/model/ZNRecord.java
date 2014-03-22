@@ -1,4 +1,4 @@
-package org.apache.helix.api;
+package org.apache.helix.api.model;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.helix.api.ZNRecordDelta.MergeOperation;
+import org.apache.helix.api.model.ZNRecordDelta.MergeOperation;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;

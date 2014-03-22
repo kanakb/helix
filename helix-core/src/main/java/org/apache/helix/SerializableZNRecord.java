@@ -18,7 +18,7 @@ package org.apache.helix;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.manager.zk.serializer.PayloadSerializer;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;

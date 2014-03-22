@@ -3,7 +3,7 @@ package org.apache.helix.model.builder;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.id.SessionId;

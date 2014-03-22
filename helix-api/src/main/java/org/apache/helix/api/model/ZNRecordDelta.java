@@ -1,4 +1,5 @@
-package org.apache.helix.api;
+package org.apache.helix.api.model;
+
 
 
 /*

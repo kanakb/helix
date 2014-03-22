@@ -21,7 +21,7 @@ package org.apache.helix;
 
 import java.io.FileFilter;
 
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.controller.HierarchicalDataHolder;
 import org.apache.helix.manager.zk.ZkClient;
 import org.testng.AssertJUnit;

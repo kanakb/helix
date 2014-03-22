@@ -18,8 +18,8 @@ package org.apache.helix.model;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.ZNRecord;
 
 /**
  * Maintains a history of alerts that have been fired, as well as actions taken, if any.

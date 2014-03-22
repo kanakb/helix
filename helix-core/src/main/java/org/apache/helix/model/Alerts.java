@@ -21,8 +21,8 @@ package org.apache.helix.model;
 
 import java.util.Map;
 
-import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.id.SessionId;
 
 /**

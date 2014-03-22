@@ -27,7 +27,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 import org.apache.helix.HelixException;
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.model.IdealState.IdealStateProperty;
 
 /**
