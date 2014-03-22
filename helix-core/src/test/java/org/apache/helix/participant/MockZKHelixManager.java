@@ -40,7 +40,7 @@ import org.apache.helix.MessageListener;
 import org.apache.helix.PreConnectCallback;
 import org.apache.helix.ScopedConfigChangeListener;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.healthcheck.ParticipantHealthReportCollector;
@@ -53,9 +53,9 @@ public class MockZKHelixManager implements HelixManager {
   private final ZKHelixDataAccessor _accessor;
   private final String _instanceName;
   private final String _clusterName;
-  private final InstanceType _type;
+  private final MemberRole _type;
 
-  public MockZKHelixManager(String clusterName, String instanceName, InstanceType type,
+  public MockZKHelixManager(String clusterName, String instanceName, MemberRole type,
       ZkClient zkClient) {
     _instanceName = instanceName;
     _clusterName = clusterName;
@@ -176,7 +176,7 @@ public class MockZKHelixManager implements HelixManager {
   }
 
   @Override
-  public InstanceType getInstanceType() {
+  public MemberRole getInstanceType() {
     return _type;
   }
 

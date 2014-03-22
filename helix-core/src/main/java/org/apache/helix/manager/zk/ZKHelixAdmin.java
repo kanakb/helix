@@ -49,7 +49,7 @@ import org.apache.helix.api.ZNRecord;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
 import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.model.HelixConfigScope;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.PropertyType;
@@ -1203,7 +1203,7 @@ public class ZKHelixAdmin implements HelixAdmin {
       throw new HelixException("cluster " + clusterName + " is not setup yet");
     }
 
-    if (!ZKUtil.isInstanceSetup(_zkClient, clusterName, instanceName, InstanceType.PARTICIPANT)) {
+    if (!ZKUtil.isInstanceSetup(_zkClient, clusterName, instanceName, MemberRole.PARTICIPANT)) {
       throw new HelixException("cluster " + clusterName + " instance " + instanceName
           + " is not setup yet");
     }
@@ -1222,7 +1222,7 @@ public class ZKHelixAdmin implements HelixAdmin {
       throw new HelixException("cluster " + clusterName + " is not setup yet");
     }
 
-    if (!ZKUtil.isInstanceSetup(_zkClient, clusterName, instanceName, InstanceType.PARTICIPANT)) {
+    if (!ZKUtil.isInstanceSetup(_zkClient, clusterName, instanceName, MemberRole.PARTICIPANT)) {
       throw new HelixException("cluster " + clusterName + " instance " + instanceName
           + " is not setup yet");
     }

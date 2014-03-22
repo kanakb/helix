@@ -27,7 +27,7 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkTestHelper;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.integration.ZkIntegrationTestBase;
 import org.apache.helix.manager.zk.CallbackHandler;
@@ -68,7 +68,7 @@ public class TestDistributedControllerManager extends ZkIntegrationTestBase {
     for (int i = 0; i < n; i++) {
       int port = 12918 + i;
       distributedControllers[i] =
-          new ZKHelixManager(clusterName, "localhost_" + port, InstanceType.CONTROLLER_PARTICIPANT,
+          new ZKHelixManager(clusterName, "localhost_" + port, MemberRole.CONTROLLER_PARTICIPANT,
               ZK_ADDR);
       distributedControllers[i].getStateMachineEngine().registerStateModelFactory("MasterSlave",
           new MockMSModelFactory());

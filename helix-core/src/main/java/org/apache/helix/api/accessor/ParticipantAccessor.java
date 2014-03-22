@@ -37,7 +37,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.config.ParticipantConfig;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
@@ -417,8 +417,8 @@ public class ParticipantAccessor {
    * @return true if the user config was set, false otherwise
    */
   public boolean setUserConfig(ParticipantId participantId, UserConfig userConfig) {
-    ParticipantConfig.Delta delta =
-        new ParticipantConfig.Delta(participantId).setUserConfig(userConfig);
+    ParticipantConfiguration.Delta delta =
+        new ParticipantConfiguration.Delta(participantId).setUserConfig(userConfig);
     return updateParticipant(participantId, delta) != null;
   }
 
@@ -452,14 +452,14 @@ public class ParticipantAccessor {
    * @param participantDelta changes to the participant
    * @return ParticipantConfig, or null if participant is not persisted
    */
-  public ParticipantConfig updateParticipant(ParticipantId participantId,
-      ParticipantConfig.Delta participantDelta) {
+  public ParticipantConfiguration updateParticipant(ParticipantId participantId,
+      ParticipantConfiguration.Delta participantDelta) {
     Participant participant = readParticipant(participantId);
     if (participant == null) {
       LOG.error("Participant " + participantId + " does not exist, cannot be updated");
       return null;
     }
-    ParticipantConfig config = participantDelta.mergeInto(participant.getConfig());
+    ParticipantConfiguration config = participantDelta.mergeInto(participant.getConfig());
     setParticipant(config);
     return config;
   }
@@ -469,7 +469,7 @@ public class ParticipantAccessor {
    * @param participantConfig participant configuration
    * @return true if config was set, false if there was an error
    */
-  public boolean setParticipant(ParticipantConfig participantConfig) {
+  public boolean setParticipant(ParticipantConfiguration participantConfig) {
     if (participantConfig == null) {
       LOG.error("Participant config not initialized");
       return false;

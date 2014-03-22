@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.statemachine;
+package org.apache.helix.model.builder;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.Transition;
 
 public class StateTransitionTableBuilder {
   // for convenient get path value, in which non-exist means MAX

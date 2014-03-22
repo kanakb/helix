@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.helix.HelixTimerTask;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.manager.zk.CallbackHandler;
 import org.apache.helix.manager.zk.ZKHelixManager;
 import org.apache.helix.manager.zk.ZkClient;
@@ -37,7 +37,7 @@ public class ClusterControllerManager extends ZKHelixManager implements Runnable
   private final CountDownLatch _waitStopFinishCountDown = new CountDownLatch(1);
 
   public ClusterControllerManager(String zkAddr, String clusterName, String controllerName) {
-    super(clusterName, controllerName, InstanceType.CONTROLLER, zkAddr);
+    super(clusterName, controllerName, MemberRole.CONTROLLER, zkAddr);
   }
 
   public void syncStop() {

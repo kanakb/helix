@@ -1,8 +1,5 @@
 package org.apache.helix.api.model.id;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,25 +18,25 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * specific language governing permissions and limitations
  * under the License.
  */
-public final class ParticipantId extends MemberId {
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+public final class ControllerId extends MemberId {
   /**
-   * Instantiate for a participant with a string name
-   * @param id string participant id
+   * Create a controller id
+   * @param id string representation of a controller id
    */
   @JsonCreator
-  private ParticipantId(@JsonProperty("id") String id) {
+  private ControllerId(@JsonProperty("id") String id) {
     super(id);
   }
 
   /**
-   * Get a concrete participant id
-   * @param participantId string participant identifier
-   * @return ParticipantId
+   * Get a ControllerId from a string
+   * @param controllerId string representing the id
+   * @return ControllerId
    */
-  public static ParticipantId from(String participantId) {
-    if (participantId == null) {
-      return null;
-    }
-    return new ParticipantId(participantId);
+  public static ControllerId from(String controllerId) {
+    return new ControllerId(controllerId);
   }
 }

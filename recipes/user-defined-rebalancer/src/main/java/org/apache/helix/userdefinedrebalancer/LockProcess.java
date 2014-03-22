@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.model.InstanceConfig;
@@ -47,7 +47,7 @@ public class LockProcess {
     System.out.println("STARTING " + instanceName);
     configureInstance(instanceName);
     participantManager =
-        HelixManagerFactory.getZKHelixManager(clusterName, instanceName, InstanceType.PARTICIPANT,
+        HelixManagerFactory.getZKHelixManager(clusterName, instanceName, MemberRole.PARTICIPANT,
             zkAddress);
     participantManager.getStateMachineEngine().registerStateModelFactory(
         StateModelDefId.from(stateModelName), new LockFactory());

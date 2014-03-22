@@ -31,7 +31,7 @@ import org.I0Itec.zkclient.ZkServer;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
@@ -39,6 +39,7 @@ import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.InstanceConfig;
+import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.participant.StateMachineEngine;
 
 public class Quickstart {
@@ -103,7 +104,7 @@ public class Quickstart {
   }
 
   private static StateModelDefinition defineStateModel() {
-    StateModelDefinition.Builder builder = new StateModelDefinition.Builder(STATE_MODEL_NAME);
+    StateModelDefinitionBuilder builder = new StateModelDefinitionBuilder(STATE_MODEL_NAME);
     // Add states and their rank to indicate priority. Lower the rank higher the
     // priority
     builder.addState(MASTER, 1);
@@ -246,7 +247,7 @@ public class Quickstart {
     public void start() throws Exception {
       manager =
           HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, instanceName,
-              InstanceType.PARTICIPANT, ZK_ADDRESS);
+              MemberRole.PARTICIPANT, ZK_ADDRESS);
 
       MasterSlaveStateModelFactory stateModelFactory =
           new MasterSlaveStateModelFactory(instanceName);

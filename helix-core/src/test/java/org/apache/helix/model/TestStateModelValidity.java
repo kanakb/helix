@@ -28,6 +28,7 @@ import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty;
+import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -59,7 +60,7 @@ public class TestStateModelValidity {
   @Test
   public void testNoDroppedState() {
     StateModelDefinition stateModel =
-        new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
+        new StateModelDefinitionBuilder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addTransition("OFFLINE", "SLAVE")
             .addTransition("SLAVE", "MASTER").addTransition("MASTER", "SLAVE")
             .addTransition("SLAVE", "OFFLINE").build();
@@ -72,7 +73,7 @@ public class TestStateModelValidity {
   @Test
   public void testNoPathToDropped() {
     StateModelDefinition stateModel =
-        new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
+        new StateModelDefinitionBuilder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addState("DROPPED")
             .addTransition("OFFLINE", "SLAVE").addTransition("SLAVE", "MASTER")
             .addTransition("SLAVE", "OFFLINE").addTransition("OFFLINE", "DROPPED").build();
@@ -80,7 +81,7 @@ public class TestStateModelValidity {
 
     // now see that adding MASTER-DROPPED fixes the problem
     stateModel =
-        new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
+        new StateModelDefinitionBuilder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addState("DROPPED")
             .addTransition("OFFLINE", "SLAVE").addTransition("SLAVE", "MASTER")
             .addTransition("SLAVE", "OFFLINE").addTransition("OFFLINE", "DROPPED")
@@ -94,7 +95,7 @@ public class TestStateModelValidity {
   @Test
   public void testInitialStateIsNotState() {
     StateModelDefinition stateModel =
-        new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("MASTER")
+        new StateModelDefinitionBuilder("stateModel").initialState("OFFLINE").addState("MASTER")
             .addState("SLAVE").addState("DROPPED").addTransition("OFFLINE", "SLAVE")
             .addTransition("SLAVE", "MASTER").addTransition("SLAVE", "OFFLINE")
             .addTransition("OFFLINE", "DROPPED").addTransition("MASTER", "SLAVE").build();
@@ -107,7 +108,7 @@ public class TestStateModelValidity {
   @Test
   public void testNoInitialState() {
     try {
-      new StateModelDefinition.Builder("stateModel").addState("OFFLINE").addState("MASTER")
+      new StateModelDefinitionBuilder("stateModel").addState("OFFLINE").addState("MASTER")
           .addState("SLAVE").addState("DROPPED").addTransition("OFFLINE", "SLAVE")
           .addTransition("SLAVE", "MASTER").addTransition("SLAVE", "OFFLINE")
           .addTransition("OFFLINE", "DROPPED").addTransition("MASTER", "SLAVE").build();
@@ -123,7 +124,7 @@ public class TestStateModelValidity {
   public void testTransitionsWithInvalidStates() {
     // invalid to state
     StateModelDefinition stateModel =
-        new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
+        new StateModelDefinitionBuilder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addState("DROPPED")
             .addTransition("OFFLINE", "SLAVE").addTransition("SLAVE", "MASTER")
             .addTransition("SLAVE", "OFFLINE").addTransition("OFFLINE", "DROPPED")
@@ -132,7 +133,7 @@ public class TestStateModelValidity {
 
     // invalid from state
     stateModel =
-        new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
+        new StateModelDefinitionBuilder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addState("DROPPED")
             .addTransition("OFFLINE", "SLAVE").addTransition("SLAVE", "MASTER")
             .addTransition("SLAVE", "OFFLINE").addTransition("OFFLINE", "DROPPED")
@@ -146,7 +147,7 @@ public class TestStateModelValidity {
   @Test
   public void testUnreachableState() {
     StateModelDefinition stateModel =
-        new StateModelDefinition.Builder("stateModel").initialState("OFFLINE").addState("OFFLINE")
+        new StateModelDefinitionBuilder("stateModel").initialState("OFFLINE").addState("OFFLINE")
             .addState("MASTER").addState("SLAVE").addState("DROPPED")
             .addTransition("OFFLINE", "SLAVE").addTransition("SLAVE", "OFFLINE")
             .addTransition("OFFLINE", "DROPPED").addTransition("MASTER", "SLAVE")
@@ -218,7 +219,7 @@ public class TestStateModelValidity {
    */
   @Test
   public void testBasic() {
-    StateModelDefinition stateModel = new StateModelDefinition.Builder("MasterSlave")
+    StateModelDefinition stateModel = new StateModelDefinitionBuilder("MasterSlave")
     // OFFLINE is the state that the system starts in (initial state is REQUIRED)
         .initialState("OFFLINE")
 

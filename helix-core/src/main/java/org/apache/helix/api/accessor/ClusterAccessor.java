@@ -36,17 +36,17 @@ import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.StatsHolder;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.id.ContextId;
-import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.model.ClusterConfiguration;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.api.model.configuration.ClusterConfiguration;
-import org.apache.helix.api.model.configuration.ResourceConfiguration;
+import org.apache.helix.api.model.ResourceConfiguration;
 import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
@@ -131,8 +131,8 @@ public class ClusterAccessor {
     for (ResourceConfig resource : resources.values()) {
       addResourceToCluster(resource);
     }
-    Map<ParticipantId, ParticipantConfig> participants = cluster.getParticipantMap();
-    for (ParticipantConfig participant : participants.values()) {
+    Map<ParticipantId, ParticipantConfiguration> participants = cluster.getParticipantMap();
+    for (ParticipantConfiguration participant : participants.values()) {
       addParticipantToCluster(participant);
     }
     _accessor.createProperty(_keyBuilder.constraints(), null);
@@ -844,7 +844,7 @@ public class ClusterAccessor {
    * @param participant
    * @return true if participant added, false otherwise
    */
-  public boolean addParticipantToCluster(ParticipantConfig participant) {
+  public boolean addParticipantToCluster(ParticipantConfiguration participant) {
     if (participant == null) {
       LOG.error("Participant not initialized");
       return false;

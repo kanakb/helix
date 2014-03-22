@@ -22,7 +22,7 @@ package org.apache.helix.api.role;
 import org.apache.helix.HelixConnectionStateListener;
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.PreConnectCallback;
-import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.participant.StateMachineEngine;
 
 /**

@@ -1,10 +1,8 @@
-package org.apache.helix.api.config;
+package org.apache.helix.api.model;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.helix.api.model.Scope;
-import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 
@@ -33,8 +31,7 @@ import com.google.common.collect.Sets;
 /**
  * Configuration properties of a Helix participant
  */
-public class ParticipantConfig {
-  private final ParticipantId _id;
+public class ParticipantConfiguration extends MemberConfiguration<ParticipantId>{
   private final String _hostName;
   private final int _port;
   private final boolean _isEnabled;
@@ -51,9 +48,9 @@ public class ParticipantConfig {
    * @param disabledPartitions set of partitions, if any to disable on this participant
    * @param tags tags to set for the participant
    */
-  public ParticipantConfig(ParticipantId id, String hostName, int port, boolean isEnabled,
+  public ParticipantConfiguration(ParticipantId id, String hostName, int port, boolean isEnabled,
       Set<PartitionId> disabledPartitions, Set<String> tags, UserConfig userConfig) {
-    _id = id;
+    super(id);
     _hostName = hostName;
     _port = port;
     _isEnabled = isEnabled;
@@ -117,14 +114,6 @@ public class ParticipantConfig {
    */
   public UserConfig getUserConfig() {
     return _userConfig;
-  }
-
-  /**
-   * Get the participant id
-   * @return ParticipantId
-   */
-  public ParticipantId getId() {
-    return _id;
   }
 
   /**
@@ -244,8 +233,8 @@ public class ParticipantConfig {
      * @param orig the original ParticipantConfig
      * @return updated ParticipantConfig
      */
-    public ParticipantConfig mergeInto(ParticipantConfig orig) {
-      ParticipantConfig deltaConfig = _builder.build();
+    public ParticipantConfiguration mergeInto(ParticipantConfiguration orig) {
+      ParticipantConfiguration deltaConfig = _builder.build();
       Builder builder =
           new Builder(orig.getId()).hostName(orig.getHostName()).port(orig.getPort())
               .enabled(orig.isEnabled()).userConfig(orig.getUserConfig());
@@ -369,8 +358,8 @@ public class ParticipantConfig {
      * Assemble the participant
      * @return instantiated Participant
      */
-    public ParticipantConfig build() {
-      return new ParticipantConfig(_id, _hostName, _port, _isEnabled, _disabledPartitions, _tags,
+    public ParticipantConfiguration build() {
+      return new ParticipantConfiguration(_id, _hostName, _port, _isEnabled, _disabledPartitions, _tags,
           _userConfig);
     }
   }

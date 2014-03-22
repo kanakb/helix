@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.I0Itec.zkclient.DataUpdater;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.CreateMode;
@@ -58,8 +58,8 @@ public final class ZKUtil {
   }
 
   public static boolean isInstanceSetup(ZkClient zkclient, String clusterName, String instanceName,
-      InstanceType type) {
-    if (type == InstanceType.PARTICIPANT || type == InstanceType.CONTROLLER_PARTICIPANT) {
+      MemberRole type) {
+    if (type == MemberRole.PARTICIPANT || type == MemberRole.CONTROLLER_PARTICIPANT) {
       List<String> requiredPaths = HelixUtil.getRequiredPathsForInstance(clusterName, instanceName);
       boolean isValid = true;
 

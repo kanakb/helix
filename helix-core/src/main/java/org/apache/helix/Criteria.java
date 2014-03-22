@@ -1,6 +1,6 @@
 package org.apache.helix;
 
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -33,7 +33,7 @@ public class Criteria {
   /**
    * This can be CONTROLLER, PARTICIPANT, ROUTER Cannot be null
    */
-  InstanceType recipientInstanceType;
+  MemberRole recipientInstanceType;
   /**
    * If true this will only be process by the instance that was running when the
    * message was sent. If the instance process dies and comes back up it will be
@@ -103,7 +103,7 @@ public class Criteria {
    * Determine the type of the recipient
    * @return InstanceType (e.g. PARTICIPANT, CONTROLLER, SPECTATOR)
    */
-  public InstanceType getRecipientInstanceType() {
+  public MemberRole getRecipientInstanceType() {
     return recipientInstanceType;
   }
 
@@ -111,7 +111,7 @@ public class Criteria {
    * Set the type of the recipient
    * @param recipientInstanceType InstanceType (e.g. PARTICIPANT, CONTROLLER, SPECTATOR)
    */
-  public void setRecipientInstanceType(InstanceType recipientInstanceType) {
+  public void setRecipientInstanceType(MemberRole recipientInstanceType) {
     this.recipientInstanceType = recipientInstanceType;
   }
 

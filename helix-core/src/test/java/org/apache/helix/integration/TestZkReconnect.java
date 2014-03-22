@@ -30,7 +30,7 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.TestHelper;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
@@ -70,7 +70,7 @@ public class TestZkReconnect {
     // Registers and starts controller
     LOG.info("Starts controller");
     HelixManager controller =
-        HelixManagerFactory.getZKHelixManager(clusterName, null, InstanceType.CONTROLLER, zkAddr);
+        HelixManagerFactory.getZKHelixManager(clusterName, null, MemberRole.CONTROLLER, zkAddr);
     controller.connect();
 
     // Registers and starts participant
@@ -79,7 +79,7 @@ public class TestZkReconnect {
     String instanceId = String.format("%s_%d", hostname, 1);
     clusterSetup.addInstanceToCluster(clusterName, instanceId);
     HelixManager participant =
-        HelixManagerFactory.getZKHelixManager(clusterName, instanceId, InstanceType.PARTICIPANT,
+        HelixManagerFactory.getZKHelixManager(clusterName, instanceId, MemberRole.PARTICIPANT,
             zkAddr);
     participant.connect();
 

@@ -31,7 +31,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.participant.StateMachineEngine;
@@ -86,7 +86,7 @@ public class DummyProcess {
     if (_clusterMangerType.equalsIgnoreCase("zk")) {
       manager =
           HelixManagerFactory.getZKHelixManager(_clusterName, _instanceName,
-              InstanceType.PARTICIPANT, _zkConnectString);
+              MemberRole.PARTICIPANT, _zkConnectString);
     } else {
       throw new IllegalArgumentException("Unsupported cluster manager type:" + _clusterMangerType);
     }

@@ -1,10 +1,10 @@
 package org.apache.helix.api;
 
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.id.ClusterId;
@@ -58,8 +58,8 @@ public class TestUpdateConfig {
     // disabled
     UserConfig userConfig = new UserConfig(Scope.participant(participantId));
     userConfig.setSimpleField("key1", "value1");
-    ParticipantConfig config =
-        new ParticipantConfig.Builder(participantId).hostName(ORIG_HOSTNAME).port(PORT)
+    ParticipantConfiguration config =
+        new ParticipantConfiguration.Builder(participantId).hostName(ORIG_HOSTNAME).port(PORT)
             .enabled(false).addTag(TAG1).addTag(TAG2).addDisabledPartition(partition1)
             .addDisabledPartition(partition2).userConfig(userConfig).build();
     UserConfig newUserConfig = new UserConfig(Scope.participant(participantId));
@@ -67,8 +67,8 @@ public class TestUpdateConfig {
 
     // update: change host, remove a tag, add a tag, remove a disabled partition, add a disabled
     // partition, change user config
-    ParticipantConfig updated =
-        new ParticipantConfig.Delta(participantId).setHostName(NEW_HOSTNAME).removeTag(TAG1)
+    ParticipantConfiguration updated =
+        new ParticipantConfiguration.Delta(participantId).setHostName(NEW_HOSTNAME).removeTag(TAG1)
             .addTag(TAG3).removeDisabledPartition(partition1).addDisabledPartition(partition3)
             .setUserConfig(newUserConfig).mergeInto(config);
     Assert.assertEquals(updated.getHostName(), NEW_HOSTNAME);

@@ -23,16 +23,16 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.id.ContextId;
-import org.apache.helix.api.id.ControllerId;
-import org.apache.helix.api.id.SpectatorId;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.model.id.SpectatorId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
@@ -111,10 +111,10 @@ public class Cluster {
             return resource.getConfig();
           }
         });
-    Map<ParticipantId, ParticipantConfig> participantConfigMap =
-        Maps.transformValues(participantMap, new Function<Participant, ParticipantConfig>() {
+    Map<ParticipantId, ParticipantConfiguration> participantConfigMap =
+        Maps.transformValues(participantMap, new Function<Participant, ParticipantConfiguration>() {
           @Override
-          public ParticipantConfig apply(Participant participant) {
+          public ParticipantConfiguration apply(Participant participant) {
             return participant.getConfig();
           }
         });

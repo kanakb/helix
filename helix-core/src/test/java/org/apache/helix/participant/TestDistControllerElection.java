@@ -26,7 +26,7 @@ import org.apache.helix.NotificationContext;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.PropertyKeyBuilder;
@@ -60,7 +60,7 @@ public class TestDistControllerElection extends ZkUnitTestBase {
 
     final String controllerName = "controller_0";
     HelixManager manager =
-        new MockZKHelixManager(clusterName, controllerName, InstanceType.CONTROLLER, _gZkClient);
+        new MockZKHelixManager(clusterName, controllerName, MemberRole.CONTROLLER, _gZkClient);
 
     DistClusterControllerElection election = new DistClusterControllerElection(ZK_ADDR);
     NotificationContext context = new NotificationContext(manager);
@@ -75,7 +75,7 @@ public class TestDistControllerElection extends ZkUnitTestBase {
     // AssertJUnit.assertNull(election.getLeader());
 
     manager =
-        new MockZKHelixManager(clusterName, "controller_1", InstanceType.CONTROLLER, _gZkClient);
+        new MockZKHelixManager(clusterName, "controller_1", MemberRole.CONTROLLER, _gZkClient);
     election = new DistClusterControllerElection(ZK_ADDR);
     context = new NotificationContext(manager);
     context.setType(NotificationContext.Type.INIT);
@@ -109,7 +109,7 @@ public class TestDistControllerElection extends ZkUnitTestBase {
 
     final String controllerName = "controller_0";
     HelixManager manager =
-        new MockZKHelixManager(clusterName, controllerName, InstanceType.CONTROLLER_PARTICIPANT,
+        new MockZKHelixManager(clusterName, controllerName, MemberRole.CONTROLLER_PARTICIPANT,
             _gZkClient);
 
     DistClusterControllerElection election = new DistClusterControllerElection(ZK_ADDR);
@@ -127,7 +127,7 @@ public class TestDistControllerElection extends ZkUnitTestBase {
     // AssertJUnit.assertNotNull(election.getLeader());
 
     manager =
-        new MockZKHelixManager(clusterName, "controller_1", InstanceType.CONTROLLER_PARTICIPANT,
+        new MockZKHelixManager(clusterName, "controller_1", MemberRole.CONTROLLER_PARTICIPANT,
             _gZkClient);
     election = new DistClusterControllerElection(ZK_ADDR);
     context = new NotificationContext(manager);
@@ -159,7 +159,7 @@ public class TestDistControllerElection extends ZkUnitTestBase {
 
     final String controllerName = "participant_0";
     HelixManager manager =
-        new MockZKHelixManager(clusterName, controllerName, InstanceType.PARTICIPANT, _gZkClient);
+        new MockZKHelixManager(clusterName, controllerName, MemberRole.PARTICIPANT, _gZkClient);
 
     DistClusterControllerElection election = new DistClusterControllerElection(ZK_ADDR);
     NotificationContext context = new NotificationContext(manager);

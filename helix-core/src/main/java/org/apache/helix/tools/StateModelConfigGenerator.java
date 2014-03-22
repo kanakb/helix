@@ -26,11 +26,11 @@ import java.util.Map;
 
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.StateTransitionTableBuilder;
 import org.apache.helix.api.model.statemachine.Transition;
 import org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
+import org.apache.helix.model.builder.StateTransitionTableBuilder;
 import org.apache.helix.task.TaskConstants;
 import org.apache.helix.task.TaskPartitionState;
 

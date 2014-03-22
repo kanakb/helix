@@ -8,6 +8,7 @@ import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.api.id.ConstraintId;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.model.builder.ClusterConstraintsBuilder;
@@ -52,7 +53,7 @@ public class ClusterConfig {
 
   private final ClusterId _id;
   private final Map<ResourceId, ResourceConfig> _resourceMap;
-  private final Map<ParticipantId, ParticipantConfig> _participantMap;
+  private final Map<ParticipantId, ParticipantConfiguration> _participantMap;
   private final Map<ConstraintType, ClusterConstraints> _constraintMap;
   private final Map<StateModelDefId, StateModelDefinition> _stateModelMap;
   private final UserConfig _userConfig;
@@ -71,7 +72,7 @@ public class ClusterConfig {
    * @param allowAutoJoin true if participants can join automatically, false otherwise
    */
   public ClusterConfig(ClusterId id, Map<ResourceId, ResourceConfig> resourceMap,
-      Map<ParticipantId, ParticipantConfig> participantMap,
+      Map<ParticipantId, ParticipantConfiguration> participantMap,
       Map<ConstraintType, ClusterConstraints> constraintMap,
       Map<StateModelDefId, StateModelDefinition> stateModelMap, UserConfig userConfig,
       boolean isPaused, boolean allowAutoJoin) {
@@ -161,7 +162,7 @@ public class ClusterConfig {
    * Get participants of the cluster
    * @return a map of participant id to participant, or empty map if none
    */
-  public Map<ParticipantId, ParticipantConfig> getParticipantMap() {
+  public Map<ParticipantId, ParticipantConfiguration> getParticipantMap() {
     return _participantMap;
   }
 

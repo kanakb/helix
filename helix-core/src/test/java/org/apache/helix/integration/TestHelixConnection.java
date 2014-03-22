@@ -30,12 +30,12 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.accessor.ClusterAccessor;
-import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
-import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
@@ -49,6 +49,7 @@ import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.model.ExternalView;
+import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
@@ -118,7 +119,7 @@ public class TestHelixConnection extends ZkUnitTestBase {
     clusterAccessor.dropCluster();
 
     StateModelDefinition stateModelDef =
-        new StateModelDefinition.Builder(stateModelDefId).addState(master, 1).addState(slave, 2)
+        new StateModelDefinitionBuilder(stateModelDefId).addState(master, 1).addState(slave, 2)
             .addState(offline, 3).addState(dropped).addTransition(offline, slave, 3)
             .addTransition(slave, offline, 4).addTransition(slave, master, 2)
             .addTransition(master, slave, 1).addTransition(offline, dropped).initialState(offline)
@@ -131,7 +132,7 @@ public class TestHelixConnection extends ZkUnitTestBase {
         .addStateModelDefinition(stateModelDef).build());
     clusterAccessor.addResourceToCluster(ResourceConfigBuilder.newInstance().with(resourceId)
         .rebalancerConfig(rebalancerCtx).build());
-    clusterAccessor.addParticipantToCluster(new ParticipantConfig.Builder(participantId).build());
+    clusterAccessor.addParticipantToCluster(new ParticipantConfiguration.Builder(participantId).build());
 
     // start controller
     SingleClusterController controller = connection.createController(clusterId, controllerId);

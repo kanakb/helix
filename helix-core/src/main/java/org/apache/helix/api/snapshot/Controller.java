@@ -19,7 +19,7 @@ package org.apache.helix.api.snapshot;
  * under the License.
  */
 
-import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.model.LiveInstance;
 
 /**

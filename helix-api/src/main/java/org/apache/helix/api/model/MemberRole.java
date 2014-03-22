@@ -27,7 +27,7 @@ package org.apache.helix.api.model;
  * special participant that competes for the leader of CONTROLLER_CLUSTER
  * used in cluster controller of distributed mode {@HelixControllerMain}
  */
-public enum InstanceType {
+public enum MemberRole {
   CONTROLLER,
   PARTICIPANT,
   SPECTATOR,

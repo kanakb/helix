@@ -8,15 +8,15 @@ import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.accessor.ParticipantAccessor;
 import org.apache.helix.api.accessor.ResourceAccessor;
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
-import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
@@ -30,6 +30,7 @@ import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.FullAutoRebalancerConfig;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.model.ExternalView;
+import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
@@ -75,7 +76,7 @@ public class LogicalModelExample {
     ResourceConfig resource = getResource(lockUnlock);
 
     // set up a participant
-    ParticipantConfig participant = getParticipant();
+    ParticipantConfiguration participant = getParticipant();
 
     // cluster id should be unique
     ClusterId clusterId = ClusterId.from("exampleCluster");
@@ -158,12 +159,12 @@ public class LogicalModelExample {
     }
   }
 
-  private static void updateParticipant(ParticipantConfig participant, ClusterId clusterId,
+  private static void updateParticipant(ParticipantConfiguration participant, ClusterId clusterId,
       HelixConnection connection) {
     // add a tag to the participant and change the hostname, then update it using a delta
     ParticipantAccessor accessor = connection.createParticipantAccessor(clusterId);
-    ParticipantConfig.Delta delta =
-        new ParticipantConfig.Delta(participant.getId()).addTag("newTag").setHostName("newHost");
+    ParticipantConfiguration.Delta delta =
+        new ParticipantConfiguration.Delta(participant.getId()).addTag("newTag").setHostName("newHost");
     accessor.updateParticipant(participant.getId(), delta);
   }
 
@@ -172,7 +173,7 @@ public class LogicalModelExample {
     accessor.createCluster(cluster);
   }
 
-  private static ParticipantConfig getParticipant() {
+  private static ParticipantConfiguration getParticipant() {
     // identify the participant
     ParticipantId participantId = ParticipantId.from("localhost_0");
 
@@ -182,8 +183,8 @@ public class LogicalModelExample {
     userConfig.setListField("sampleList", sampleList);
 
     // create the configuration of a new participant
-    ParticipantConfig.Builder participantBuilder =
-        new ParticipantConfig.Builder(participantId).hostName("localhost").port(0)
+    ParticipantConfiguration.Builder participantBuilder =
+        new ParticipantConfiguration.Builder(participantId).hostName("localhost").port(0)
             .userConfig(userConfig);
     return participantBuilder.build();
   }
@@ -222,8 +223,8 @@ public class LogicalModelExample {
     final State RELEASED = State.from("RELEASED");
     final State DROPPED = State.from("DROPPED");
     StateModelDefId stateModelId = StateModelDefId.from("LockUnlock");
-    StateModelDefinition.Builder stateModelBuilder =
-        new StateModelDefinition.Builder(stateModelId).addState(LOCKED, 0).addState(RELEASED, 1)
+    StateModelDefinitionBuilder stateModelBuilder =
+        new StateModelDefinitionBuilder(stateModelId).addState(LOCKED, 0).addState(RELEASED, 1)
             .addState(DROPPED, 2).addTransition(RELEASED, LOCKED, 0)
             .addTransition(LOCKED, RELEASED, 1).addTransition(RELEASED, DROPPED, 2)
             .upperBound(LOCKED, 1).upperBound(RELEASED, -1).upperBound(DROPPED, -1)

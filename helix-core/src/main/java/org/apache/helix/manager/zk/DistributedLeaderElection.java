@@ -26,7 +26,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixTimerTask;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.log4j.Logger;
@@ -61,8 +61,8 @@ public class DistributedLeaderElection implements ControllerChangeListener {
       return;
     }
 
-    InstanceType type = manager.getInstanceType();
-    if (type != InstanceType.CONTROLLER && type != InstanceType.CONTROLLER_PARTICIPANT) {
+    MemberRole type = manager.getInstanceType();
+    if (type != MemberRole.CONTROLLER && type != MemberRole.CONTROLLER_PARTICIPANT) {
       LOG.error("fail to become controller because incorrect instanceType (was " + type.toString()
           + ", requires CONTROLLER | CONTROLLER_PARTICIPANT)");
       return;

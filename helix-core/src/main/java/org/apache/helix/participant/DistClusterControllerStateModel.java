@@ -22,7 +22,7 @@ package org.apache.helix.participant;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
@@ -62,7 +62,7 @@ public class DistClusterControllerStateModel extends StateModel {
     if (_controller == null) {
       _controller =
           HelixManagerFactory.getZKHelixManager(clusterName, controllerName,
-              InstanceType.CONTROLLER, _zkAddr);
+              MemberRole.CONTROLLER, _zkAddr);
       _controller.connect();
       _controller.startTimerTasks();
     } else {

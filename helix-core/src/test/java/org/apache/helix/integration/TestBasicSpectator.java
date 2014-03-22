@@ -27,7 +27,7 @@ import org.apache.helix.ExternalViewChangeListener;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.testng.Assert;
@@ -40,7 +40,7 @@ public class TestBasicSpectator extends ZkStandAloneCMTestBase implements
   @Test
   public void TestSpectator() throws Exception {
     HelixManager relayHelixManager =
-        HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, null, InstanceType.SPECTATOR, ZK_ADDR);
+        HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, null, MemberRole.SPECTATOR, ZK_ADDR);
 
     relayHelixManager.connect();
     relayHelixManager.addExternalViewChangeListener(this);

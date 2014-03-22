@@ -22,7 +22,7 @@ package org.apache.helix.api.snapshot;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.helix.api.config.ParticipantConfig;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
@@ -37,7 +37,7 @@ import com.google.common.collect.ImmutableMap;
  * A cluster participant
  */
 public class Participant {
-  private final ParticipantConfig _config;
+  private final ParticipantConfiguration _config;
 
   private final RunningInstance _runningInstance;
 
@@ -60,7 +60,7 @@ public class Participant {
       Map<ResourceId, CurrentState> currentStateMap, Map<MessageId, Message> messageMap,
       UserConfig userConfig) {
     _config =
-        new ParticipantConfig(id, hostName, port, isEnabled, disabledPartitionIdSet, tags,
+        new ParticipantConfiguration(id, hostName, port, isEnabled, disabledPartitionIdSet, tags,
             userConfig);
     _runningInstance = runningInstance;
     _currentStateMap = ImmutableMap.copyOf(currentStateMap);
@@ -168,7 +168,7 @@ public class Participant {
    * Get the participant configuration
    * @return ParticipantConfig that backs this participant
    */
-  public ParticipantConfig getConfig() {
+  public ParticipantConfiguration getConfig() {
     return _config;
   }
 }

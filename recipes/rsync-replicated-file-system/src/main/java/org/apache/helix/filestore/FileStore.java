@@ -21,7 +21,7 @@ package org.apache.helix.filestore;
 
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.participant.StateMachineEngine;
@@ -41,7 +41,7 @@ public class FileStore {
   public void connect() {
     try {
       _manager =
-          HelixManagerFactory.getZKHelixManager(_clusterName, _serverId, InstanceType.PARTICIPANT,
+          HelixManagerFactory.getZKHelixManager(_clusterName, _serverId, MemberRole.PARTICIPANT,
               _zkAddr);
 
       StateMachineEngine stateMach = _manager.getStateMachineEngine();

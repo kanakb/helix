@@ -35,7 +35,7 @@ import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.PropertyKeyBuilder;
@@ -74,7 +74,7 @@ public class ServiceDiscovery {
     // auto create cluster and allow nodes to automatically join the cluster
     admin =
         HelixManagerFactory.getZKHelixManager(cluster, "service-discovery",
-            InstanceType.ADMINISTRATOR, zkAddress);
+            MemberRole.ADMINISTRATOR, zkAddress);
     admin.connect();
     admin.getClusterManagmentTool().addCluster(cluster, false);
     HelixConfigScope scope =
@@ -143,7 +143,7 @@ public class ServiceDiscovery {
   public boolean register(final String serviceId, final ServiceMetadata serviceMetadata)
       throws Exception {
     HelixManager helixManager =
-        HelixManagerFactory.getZKHelixManager(cluster, serviceId, InstanceType.PARTICIPANT,
+        HelixManagerFactory.getZKHelixManager(cluster, serviceId, MemberRole.PARTICIPANT,
             zkAddress);
     LiveInstanceInfoProvider liveInstanceInfoProvider = new LiveInstanceInfoProvider() {
       @Override
