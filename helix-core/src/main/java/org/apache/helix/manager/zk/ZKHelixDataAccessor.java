@@ -38,7 +38,7 @@ import org.apache.helix.ZNRecordBucketizer;
 import org.apache.helix.ZNRecordUpdater;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.PropertyKeyBuilder;
@@ -52,7 +52,7 @@ import org.apache.zookeeper.data.Stat;
 public class ZKHelixDataAccessor implements HelixDataAccessor, ControllerChangeListener {
   private static Logger LOG = Logger.getLogger(ZKHelixDataAccessor.class);
   private final BaseDataAccessor<ZNRecord> _baseDataAccessor;
-  final InstanceType _instanceType;
+  final MemberType _instanceType;
   private final String _clusterName;
   private final PropertyKeyBuilder _propertyKeyBuilder;
   ZkPropertyTransferClient _zkPropertyTransferClient = null;
@@ -63,7 +63,7 @@ public class ZKHelixDataAccessor implements HelixDataAccessor, ControllerChangeL
     this(clusterName, null, baseDataAccessor);
   }
 
-  public ZKHelixDataAccessor(String clusterName, InstanceType instanceType,
+  public ZKHelixDataAccessor(String clusterName, MemberType instanceType,
       BaseDataAccessor<ZNRecord> baseDataAccessor) {
     _clusterName = clusterName;
     _instanceType = instanceType;

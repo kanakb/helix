@@ -32,7 +32,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.manager.zk.HelixManagerShutdownHook;
 import org.apache.helix.participant.StateMachineEngine;
@@ -73,7 +73,7 @@ public class ExampleProcess {
 
   public void start() throws Exception {
     manager =
-        HelixManagerFactory.getZKHelixManager(clusterName, instanceName, InstanceType.PARTICIPANT,
+        HelixManagerFactory.getZKHelixManager(clusterName, instanceName, MemberType.PARTICIPANT,
             zkConnectString);
 
     if ("MasterSlave".equalsIgnoreCase(stateModelType)) {

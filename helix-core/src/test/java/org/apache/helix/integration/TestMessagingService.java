@@ -25,7 +25,7 @@ import java.util.UUID;
 import org.apache.helix.Criteria;
 import org.apache.helix.Criteria.DataSource;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
@@ -103,7 +103,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBaseWithPropertyServ
 
     Criteria cr = new Criteria();
     cr.setInstanceName(hostDest);
-    cr.setRecipientInstanceType(InstanceType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
     cr.setSessionSpecific(false);
 
     // int nMsgs = _startCMResultMap.get(hostSrc)._manager.getMessagingService().send(cr, msg);
@@ -115,7 +115,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBaseWithPropertyServ
 
     cr = new Criteria();
     cr.setInstanceName(hostDest);
-    cr.setRecipientInstanceType(InstanceType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setDataSource(DataSource.IDEALSTATES);
 
@@ -201,7 +201,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBaseWithPropertyServ
 
     Criteria cr = new Criteria();
     cr.setInstanceName(hostDest);
-    cr.setRecipientInstanceType(InstanceType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
     cr.setSessionSpecific(false);
 
     TestAsyncCallback callback = new TestAsyncCallback(60000);
@@ -222,7 +222,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBaseWithPropertyServ
 
     cr = new Criteria();
     cr.setInstanceName(hostDest);
-    cr.setRecipientInstanceType(InstanceType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setDataSource(DataSource.IDEALSTATES);
 
@@ -265,7 +265,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBaseWithPropertyServ
 
     Criteria cr = new Criteria();
     cr.setInstanceName(hostDest);
-    cr.setRecipientInstanceType(InstanceType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
     cr.setSessionSpecific(false);
 
     AsyncCallback asyncCallback = new MockAsyncCallback();
@@ -306,7 +306,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBaseWithPropertyServ
 
     Criteria cr = new Criteria();
     cr.setInstanceName("%");
-    cr.setRecipientInstanceType(InstanceType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
     cr.setSessionSpecific(false);
     AsyncCallback callback1 = new MockAsyncCallback();
     int messageSent1 =
@@ -370,7 +370,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBaseWithPropertyServ
 
     Criteria cr = new Criteria();
     cr.setInstanceName("%");
-    cr.setRecipientInstanceType(InstanceType.PARTICIPANT);
+    cr.setRecipientInstanceType(MemberType.PARTICIPANT);
     cr.setSessionSpecific(false);
     cr.setSelfExcluded(false);
     AsyncCallback callback1 = new MockAsyncCallback();
@@ -406,7 +406,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBaseWithPropertyServ
 
     Criteria cr = new Criteria();
     cr.setInstanceName("*");
-    cr.setRecipientInstanceType(InstanceType.CONTROLLER);
+    cr.setRecipientInstanceType(MemberType.CONTROLLER);
     cr.setSessionSpecific(false);
 
     AsyncCallback callback1 = new MockAsyncCallback();

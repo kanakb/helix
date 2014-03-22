@@ -22,7 +22,7 @@ package org.apache.helix.integration.manager;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.manager.zk.CallbackHandler;
 import org.apache.helix.manager.zk.ZKHelixManager;
 import org.apache.helix.manager.zk.ZkClient;
@@ -45,7 +45,7 @@ public class MockParticipantManager extends ZKHelixManager implements Runnable, 
   private final MockMSModelFactory _msModelFactory = new MockMSModelFactory(null);
 
   public MockParticipantManager(String zkAddr, String clusterName, String instanceName) {
-    super(clusterName, instanceName, InstanceType.PARTICIPANT, zkAddr);
+    super(clusterName, instanceName, MemberType.PARTICIPANT, zkAddr);
   }
 
   public void setTransition(MockTransition transition) {

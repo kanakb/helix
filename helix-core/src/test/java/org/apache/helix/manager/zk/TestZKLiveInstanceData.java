@@ -33,7 +33,7 @@ import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.ZkUnitTestBase;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.tools.ClusterSetup;
@@ -48,7 +48,7 @@ public class TestZKLiveInstanceData extends ZkUnitTestBase {
   public void testDataChange() throws Exception {
     // Create an admin and add LiveInstanceChange listener to it
     HelixManager adminManager =
-        HelixManagerFactory.getZKHelixManager(clusterName, null, InstanceType.ADMINISTRATOR,
+        HelixManagerFactory.getZKHelixManager(clusterName, null, MemberType.ADMINISTRATOR,
             ZK_ADDR);
     adminManager.connect();
     final BlockingQueue<List<LiveInstance>> changeList =
@@ -71,7 +71,7 @@ public class TestZKLiveInstanceData extends ZkUnitTestBase {
     // Join as participant, should trigger a live instance change event
     HelixManager manager =
         HelixManagerFactory.getZKHelixManager(clusterName, "localhost_54321",
-            InstanceType.PARTICIPANT, ZK_ADDR);
+            MemberType.PARTICIPANT, ZK_ADDR);
     manager.connect();
     instances = changeList.poll(1, TimeUnit.SECONDS);
     Assert.assertNotNull(instances, "Expecting a list of live instance");

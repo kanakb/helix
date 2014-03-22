@@ -29,7 +29,7 @@ import java.util.UUID;
 
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.id.MessageId;
@@ -354,19 +354,19 @@ public class Message extends HelixProperty {
 
   /**
    * Set the type of instance that the source node is
-   * @param type {@link InstanceType}
+   * @param type {@link MemberType}
    */
-  public void setSrcInstanceType(InstanceType type) {
+  public void setSrcInstanceType(MemberType type) {
     _record.setEnumField(Attributes.SRC_INSTANCE_TYPE.toString(), type);
   }
 
   /**
    * Get the type of instance that the source is
-   * @return {@link InstanceType}
+   * @return {@link MemberType}
    */
-  public InstanceType getSrcInstanceType() {
-    return _record.getEnumField(Attributes.SRC_INSTANCE_TYPE.toString(), InstanceType.class,
-        InstanceType.PARTICIPANT);
+  public MemberType getSrcInstanceType() {
+    return _record.getEnumField(Attributes.SRC_INSTANCE_TYPE.toString(), MemberType.class,
+        MemberType.PARTICIPANT);
   }
 
   /**
@@ -815,7 +815,7 @@ public class Message extends HelixProperty {
     replyMessage.setTgtSessionId(SessionId.from("*"));
     replyMessage.setMsgState(MessageState.NEW);
     replyMessage.setSrcName(instanceName);
-    if (srcMessage.getSrcInstanceType() == InstanceType.CONTROLLER) {
+    if (srcMessage.getSrcInstanceType() == MemberType.CONTROLLER) {
       replyMessage.setTgtName("Controller");
     } else {
       replyMessage.setTgtName(srcMessage.getMsgSrc());

@@ -47,7 +47,7 @@ import org.apache.helix.messaging.DefaultMessagingService;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.api.model.HelixConfigScope;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
@@ -471,8 +471,8 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
   }
 
   @Override
-  public InstanceType getType() {
-    return InstanceType.PARTICIPANT;
+  public MemberType getType() {
+    return MemberType.PARTICIPANT;
   }
 
   @Override

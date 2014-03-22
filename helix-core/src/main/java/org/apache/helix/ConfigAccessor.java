@@ -30,7 +30,7 @@ import java.util.TreeMap;
 import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.api.util.StringTemplate;
 import org.apache.helix.manager.zk.ZKUtil;
@@ -235,7 +235,7 @@ public class ConfigAccessor {
       String scopeStr = scope.getScopeStr();
       String instanceName = scopeStr.substring(scopeStr.lastIndexOf('/') + 1);
       if (!ZKUtil.isInstanceSetup(zkClient, scope.getClusterName(), instanceName,
-          InstanceType.PARTICIPANT)) {
+          MemberType.PARTICIPANT)) {
         throw new HelixException("instance: " + instanceName + " is NOT setup in cluster: "
             + clusterName);
       }
@@ -297,7 +297,7 @@ public class ConfigAccessor {
 
     if (scope.getType() == ConfigScopeProperty.PARTICIPANT) {
       if (!ZKUtil.isInstanceSetup(zkClient, scope.getClusterName(), scope.getParticipantName(),
-          InstanceType.PARTICIPANT)) {
+          MemberType.PARTICIPANT)) {
         throw new HelixException("fail to set config. instance: " + scope.getParticipantName()
             + " is NOT setup in cluster: " + clusterName);
       }

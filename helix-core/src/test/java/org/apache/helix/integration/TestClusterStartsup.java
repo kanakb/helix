@@ -24,7 +24,7 @@ import java.util.Date;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.util.HelixUtil;
@@ -76,7 +76,7 @@ public class TestClusterStartsup extends ZkStandAloneCMTestBase {
     try {
       manager =
           HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, "localhost_" + (START_PORT + 1),
-              InstanceType.PARTICIPANT, ZK_ADDR);
+              MemberType.PARTICIPANT, ZK_ADDR);
       manager.connect();
       Assert.fail("Should fail on connect() since cluster structure is not set up");
     } catch (HelixException e) {
@@ -90,7 +90,7 @@ public class TestClusterStartsup extends ZkStandAloneCMTestBase {
     try {
       manager =
           HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, "localhost_" + (START_PORT + 3),
-              InstanceType.PARTICIPANT, ZK_ADDR);
+              MemberType.PARTICIPANT, ZK_ADDR);
       manager.connect();
       Assert.fail("Should fail on connect() since cluster structure is not set up");
     } catch (HelixException e) {
@@ -108,7 +108,7 @@ public class TestClusterStartsup extends ZkStandAloneCMTestBase {
     try {
       manager =
           HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, "localhost_" + (START_PORT + 1),
-              InstanceType.PARTICIPANT, ZK_ADDR);
+              MemberType.PARTICIPANT, ZK_ADDR);
       manager.connect();
       Assert.fail("Should fail on connect() since cluster structure is not set up");
     } catch (HelixException e) {
@@ -127,7 +127,7 @@ public class TestClusterStartsup extends ZkStandAloneCMTestBase {
     try {
       manager =
           HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, "localhost_" + (START_PORT + 1),
-              InstanceType.PARTICIPANT, ZK_ADDR);
+              MemberType.PARTICIPANT, ZK_ADDR);
       manager.connect();
       Assert.fail("Should fail on connect() since cluster structure is not set up");
     } catch (HelixException e) {

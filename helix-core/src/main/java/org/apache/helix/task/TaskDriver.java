@@ -40,7 +40,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.api.model.HelixProperty;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.builder.CustomModeISBuilder;
 import org.apache.log4j.Logger;
@@ -102,7 +102,7 @@ public class TaskDriver {
     }
 
     HelixManager helixMgr =
-        HelixManagerFactory.getZKHelixManager(clusterName, "Admin", InstanceType.ADMINISTRATOR,
+        HelixManagerFactory.getZKHelixManager(clusterName, "Admin", MemberType.ADMINISTRATOR,
             zkAddr);
     helixMgr.connect();
     TaskDriver driver = new TaskDriver(helixMgr);

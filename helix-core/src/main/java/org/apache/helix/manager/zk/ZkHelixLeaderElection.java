@@ -26,7 +26,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.ControllerId;
@@ -67,8 +67,8 @@ public class ZkHelixLeaderElection implements ControllerChangeListener {
       return;
     }
 
-    InstanceType type = _manager.getInstanceType();
-    if (type != InstanceType.CONTROLLER && type != InstanceType.CONTROLLER_PARTICIPANT) {
+    MemberType type = _manager.getInstanceType();
+    if (type != MemberType.CONTROLLER && type != MemberType.CONTROLLER_PARTICIPANT) {
       LOG.error("fail to become controller because incorrect instanceType (was " + type.toString()
           + ", requires CONTROLLER | CONTROLLER_PARTICIPANT)");
       return;

@@ -35,7 +35,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.messaging.AsyncCallback;
@@ -96,7 +96,7 @@ public class BootstrapProcess {
 
   public void start() throws Exception {
     manager =
-        HelixManagerFactory.getZKHelixManager(clusterName, instanceName, InstanceType.PARTICIPANT,
+        HelixManagerFactory.getZKHelixManager(clusterName, instanceName, MemberType.PARTICIPANT,
             zkConnectString);
 
     stateModelFactory = new BootstrapHandler();

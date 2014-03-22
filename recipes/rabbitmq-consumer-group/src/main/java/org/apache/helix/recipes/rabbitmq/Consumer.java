@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
@@ -49,7 +49,7 @@ public class Consumer {
     try {
       _manager =
           HelixManagerFactory.getZKHelixManager(_clusterName, _consumerId,
-              InstanceType.PARTICIPANT, _zkAddr);
+              MemberType.PARTICIPANT, _zkAddr);
 
       StateMachineEngine stateMach = _manager.getStateMachineEngine();
       ConsumerStateModelFactory modelFactory =

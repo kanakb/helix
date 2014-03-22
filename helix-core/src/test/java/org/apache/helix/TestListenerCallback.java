@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.helix.api.model.HelixProperty;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.model.InstanceConfig;
@@ -70,7 +70,7 @@ public class TestListenerCallback extends ZkUnitTestBase {
         "MasterSlave", true); // do rebalance
 
     HelixManager manager =
-        HelixManagerFactory.getZKHelixManager(clusterName, "localhost", InstanceType.SPECTATOR,
+        HelixManagerFactory.getZKHelixManager(clusterName, "localhost", MemberType.SPECTATOR,
             ZK_ADDR);
 
     manager.connect();

@@ -52,7 +52,7 @@ import org.apache.helix.PreConnectCallback;
 import org.apache.helix.ScopedConfigChangeListener;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.ClusterConfiguration;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.PropertyType;
@@ -88,7 +88,7 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
   protected final String _zkAddress;
   private final String _clusterName;
   private final String _instanceName;
-  private final InstanceType _instanceType;
+  private final MemberType _instanceType;
   private final int _sessionTimeout;
   private final List<PreConnectCallback> _preConnectCallbacks;
   protected final List<CallbackHandler> _handlers;
@@ -171,7 +171,7 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
     }
   }
 
-  public ZKHelixManager(String clusterName, String instanceName, InstanceType instanceType,
+  public ZKHelixManager(String clusterName, String instanceName, MemberType instanceType,
       String zkAddress) {
 
     LOG.info("Create a zk-based cluster manager. zkSvr: " + zkAddress + ", clusterName: "
@@ -596,8 +596,8 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
 
   @Override
   public boolean isLeader() {
-    if (_instanceType != InstanceType.CONTROLLER
-        && _instanceType != InstanceType.CONTROLLER_PARTICIPANT) {
+    if (_instanceType != MemberType.CONTROLLER
+        && _instanceType != MemberType.CONTROLLER_PARTICIPANT) {
       return false;
     }
 
@@ -661,7 +661,7 @@ public class ZKHelixManager implements HelixManager, IZkStateListener {
   }
 
   @Override
-  public InstanceType getInstanceType() {
+  public MemberType getInstanceType() {
     return _instanceType;
   }
 

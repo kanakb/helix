@@ -46,7 +46,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.controller.restlet.ZKPropertyTransferServer;
 import org.apache.helix.manager.zk.HelixManagerShutdownHook;
 import org.apache.helix.participant.DistClusterControllerStateModelFactory;
@@ -164,12 +164,12 @@ public class HelixControllerMain {
       if (controllerMode.equalsIgnoreCase(STANDALONE)) {
         manager =
             HelixManagerFactory.getZKHelixManager(clusterName, controllerName,
-                InstanceType.CONTROLLER, zkConnectString);
+                MemberType.CONTROLLER, zkConnectString);
         manager.connect();
       } else if (controllerMode.equalsIgnoreCase(DISTRIBUTED)) {
         manager =
             HelixManagerFactory.getZKHelixManager(clusterName, controllerName,
-                InstanceType.CONTROLLER_PARTICIPANT, zkConnectString);
+                MemberType.CONTROLLER_PARTICIPANT, zkConnectString);
 
         DistClusterControllerStateModelFactory stateModelFactory =
             new DistClusterControllerStateModelFactory(zkConnectString);

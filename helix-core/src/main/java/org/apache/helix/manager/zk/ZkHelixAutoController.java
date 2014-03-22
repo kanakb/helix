@@ -23,7 +23,7 @@ import org.apache.helix.ClusterMessagingService;
 import org.apache.helix.HelixConnection;
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.PreConnectCallback;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.Id;
@@ -68,8 +68,8 @@ public class ZkHelixAutoController implements MultiClusterController {
   }
 
   @Override
-  public InstanceType getType() {
-    return InstanceType.CONTROLLER_PARTICIPANT;
+  public MemberType getType() {
+    return MemberType.CONTROLLER_PARTICIPANT;
   }
 
   @Override

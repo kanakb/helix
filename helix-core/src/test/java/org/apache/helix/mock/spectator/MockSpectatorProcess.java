@@ -26,7 +26,7 @@ import org.I0Itec.zkclient.ZkServer;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.spectator.RoutingTableProvider;
@@ -124,7 +124,7 @@ public class MockSpectatorProcess {
 
     try {
       HelixManager manager =
-          HelixManagerFactory.getZKHelixManager(clusterName, null, InstanceType.SPECTATOR,
+          HelixManagerFactory.getZKHelixManager(clusterName, null, MemberType.SPECTATOR,
               zkConnectString);
 
       manager.connect();

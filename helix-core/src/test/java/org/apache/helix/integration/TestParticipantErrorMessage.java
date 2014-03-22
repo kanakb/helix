@@ -25,7 +25,7 @@ import org.apache.helix.Criteria;
 import org.apache.helix.manager.zk.DefaultParticipantErrorMessageHandlerFactory;
 import org.apache.helix.manager.zk.DefaultParticipantErrorMessageHandlerFactory.ActionOnError;
 import org.apache.helix.model.ExternalView;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
@@ -55,7 +55,7 @@ public class TestParticipantErrorMessage extends ZkStandAloneCMTestBase {
         DefaultParticipantErrorMessageHandlerFactory.ACTIONKEY,
         ActionOnError.DISABLE_INSTANCE.toString());
     Criteria recipientCriteria = new Criteria();
-    recipientCriteria.setRecipientInstanceType(InstanceType.CONTROLLER);
+    recipientCriteria.setRecipientInstanceType(MemberType.CONTROLLER);
     recipientCriteria.setSessionSpecific(false);
     _participants[0].getMessagingService().send(recipientCriteria,
         errorMessage1);
@@ -70,7 +70,7 @@ public class TestParticipantErrorMessage extends ZkStandAloneCMTestBase {
         DefaultParticipantErrorMessageHandlerFactory.ACTIONKEY,
         ActionOnError.DISABLE_PARTITION.toString());
     Criteria recipientCriteria2 = new Criteria();
-    recipientCriteria2.setRecipientInstanceType(InstanceType.CONTROLLER);
+    recipientCriteria2.setRecipientInstanceType(MemberType.CONTROLLER);
     recipientCriteria2.setSessionSpecific(false);
     _participants[1].getMessagingService().send(recipientCriteria2,
         errorMessage2);

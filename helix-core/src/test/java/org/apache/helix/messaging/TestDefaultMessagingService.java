@@ -30,7 +30,7 @@ import org.apache.helix.Mocks;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.ipc.Message;
@@ -116,8 +116,8 @@ public class TestDefaultMessagingService {
     }
 
     @Override
-    public InstanceType getInstanceType() {
-      return InstanceType.PARTICIPANT;
+    public MemberType getInstanceType() {
+      return MemberType.PARTICIPANT;
     }
   }
 
@@ -171,7 +171,7 @@ public class TestDefaultMessagingService {
 
     Criteria recipientCriteria = new Criteria();
     recipientCriteria.setInstanceName("localhost_12919");
-    recipientCriteria.setRecipientInstanceType(InstanceType.PARTICIPANT);
+    recipientCriteria.setRecipientInstanceType(MemberType.PARTICIPANT);
     recipientCriteria.setSelfExcluded(true);
 
     Message template =
@@ -240,7 +240,7 @@ public class TestDefaultMessagingService {
     // send to a controller
     recipientCriteria.setSelfExcluded(true);
     recipientCriteria.setInstanceName("localhost_12920");
-    recipientCriteria.setRecipientInstanceType(InstanceType.CONTROLLER);
+    recipientCriteria.setRecipientInstanceType(MemberType.CONTROLLER);
     recipientCriteria.setResource("DB");
     recipientCriteria.setPartition("%");
     AssertJUnit.assertEquals(1, svc.send(recipientCriteria, template));

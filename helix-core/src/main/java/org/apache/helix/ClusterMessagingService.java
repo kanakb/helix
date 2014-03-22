@@ -22,7 +22,7 @@ package org.apache.helix;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.messaging.AsyncCallback;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
@@ -134,7 +134,7 @@ public interface ClusterMessagingService {
    * @param messageTemplate the Message on which to base the messages to send
    * @return messages to be sent, grouped by the type of instance to send the message to
    */
-  public Map<InstanceType, List<Message>> generateMessage(final Criteria recipientCriteria,
+  public Map<MemberType, List<Message>> generateMessage(final Criteria recipientCriteria,
       final Message messageTemplate);
 
 }

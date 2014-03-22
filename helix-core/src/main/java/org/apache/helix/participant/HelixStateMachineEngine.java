@@ -29,7 +29,7 @@ import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.MapKey;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
@@ -131,14 +131,14 @@ public class HelixStateMachineEngine implements StateMachineEngine {
         HelixDataAccessor accessor = _manager.getHelixDataAccessor();
         PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
-        if (_manager.getInstanceType() == InstanceType.CONTROLLER
-            || _manager.getInstanceType() == InstanceType.CONTROLLER_PARTICIPANT) {
+        if (_manager.getInstanceType() == MemberType.CONTROLLER
+            || _manager.getInstanceType() == MemberType.CONTROLLER_PARTICIPANT) {
           nopMsg.setTgtName("Controller");
           accessor.setProperty(keyBuilder.controllerMessage(nopMsg.getId()), nopMsg);
         }
 
-        if (_manager.getInstanceType() == InstanceType.PARTICIPANT
-            || _manager.getInstanceType() == InstanceType.CONTROLLER_PARTICIPANT) {
+        if (_manager.getInstanceType() == MemberType.PARTICIPANT
+            || _manager.getInstanceType() == MemberType.CONTROLLER_PARTICIPANT) {
           nopMsg.setTgtName(_manager.getInstanceName());
           accessor.setProperty(keyBuilder.message(nopMsg.getTgtName(), nopMsg.getId()), nopMsg);
         }

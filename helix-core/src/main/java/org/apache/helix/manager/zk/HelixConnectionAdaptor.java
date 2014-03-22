@@ -39,7 +39,7 @@ import org.apache.helix.MessageListener;
 import org.apache.helix.PreConnectCallback;
 import org.apache.helix.ScopedConfigChangeListener;
 import org.apache.helix.api.ZNRecord;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.api.model.id.ClusterId;
@@ -66,7 +66,7 @@ public class HelixConnectionAdaptor implements HelixManager {
   final HelixConnection _connection;
   final ClusterId _clusterId;
   final Id _instanceId;
-  final InstanceType _instanceType;
+  final MemberType _instanceType;
   final HelixDataAccessor _accessor;
   final ClusterMessagingService _messagingService;
 
@@ -208,7 +208,7 @@ public class HelixConnectionAdaptor implements HelixManager {
   }
 
   @Override
-  public InstanceType getInstanceType() {
+  public MemberType getInstanceType() {
     return _instanceType;
   }
 

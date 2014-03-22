@@ -32,7 +32,7 @@ import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.IZkDataListener;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.model.HelixProperty;
-import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.MemberType;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
@@ -382,8 +382,8 @@ public class Mocks {
     }
 
     @Override
-    public InstanceType getInstanceType() {
-      return InstanceType.PARTICIPANT;
+    public MemberType getInstanceType() {
+      return MemberType.PARTICIPANT;
     }
 
     @Override
@@ -768,7 +768,7 @@ public class Mocks {
     }
 
     @Override
-    public Map<InstanceType, List<Message>> generateMessage(Criteria recipientCriteria,
+    public Map<MemberType, List<Message>> generateMessage(Criteria recipientCriteria,
         Message messageTemplate) {
       // TODO Auto-generated method stub
       return null;
