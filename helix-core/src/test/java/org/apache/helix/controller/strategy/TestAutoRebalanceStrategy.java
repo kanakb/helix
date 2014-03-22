@@ -47,6 +47,7 @@ import org.apache.helix.api.model.statemachine.id.StateModelDefId;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
 import org.apache.helix.model.IdealState;
+import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -134,8 +135,8 @@ public class TestAutoRebalanceStrategy {
    */
   private StateModelDefinition getIncompleteStateModelDef(String modelName, String initialState,
       LinkedHashMap<String, Integer> states) {
-    StateModelDefinition.Builder builder =
-        new StateModelDefinition.Builder(StateModelDefId.from(modelName));
+    StateModelDefinitionBuilder builder =
+        new StateModelDefinitionBuilder(StateModelDefId.from(modelName));
     builder.initialState(State.from(initialState));
     int i = 0;
     for (String state : states.keySet()) {

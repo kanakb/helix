@@ -21,6 +21,7 @@ import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
+import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.tools.YAMLClusterSetup.YAMLClusterConfig.ParticipantConfig;
 import org.apache.helix.tools.YAMLClusterSetup.YAMLClusterConfig.ResourceConfig;
 import org.apache.helix.tools.YAMLClusterSetup.YAMLClusterConfig.ResourceConfig.ConstraintsConfig;
@@ -185,7 +186,7 @@ public class YAMLClusterSetup {
   private static StateModelDefinition getStateModelDef(StateModelConfig stateModel,
       ConstraintsConfig constraints) {
     // Use a builder to define the state model
-    StateModelDefinition.Builder builder = new StateModelDefinition.Builder(stateModel.name);
+    StateModelDefinitionBuilder builder = new StateModelDefinitionBuilder(stateModel.name);
     if (stateModel.states == null || stateModel.states.size() == 0) {
       throw new HelixException("List of states are required in a state model!");
     }

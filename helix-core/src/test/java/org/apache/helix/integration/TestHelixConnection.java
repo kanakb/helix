@@ -49,6 +49,7 @@ import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.model.ExternalView;
+import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
@@ -118,7 +119,7 @@ public class TestHelixConnection extends ZkUnitTestBase {
     clusterAccessor.dropCluster();
 
     StateModelDefinition stateModelDef =
-        new StateModelDefinition.Builder(stateModelDefId).addState(master, 1).addState(slave, 2)
+        new StateModelDefinitionBuilder(stateModelDefId).addState(master, 1).addState(slave, 2)
             .addState(offline, 3).addState(dropped).addTransition(offline, slave, 3)
             .addTransition(slave, offline, 4).addTransition(slave, master, 2)
             .addTransition(master, slave, 1).addTransition(offline, dropped).initialState(offline)

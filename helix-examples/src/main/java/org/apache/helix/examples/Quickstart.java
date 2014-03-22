@@ -39,6 +39,7 @@ import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.InstanceConfig;
+import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.participant.StateMachineEngine;
 
 public class Quickstart {
@@ -103,7 +104,7 @@ public class Quickstart {
   }
 
   private static StateModelDefinition defineStateModel() {
-    StateModelDefinition.Builder builder = new StateModelDefinition.Builder(STATE_MODEL_NAME);
+    StateModelDefinitionBuilder builder = new StateModelDefinitionBuilder(STATE_MODEL_NAME);
     // Add states and their rank to indicate priority. Lower the rank higher the
     // priority
     builder.addState(MASTER, 1);

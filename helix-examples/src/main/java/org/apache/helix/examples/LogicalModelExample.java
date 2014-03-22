@@ -30,6 +30,7 @@ import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.FullAutoRebalancerConfig;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.model.ExternalView;
+import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelInfo;
@@ -222,8 +223,8 @@ public class LogicalModelExample {
     final State RELEASED = State.from("RELEASED");
     final State DROPPED = State.from("DROPPED");
     StateModelDefId stateModelId = StateModelDefId.from("LockUnlock");
-    StateModelDefinition.Builder stateModelBuilder =
-        new StateModelDefinition.Builder(stateModelId).addState(LOCKED, 0).addState(RELEASED, 1)
+    StateModelDefinitionBuilder stateModelBuilder =
+        new StateModelDefinitionBuilder(stateModelId).addState(LOCKED, 0).addState(RELEASED, 1)
             .addState(DROPPED, 2).addTransition(RELEASED, LOCKED, 0)
             .addTransition(LOCKED, RELEASED, 1).addTransition(RELEASED, DROPPED, 2)
             .upperBound(LOCKED, 1).upperBound(RELEASED, -1).upperBound(DROPPED, -1)
