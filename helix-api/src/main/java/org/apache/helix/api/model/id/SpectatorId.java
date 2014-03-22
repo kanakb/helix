@@ -1,4 +1,4 @@
-package org.apache.helix.api.id;
+package org.apache.helix.api.model.id;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,34 +18,25 @@ package org.apache.helix.api.id;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.model.id.Id;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public final class ControllerId extends Id {
-  @JsonProperty("id")
-  private final String _id;
-
+public final class SpectatorId extends MemberId {
   /**
-   * Create a controller id
-   * @param id string representation of a controller id
+   * Create a spectator id
+   * @param id string representing a spectator id
    */
   @JsonCreator
-  private ControllerId(@JsonProperty("id") String id) {
-    _id = id;
-  }
-
-  @Override
-  public String stringify() {
-    return _id;
+  private SpectatorId(@JsonProperty("id") String id) {
+    super(id);
   }
 
   /**
-   * Get a ControllerId from a string
-   * @param controllerId string representing the id
-   * @return ControllerId
+   * Create a spectator id from a string
+   * @param spectatorId string representing a spectator id
+   * @return SpectatorId
    */
-  public static ControllerId from(String controllerId) {
-    return new ControllerId(controllerId);
+  public static SpectatorId from(String spectatorId) {
+    return new SpectatorId(spectatorId);
   }
 }

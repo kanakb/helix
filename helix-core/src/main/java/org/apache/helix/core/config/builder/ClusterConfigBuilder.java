@@ -8,9 +8,9 @@ import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.model.ClusterConstraints;
 import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.model.builder.ConstraintItemBuilder;
-import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.id.ConstraintId;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.id.ClusterId;
@@ -52,7 +52,7 @@ public class ClusterConfigBuilder {
    */
   private ClusterId _id;
   private Map<ResourceId, ResourceConfig> _resourceMap;
-  private Map<ParticipantId, ParticipantConfig> _participantMap;
+  private Map<ParticipantId, ParticipantConfiguration> _participantMap;
   private Map<ConstraintType, ClusterConstraints> _constraintMap;
   private Map<StateModelDefId, StateModelDefinition> _stateModelMap;
   private UserConfig _userConfig;
@@ -75,7 +75,7 @@ public class ClusterConfigBuilder {
   public ClusterConfigBuilder withClusterId(ClusterId id) {
     _id = id;
     _resourceMap = new HashMap<ResourceId, ResourceConfig>();
-    _participantMap = new HashMap<ParticipantId, ParticipantConfig>();
+    _participantMap = new HashMap<ParticipantId, ParticipantConfiguration>();
     _constraintMap = new HashMap<ConstraintType, ClusterConstraints>();
     _stateModelMap = new HashMap<StateModelDefId, StateModelDefinition>();
     _isPaused = false;
@@ -111,7 +111,7 @@ public class ClusterConfigBuilder {
    * @param participant participant configuration
    * @return Builder
    */
-  public ClusterConfigBuilder addParticipant(ParticipantConfig participant) {
+  public ClusterConfigBuilder addParticipant(ParticipantConfiguration participant) {
     _participantMap.put(participant.getId(), participant);
     return this;
   }
@@ -121,8 +121,8 @@ public class ClusterConfigBuilder {
    * @param participants participant configurations
    * @return Builder
    */
-  public ClusterConfigBuilder addParticipants(Collection<ParticipantConfig> participants) {
-    for (ParticipantConfig participant : participants) {
+  public ClusterConfigBuilder addParticipants(Collection<ParticipantConfiguration> participants) {
+    for (ParticipantConfiguration participant : participants) {
       addParticipant(participant);
     }
     return this;

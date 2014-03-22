@@ -1,6 +1,6 @@
 package org.apache.helix.api.snapshot;
 
-import org.apache.helix.api.id.SpectatorId;
+import org.apache.helix.api.model.id.SpectatorId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

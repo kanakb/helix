@@ -40,7 +40,6 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.accessor.ParticipantAccessor;
-import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.healthcheck.ParticipantHealthReportCollectorImpl;
 import org.apache.helix.healthcheck.ParticipantHealthReportTask;
@@ -49,6 +48,7 @@ import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.api.model.HelixConfigScope;
 import org.apache.helix.api.model.InstanceType;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.api.model.id.ClusterId;
@@ -338,8 +338,8 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
             // use port = -1
           }
         }
-        ParticipantConfig.Builder builder =
-            new ParticipantConfig.Builder(_participantId).hostName(hostName).port(port)
+        ParticipantConfiguration.Builder builder =
+            new ParticipantConfiguration.Builder(_participantId).hostName(hostName).port(port)
                 .enabled(true);
         _clusterAccessor.addParticipantToCluster(builder.build());
       }

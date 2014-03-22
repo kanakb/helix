@@ -30,12 +30,12 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.accessor.ClusterAccessor;
-import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
-import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
@@ -132,7 +132,7 @@ public class TestHelixConnection extends ZkUnitTestBase {
         .addStateModelDefinition(stateModelDef).build());
     clusterAccessor.addResourceToCluster(ResourceConfigBuilder.newInstance().with(resourceId)
         .rebalancerConfig(rebalancerCtx).build());
-    clusterAccessor.addParticipantToCluster(new ParticipantConfig.Builder(participantId).build());
+    clusterAccessor.addParticipantToCluster(new ParticipantConfiguration.Builder(participantId).build());
 
     // start controller
     SingleClusterController controller = connection.createController(clusterId, controllerId);

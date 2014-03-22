@@ -7,8 +7,8 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.ZNRecord;
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.api.config.ParticipantConfig;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
+import org.apache.helix.api.model.ParticipantConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.id.ClusterId;
@@ -156,8 +156,8 @@ public class TestAccessorRecreate extends ZkUnitTestBase {
     // create a participant
     UserConfig userConfig = new UserConfig(Scope.participant(participantId));
     userConfig.setIntField(modifierName, modifierValue);
-    ParticipantConfig participant =
-        new ParticipantConfig.Builder(participantId).hostName("host").port(0)
+    ParticipantConfiguration participant =
+        new ParticipantConfiguration.Builder(participantId).hostName("host").port(0)
             .userConfig(userConfig).build();
     return accessor.addParticipantToCluster(participant);
   }

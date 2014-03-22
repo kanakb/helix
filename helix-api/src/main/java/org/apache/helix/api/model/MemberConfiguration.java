@@ -1,6 +1,6 @@
 package org.apache.helix.api.model;
 
-import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.id.MemberId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,18 +20,19 @@ import org.apache.helix.api.ZNRecord;
  * specific language governing permissions and limitations
  * under the License.
  */
-public abstract class MemberConfiguration extends HelixProperty implements HelixConfiguration {
+public abstract class MemberConfiguration<T extends MemberId> implements HelixConfiguration {
+  private T _id;
 
-  public MemberConfiguration(String id) {
-    super(id);
+  public MemberConfiguration(T id) {
+    _id = id;
   }
 
-  public MemberConfiguration(ZNRecord record) {
-    super(record);
-  }
-
-  public MemberConfiguration(HelixProperty property) {
-    super(property);
+  /**
+   * Get the member id
+   * @return MemberId
+   */
+  public T getId() {
+    return _id;
   }
 
 }
