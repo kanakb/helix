@@ -1,7 +1,4 @@
-package org.apache.helix.api.model;
-
-import org.apache.helix.api.ZNRecord;
-
+package org.apache.helix.api.role;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,18 +17,7 @@ import org.apache.helix.api.ZNRecord;
  * specific language governing permissions and limitations
  * under the License.
  */
-public abstract class MemberConfiguration extends HelixProperty implements HelixConfiguration {
 
-  public MemberConfiguration(String id) {
-    super(id);
-  }
-
-  public MemberConfiguration(ZNRecord record) {
-    super(record);
-  }
-
-  public MemberConfiguration(HelixProperty property) {
-    super(property);
-  }
+public interface Member {
 
 }

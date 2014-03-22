@@ -1,6 +1,9 @@
-package org.apache.helix.api.model;
+package org.apache.helix.api.model.configuration;
 
 import org.apache.helix.api.ZNRecord;
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.NamespacedConfig;
+import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 

@@ -29,11 +29,11 @@ import java.util.Set;
 
 import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.api.model.ClusterConfiguration;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.PropertyKey;
-import org.apache.helix.api.model.ResourceConfiguration;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.configuration.ClusterConfiguration;
+import org.apache.helix.api.model.configuration.ResourceConfiguration;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.controller.context.ControllerContextHolder;

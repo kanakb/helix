@@ -26,7 +26,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.id.ContextId;
-import org.apache.helix.api.model.ClusterConfiguration;
+import org.apache.helix.api.model.configuration.ClusterConfiguration;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.snapshot.Cluster;

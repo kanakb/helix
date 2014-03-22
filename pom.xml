@@ -194,7 +194,7 @@ under the License.
     </developer>
   </developers>
   <modules>
-  	<module>helix-api</module>
+    <module>helix-api</module>
     <module>helix-core</module>
     <module>helix-admin-webapp</module>
     <module>helix-agent</module>

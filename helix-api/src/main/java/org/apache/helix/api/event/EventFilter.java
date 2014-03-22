@@ -1,4 +1,4 @@
-package org.apache.helix.api.model;
+package org.apache.helix.api.event;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,13 +18,6 @@ package org.apache.helix.api.model;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-/**
- * This is a marker interface to identify all configurations which helix
- * understands.
- * TODO: What is the difference between HelixProperty and HelixConfiguration
- * can we collapse them? or should HelixProperty implement HelixConfiguration?
- */
-public interface HelixConfiguration {
+public interface EventFilter {
 
 }
