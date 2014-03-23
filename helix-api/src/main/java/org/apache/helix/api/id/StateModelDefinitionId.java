@@ -1,6 +1,5 @@
-package org.apache.helix.api.model.statemachine.id;
+package org.apache.helix.api.id;
 
-import org.apache.helix.api.model.id.Id;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -25,21 +24,13 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public final class StateModelDefinitionId extends Id {
   public static final StateModelDefinitionId SCHEDULER_TASK_QUEUE = StateModelDefinitionId
       .from("SchedulerTaskQueue");
-  @JsonProperty("id")
-  private final String _id;
-
   /**
    * Create a state model definition id
    * @param id string representing a state model definition id
    */
   @JsonCreator
   private StateModelDefinitionId(@JsonProperty("id") String id) {
-    _id = id;
-  }
-
-  @Override
-  public String stringify() {
-    return _id;
+    super(id);
   }
 
   /**
@@ -48,7 +39,7 @@ public final class StateModelDefinitionId extends Id {
    * @return true if equal ignoring case, false otherwise
    */
   public boolean equalsIgnoreCase(StateModelDefinitionId that) {
-    return _id.equalsIgnoreCase(that._id);
+    return this.toString().equalsIgnoreCase(that.toString());
   }
 
   /**

@@ -36,7 +36,15 @@ import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.StatsHolder;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.id.ContextId;
+import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.configuration.ClusterConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
@@ -45,16 +53,8 @@ import org.apache.helix.api.model.configuration.ResourceConfiguration;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ConstraintId;
-import org.apache.helix.api.model.id.ControllerId;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Controller;
@@ -434,11 +434,11 @@ public class ClusterAccessor {
       SessionId sessionId = liveInstance.getTypedSessionId();
       Map<String, CurrentState> instanceCurStateMap;
       if (useCache) {
-        instanceCurStateMap = _cache.getCurrentState(participantName, sessionId.stringify());
+        instanceCurStateMap = _cache.getCurrentState(participantName, sessionId.toString());
       } else {
         instanceCurStateMap =
             _accessor.getChildValuesMap(_keyBuilder.currentStates(participantName,
-                sessionId.stringify()));
+                sessionId.toString()));
       }
       currentStateMap.put(participantName, instanceCurStateMap);
     }
@@ -739,18 +739,18 @@ public class ClusterAccessor {
     }
     RebalancerConfiguration config = resource.getRebalancerConfig();
     StateModelDefinitionId stateModelDefId = config.getStateModelDefId();
-    if (_accessor.getProperty(_keyBuilder.stateModelDef(stateModelDefId.stringify())) == null) {
+    if (_accessor.getProperty(_keyBuilder.stateModelDef(stateModelDefId.toString())) == null) {
       LOG.error("State model: " + stateModelDefId + " not found in cluster: " + _clusterId);
       return false;
     }
 
     ResourceId resourceId = resource.getId();
-    if (_accessor.getProperty(_keyBuilder.idealStates(resourceId.stringify())) != null) {
+    if (_accessor.getProperty(_keyBuilder.idealStates(resourceId.toString())) != null) {
       LOG.error("Skip adding resource: " + resourceId
           + ", because resource ideal state already exists in cluster: " + _clusterId);
       return false;
     }
-    if (_accessor.getProperty(_keyBuilder.resourceConfig(resourceId.stringify())) != null) {
+    if (_accessor.getProperty(_keyBuilder.resourceConfig(resourceId.toString())) != null) {
       LOG.error("Skip adding resource: " + resourceId
           + ", because resource config already exists in cluster: " + _clusterId);
       return false;
@@ -762,7 +762,7 @@ public class ClusterAccessor {
     IdealState idealState = null;
     if (basicConfig != null) {
       idealState = BasicRebalancerConfig.toIdealState(basicConfig);
-      _accessor.setProperty(_keyBuilder.idealStates(resourceId.stringify()), idealState);
+      _accessor.setProperty(_keyBuilder.idealStates(resourceId.toString()), idealState);
     }
 
     // Add resource user config
@@ -777,7 +777,7 @@ public class ClusterAccessor {
             .addNamespacedConfig(new RebalancerConfigHolder(resource.getRebalancerConfig())
                 .toNamespacedConfig());
       }
-      _accessor.setProperty(_keyBuilder.resourceConfig(resourceId.stringify()), configuration);
+      _accessor.setProperty(_keyBuilder.resourceConfig(resourceId.toString()), configuration);
     }
     return true;
   }
@@ -788,13 +788,13 @@ public class ClusterAccessor {
    * @return true if removal succeeded, false otherwise
    */
   public boolean dropResourceFromCluster(ResourceId resourceId) {
-    if (_accessor.getProperty(_keyBuilder.idealStates(resourceId.stringify())) == null) {
+    if (_accessor.getProperty(_keyBuilder.idealStates(resourceId.toString())) == null) {
       LOG.error("Skip removing resource: " + resourceId
           + ", because resource ideal state already removed from cluster: " + _clusterId);
       return false;
     }
-    _accessor.removeProperty(_keyBuilder.idealStates(resourceId.stringify()));
-    _accessor.removeProperty(_keyBuilder.resourceConfig(resourceId.stringify()));
+    _accessor.removeProperty(_keyBuilder.idealStates(resourceId.toString()));
+    _accessor.removeProperty(_keyBuilder.resourceConfig(resourceId.toString()));
     return true;
   }
 
@@ -857,7 +857,7 @@ public class ClusterAccessor {
     ParticipantAccessor participantAccessor = new ParticipantAccessor(_clusterId, _accessor);
     ParticipantId participantId = participant.getId();
     InstanceConfig existConfig =
-        _accessor.getProperty(_keyBuilder.instanceConfig(participantId.stringify()));
+        _accessor.getProperty(_keyBuilder.instanceConfig(participantId.toString()));
     if (existConfig != null && participantAccessor.isParticipantStructureValid(participantId)) {
       LOG.error("Config for participant: " + participantId + " already exists in cluster: "
           + _clusterId);
@@ -883,7 +883,7 @@ public class ClusterAccessor {
     for (PartitionId partitionId : disabledPartitions) {
       instanceConfig.setParticipantEnabledForPartition(partitionId, false);
     }
-    _accessor.setProperty(_keyBuilder.instanceConfig(participantId.stringify()), instanceConfig);
+    _accessor.setProperty(_keyBuilder.instanceConfig(participantId.toString()), instanceConfig);
     return true;
   }
 
@@ -918,7 +918,7 @@ public class ClusterAccessor {
    * @return true if removed, false if it did not exist
    */
   public boolean dropStateModelDefinitionFromCluster(StateModelDefinitionId stateModelDefId) {
-    return _accessor.removeProperty(_keyBuilder.stateModelDef(stateModelDefId.stringify()));
+    return _accessor.removeProperty(_keyBuilder.stateModelDef(stateModelDefId.toString()));
   }
 
   /**

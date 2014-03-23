@@ -21,13 +21,13 @@ package org.apache.helix.tools;
 
 import java.util.UUID;
 
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkClient;

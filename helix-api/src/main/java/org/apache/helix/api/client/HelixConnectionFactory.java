@@ -1,9 +1,4 @@
-package org.apache.helix.api.model.ipc.id;
-
-import org.apache.helix.api.model.id.Id;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-
+package org.apache.helix.api.client;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,33 +17,31 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * specific language governing permissions and limitations
  * under the License.
  */
-public final class MessageId extends Id {
-  @JsonProperty("id")
-  private final String _id;
+import java.util.Properties;
+
+public interface HelixConnectionFactory {
 
   /**
-   * Create a message id
-   * @param id string representation of a message id
+   * The connection providers supported
+   *
    */
-  @JsonCreator
-  private MessageId(@JsonProperty("id") String id) {
-    _id = id;
+  public enum ConnectionProvider{
+    ZOOKEEPER
   }
-
-  @Override
-  public String stringify() {
-    return _id;
-  }
-
+  
   /**
-   * Get a concrete message id
-   * @param messageId string message identifier
-   * @return MsgId
+   * Creates a connection factory based off the properties
+   * 
+   * @param properties 
+   * 
+   * @return HelixConnectionFactory
    */
-  public static MessageId from(String messageId) {
-    if (messageId == null) {
-      return null;
-    }
-    return new MessageId(messageId);
-  }
+  public HelixConnectionFactory getInstance(Properties properties);
+  
+  /**
+   * Creates a new connection builder 
+   * 
+   * @return HelixConnectionBuilder
+   */
+  public HelixConnectionBuilder newConnectionBuilder();
 }

@@ -1,6 +1,6 @@
 package org.apache.helix.api.model.configuration;
 
-import org.apache.helix.api.model.id.MemberId;
+import org.apache.helix.api.id.MemberId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

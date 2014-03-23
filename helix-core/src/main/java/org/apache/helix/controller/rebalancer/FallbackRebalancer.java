@@ -25,10 +25,10 @@ import java.util.Set;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.PropertyKey;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
@@ -87,7 +87,7 @@ public class FallbackRebalancer implements HelixRebalancer {
     }
     HelixDataAccessor accessor = _helixManager.getHelixDataAccessor();
     PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
-    IdealState idealState = accessor.getProperty(keyBuilder.idealStates(resourceId.stringify()));
+    IdealState idealState = accessor.getProperty(keyBuilder.idealStates(resourceId.toString()));
     if (idealState == null) {
       LOG.info("No IdealState available for " + resourceId);
       return null;
@@ -119,17 +119,17 @@ public class FallbackRebalancer implements HelixRebalancer {
     // adapt ResourceCurrentState to CurrentStateOutput
     CurrentStateOutput currentStateOutput = new CurrentStateOutput();
     for (ResourceId resource : currentState.getResourceIds()) {
-      currentStateOutput.setBucketSize(resource.stringify(), currentState.getBucketSize(resource));
-      currentStateOutput.setResourceStateModelDef(resource.stringify(), currentState
-          .getResourceStateModelDef(resource).stringify());
+      currentStateOutput.setBucketSize(resource.toString(), currentState.getBucketSize(resource));
+      currentStateOutput.setResourceStateModelDef(resource.toString(), currentState
+          .getResourceStateModelDef(resource).toString());
       Set<PartitionId> partitions = currentState.getCurrentStateMappedPartitions(resource);
       for (PartitionId partitionId : partitions) {
         // set current state
         Map<ParticipantId, State> currentStateMap =
             currentState.getCurrentStateMap(resource, partitionId);
         for (ParticipantId participantId : currentStateMap.keySet()) {
-          currentStateOutput.setCurrentState(resource.stringify(),
-              new Partition(partitionId.stringify()), participantId.stringify(), currentStateMap
+          currentStateOutput.setCurrentState(resource.toString(),
+              new Partition(partitionId.toString()), participantId.toString(), currentStateMap
                   .get(participantId).toString());
         }
 
@@ -137,8 +137,8 @@ public class FallbackRebalancer implements HelixRebalancer {
         Map<ParticipantId, State> pendingStateMap =
             currentState.getPendingStateMap(resource, partitionId);
         for (ParticipantId participantId : pendingStateMap.keySet()) {
-          currentStateOutput.setPendingState(resource.stringify(),
-              new Partition(partitionId.stringify()), participantId.stringify(), pendingStateMap
+          currentStateOutput.setPendingState(resource.toString(),
+              new Partition(partitionId.toString()), participantId.toString(), pendingStateMap
                   .get(participantId).toString());
         }
       }
@@ -147,7 +147,7 @@ public class FallbackRebalancer implements HelixRebalancer {
     // call the rebalancer
     rebalancer.init(_helixManager);
     IdealState newIdealState =
-        rebalancer.computeResourceMapping(resourceId.stringify(), idealState, currentStateOutput,
+        rebalancer.computeResourceMapping(resourceId.toString(), idealState, currentStateOutput,
             cache);
 
     // do the resource assignments

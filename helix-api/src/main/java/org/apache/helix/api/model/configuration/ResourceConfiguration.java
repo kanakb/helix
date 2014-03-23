@@ -1,10 +1,10 @@
 package org.apache.helix.api.model.configuration;
 
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 
 import com.google.common.base.Enums;
@@ -43,7 +43,7 @@ public class ResourceConfiguration extends HelixProperty implements HelixConfigu
    * @param id resource id
    */
   public ResourceConfiguration(ResourceId id) {
-    super(id.stringify());
+    super(id.toString());
   }
 
   /**

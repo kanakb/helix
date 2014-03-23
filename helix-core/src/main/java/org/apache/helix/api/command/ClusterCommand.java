@@ -2,9 +2,9 @@ package org.apache.helix.api.command;
 
 import java.util.Collection;
 
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

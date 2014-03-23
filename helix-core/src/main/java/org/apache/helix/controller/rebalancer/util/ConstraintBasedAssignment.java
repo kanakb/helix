@@ -31,9 +31,9 @@ import java.util.Set;
 
 import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
@@ -83,7 +83,7 @@ public class ConstraintBasedAssignment {
   public static List<ParticipantId> getPreferenceList(Cluster cluster, PartitionId partitionId,
       List<ParticipantId> prefList) {
     if (prefList != null && prefList.size() == 1
-        && StateModelToken.ANY_LIVEINSTANCE.toString().equals(prefList.get(0).stringify())) {
+        && StateModelToken.ANY_LIVEINSTANCE.toString().equals(prefList.get(0).toString())) {
       prefList = new ArrayList<ParticipantId>(cluster.getLiveParticipantMap().keySet());
       Collections.sort(prefList);
     }

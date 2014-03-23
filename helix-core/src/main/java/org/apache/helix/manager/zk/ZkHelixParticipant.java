@@ -45,18 +45,18 @@ import org.apache.helix.healthcheck.ParticipantHealthReportTask;
 import org.apache.helix.messaging.DefaultMessagingService;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.LiveInstance;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.Id;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.HelixConfigScope;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.Id;
-import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.participant.HelixStateMachineEngine;
 import org.apache.helix.participant.StateMachineEngine;
@@ -107,7 +107,7 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
     _preConnectCallbacks = new ArrayList<PreConnectCallback>();
     _timerTasks = new ArrayList<HelixTimerTask>();
     _participantHealthInfoCollector =
-        new ParticipantHealthReportCollectorImpl(manager, participantId.stringify());
+        new ParticipantHealthReportCollectorImpl(manager, participantId.toString());
 
     _timerTasks.add(new ParticipantHealthReportTask(_participantHealthInfoCollector));
 
@@ -155,9 +155,9 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
   }
 
   private void createLiveInstance() {
-    String liveInstancePath = _keyBuilder.liveInstance(_participantId.stringify()).getPath();
-    String sessionId = _connection.getSessionId().stringify();
-    LiveInstance liveInstance = new LiveInstance(_participantId.stringify());
+    String liveInstancePath = _keyBuilder.liveInstance(_participantId.toString()).getPath();
+    String sessionId = _connection.getSessionId().toString();
+    LiveInstance liveInstance = new LiveInstance(_participantId.toString());
     liveInstance.setSessionId(sessionId);
     liveInstance.setHelixVersion(_connection.getHelixVersion());
     liveInstance.setLiveInstance(ManagementFactory.getRuntimeMXBean().getName());
@@ -169,7 +169,7 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
       if (additionalLiveInstanceInfo != null) {
         additionalLiveInstanceInfo.merge(liveInstance.getRecord());
         ZNRecord mergedLiveInstance =
-            new ZNRecord(additionalLiveInstanceInfo, _participantId.stringify());
+            new ZNRecord(additionalLiveInstanceInfo, _participantId.toString());
         liveInstance = new LiveInstance(mergedLiveInstance);
         LOG.info("Participant: " + _participantId + ", mergedLiveInstance: " + liveInstance);
       }
@@ -256,8 +256,8 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
    * set to initial state for current session only when state doesn't exist in current session
    */
   private void carryOverPreviousCurrentState() {
-    String sessionId = _connection.getSessionId().stringify();
-    String participantName = _participantId.stringify();
+    String sessionId = _connection.getSessionId().toString();
+    String participantName = _participantId.toString();
     List<String> sessions = _accessor.getChildNames(_keyBuilder.sessions(participantName));
 
     for (String session : sessions) {
@@ -311,7 +311,7 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
     try {
       HelixConfigScope scope =
           new HelixConfigScopeBuilder(ConfigScopeProperty.CLUSTER).forCluster(
-              _clusterId.stringify()).build();
+              _clusterId.toString()).build();
       autoJoin =
           Boolean
               .parseBoolean(_configAccessor.get(scope, HelixManager.ALLOW_PARTICIPANT_AUTO_JOIN));
@@ -326,7 +326,7 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
             + _participantId + ", instanceType: " + getType());
       } else {
         LOG.info(_participantId + " is auto-joining cluster: " + _clusterId);
-        String participantName = _participantId.stringify();
+        String participantName = _participantId.toString();
         String hostName = participantName;
         int port = -1;
         int lastPos = participantName.lastIndexOf("_");
@@ -370,7 +370,7 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
    * TODO move it to cluster-setup
    */
   private void createHealthCheckPath() {
-    PropertyKey healthCheckInfoKey = _keyBuilder.healthReports(_participantId.stringify());
+    PropertyKey healthCheckInfoKey = _keyBuilder.healthReports(_participantId.toString());
     if (_accessor.createProperty(healthCheckInfoKey, null)) {
       LOG.info("Created healthcheck info path: " + healthCheckInfoKey.getPath());
     }
@@ -440,7 +440,7 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
     /**
      * remove live instance ephemeral znode
      */
-    _accessor.removeProperty(_keyBuilder.liveInstance(_participantId.stringify()));
+    _accessor.removeProperty(_keyBuilder.liveInstance(_participantId.toString()));
   }
 
   @Override

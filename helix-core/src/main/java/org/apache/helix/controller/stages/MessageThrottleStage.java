@@ -27,14 +27,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintValue;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;

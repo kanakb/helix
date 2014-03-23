@@ -1,6 +1,6 @@
 package org.apache.helix.api.config;
 
-import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.id.PartitionId;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 

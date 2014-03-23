@@ -30,9 +30,9 @@ import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.Mocks;
 import org.apache.helix.NotificationContext;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.messaging.handling.AsyncCallbackService;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.testng.AssertJUnit;
@@ -75,14 +75,14 @@ public class TestAsyncCallbackSvc {
     try {
       MessageHandler aHandler = svc.createHandler(msg, changeContext);
     } catch (HelixException e) {
-      AssertJUnit.assertTrue(e.getMessage().indexOf(msg.getMessageId().stringify()) != -1);
+      AssertJUnit.assertTrue(e.getMessage().indexOf(msg.getMessageId().toString()) != -1);
     }
     Message msg2 = new Message("RandomType", MessageId.from(UUID.randomUUID().toString()));
     msg2.setTgtSessionId(SessionId.from(manager.getSessionId()));
     try {
       MessageHandler aHandler = svc.createHandler(msg2, changeContext);
     } catch (HelixException e) {
-      AssertJUnit.assertTrue(e.getMessage().indexOf(msg2.getMessageId().stringify()) != -1);
+      AssertJUnit.assertTrue(e.getMessage().indexOf(msg2.getMessageId().toString()) != -1);
     }
     Message msg3 = new Message(svc.getMessageType(), MessageId.from(UUID.randomUUID().toString()));
     msg3.setTgtSessionId(SessionId.from(manager.getSessionId()));
@@ -90,7 +90,7 @@ public class TestAsyncCallbackSvc {
     try {
       MessageHandler aHandler = svc.createHandler(msg3, changeContext);
     } catch (HelixException e) {
-      AssertJUnit.assertTrue(e.getMessage().indexOf(msg3.getMessageId().stringify()) != -1);
+      AssertJUnit.assertTrue(e.getMessage().indexOf(msg3.getMessageId().toString()) != -1);
     }
 
     TestAsyncCallback callback = new TestAsyncCallback();

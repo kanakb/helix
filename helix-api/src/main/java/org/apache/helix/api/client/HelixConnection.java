@@ -1,7 +1,6 @@
-package org.apache.helix.api.model.id;
+package org.apache.helix.api.client;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+import org.apache.helix.api.id.ConnectionId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,33 +21,35 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * under the License.
  */
 
-public final class ClusterId extends Id {
-  @JsonProperty("id")
-  final private String _id;
+public interface HelixConnection {
 
   /**
-   * Create a cluster id
-   * @param id string representation of the id
+   * Returns the connection id
+   * 
+   * @return the connection id
    */
-  @JsonCreator
-  public ClusterId(@JsonProperty("id") String id) {
-    _id = id;
-  }
-
-  @Override
-  public String stringify() {
-    return _id;
-  }
+  ConnectionId getId();
+  /**
+   * start connection
+   */
+  void connect();
 
   /**
-   * Get a concrete cluster id for a string name
-   * @param clusterId string cluster identifier
-   * @return ClusterId
+   * close connection
    */
-  public static ClusterId from(String clusterId) {
-    if (clusterId == null) {
-      return null;
-    }
-    return new ClusterId(clusterId);
-  }
+  void disconnect();
+
+  /**
+   * get session id
+   * @return session id of current connection
+   */
+  HelixSession getSession();
+  
+  /**
+   * Registers a lifecycle listener for the connection which gets called
+   * back when the connection is cycled
+   * 
+   * @param listener
+   */
+  void registerLifecycleListener(HelixConnectionLifeCycleListener listener);
 }

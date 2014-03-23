@@ -23,11 +23,11 @@ import org.apache.helix.ClusterMessagingService;
 import org.apache.helix.HelixConnection;
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.PreConnectCallback;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.id.Id;
+import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.model.MemberRole;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ControllerId;
-import org.apache.helix.api.model.id.Id;
-import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.participant.StateMachineEngine;
 import org.apache.log4j.Logger;
@@ -48,7 +48,7 @@ public class ZkHelixAutoController implements MultiClusterController {
     _controllerId = controllerId;
 
     _participant =
-        new ZkHelixParticipant(connection, clusterId, ParticipantId.from(controllerId.stringify()));
+        new ZkHelixParticipant(connection, clusterId, ParticipantId.from(controllerId.toString()));
     _controller = new ZkHelixController(connection, clusterId, controllerId);
   }
 

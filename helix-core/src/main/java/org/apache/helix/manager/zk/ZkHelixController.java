@@ -31,10 +31,10 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.HelixTimerTask;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.accessor.ClusterAccessor;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.id.Id;
 import org.apache.helix.api.model.MemberRole;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ControllerId;
-import org.apache.helix.api.model.id.Id;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.healthcheck.HealthStatsAggregationTask;
@@ -185,8 +185,8 @@ public class ZkHelixController implements SingleClusterController {
       if (leader != null) {
         String leaderName = leader.getInstanceName();
         String sessionId = leader.getSessionId();
-        if (leaderName != null && leaderName.equals(_controllerId.stringify()) && sessionId != null
-            && sessionId.equals(_connection.getSessionId().stringify())) {
+        if (leaderName != null && leaderName.equals(_controllerId.toString()) && sessionId != null
+            && sessionId.equals(_connection.getSessionId().toString())) {
           return true;
         }
       }

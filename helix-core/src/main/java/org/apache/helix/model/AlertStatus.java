@@ -21,9 +21,9 @@ package org.apache.helix.model;
 
 import java.util.Map;
 
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.model.Alerts.AlertsProperty;
 
 /**
@@ -73,7 +73,7 @@ public class AlertStatus extends HelixProperty {
    */
   public void setSessionId(SessionId sessionId) {
     if (sessionId != null) {
-      setSessionId(sessionId.stringify());
+      setSessionId(sessionId.toString());
     }
   }
 

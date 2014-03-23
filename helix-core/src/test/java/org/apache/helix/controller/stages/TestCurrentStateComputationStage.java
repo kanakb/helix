@@ -24,13 +24,13 @@ import java.util.Map;
 
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.IdealState;

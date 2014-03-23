@@ -24,9 +24,9 @@ import java.util.Set;
 import org.apache.helix.ConfigAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.HelixConfigScope;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.participant.statemachine.StateModel;
@@ -64,18 +64,18 @@ public class TaskStateModel extends StateModel {
     HelixConfigScope clusterScope =
         new HelixConfigScopeBuilder(ConfigScopeProperty.CLUSTER).forCluster(
             manager.getClusterName()).build();
-    String json = clusterConfig.get(clusterScope, message.getResourceId().stringify());
+    String json = clusterConfig.get(clusterScope, message.getResourceId().toString());
     Dag.Node node = Dag.Node.fromJson(json);
     Set<String> parentIds = node.getParentIds();
     ResourceId resourceId = message.getResourceId();
     int numPartitions = node.getNumPartitions();
     Task task =
-        _taskFactory.createTask(resourceId.stringify(), parentIds, manager, _taskResultStore);
+        _taskFactory.createTask(resourceId.toString(), parentIds, manager, _taskResultStore);
     manager.addExternalViewChangeListener(task);
 
     LOG.debug("Starting task for " + _partition + "...");
     int partitionNum = Integer.parseInt(_partition.split("_")[1]);
-    task.execute(resourceId.stringify(), numPartitions, partitionNum);
+    task.execute(resourceId.toString(), numPartitions, partitionNum);
     LOG.debug("Task for " + _partition + " done");
   }
 

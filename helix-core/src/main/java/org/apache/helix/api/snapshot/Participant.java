@@ -22,13 +22,13 @@ package org.apache.helix.api.snapshot;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.model.CurrentState;
 
 import com.google.common.collect.ImmutableMap;

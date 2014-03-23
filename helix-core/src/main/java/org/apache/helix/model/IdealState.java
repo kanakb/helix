@@ -29,18 +29,18 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.helix.HelixConstants;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.StateModelDefinitionId;
+import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
-import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
@@ -124,7 +124,7 @@ public class IdealState extends HelixProperty {
    * @param resourceId the id of the resource
    */
   public IdealState(ResourceId resourceId) {
-    super(resourceId.stringify());
+    super(resourceId.toString());
   }
 
   /**
@@ -312,11 +312,11 @@ public class IdealState extends HelixProperty {
    * @param state the replica state in this instance
    */
   public void setPartitionState(PartitionId partitionId, ParticipantId participantId, State state) {
-    Map<String, String> mapField = _record.getMapField(partitionId.stringify());
+    Map<String, String> mapField = _record.getMapField(partitionId.toString());
     if (mapField == null) {
-      _record.setMapField(partitionId.stringify(), new TreeMap<String, String>());
+      _record.setMapField(partitionId.toString(), new TreeMap<String, String>());
     }
-    _record.getMapField(partitionId.stringify()).put(participantId.stringify(), state.toString());
+    _record.getMapField(partitionId.toString()).put(participantId.toString(), state.toString());
   }
 
   /**
@@ -383,9 +383,9 @@ public class IdealState extends HelixProperty {
       Map<ParticipantId, State> participantStateMap) {
     Map<String, String> rawMap = new HashMap<String, String>();
     for (ParticipantId participantId : participantStateMap.keySet()) {
-      rawMap.put(participantId.stringify(), participantStateMap.get(participantId).toString());
+      rawMap.put(participantId.toString(), participantStateMap.get(participantId).toString());
     }
-    _record.setMapField(partitionId.stringify(), rawMap);
+    _record.setMapField(partitionId.toString(), rawMap);
   }
 
   /**
@@ -394,7 +394,7 @@ public class IdealState extends HelixProperty {
    * @return the instances where the replicas live and the state of each
    */
   public Map<ParticipantId, State> getParticipantStateMap(PartitionId partitionId) {
-    Map<String, String> instanceStateMap = getInstanceStateMap(partitionId.stringify());
+    Map<String, String> instanceStateMap = getInstanceStateMap(partitionId.toString());
     Map<ParticipantId, State> participantStateMap = Maps.newHashMap();
     if (instanceStateMap != null) {
       for (String participantId : instanceStateMap.keySet()) {
@@ -455,7 +455,7 @@ public class IdealState extends HelixProperty {
    */
   public Set<ParticipantId> getParticipantSet(PartitionId partitionId) {
     Set<ParticipantId> participantSet = Sets.newHashSet();
-    for (String participantName : getInstanceSet(partitionId.stringify())) {
+    for (String participantName : getInstanceSet(partitionId.toString())) {
       participantSet.add(ParticipantId.from(participantName));
     }
     return participantSet;
@@ -478,9 +478,9 @@ public class IdealState extends HelixProperty {
   public void setPreferenceList(PartitionId partitionId, List<ParticipantId> preferenceList) {
     List<String> rawPreferenceList = new ArrayList<String>();
     for (ParticipantId participantId : preferenceList) {
-      rawPreferenceList.add(participantId.stringify());
+      rawPreferenceList.add(participantId.toString());
     }
-    _record.setListField(partitionId.stringify(), rawPreferenceList);
+    _record.setListField(partitionId.toString(), rawPreferenceList);
   }
 
   /**
@@ -505,7 +505,7 @@ public class IdealState extends HelixProperty {
    */
   public List<ParticipantId> getPreferenceList(PartitionId partitionId) {
     List<ParticipantId> preferenceList = Lists.newArrayList();
-    List<String> preferenceStringList = getPreferenceList(partitionId.stringify());
+    List<String> preferenceStringList = getPreferenceList(partitionId.toString());
     if (preferenceStringList != null) {
       for (String participantName : preferenceStringList) {
         preferenceList.add(ParticipantId.from(participantName));
@@ -544,7 +544,7 @@ public class IdealState extends HelixProperty {
    * @param stateModel state model identifier
    */
   public void setStateModelDefId(StateModelDefinitionId stateModelDefId) {
-    setStateModelDefRef(stateModelDefId.stringify());
+    setStateModelDefRef(stateModelDefId.toString());
   }
 
   /**
@@ -634,7 +634,7 @@ public class IdealState extends HelixProperty {
    */
   public void setStateModelFactoryId(StateModelFactoryId stateModelFactoryId) {
     if (stateModelFactoryId != null) {
-      setStateModelFactoryName(stateModelFactoryId.stringify());
+      setStateModelFactoryName(stateModelFactoryId.toString());
     }
   }
 
@@ -883,7 +883,7 @@ public class IdealState extends HelixProperty {
         new Function<ParticipantId, String>() {
           @Override
           public String apply(ParticipantId participantId) {
-            return participantId.stringify();
+            return participantId.toString();
           }
         });
   }
@@ -900,7 +900,7 @@ public class IdealState extends HelixProperty {
     }
     Map<String, List<String>> rawPreferenceLists = new HashMap<String, List<String>>();
     for (PartitionId partitionId : preferenceLists.keySet()) {
-      rawPreferenceLists.put(partitionId.stringify(),
+      rawPreferenceLists.put(partitionId.toString(),
           stringListFromPreferenceList(preferenceLists.get(partitionId)));
     }
     return rawPreferenceLists;

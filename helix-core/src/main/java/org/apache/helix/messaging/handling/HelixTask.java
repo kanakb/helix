@@ -182,10 +182,10 @@ public class HelixTask implements MessageTask {
     PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     if (message.getTgtName().equalsIgnoreCase("controller")) {
       // TODO: removeProperty returns boolean
-      accessor.removeProperty(keyBuilder.controllerMessage(message.getMessageId().stringify()));
+      accessor.removeProperty(keyBuilder.controllerMessage(message.getMessageId().toString()));
     } else {
       accessor.removeProperty(keyBuilder.message(_manager.getInstanceName(), message.getMessageId()
-          .stringify()));
+          .toString()));
     }
   }
 
@@ -208,11 +208,11 @@ public class HelixTask implements MessageTask {
       if (message.getSrcInstanceType() == MemberRole.PARTICIPANT) {
         PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
         accessor.setProperty(
-            keyBuilder.message(message.getMsgSrc(), replyMessage.getMessageId().stringify()),
+            keyBuilder.message(message.getMsgSrc(), replyMessage.getMessageId().toString()),
             replyMessage);
       } else if (message.getSrcInstanceType() == MemberRole.CONTROLLER) {
         PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
-        accessor.setProperty(keyBuilder.controllerMessage(replyMessage.getMessageId().stringify()),
+        accessor.setProperty(keyBuilder.controllerMessage(replyMessage.getMessageId().toString()),
             replyMessage);
       }
       _statusUpdateUtil.logInfo(message, HelixTask.class,
@@ -238,7 +238,7 @@ public class HelixTask implements MessageTask {
 
         StateTransitionContext cxt =
             new StateTransitionContext(manager.getClusterName(), manager.getInstanceName(), message
-                .getResourceId().stringify(), transition);
+                .getResourceId().toString(), transition);
 
         StateTransitionDataPoint data =
             new StateTransitionDataPoint(totalDelay, executionDelay, taskResult.isSuccess());

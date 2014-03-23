@@ -1,10 +1,10 @@
 package org.apache.helix.model.builder;
 
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -45,7 +45,7 @@ public class StateConstraintItemBuilder {
    */
   public StateConstraintItemBuilder stateModel(StateModelDefinitionId stateModelDefId) {
     _builder.addConstraintAttribute(ConstraintAttribute.STATE_MODEL.toString(),
-        stateModelDefId.stringify());
+        stateModelDefId.toString());
     return this;
   }
 

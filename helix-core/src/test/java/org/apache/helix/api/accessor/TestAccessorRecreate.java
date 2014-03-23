@@ -7,12 +7,12 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
@@ -60,7 +60,7 @@ public class TestAccessorRecreate extends ZkUnitTestBase {
       return;
     }
     BaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<ZNRecord>(_gZkClient);
-    HelixDataAccessor helixAccessor = new ZKHelixDataAccessor(clusterId.stringify(), baseAccessor);
+    HelixDataAccessor helixAccessor = new ZKHelixDataAccessor(clusterId.toString(), baseAccessor);
     ClusterAccessor accessor = new ClusterAccessor(clusterId, helixAccessor);
 
     // create a cluster
@@ -107,7 +107,7 @@ public class TestAccessorRecreate extends ZkUnitTestBase {
       return;
     }
     BaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<ZNRecord>(_gZkClient);
-    HelixDataAccessor helixAccessor = new ZKHelixDataAccessor(clusterId.stringify(), baseAccessor);
+    HelixDataAccessor helixAccessor = new ZKHelixDataAccessor(clusterId.toString(), baseAccessor);
     ClusterAccessor accessor = new ClusterAccessor(clusterId, helixAccessor);
 
     // create the cluster
@@ -128,7 +128,7 @@ public class TestAccessorRecreate extends ZkUnitTestBase {
     Assert.assertFalse(created2); // should fail since participant exists
 
     // remove a required property
-    helixAccessor.removeProperty(helixAccessor.keyBuilder().messages(participantId.stringify()));
+    helixAccessor.removeProperty(helixAccessor.keyBuilder().messages(participantId.toString()));
 
     // try again, should work this time
     created2 = createParticipant(participantId, accessor, MODIFIER, 2);

@@ -36,20 +36,20 @@ import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.composite.ExternalView;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ZNRecordDelta;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ZNRecordDelta.MergeOperation;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StatusUpdate;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.monitoring.mbeans.ClusterStatusMonitor;
 import org.apache.log4j.Logger;
@@ -86,7 +86,7 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
         dataAccessor.getChildValuesMap(keyBuilder.externalViews());
 
     for (ResourceId resourceId : resourceMap.keySet()) {
-      ExternalView view = new ExternalView(resourceId.stringify());
+      ExternalView view = new ExternalView(resourceId.toString());
       // view.setBucketSize(currentStateOutput.getBucketSize(resourceName));
       // if resource ideal state has bucket size, set it
       // otherwise resource has been dropped, use bucket size from current state instead
@@ -108,7 +108,7 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
           for (ParticipantId participantId : currentStateMap.keySet()) {
             // if (!disabledInstances.contains(instance))
             // {
-            view.setState(partitionId.stringify(), participantId.stringify(),
+            view.setState(partitionId.toString(), participantId.toString(),
                 currentStateMap.get(participantId).toString());
             // }
           }
@@ -131,9 +131,9 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
       }
 
       // compare the new external view with current one, set only on different
-      ExternalView curExtView = curExtViews.get(resourceId.stringify());
+      ExternalView curExtView = curExtViews.get(resourceId.toString());
       if (curExtView == null || !curExtView.getRecord().equals(view.getRecord())) {
-        keys.add(keyBuilder.externalView(resourceId.stringify()));
+        keys.add(keyBuilder.externalView(resourceId.toString()));
         newExtViews.add(view);
 
         // For SCHEDULER_TASK_RESOURCE resource group (helix task queue), we need to find out which
@@ -274,7 +274,7 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
 
       // Remove the finished (COMPLETED or ERROR) tasks from the SCHEDULER_TASK_RESOURCE idealstate
       keyBuilder = accessor.keyBuilder();
-      accessor.updateProperty(keyBuilder.idealStates(resourceId.stringify()), delta);
+      accessor.updateProperty(keyBuilder.idealStates(resourceId.toString()), delta);
     }
   }
 

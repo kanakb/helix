@@ -1,8 +1,4 @@
-package org.apache.helix.api.model.ipc.id;
-
-import org.apache.helix.api.model.id.Id;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+package org.apache.helix.api.id;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,33 +18,25 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * specific language governing permissions and limitations
  * under the License.
  */
-public final class SessionId extends Id {
-  @JsonProperty("id")
-  private final String _id;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
+public final class ControllerId extends MemberId {
   /**
-   * Create a session id
-   * @param id string representing a session id
+   * Create a controller id
+   * @param id string representation of a controller id
    */
   @JsonCreator
-  private SessionId(@JsonProperty("id") String id) {
-    _id = id;
-  }
-
-  @Override
-  public String stringify() {
-    return _id;
+  private ControllerId(@JsonProperty("id") String id) {
+    super(id);
   }
 
   /**
-   * Get a concrete session id
-   * @param sessionId string session identifier
-   * @return SessionId
+   * Get a ControllerId from a string
+   * @param controllerId string representing the id
+   * @return ControllerId
    */
-  public static SessionId from(String sessionId) {
-    if (sessionId == null) {
-      return null;
-    }
-    return new SessionId(sessionId);
+  public static ControllerId from(String controllerId) {
+    return new ControllerId(controllerId);
   }
 }

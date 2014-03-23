@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 
 import com.google.common.collect.ImmutableList;
 

@@ -1,10 +1,10 @@
 package org.apache.helix.model.builder;
 
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.Transition;
@@ -59,7 +59,7 @@ public class MessageConstraintItemBuilder {
    */
   public MessageConstraintItemBuilder participant(ParticipantId participantId) {
     _builder.addConstraintAttribute(ConstraintAttribute.INSTANCE.toString(),
-        participantId.stringify());
+        participantId.toString());
     return this;
   }
 
@@ -70,7 +70,7 @@ public class MessageConstraintItemBuilder {
    */
   public MessageConstraintItemBuilder resource(ResourceId resourceId) {
     _builder
-        .addConstraintAttribute(ConstraintAttribute.RESOURCE.toString(), resourceId.stringify());
+        .addConstraintAttribute(ConstraintAttribute.RESOURCE.toString(), resourceId.toString());
     return this;
   }
 

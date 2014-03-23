@@ -38,17 +38,17 @@ import org.apache.helix.messaging.handling.HelixTaskResult;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
 import org.apache.helix.model.IdealState;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StatusUpdate;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.util.StatusUpdateUtil;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -111,11 +111,11 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
       ZNRecord statusUpdate =
           accessor.getProperty(
               keyBuilder.controllerTaskStatus(MessageType.SCHEDULER_MSG.toString(), originalMessage
-                  .getMessageId().stringify())).getRecord();
+                  .getMessageId().toString())).getRecord();
 
       statusUpdate.getMapFields().putAll(_resultSummaryMap);
       accessor.setProperty(keyBuilder.controllerTaskStatus(MessageType.SCHEDULER_MSG.toString(),
-          originalMessage.getMessageId().stringify()), new StatusUpdate(statusUpdate));
+          originalMessage.getMessageId().toString()), new StatusUpdate(statusUpdate));
 
     }
   }
@@ -173,7 +173,8 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
       // task throttling can be done on SCHEDULER_TASK_QUEUE resource
       if (messages.size() > 0) {
         String taskQueueName =
-            _message.getRecord().getSimpleField(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString());
+            _message.getRecord().getSimpleField(
+                StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString());
         if (taskQueueName == null) {
           throw new HelixException("SchedulerTaskMessage need to have "
               + StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString() + " specified.");
@@ -200,7 +201,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
             newAddedScheduledTasks.setPartitionState(PartitionId.from(partitionId),
                 ParticipantId.from(instanceName), State.from("COMPLETED"));
             task.getRecord().setSimpleField(instanceName, "COMPLETED");
-            task.getRecord().setSimpleField(Message.CONTROLLER_MSG_ID, controllerMsgId.stringify());
+            task.getRecord().setSimpleField(Message.CONTROLLER_MSG_ID, controllerMsgId.toString());
 
             List<String> priorityList = new LinkedList<String>();
             priorityList.add(instanceName);
@@ -225,18 +226,18 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
       ZNRecord statusUpdate =
           accessor.getProperty(
               keyBuilder.controllerTaskStatus(MessageType.SCHEDULER_MSG.toString(), _message
-                  .getMessageId().stringify())).getRecord();
+                  .getMessageId().toString())).getRecord();
 
       statusUpdate.getMapFields().put("SentMessageCount", sendSummary);
       accessor.updateProperty(keyBuilder.controllerTaskStatus(MessageType.SCHEDULER_MSG.toString(),
-          _message.getMessageId().stringify()), new StatusUpdate(statusUpdate));
+          _message.getMessageId().toString()), new StatusUpdate(statusUpdate));
     }
 
     private int findTopPartitionId(IdealState currentTaskQueue) {
       int topId = 0;
       for (PartitionId partitionId : currentTaskQueue.getPartitionIdSet()) {
         try {
-          String partitionName = partitionId.stringify();
+          String partitionName = partitionId.toString();
           String partitionNumStr = partitionName.substring(partitionName.lastIndexOf('_') + 1);
           int num = Integer.parseInt(partitionNumStr);
           if (topId < num) {
@@ -304,7 +305,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
         handleMessageUsingScheduledTaskQueue(recipientCriteria, messageTemplate,
             _message.getMessageId());
         result.setSuccess(true);
-        result.getTaskResultMap().put(SCHEDULER_MSG_ID, _message.getMessageId().stringify());
+        result.getTaskResultMap().put(SCHEDULER_MSG_ID, _message.getMessageId().toString());
         result.getTaskResultMap().put("ControllerResult",
             "msg " + _message.getMessageId() + " from " + _message.getMsgSrc() + " processed");
         return result;
@@ -333,16 +334,16 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
       ZNRecord statusUpdate =
           accessor.getProperty(
               keyBuilder.controllerTaskStatus(MessageType.SCHEDULER_MSG.toString(), _message
-                  .getMessageId().stringify())).getRecord();
+                  .getMessageId().toString())).getRecord();
 
       statusUpdate.getMapFields().put("SentMessageCount", sendSummary);
 
       accessor.setProperty(keyBuilder.controllerTaskStatus(MessageType.SCHEDULER_MSG.toString(),
-          _message.getMessageId().stringify()), new StatusUpdate(statusUpdate));
+          _message.getMessageId().toString()), new StatusUpdate(statusUpdate));
 
       result.getTaskResultMap().put("ControllerResult",
           "msg " + _message.getMessageId() + " from " + _message.getMsgSrc() + " processed");
-      result.getTaskResultMap().put(SCHEDULER_MSG_ID, _message.getMessageId().stringify());
+      result.getTaskResultMap().put(SCHEDULER_MSG_ID, _message.getMessageId().toString());
       result.setSuccess(true);
       return result;
     }

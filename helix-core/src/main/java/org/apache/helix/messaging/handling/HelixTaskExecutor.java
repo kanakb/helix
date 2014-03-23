@@ -44,14 +44,14 @@ import org.apache.helix.NotificationContext.MapKey;
 import org.apache.helix.NotificationContext.Type;
 import org.apache.helix.model.ConfigScope;
 import org.apache.helix.model.CurrentState;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.SessionId;
-import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.model.builder.ConfigScopeBuilder;
 import org.apache.helix.monitoring.ParticipantMonitor;
 import org.apache.helix.participant.HelixStateMachineEngine;
@@ -497,13 +497,13 @@ public class HelixTaskExecutor implements MessageListener, TaskExecutor {
       if (!message.isControlerMsg()
           && message.getMsgType().equals(Message.MessageType.STATE_TRANSITION.toString())) {
         ResourceId resourceId = message.getResourceId();
-        if (!curResourceNames.contains(resourceId.stringify())
-            && !createCurStateNames.contains(resourceId.stringify())) {
-          createCurStateNames.add(resourceId.stringify());
+        if (!curResourceNames.contains(resourceId.toString())
+            && !createCurStateNames.contains(resourceId.toString())) {
+          createCurStateNames.add(resourceId.toString());
           createCurStateKeys.add(keyBuilder.currentState(instanceName, sessionId,
-              resourceId.stringify()));
+              resourceId.toString()));
 
-          CurrentState metaCurState = new CurrentState(resourceId.stringify());
+          CurrentState metaCurState = new CurrentState(resourceId.toString());
           metaCurState.setBucketSize(message.getBucketSize());
           metaCurState.setStateModelDefRef(message.getStateModelDef());
           metaCurState.setSessionId(SessionId.from(sessionId));

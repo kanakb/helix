@@ -19,7 +19,7 @@ package org.apache.helix.participant;
  * under the License.
  */
 
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.StateModel;

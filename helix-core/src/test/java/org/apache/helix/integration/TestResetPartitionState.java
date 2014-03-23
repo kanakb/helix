@@ -190,7 +190,7 @@ public class TestResetPartitionState extends ZkIntegrationTestBase {
 
     LiveInstance liveInstance = accessor.getProperty(keyBuilder.liveInstance(instance));
     accessor.removeProperty(keyBuilder.stateTransitionStatus(instance, liveInstance.getTypedSessionId()
-        .stringify(), resource, partition));
+        .toString(), resource, partition));
 
   }
   // TODO: throw exception in reset()

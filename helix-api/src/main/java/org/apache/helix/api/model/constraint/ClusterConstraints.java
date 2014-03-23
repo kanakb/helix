@@ -25,9 +25,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ConstraintId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.Transition;
@@ -216,13 +216,13 @@ public class ClusterConstraints extends HelixProperty {
             Transition.from(msg.getTypedFromState(), msg.getTypedToState()).toString());
       }
       if (msg.getResourceId() != null) {
-        attributes.put(ConstraintAttribute.RESOURCE, msg.getResourceId().stringify());
+        attributes.put(ConstraintAttribute.RESOURCE, msg.getResourceId().toString());
       }
       if (msg.getTgtName() != null) {
         attributes.put(ConstraintAttribute.INSTANCE, msg.getTgtName());
       }
       if (msg.getStateModelDefId() != null) {
-        attributes.put(ConstraintAttribute.STATE_MODEL, msg.getStateModelDefId().stringify());
+        attributes.put(ConstraintAttribute.STATE_MODEL, msg.getStateModelDefId().toString());
       }
     }
     return attributes;

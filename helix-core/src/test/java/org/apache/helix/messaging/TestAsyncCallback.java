@@ -24,8 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.ipc.id.MessageId;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 

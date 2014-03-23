@@ -3,13 +3,13 @@ package org.apache.helix.model.builder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
+import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
-import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.CurrentState.CurrentStateProperty;
 
@@ -107,7 +107,7 @@ public class CurrentStateBuilder {
    * @return instantiated CurrentState
    */
   public CurrentState build() {
-    ZNRecord record = new ZNRecord(_resourceId.stringify());
+    ZNRecord record = new ZNRecord(_resourceId.toString());
     for (PartitionId partitionId : _partitionStateMap.keySet()) {
       Map<String, String> stateMap = new HashMap<String, String>();
       stateMap.put(CurrentStateProperty.CURRENT_STATE.toString(),

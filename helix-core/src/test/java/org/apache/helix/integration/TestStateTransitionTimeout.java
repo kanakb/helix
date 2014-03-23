@@ -29,8 +29,8 @@ import java.util.Set;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.integration.manager.ClusterControllerManager;
@@ -182,7 +182,7 @@ public class TestStateTransitionTimeout extends ZkStandAloneCMTestBase {
       factories.put(instanceName, factory);
       for (PartitionId p : idealState.getPartitionIdSet()) {
         if (idealState.getPreferenceList(p).get(0).equals(ParticipantId.from(instanceName))) {
-          factory.addPartition(p.stringify());
+          factory.addPartition(p.toString());
         }
       }
 
@@ -207,7 +207,7 @@ public class TestStateTransitionTimeout extends ZkStandAloneCMTestBase {
       ParticipantId idealMaster = idealState.getPreferenceList(p).get(0);
       Assert.assertTrue(ev.getStateMap(p).get(idealMaster).equals(State.from("ERROR")));
 
-      TimeOutStateModel model = factories.get(idealMaster.stringify()).getStateModel(p.stringify());
+      TimeOutStateModel model = factories.get(idealMaster.toString()).getStateModel(p.toString());
       Assert.assertEquals(model._errorCallcount, 1);
       Assert.assertEquals(model._error.getCode(), ErrorCode.TIMEOUT);
     }

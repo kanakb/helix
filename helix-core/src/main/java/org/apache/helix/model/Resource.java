@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
+import org.apache.helix.api.id.StateModelFactoryId;
 
 /**
  * A resource contains a set of partitions and its replicas are managed by a state model

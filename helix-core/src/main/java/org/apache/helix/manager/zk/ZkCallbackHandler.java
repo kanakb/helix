@@ -42,8 +42,8 @@ import org.apache.helix.ControllerChangeListener;
 import org.apache.helix.CurrentStateChangeListener;
 import org.apache.helix.ExternalViewChangeListener;
 import org.apache.helix.HealthStateChangeListener;
-import org.apache.helix.HelixConnection;
 import org.apache.helix.HelixConstants.ChangeType;
+import org.apache.helix.HelixConnection;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
@@ -124,7 +124,7 @@ public class ZkCallbackHandler implements IZkChildListener, IZkDataListener
 
     _role = role;
     _manager = new HelixConnectionAdaptor(role);
-    _instanceName = role.getId().stringify();
+    _instanceName = role.getId().toString();
     _connection = role.getConnection();
     _accessor = _connection.createDataAccessor(role.getClusterId());
     _zkClient = client;

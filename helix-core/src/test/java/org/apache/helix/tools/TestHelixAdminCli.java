@@ -28,9 +28,9 @@ import java.util.Set;
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.TestHelper;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.integration.ZkIntegrationTestBase;
 import org.apache.helix.integration.manager.ClusterDistributedController;
 import org.apache.helix.integration.manager.MockParticipantManager;
@@ -673,7 +673,7 @@ public class TestHelixAdminCli extends ZkIntegrationTestBase {
     for (PartitionId p : dbIs.getPartitionIdSet()) {
       for (ParticipantId participantId : dbIs.getParticipantStateMap(p).keySet()) {
         InstanceConfig config =
-            accessor.getProperty(accessor.keyBuilder().instanceConfig(participantId.stringify()));
+            accessor.getProperty(accessor.keyBuilder().instanceConfig(participantId.toString()));
         Assert.assertTrue(config.containsTag("tag1"));
         hosts.add(participantId);
       }
@@ -696,7 +696,7 @@ public class TestHelixAdminCli extends ZkIntegrationTestBase {
     for (PartitionId p : dbIs.getPartitionIdSet()) {
       for (ParticipantId participantId : dbIs.getParticipantStateMap(p).keySet()) {
         InstanceConfig config =
-            accessor.getProperty(accessor.keyBuilder().instanceConfig(participantId.stringify()));
+            accessor.getProperty(accessor.keyBuilder().instanceConfig(participantId.toString()));
         Assert.assertTrue(config.containsTag("tag2"));
         hosts.add(participantId);
       }
@@ -725,7 +725,7 @@ public class TestHelixAdminCli extends ZkIntegrationTestBase {
     for (PartitionId p : dbIs.getPartitionIdSet()) {
       for (ParticipantId participantId : dbIs.getParticipantStateMap(p).keySet()) {
         InstanceConfig config =
-            accessor.getProperty(accessor.keyBuilder().instanceConfig(participantId.stringify()));
+            accessor.getProperty(accessor.keyBuilder().instanceConfig(participantId.toString()));
         Assert.assertTrue(config.containsTag("tag2"));
         hosts.add(participantId);
       }

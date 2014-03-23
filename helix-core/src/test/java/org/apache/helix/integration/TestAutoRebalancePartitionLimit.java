@@ -220,7 +220,7 @@ public class TestAutoRebalancePartitionLimit extends ZkStandAloneCMTestBaseWithP
       PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
       IdealState idealState = accessor.getProperty(keyBuilder.idealStates(_resourceName));
       int numberOfPartitions = idealState.getRecord().getListFields().size();
-      String stateModelDefName = idealState.getStateModelDefId().stringify();
+      String stateModelDefName = idealState.getStateModelDefId().toString();
       StateModelDefinition stateModelDef =
           accessor.getProperty(keyBuilder.stateModelDef(stateModelDefName));
       State masterValue = stateModelDef.getTypedStatesPriorityList().get(0);

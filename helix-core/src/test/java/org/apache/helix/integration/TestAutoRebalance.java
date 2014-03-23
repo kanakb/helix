@@ -255,7 +255,7 @@ public class TestAutoRebalance extends ZkStandAloneCMTestBaseWithPropertyServerC
       }
 
       int numberOfPartitions = idealState.getRecord().getListFields().size();
-      String stateModelDefName = idealState.getStateModelDefId().stringify();
+      String stateModelDefName = idealState.getStateModelDefId().toString();
       StateModelDefinition stateModelDef =
           accessor.getProperty(keyBuilder.stateModelDef(stateModelDefName));
       State masterValue = stateModelDef.getTypedStatesPriorityList().get(0);

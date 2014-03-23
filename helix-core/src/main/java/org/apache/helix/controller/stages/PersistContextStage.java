@@ -51,7 +51,7 @@ public class PersistContextStage extends AbstractBaseStage {
     Set<ContextId> removedContexts = contextProvider.getRemovedContexts();
     List<String> removedPaths = Lists.newLinkedList();
     for (ContextId contextId : removedContexts) {
-      removedPaths.add(keyBuilder.controllerContext(contextId.stringify()).getPath());
+      removedPaths.add(keyBuilder.controllerContext(contextId.toString()).getPath());
     }
     if (removedPaths.size() > 0) {
       accessor.getBaseDataAccessor().remove(removedPaths, 0);
@@ -64,7 +64,7 @@ public class PersistContextStage extends AbstractBaseStage {
     for (ContextId contextId : pendingContexts.keySet()) {
       ControllerContextHolder holder = new ControllerContextHolder(pendingContexts.get(contextId));
       if (holder != null) {
-        keys.add(keyBuilder.controllerContext(contextId.stringify()));
+        keys.add(keyBuilder.controllerContext(contextId.toString()));
         properties.add(holder);
       }
     }

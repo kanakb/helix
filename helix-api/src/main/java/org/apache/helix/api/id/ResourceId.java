@@ -1,4 +1,7 @@
-package org.apache.helix.api.model.id;
+package org.apache.helix.api.id;
+
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,25 +21,25 @@ package org.apache.helix.api.model.id;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-
-public final class SpectatorId extends MemberId {
+public final class ResourceId extends Id {
   /**
-   * Create a spectator id
-   * @param id string representing a spectator id
+   * Create a resource id
+   * @param id string representation of a resource id
    */
   @JsonCreator
-  private SpectatorId(@JsonProperty("id") String id) {
+  private ResourceId(@JsonProperty("id") String id) {
     super(id);
   }
 
   /**
-   * Create a spectator id from a string
-   * @param spectatorId string representing a spectator id
-   * @return SpectatorId
+   * Get a concrete resource id for a string name
+   * @param resourceId string resource identifier
+   * @return ResourceId
    */
-  public static SpectatorId from(String spectatorId) {
-    return new SpectatorId(spectatorId);
+  public static ResourceId from(String resourceId) {
+    if (resourceId == null) {
+      return null;
+    }
+    return new ResourceId(resourceId);
   }
 }

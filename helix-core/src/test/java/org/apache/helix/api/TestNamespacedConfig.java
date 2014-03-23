@@ -3,13 +3,13 @@ package org.apache.helix.api;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.configuration.ClusterConfiguration;
 import org.apache.helix.api.model.configuration.ResourceConfiguration;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.manager.zk.ZKHelixManager;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;

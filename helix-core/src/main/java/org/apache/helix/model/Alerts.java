@@ -21,9 +21,9 @@ package org.apache.helix.model;
 
 import java.util.Map;
 
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.ipc.id.SessionId;
 
 /**
  * Describe alerts and corresponding metrics. An alert is triggered when cluster health
@@ -84,7 +84,7 @@ public class Alerts extends HelixProperty {
    */
   public void setSessionId(SessionId sessionId) {
     if (sessionId != null) {
-      setSessionId(sessionId.stringify());
+      setSessionId(sessionId.toString());
     }
   }
 

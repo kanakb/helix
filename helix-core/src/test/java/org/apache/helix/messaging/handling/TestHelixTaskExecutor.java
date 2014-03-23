@@ -29,10 +29,10 @@ import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.Mocks;
 import org.apache.helix.NotificationContext;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
@@ -58,7 +58,7 @@ public class TestHelixTaskExecutor {
       @Override
       public HelixTaskResult handleMessage() throws InterruptedException {
         HelixTaskResult result = new HelixTaskResult();
-        _processedMsgIds.put(_message.getMessageId().stringify(), _message.getMessageId().stringify());
+        _processedMsgIds.put(_message.getMessageId().toString(), _message.getMessageId().toString());
         Thread.sleep(100);
         result.setSuccess(true);
         return result;
@@ -125,14 +125,14 @@ public class TestHelixTaskExecutor {
         if (_message.getRecord().getSimpleFields().containsKey("Cancelcount")) {
           sleepTimes = 10;
         }
-        _processingMsgIds.put(_message.getMessageId().stringify(), _message.getMessageId().stringify());
+        _processingMsgIds.put(_message.getMessageId().toString(), _message.getMessageId().toString());
         try {
           for (int i = 0; i < sleepTimes; i++) {
             Thread.sleep(100);
           }
         } catch (InterruptedException e) {
           _interrupted = true;
-          _timedOutMsgIds.put(_message.getMessageId().stringify(), "");
+          _timedOutMsgIds.put(_message.getMessageId().toString(), "");
           result.setInterrupted(true);
           if (!_message.getRecord().getSimpleFields().containsKey("Cancelcount")) {
             _message.getRecord().setSimpleField("Cancelcount", "1");
@@ -142,7 +142,7 @@ public class TestHelixTaskExecutor {
           }
           throw e;
         }
-        _processedMsgIds.put(_message.getMessageId().stringify(), _message.getMessageId().stringify());
+        _processedMsgIds.put(_message.getMessageId().toString(), _message.getMessageId().toString());
         result.setSuccess(true);
         return result;
       }

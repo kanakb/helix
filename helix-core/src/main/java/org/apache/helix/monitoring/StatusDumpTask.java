@@ -28,9 +28,9 @@ import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixTimerTask;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.store.ZNRecordJsonSerializer;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;
@@ -75,13 +75,13 @@ public class StatusDumpTask extends HelixTimerTask {
         for (String instanceName : instanceNames) {
 
           scanPath(_keyBuilder.statusUpdates(instanceName).getPath());
-          scanPath(HelixUtil.getInstancePropertyPath(_clusterId.stringify(), instanceName,
+          scanPath(HelixUtil.getInstancePropertyPath(_clusterId.toString(), instanceName,
               PropertyType.ERRORS));
         }
 
-        scanPath(HelixUtil.getControllerPropertyPath(_clusterId.stringify(),
+        scanPath(HelixUtil.getControllerPropertyPath(_clusterId.toString(),
             PropertyType.STATUSUPDATES_CONTROLLER));
-        scanPath(HelixUtil.getControllerPropertyPath(_clusterId.stringify(),
+        scanPath(HelixUtil.getControllerPropertyPath(_clusterId.toString(),
             PropertyType.ERRORS_CONTROLLER));
       } catch (Exception e) {
         LOG.error("Exception dumping status/errors, clusterId: " + _clusterId, e);

@@ -1,9 +1,9 @@
 package org.apache.helix.api.model.configuration;
 
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.PartitionId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -33,7 +33,7 @@ public class PartitionConfiguration extends HelixProperty implements HelixConfig
    * @param id partition id
    */
   public PartitionConfiguration(PartitionId id) {
-    super(id.stringify());
+    super(id.toString());
   }
 
   /**

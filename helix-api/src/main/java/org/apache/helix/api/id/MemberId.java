@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.id;
+package org.apache.helix.api.id;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,25 +18,9 @@ package org.apache.helix.api.model.id;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+public abstract class MemberId extends Id {
 
-public final class ControllerId extends MemberId {
-  /**
-   * Create a controller id
-   * @param id string representation of a controller id
-   */
-  @JsonCreator
-  private ControllerId(@JsonProperty("id") String id) {
+  public MemberId(String id) {
     super(id);
-  }
-
-  /**
-   * Get a ControllerId from a string
-   * @param controllerId string representing the id
-   * @return ControllerId
-   */
-  public static ControllerId from(String controllerId) {
-    return new ControllerId(controllerId);
   }
 }

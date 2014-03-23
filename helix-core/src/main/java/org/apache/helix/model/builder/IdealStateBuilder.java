@@ -21,10 +21,10 @@ package org.apache.helix.model.builder;
 
 import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixException;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.StateModelDefinitionId;
+import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ResourceId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
-import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.model.IdealState;
 
 public abstract class IdealStateBuilder {
@@ -81,7 +81,7 @@ public abstract class IdealStateBuilder {
    * @param resourceId the resource for which to build an ideal state
    */
   public IdealStateBuilder(ResourceId resourceId) {
-    this(resourceId.stringify());
+    this(resourceId.toString());
   }
 
   /**
@@ -113,7 +113,7 @@ public abstract class IdealStateBuilder {
    * @param stateModelDefId state model identifier
    */
   public IdealStateBuilder setStateModelDefId(StateModelDefinitionId stateModelDefId) {
-    this.stateModel = stateModelDefId.stringify();
+    this.stateModel = stateModelDefId.toString();
     return this;
   }
 

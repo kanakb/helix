@@ -313,7 +313,7 @@ public class ClusterSetup {
     for (IdealState idealState : existingIdealStates) {
       swapInstanceInIdealState(idealState, oldInstanceName, newInstanceName);
       accessor.setProperty(accessor.keyBuilder()
-          .idealStates(idealState.getResourceId().stringify()), idealState);
+          .idealStates(idealState.getResourceId().toString()), idealState);
     }
   }
 

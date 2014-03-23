@@ -172,7 +172,7 @@ public class TestResetPartitionState extends AdminTestBase {
       participants[i].syncStop();
     }
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.info("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   private void clearStatusUpdate(String clusterName, String instance, String resource,
@@ -185,7 +185,7 @@ public class TestResetPartitionState extends AdminTestBase {
 
     LiveInstance liveInstance = accessor.getProperty(keyBuilder.liveInstance(instance));
     accessor.removeProperty(keyBuilder.stateTransitionStatus(instance, liveInstance.getTypedSessionId()
-        .stringify(), resource, partition));
+        .toString(), resource, partition));
 
   }
 

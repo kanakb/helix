@@ -30,14 +30,14 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.LiveInstance;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.webapp.RestAdminApplication;
 import org.apache.log4j.Logger;
@@ -136,7 +136,7 @@ public class SchedulerTasksResource extends ServerResource {
 
       schedulerMessage.getRecord().getMapFields().put(MESSAGETEMPLATE, messageTemplate);
 
-      schedulerMessage.setTgtSessionId(SessionId.from(leader.getTypedSessionId().stringify()));
+      schedulerMessage.setTgtSessionId(SessionId.from(leader.getTypedSessionId().toString()));
       schedulerMessage.setTgtName("CONTROLLER");
       schedulerMessage.setSrcInstanceType(MemberRole.CONTROLLER);
       String taskQueueName =
@@ -146,15 +146,15 @@ public class SchedulerTasksResource extends ServerResource {
             StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString(), taskQueueName);
       }
       accessor.setProperty(
-          accessor.keyBuilder().controllerMessage(schedulerMessage.getMessageId().stringify()),
+          accessor.keyBuilder().controllerMessage(schedulerMessage.getMessageId().toString()),
           schedulerMessage);
 
       Map<String, String> resultMap = new HashMap<String, String>();
       resultMap.put("StatusUpdatePath", PropertyPathConfig.getPath(
           PropertyType.STATUSUPDATES_CONTROLLER, clusterName, MessageType.SCHEDULER_MSG.toString(),
-          schedulerMessage.getMessageId().stringify()));
+          schedulerMessage.getMessageId().toString()));
       resultMap.put("MessageType", Message.MessageType.SCHEDULER_MSG.toString());
-      resultMap.put("MsgId", schedulerMessage.getMessageId().stringify());
+      resultMap.put("MsgId", schedulerMessage.getMessageId().toString());
 
       // Assemble the rest URL for task status update
       String ipAddress = InetAddress.getLocalHost().getCanonicalHostName();

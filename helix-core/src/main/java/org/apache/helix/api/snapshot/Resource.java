@@ -26,11 +26,11 @@ import java.util.Set;
 import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.UserConfig;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.ResourceAssignment;
@@ -103,7 +103,7 @@ public class Resource {
         // TODO refactor: scheduler-task-queue state model uses map-field to store inner-messages
         // this is different from all other state-models
         Map<String, String> innerMsgStrMap =
-            idealState.getRecord().getMapField(partitionId.stringify());
+            idealState.getRecord().getMapField(partitionId.toString());
         if (innerMsgStrMap != null) {
           Message innerMsg = Message.toMessage(innerMsgStrMap);
           innerMsgMap.put(partitionId, innerMsg);

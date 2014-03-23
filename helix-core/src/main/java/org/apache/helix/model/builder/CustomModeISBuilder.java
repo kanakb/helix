@@ -22,9 +22,9 @@ package org.apache.helix.model.builder;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.model.IdealState.RebalanceMode;
 
@@ -46,7 +46,7 @@ public class CustomModeISBuilder extends IdealStateBuilder {
    * @param resourceId the resource
    */
   public CustomModeISBuilder(ResourceId resourceId) {
-    this(resourceId.stringify());
+    this(resourceId.toString());
   }
 
   /**
@@ -68,7 +68,7 @@ public class CustomModeISBuilder extends IdealStateBuilder {
    */
   public CustomModeISBuilder add(PartitionId partitionId) {
     if (partitionId != null) {
-      add(partitionId.stringify());
+      add(partitionId.toString());
     }
     return this;
   }
@@ -98,7 +98,7 @@ public class CustomModeISBuilder extends IdealStateBuilder {
   public CustomModeISBuilder assignParticipantAndState(PartitionId partitionId,
       ParticipantId participantId, State state) {
     if (partitionId != null && participantId != null && state != null) {
-      assignInstanceAndState(partitionId.stringify(), participantId.stringify(), state.toString());
+      assignInstanceAndState(partitionId.toString(), participantId.toString(), state.toString());
     }
     return this;
   }

@@ -23,11 +23,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.model.ResourceAssignment;
 
@@ -52,7 +52,7 @@ public class ExternalView extends HelixProperty {
    * @param resource the id of the resource
    */
   public ExternalView(ResourceId resource) {
-    super(new ZNRecord(resource.stringify()));
+    super(new ZNRecord(resource.toString()));
   }
 
   /**
@@ -85,10 +85,10 @@ public class ExternalView extends HelixProperty {
    * @param state the state the replica is in
    */
   public void setState(PartitionId partitionId, ParticipantId participantId, State state) {
-    if (_record.getMapField(partitionId.stringify()) == null) {
-      _record.setMapField(partitionId.stringify(), new TreeMap<String, String>());
+    if (_record.getMapField(partitionId.toString()) == null) {
+      _record.setMapField(partitionId.toString(), new TreeMap<String, String>());
     }
-    _record.getMapField(partitionId.stringify()).put(participantId.stringify(), state.toString());
+    _record.getMapField(partitionId.toString()).put(participantId.toString(), state.toString());
   }
 
   /**
@@ -146,7 +146,7 @@ public class ExternalView extends HelixProperty {
    * @return (participant, state) pairs
    */
   public Map<ParticipantId, State> getStateMap(PartitionId partitionId) {
-    Map<String, String> rawStateMap = getStateMap(partitionId.stringify());
+    Map<String, String> rawStateMap = getStateMap(partitionId.toString());
     if (rawStateMap == null) {
       return null;
     }

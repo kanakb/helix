@@ -24,13 +24,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.log4j.Logger;
 
 /**
@@ -66,7 +66,7 @@ public class CurrentState extends HelixProperty {
    * @param resourceId identifier for the resource
    */
   public CurrentState(ResourceId resourceId) {
-    super(resourceId.stringify());
+    super(resourceId.toString());
   }
 
   /**
@@ -146,7 +146,7 @@ public class CurrentState extends HelixProperty {
    * @param sessionId session identifier
    */
   public void setSessionId(SessionId sessionId) {
-    setSessionId(sessionId.stringify());
+    setSessionId(sessionId.toString());
   }
 
   /**
@@ -177,7 +177,7 @@ public class CurrentState extends HelixProperty {
    * @return State
    */
   public State getState(PartitionId partitionId) {
-    return State.from(getState(partitionId.stringify()));
+    return State.from(getState(partitionId.toString()));
   }
 
   /**
@@ -202,7 +202,7 @@ public class CurrentState extends HelixProperty {
    */
   public void setStateModelDefId(StateModelDefinitionId stateModelId) {
     _record.setSimpleField(CurrentStateProperty.STATE_MODEL_DEF.toString(),
-        stateModelId.stringify());
+        stateModelId.toString());
   }
 
   /**
@@ -220,10 +220,10 @@ public class CurrentState extends HelixProperty {
    */
   public void setState(PartitionId partitionId, State state) {
     Map<String, Map<String, String>> mapFields = _record.getMapFields();
-    if (mapFields.get(partitionId.stringify()) == null) {
-      mapFields.put(partitionId.stringify(), new TreeMap<String, String>());
+    if (mapFields.get(partitionId.toString()) == null) {
+      mapFields.put(partitionId.toString(), new TreeMap<String, String>());
     }
-    mapFields.get(partitionId.stringify()).put(CurrentStateProperty.CURRENT_STATE.toString(),
+    mapFields.get(partitionId.toString()).put(CurrentStateProperty.CURRENT_STATE.toString(),
         state.toString());
   }
 
@@ -326,7 +326,7 @@ public class CurrentState extends HelixProperty {
     }
     Map<String, String> rawMap = new HashMap<String, String>();
     for (PartitionId partitionId : partitionStateMap.keySet()) {
-      rawMap.put(partitionId.stringify(), partitionStateMap.get(partitionId).toString());
+      rawMap.put(partitionId.toString(), partitionStateMap.get(partitionId).toString());
     }
     return rawMap;
   }
@@ -336,7 +336,7 @@ public class CurrentState extends HelixProperty {
    * @return
    */
   public String getInfo(PartitionId partitionId) {
-    Map<String, String> mapField = _record.getMapField(partitionId.stringify());
+    Map<String, String> mapField = _record.getMapField(partitionId.toString());
     if (mapField != null) {
       return mapField.get(CurrentStateProperty.INFO.name());
     }
@@ -348,7 +348,7 @@ public class CurrentState extends HelixProperty {
    * @return
    */
   public State getRequestedState(PartitionId partitionId) {
-    Map<String, String> mapField = _record.getMapField(partitionId.stringify());
+    Map<String, String> mapField = _record.getMapField(partitionId.toString());
     if (mapField != null) {
       return State.from(mapField.get(CurrentStateProperty.REQUESTED_STATE.name()));
     }
@@ -361,7 +361,7 @@ public class CurrentState extends HelixProperty {
    */
   public void setInfo(PartitionId partitionId, String info) {
     Map<String, Map<String, String>> mapFields = _record.getMapFields();
-    String partitionName = partitionId.stringify();
+    String partitionName = partitionId.toString();
     if (mapFields.get(partitionName) == null) {
       mapFields.put(partitionName, new TreeMap<String, String>());
     }
@@ -374,7 +374,7 @@ public class CurrentState extends HelixProperty {
    */
   public void setRequestedState(PartitionId partitionId, State state) {
     Map<String, Map<String, String>> mapFields = _record.getMapFields();
-    String partitionName = partitionId.stringify();
+    String partitionName = partitionId.toString();
     if (mapFields.get(partitionName) == null) {
       mapFields.put(partitionName, new TreeMap<String, String>());
     }

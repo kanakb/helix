@@ -22,7 +22,7 @@ package org.apache.helix.api.config;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
 
 import com.google.common.collect.ImmutableMap;

@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.helix.api.accessor.ClusterAccessor;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.pipeline.Stage;
 import org.apache.helix.controller.pipeline.StageContext;
@@ -139,7 +139,7 @@ public class ClusterExternalViewVerifier extends ClusterVerifier {
       Map<PartitionId, Map<String, String>> bestPossibleState) {
     Map<String, Map<String, String>> result = new HashMap<String, Map<String, String>>();
     for (PartitionId partition : bestPossibleState.keySet()) {
-      result.put(partition.stringify(), bestPossibleState.get(partition));
+      result.put(partition.toString(), bestPossibleState.get(partition));
     }
     return result;
   }

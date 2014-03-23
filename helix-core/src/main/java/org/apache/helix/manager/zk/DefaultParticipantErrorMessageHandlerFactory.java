@@ -79,8 +79,8 @@ public class DefaultParticipantErrorMessageHandlerFactory implements MessageHand
           _logger.info("Instance " + _message.getMsgSrc() + " disabled");
         } else if (actionOnError == ActionOnError.DISABLE_PARTITION) {
           _manager.getClusterManagmentTool().enablePartition(false, _manager.getClusterName(),
-              _message.getMsgSrc(), _message.getResourceId().stringify(),
-              Arrays.asList(_message.getPartitionId().stringify()));
+              _message.getMsgSrc(), _message.getResourceId().toString(),
+              Arrays.asList(_message.getPartitionId().toString()));
           _logger.info("partition " + _message.getPartitionId() + " disabled");
         } else if (actionOnError == ActionOnError.DISABLE_RESOURCE) {
           // NOT IMPLEMENTED, or we can disable all partitions

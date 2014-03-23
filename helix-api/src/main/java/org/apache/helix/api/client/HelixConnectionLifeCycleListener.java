@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.id;
+package org.apache.helix.api.client;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,38 +18,10 @@ package org.apache.helix.api.model.id;
  * specific language governing permissions and limitations
  * under the License.
  */
+public interface HelixConnectionLifeCycleListener {
 
-/**
- * Generic identifier for Helix constructs
- */
-public abstract class Id implements Comparable<Id> {
-  public abstract String stringify();
+  void onConnect();
 
-  @Override
-  public String toString() {
-    return stringify();
-  }
+  void onDisconnect();
 
-  @Override
-  public boolean equals(Object that) {
-    if (that instanceof Id) {
-      return this.stringify().equals(((Id) that).stringify());
-    } else if (that instanceof String) {
-      return this.stringify().equals(that);
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return this.stringify().hashCode();
-  }
-
-  @Override
-  public int compareTo(Id that) {
-    if (that instanceof Id) {
-      return this.stringify().compareTo(that.stringify());
-    }
-    return -1;
-  }
 }

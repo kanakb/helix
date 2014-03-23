@@ -25,12 +25,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;
@@ -63,7 +63,7 @@ public class InstanceConfig extends HelixProperty {
    * @param participantId the instance identifier
    */
   public InstanceConfig(ParticipantId participantId) {
-    super(participantId.stringify());
+    super(participantId.toString());
   }
 
   /**
@@ -231,7 +231,7 @@ public class InstanceConfig extends HelixProperty {
    * @param enabled true to enable, false to disable
    */
   public void setParticipantEnabledForPartition(PartitionId partitionId, boolean enabled) {
-    setInstanceEnabledForPartition(partitionId.stringify(), enabled);
+    setInstanceEnabledForPartition(partitionId.toString(), enabled);
   }
 
   @Override

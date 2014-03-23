@@ -29,9 +29,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.HelixManager;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
@@ -159,7 +159,7 @@ public class FullAutoRebalancer implements HelixRebalancer {
     for (PartitionId partition : partitions) {
       Set<ParticipantId> disabledParticipantsForPartition =
           ConstraintBasedAssignment.getDisabledParticipants(allParticipants, partition);
-      List<String> rawPreferenceList = newMapping.getListField(partition.stringify());
+      List<String> rawPreferenceList = newMapping.getListField(partition.toString());
       if (rawPreferenceList == null) {
         rawPreferenceList = Collections.emptyList();
       }

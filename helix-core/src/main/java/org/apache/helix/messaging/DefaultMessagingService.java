@@ -31,14 +31,14 @@ import org.apache.helix.ConfigAccessor;
 import org.apache.helix.Criteria;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.messaging.handling.AsyncCallbackService;
 import org.apache.helix.messaging.handling.HelixTaskExecutor;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
@@ -160,7 +160,7 @@ public class DefaultMessagingService implements ClusterMessagingService {
 
           for (LiveInstance liveInstance : liveInstances) {
             sessionIdMap.put(liveInstance.getInstanceName(), liveInstance.getTypedSessionId()
-                .stringify());
+                .toString());
           }
         }
         for (Map<String, String> map : matchedList) {

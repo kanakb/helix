@@ -31,10 +31,10 @@ import org.I0Itec.zkclient.ZkServer;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.model.InstanceConfig;
@@ -51,7 +51,8 @@ public class Quickstart {
   private static final int NUM_PARTITIONS = 6;
   private static final int NUM_REPLICAS = 2;
 
-  private static final StateModelDefinitionId STATE_MODEL_NAME = StateModelDefinitionId.from("MyStateModel");
+  private static final StateModelDefinitionId STATE_MODEL_NAME = StateModelDefinitionId
+      .from("MyStateModel");
 
   // states
   private static final State SLAVE = State.from("SLAVE");
@@ -92,11 +93,11 @@ public class Quickstart {
     // Add a state model
     StateModelDefinition myStateModel = defineStateModel();
     echo("Configuring StateModel: " + "MyStateModel  with 1 Master and 1 Slave");
-    admin.addStateModelDef(CLUSTER_NAME, STATE_MODEL_NAME.stringify(), myStateModel);
+    admin.addStateModelDef(CLUSTER_NAME, STATE_MODEL_NAME.toString(), myStateModel);
 
     // Add a resource with 6 partitions and 2 replicas
     echo("Adding a resource MyResource: " + "with 6 partitions and 2 replicas");
-    admin.addResource(CLUSTER_NAME, RESOURCE_NAME, NUM_PARTITIONS, STATE_MODEL_NAME.stringify(),
+    admin.addResource(CLUSTER_NAME, RESOURCE_NAME, NUM_PARTITIONS, STATE_MODEL_NAME.toString(),
         "AUTO");
     // this will set up the ideal state, it calculates the preference list for
     // each partition similar to consistent hashing
@@ -246,14 +247,14 @@ public class Quickstart {
 
     public void start() throws Exception {
       manager =
-          HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, instanceName,
-              MemberRole.PARTICIPANT, ZK_ADDRESS);
+          HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, instanceName, MemberRole.PARTICIPANT,
+              ZK_ADDRESS);
 
       MasterSlaveStateModelFactory stateModelFactory =
           new MasterSlaveStateModelFactory(instanceName);
 
       StateMachineEngine stateMach = manager.getStateMachineEngine();
-      stateMach.registerStateModelFactory(STATE_MODEL_NAME.stringify(), stateModelFactory);
+      stateMach.registerStateModelFactory(STATE_MODEL_NAME.toString(), stateModelFactory);
       manager.connect();
     }
 

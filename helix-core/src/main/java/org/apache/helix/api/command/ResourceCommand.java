@@ -20,7 +20,7 @@ package org.apache.helix.api.command;
  */
 
 //import org.apache.helix.api.config.Partition;
-import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.id.PartitionId;
 
 //import org.apache.helix.controller.rebalancer.config.RebalancerConfig;
 

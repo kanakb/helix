@@ -3,8 +3,8 @@ package org.apache.helix.api.config.builder;
 import org.apache.commons.discovery.tools.DiscoverClass;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.UserConfig;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 
 public abstract class ResourceConfigBuilder {

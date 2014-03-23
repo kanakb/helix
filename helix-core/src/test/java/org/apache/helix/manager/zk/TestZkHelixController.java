@@ -26,10 +26,10 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.model.LiveInstance;
 import org.testng.Assert;
@@ -71,7 +71,7 @@ public class TestZkHelixController extends ZkUnitTestBase {
     PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     Assert.assertNotNull(leader);
-    Assert.assertEquals(leader.getInstanceName(), controllerId.stringify());
+    Assert.assertEquals(leader.getInstanceName(), controllerId.toString());
 
     // stop participant
     controller.stop();
@@ -129,7 +129,7 @@ public class TestZkHelixController extends ZkUnitTestBase {
     final PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     Assert.assertNotNull(leader);
-    Assert.assertEquals(leader.getInstanceName(), controllerId.stringify());
+    Assert.assertEquals(leader.getInstanceName(), controllerId.toString());
 
     // remove leader znode externally
     accessor.removeProperty(keyBuilder.controllerLeader());
@@ -144,7 +144,7 @@ public class TestZkHelixController extends ZkUnitTestBase {
           return false;
         }
 
-        return leader.getInstanceName().equals(controllerId.stringify());
+        return leader.getInstanceName().equals(controllerId.toString());
       }
     }, 3 * 1000);
 

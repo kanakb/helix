@@ -153,8 +153,8 @@ public class BootstrapProcess {
           result.getTaskResultMap().put(
               "BOOTSTRAP_URL",
               "http://" + hostName + ":" + port + "/getFile?path=/data/bootstrap/"
-                  + _message.getResourceId().stringify() + "/"
-                  + _message.getPartitionId().stringify() + ".tar");
+                  + _message.getResourceId().toString() + "/"
+                  + _message.getPartitionId().toString() + ".tar");
 
           result.getTaskResultMap().put("BOOTSTRAP_TIME", "" + new Date().getTime());
         }

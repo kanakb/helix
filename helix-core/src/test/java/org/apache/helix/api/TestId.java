@@ -19,15 +19,15 @@ package org.apache.helix.api;
  * under the License.
  */
 
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ProcId;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
-import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
+import org.apache.helix.api.id.StateModelFactoryId;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -41,9 +41,9 @@ public class TestId {
     final String resourceName = "Resource";
     final String partitionSuffix = "3";
     PartitionId partitionId = PartitionId.from(partitionName);
-    Assert.assertEquals(partitionId.stringify(), partitionName);
+    Assert.assertEquals(partitionId.toString(), partitionName);
     PartitionId partitionId2 = PartitionId.from(ResourceId.from(resourceName), partitionSuffix);
-    Assert.assertEquals(partitionId2.stringify(), partitionName);
+    Assert.assertEquals(partitionId2.toString(), partitionName);
     Assert.assertEquals(partitionId, partitionId2);
     Assert.assertEquals(partitionId.toString(), partitionId2.toString());
   }
@@ -55,7 +55,7 @@ public class TestId {
   public void testPartitionIdCompatibility() {
     final String partitionName = "Resource--3";
     PartitionId partitionId = PartitionId.from(partitionName);
-    Assert.assertEquals(partitionId.stringify(), partitionName);
+    Assert.assertEquals(partitionId.toString(), partitionName);
   }
 
   /**
@@ -71,15 +71,15 @@ public class TestId {
     final String stateModelName = "StateModel";
     final String stateModelFactoryName = "StateModelFactory";
     final String messageName = "Message";
-    Assert.assertEquals(ResourceId.from(resourceName).stringify(), resourceName);
-    Assert.assertEquals(ClusterId.from(clusterName).stringify(), clusterName);
-    Assert.assertEquals(ParticipantId.from(participantName).stringify(), participantName);
-    Assert.assertEquals(SessionId.from(sessionName).stringify(), sessionName);
-    Assert.assertEquals(ProcId.from(processName).stringify(), processName);
-    Assert.assertEquals(StateModelDefinitionId.from(stateModelName).stringify(), stateModelName);
-    Assert.assertEquals(StateModelFactoryId.from(stateModelFactoryName).stringify(),
+    Assert.assertEquals(ResourceId.from(resourceName).toString(), resourceName);
+    Assert.assertEquals(ClusterId.from(clusterName).toString(), clusterName);
+    Assert.assertEquals(ParticipantId.from(participantName).toString(), participantName);
+    Assert.assertEquals(SessionId.from(sessionName).toString(), sessionName);
+    Assert.assertEquals(ProcId.from(processName).toString(), processName);
+    Assert.assertEquals(StateModelDefinitionId.from(stateModelName).toString(), stateModelName);
+    Assert.assertEquals(StateModelFactoryId.from(stateModelFactoryName).toString(),
         stateModelFactoryName);
-    Assert.assertEquals(MessageId.from(messageName).stringify(), messageName);
+    Assert.assertEquals(MessageId.from(messageName).toString(), messageName);
   }
 
   /**

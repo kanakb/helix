@@ -18,26 +18,18 @@ package org.apache.helix.api.id;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.model.id.Id;
+import org.apache.helix.api.id.Id;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public final class ContextId extends Id {
-  @JsonProperty("id")
-  private final String _id;
-
   /**
    * Create a context id
    * @param id string representation of the id
    */
   @JsonCreator
   private ContextId(@JsonProperty("id") String id) {
-    _id = id;
-  }
-
-  @Override
-  public String stringify() {
-    return _id;
+    super(id);
   }
 
   /**

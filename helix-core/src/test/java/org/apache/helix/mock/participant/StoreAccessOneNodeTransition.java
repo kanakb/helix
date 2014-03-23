@@ -24,8 +24,8 @@ import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.apache.helix.AccessOption;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.store.zk.ZkHelixPropertyStore;
 
@@ -57,7 +57,7 @@ public class StoreAccessOneNodeTransition extends MockTransition {
           if (currentData == null) {
             currentData = new ZNRecord(updatePath);
           }
-          currentData.setSimpleField(key.stringify(), "" + System.currentTimeMillis());
+          currentData.setSimpleField(key.toString(), "" + System.currentTimeMillis());
 
           return currentData;
         }

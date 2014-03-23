@@ -1,7 +1,5 @@
 package org.apache.helix.api.event;
 
-import java.lang.reflect.Method;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,29 +18,28 @@ import java.lang.reflect.Method;
  * specific language governing permissions and limitations
  * under the License.
  */
-/**
- * EventHandler is the main entry point to handle all types of Helix Events. <br/>
- */
-public abstract class EventSubscriber {
-
+public interface EventSubscriber {
 
   /**
-   * Handles all the events
-   * @param event
+   * Retrieves a list of subscribed events. This method is only
+   * called once during the lifetime of a subscriber which is
+   * during registration of the event subscriber
+   * @return Class<? extends HelixEvent> the set of helix events
+   *         the subscriber subscribes to
    */
-  void handleEvent(HelixEvent event) {
-    Class paramTypes[] = new Class[]{event.getClass()};
-    try {
-      // Look for an inform method in the current object
-      // that takes the event subtype as a parameter
-      Method method = getClass().getDeclaredMethod("handleEvent", paramTypes);
-      Object paramList[] = new Object[1];
-      paramList[0] = event;
-      method.invoke(this, paramList);
-      // Catch appropriate exceptions
-    } catch (Exception e) {
+  public Class<? extends HelixEvent> getSubscribedEvents();
 
-    }
-  }
+  /**
+   * Retrieves the event filter for the subscribed events
+   * @return EventFilter the filter for the event
+   */
+  public EventFilter getEventFilter();
 
+  /**
+   * Callback where an event is delivered to this subscriber after
+   * the filters are applied if any were provided.
+   * 
+   * @param event the event to be handled
+   */
+  public void handleEvent(HelixEvent event);
 }

@@ -24,11 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
 
 import com.google.common.collect.ImmutableList;
@@ -51,7 +51,7 @@ public class ResourceAssignment extends HelixProperty {
    * @param resourceId the resource being mapped
    */
   public ResourceAssignment(ResourceId resourceId) {
-    super(resourceId.stringify());
+    super(resourceId.toString());
   }
 
   /**
@@ -96,7 +96,7 @@ public class ResourceAssignment extends HelixProperty {
    * @return map of (participant id, state)
    */
   public Map<ParticipantId, State> getReplicaMap(PartitionId partitionId) {
-    Map<String, String> rawReplicaMap = _record.getMapField(partitionId.stringify());
+    Map<String, String> rawReplicaMap = _record.getMapField(partitionId.toString());
     Map<ParticipantId, State> replicaMap = Maps.newHashMap();
     if (rawReplicaMap != null) {
       for (String participantName : rawReplicaMap.keySet()) {
@@ -115,9 +115,9 @@ public class ResourceAssignment extends HelixProperty {
   public void addReplicaMap(PartitionId partitionId, Map<ParticipantId, State> replicaMap) {
     Map<String, String> convertedMap = Maps.newHashMap();
     for (ParticipantId participantId : replicaMap.keySet()) {
-      convertedMap.put(participantId.stringify(), replicaMap.get(participantId).toString());
+      convertedMap.put(participantId.toString(), replicaMap.get(participantId).toString());
     }
-    _record.setMapField(partitionId.stringify(), convertedMap);
+    _record.setMapField(partitionId.toString(), convertedMap);
   }
 
   /**
@@ -165,7 +165,7 @@ public class ResourceAssignment extends HelixProperty {
     }
     Map<String, String> rawMap = new HashMap<String, String>();
     for (ParticipantId participantId : replicaMap.keySet()) {
-      rawMap.put(participantId.stringify(), replicaMap.get(participantId).toString());
+      rawMap.put(participantId.toString(), replicaMap.get(participantId).toString());
     }
     return rawMap;
   }
@@ -182,7 +182,7 @@ public class ResourceAssignment extends HelixProperty {
     }
     Map<String, Map<String, String>> rawMaps = Maps.newHashMap();
     for (PartitionId partitionId : replicaMaps.keySet()) {
-      rawMaps.put(partitionId.stringify(), stringMapFromReplicaMap(replicaMaps.get(partitionId)));
+      rawMaps.put(partitionId.toString(), stringMapFromReplicaMap(replicaMaps.get(partitionId)));
     }
     return rawMaps;
   }

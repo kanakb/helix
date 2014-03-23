@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.id;
+package org.apache.helix.api.id;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -36,6 +36,7 @@ public final class PartitionId extends Id {
   @JsonCreator
   private PartitionId(@JsonProperty("resourceId") ResourceId resourceId,
       @JsonProperty("resourceId") String partitionName) {
+    super(String.format("%s_%s", resourceId, partitionName));
     _resourceId = resourceId;
     _partitionName = partitionName;
   }
@@ -49,12 +50,12 @@ public final class PartitionId extends Id {
   }
 
   @Override
-  public String stringify() {
+  public String toString() {
     // check in case the partition name is instantiated incorrectly
-    if (_resourceId.stringify().equals(_partitionName)) {
+    if (_resourceId.toString().equals(_partitionName)) {
       return _partitionName;
     }
-    return String.format("%s_%s", _resourceId, _partitionName);
+    return super.toString();
   }
 
   /**

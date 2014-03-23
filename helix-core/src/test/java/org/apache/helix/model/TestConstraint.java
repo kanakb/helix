@@ -28,6 +28,7 @@ import java.util.TreeMap;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ConstraintItem;
@@ -35,7 +36,6 @@ import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttrib
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.testng.Assert;

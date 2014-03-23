@@ -27,8 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.helix.TestHelper;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;

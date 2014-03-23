@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.id;
+package org.apache.helix.api.id;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -21,26 +21,17 @@ package org.apache.helix.api.model.id;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public final class ConstraintId extends Id {
-  @JsonProperty("id")
-  private final String _id;
-
   /**
    * Create a constraint id
    * @param constraintId string representing the constraint id
    */
   @JsonCreator
   private ConstraintId(@JsonProperty("id") String id) {
-    _id = id;
-  }
-
-  @Override
-  public String stringify() {
-    return _id;
+    super(id);
   }
 
   /**
@@ -59,7 +50,8 @@ public final class ConstraintId extends Id {
    * @param state the constrained state
    * @return ConstraintId
    */
-  public static ConstraintId from(Scope<?> scope, StateModelDefinitionId stateModelDefId, State state) {
+  public static ConstraintId from(Scope<?> scope, StateModelDefinitionId stateModelDefId,
+      State state) {
     return new ConstraintId(scope + "|" + stateModelDefId + "|" + state);
   }
 

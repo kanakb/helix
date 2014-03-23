@@ -34,10 +34,10 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.helix.HelixManager;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.log4j.Logger;
@@ -148,7 +148,7 @@ public class AutoRebalanceStrategy {
     List<String> sortedNodeNames =
         Lists.newArrayList(Lists.transform(sortedAllNodes, Functions.toStringFunction()));
     int numReplicas = countStateReplicas();
-    ZNRecord znRecord = new ZNRecord(_resourceId.stringify());
+    ZNRecord znRecord = new ZNRecord(_resourceId.toString());
     if (sortedLiveNodes.size() == 0) {
       return znRecord;
     }
@@ -374,7 +374,7 @@ public class AutoRebalanceStrategy {
     // partition.
     Map<String, List<String>> newPreferences = new TreeMap<String, List<String>>();
     for (PartitionId partition : _partitions) {
-      String partitionName = partition.stringify();
+      String partitionName = partition.toString();
       znRecord.setMapField(partitionName, new TreeMap<String, String>());
       znRecord.setListField(partitionName, new ArrayList<String>());
       newPreferences.put(partitionName, new ArrayList<String>());

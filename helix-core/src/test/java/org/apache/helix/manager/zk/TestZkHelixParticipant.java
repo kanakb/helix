@@ -26,11 +26,11 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.integration.TestHelixConnection;
 import org.testng.Assert;
@@ -70,7 +70,8 @@ public class TestZkHelixParticipant extends ZkUnitTestBase {
 
       participants[i] = connection.createParticipant(clusterId, participantId);
       participants[i].getStateMachineEngine().registerStateModelFactory(
-        StateModelDefinitionId.from("MasterSlave"), new TestHelixConnection.MockStateModelFactory());
+          StateModelDefinitionId.from("MasterSlave"),
+          new TestHelixConnection.MockStateModelFactory());
 
       participants[i].start();
     }
@@ -81,7 +82,8 @@ public class TestZkHelixParticipant extends ZkUnitTestBase {
     PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     for (int i = 0; i < n; i++) {
-      Assert.assertNotNull(accessor.getProperty(keyBuilder.liveInstance(participants[i].getParticipantId().stringify())));
+      Assert.assertNotNull(accessor.getProperty(keyBuilder.liveInstance(participants[i]
+          .getParticipantId().toString())));
     }
 
     // stop participant localhost_12918
@@ -89,14 +91,14 @@ public class TestZkHelixParticipant extends ZkUnitTestBase {
 
     // check live-instance znode for localhost_12918 is gone
     Assert.assertNull(accessor.getProperty(keyBuilder.liveInstance(participants[0]
-        .getParticipantId().stringify())));
+        .getParticipantId().toString())));
 
     // clean up
     connection.disconnect();
 
     // check live-instance znode for localhost_12919 is gone
     Assert.assertNull(accessor.getProperty(keyBuilder.liveInstance(participants[1]
-        .getParticipantId().stringify())));
+        .getParticipantId().toString())));
 
     System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }

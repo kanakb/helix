@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.UserConfig;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 
 import com.google.common.collect.Sets;

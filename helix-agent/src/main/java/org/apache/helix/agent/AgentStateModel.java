@@ -89,7 +89,7 @@ public class AgentStateModel extends StateModel {
     if (cmd == null) {
       HelixConfigScope resourceScope =
           new HelixConfigScopeBuilder(ConfigScopeProperty.RESOURCE).forCluster(clusterName)
-              .forResource(message.getResourceId().stringify()).build();
+              .forResource(message.getResourceId().toString()).build();
       Map<String, String> cmdKeyValueMap =
           manager.getConfigAccessor().get(resourceScope, cmdConfigKeys);
       if (cmdKeyValueMap != null) {

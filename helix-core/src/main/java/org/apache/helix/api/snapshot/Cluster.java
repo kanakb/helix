@@ -24,20 +24,20 @@ import java.util.Map;
 
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ContextId;
+import org.apache.helix.api.id.ControllerId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SpectatorId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ControllerId;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.ResourceId;
-import org.apache.helix.api.model.id.SpectatorId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.controller.context.ControllerContext;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 

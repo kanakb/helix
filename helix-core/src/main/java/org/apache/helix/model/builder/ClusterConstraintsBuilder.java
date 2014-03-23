@@ -22,10 +22,10 @@ package org.apache.helix.model.builder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.id.ConstraintId;
 
 public class ClusterConstraintsBuilder {
   private ConstraintType _constraintType;

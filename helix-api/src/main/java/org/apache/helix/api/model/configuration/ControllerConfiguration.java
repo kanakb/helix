@@ -18,7 +18,7 @@ package org.apache.helix.api.model.configuration;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.model.id.ControllerId;
+import org.apache.helix.api.id.ControllerId;
 
 public class ControllerConfiguration extends MemberConfiguration<ControllerId> {
 

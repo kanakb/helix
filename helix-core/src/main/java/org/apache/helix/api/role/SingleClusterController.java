@@ -20,7 +20,7 @@ package org.apache.helix.api.role;
  */
 
 import org.apache.helix.HelixConnectionStateListener;
-import org.apache.helix.api.model.id.ControllerId;
+import org.apache.helix.api.id.ControllerId;
 
 /**
  * A controller that will control a single cluster if it is elected the leader for that cluster

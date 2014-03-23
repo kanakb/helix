@@ -20,11 +20,11 @@ package org.apache.helix.model;
  */
 
 import org.apache.helix.api.config.HelixVersion;
+import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.ProcId;
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.log4j.Logger;
 
 /**
@@ -56,7 +56,7 @@ public class LiveInstance extends HelixProperty {
    * @param id participant identifier
    */
   public LiveInstance(ParticipantId id) {
-    super(id.stringify());
+    super(id.toString());
   }
 
   /**

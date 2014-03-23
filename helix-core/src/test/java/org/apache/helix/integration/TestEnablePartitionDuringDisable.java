@@ -24,7 +24,7 @@ import java.util.Date;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.TestHelper;
-import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.integration.manager.ClusterControllerManager;

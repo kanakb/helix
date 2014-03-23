@@ -38,14 +38,14 @@ import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.MessageListener;
 import org.apache.helix.PreConnectCallback;
 import org.apache.helix.ScopedConfigChangeListener;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.Id;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.Id;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.api.role.HelixParticipant;
@@ -169,17 +169,17 @@ public class HelixConnectionAdaptor implements HelixManager {
 
   @Override
   public String getClusterName() {
-    return _clusterId.stringify();
+    return _clusterId.toString();
   }
 
   @Override
   public String getInstanceName() {
-    return _instanceId.stringify();
+    return _instanceId.toString();
   }
 
   @Override
   public String getSessionId() {
-    return _connection.getSessionId().stringify();
+    return _connection.getSessionId().toString();
   }
 
   @Override

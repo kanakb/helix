@@ -1,5 +1,6 @@
-package org.apache.helix.api.model.id;
+package org.apache.helix.api.id;
 
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /*
@@ -20,18 +21,25 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * specific language governing permissions and limitations
  * under the License.
  */
-public abstract class MemberId extends Id {
-  @JsonProperty("id")
-  private final String _id;
-
-  public MemberId(String id) {
-    super();
-    _id = id;
+public final class MessageId extends Id {
+  /**
+   * Create a message id
+   * @param id string representation of a message id
+   */
+  @JsonCreator
+  private MessageId(@JsonProperty("id") String id) {
+    super(id);
   }
 
-  @Override
-  public String stringify() {
-    return _id;
+  /**
+   * Get a concrete message id
+   * @param messageId string message identifier
+   * @return MsgId
+   */
+  public static MessageId from(String messageId) {
+    if (messageId == null) {
+      return null;
+    }
+    return new MessageId(messageId);
   }
-
 }

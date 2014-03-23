@@ -21,7 +21,7 @@ package org.apache.helix.api.role;
 
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.PreConnectCallback;
-import org.apache.helix.api.model.id.ParticipantId;
+import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.participant.StateMachineEngine;
 
 /**

@@ -36,24 +36,24 @@ import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
@@ -92,7 +92,7 @@ public class ParticipantAccessor {
    * @return true if enable state succeeded, false otherwise
    */
   boolean enableParticipant(ParticipantId participantId, boolean isEnabled) {
-    String participantName = participantId.stringify();
+    String participantName = participantId.toString();
     if (_accessor.getProperty(_keyBuilder.instanceConfig(participantName)) == null) {
       LOG.error("Config for participant: " + participantId + " does NOT exist in cluster");
       return false;
@@ -131,7 +131,7 @@ public class ParticipantAccessor {
     List<PropertyKey> msgKeys = new ArrayList<PropertyKey>();
     List<Message> msgs = new ArrayList<Message>();
     for (MessageId msgId : msgMap.keySet()) {
-      msgKeys.add(_keyBuilder.message(participantId.stringify(), msgId.stringify()));
+      msgKeys.add(_keyBuilder.message(participantId.toString(), msgId.toString()));
       msgs.add(msgMap.get(msgId));
     }
 
@@ -144,11 +144,11 @@ public class ParticipantAccessor {
    * @param msgMap map of message-id to message
    */
   public void updateMessageStatus(ParticipantId participantId, Map<MessageId, Message> msgMap) {
-    String participantName = participantId.stringify();
+    String participantName = participantId.toString();
     List<PropertyKey> msgKeys = new ArrayList<PropertyKey>();
     List<Message> msgs = new ArrayList<Message>();
     for (MessageId msgId : msgMap.keySet()) {
-      msgKeys.add(_keyBuilder.message(participantName, msgId.stringify()));
+      msgKeys.add(_keyBuilder.message(participantName, msgId.toString()));
       msgs.add(msgMap.get(msgId));
     }
     _accessor.setChildren(msgKeys, msgs);
@@ -160,10 +160,10 @@ public class ParticipantAccessor {
    * @param msgIdSet
    */
   public void deleteMessagesFromParticipant(ParticipantId participantId, Set<MessageId> msgIdSet) {
-    String participantName = participantId.stringify();
+    String participantName = participantId.toString();
     List<PropertyKey> msgKeys = new ArrayList<PropertyKey>();
     for (MessageId msgId : msgIdSet) {
-      msgKeys.add(_keyBuilder.message(participantName, msgId.stringify()));
+      msgKeys.add(_keyBuilder.message(participantName, msgId.toString()));
     }
 
     // TODO impl batch remove
@@ -182,8 +182,8 @@ public class ParticipantAccessor {
    */
   boolean enablePartitionsForParticipant(final boolean enabled, final ParticipantId participantId,
       final ResourceId resourceId, final Set<PartitionId> partitionIdSet) {
-    String participantName = participantId.stringify();
-    String resourceName = resourceId.stringify();
+    String participantName = participantId.toString();
+    String resourceName = resourceId.toString();
 
     // check instanceConfig exists
     PropertyKey instanceConfigKey = _keyBuilder.instanceConfig(participantName);
@@ -214,7 +214,7 @@ public class ParticipantAccessor {
     BaseDataAccessor<ZNRecord> baseAccessor = _accessor.getBaseDataAccessor();
     final List<String> partitionNames = new ArrayList<String>();
     for (PartitionId partitionId : partitionIdSet) {
-      partitionNames.add(partitionId.stringify());
+      partitionNames.add(partitionId.toString());
     }
 
     return baseAccessor.update(instanceConfigKey.getPath(), new DataUpdater<ZNRecord>() {
@@ -374,14 +374,14 @@ public class ParticipantAccessor {
     // build messages to signal the transition
     StateModelDefinitionId stateModelDefId = config.getStateModelDefId();
     StateModelDefinition stateModelDef =
-        _accessor.getProperty(_keyBuilder.stateModelDef(stateModelDefId.stringify()));
+        _accessor.getProperty(_keyBuilder.stateModelDef(stateModelDefId.toString()));
     Map<MessageId, Message> messageMap = Maps.newHashMap();
     for (PartitionId partitionId : resetPartitionIdSet) {
       // send ERROR to initialState message
       MessageId msgId = MessageId.from(UUID.randomUUID().toString());
       Message message = new Message(MessageType.STATE_TRANSITION, msgId);
       message.setSrcName(adminName);
-      message.setTgtName(participantId.stringify());
+      message.setTgtName(participantId.toString());
       message.setMsgState(MessageState.NEW);
       message.setPartitionId(partitionId);
       message.setResourceId(resourceId);
@@ -406,7 +406,7 @@ public class ParticipantAccessor {
    */
   public UserConfig readUserConfig(ParticipantId participantId) {
     InstanceConfig instanceConfig =
-        _accessor.getProperty(_keyBuilder.instanceConfig(participantId.stringify()));
+        _accessor.getProperty(_keyBuilder.instanceConfig(participantId.toString()));
     return instanceConfig != null ? instanceConfig.getUserConfig() : null;
   }
 
@@ -433,7 +433,7 @@ public class ParticipantAccessor {
   public boolean updateUserConfig(ParticipantId participantId, UserConfig userConfig) {
     InstanceConfig instanceConfig = new InstanceConfig(participantId);
     instanceConfig.addNamespacedConfig(userConfig);
-    return _accessor.updateProperty(_keyBuilder.instanceConfig(participantId.stringify()),
+    return _accessor.updateProperty(_keyBuilder.instanceConfig(participantId.toString()),
         instanceConfig);
   }
 
@@ -485,7 +485,7 @@ public class ParticipantAccessor {
     }
     instanceConfig.setInstanceEnabled(participantConfig.isEnabled());
     instanceConfig.addNamespacedConfig(participantConfig.getUserConfig());
-    _accessor.setProperty(_keyBuilder.instanceConfig(participantConfig.getId().stringify()),
+    _accessor.setProperty(_keyBuilder.instanceConfig(participantConfig.getId().toString()),
         instanceConfig);
     return true;
   }
@@ -563,7 +563,7 @@ public class ParticipantAccessor {
    */
   public Participant readParticipant(ParticipantId participantId) {
     // read physical model
-    String participantName = participantId.stringify();
+    String participantName = participantId.toString();
     InstanceConfig instanceConfig =
         _accessor.getProperty(_keyBuilder.instanceConfig(participantName));
 
@@ -583,7 +583,7 @@ public class ParticipantAccessor {
       instanceMsgMap = _accessor.getChildValuesMap(_keyBuilder.messages(participantName));
       instanceCurStateMap =
           _accessor.getChildValuesMap(_keyBuilder.currentStates(participantName,
-              sessionId.stringify()));
+              sessionId.toString()));
     }
 
     return createParticipant(participantId, instanceConfig, userConfig, liveInstance,
@@ -600,8 +600,8 @@ public class ParticipantAccessor {
   public void updateCurrentState(ResourceId resourceId, ParticipantId participantId,
       SessionId sessionId, CurrentState curStateUpdate) {
     _accessor.updateProperty(
-        _keyBuilder.currentState(participantId.stringify(), sessionId.stringify(),
-            resourceId.stringify()), curStateUpdate);
+        _keyBuilder.currentState(participantId.toString(), sessionId.toString(),
+            resourceId.toString()), curStateUpdate);
   }
 
   /**
@@ -613,8 +613,8 @@ public class ParticipantAccessor {
    */
   public boolean dropCurrentState(ResourceId resourceId, ParticipantId participantId,
       SessionId sessionId) {
-    return _accessor.removeProperty(_keyBuilder.currentState(participantId.stringify(),
-        sessionId.stringify(), resourceId.stringify()));
+    return _accessor.removeProperty(_keyBuilder.currentState(participantId.toString(),
+        sessionId.toString(), resourceId.toString()));
   }
 
   /**
@@ -623,19 +623,19 @@ public class ParticipantAccessor {
    * @return true if participant dropped, false if there was an error
    */
   boolean dropParticipant(ParticipantId participantId) {
-    if (_accessor.getProperty(_keyBuilder.instanceConfig(participantId.stringify())) == null) {
+    if (_accessor.getProperty(_keyBuilder.instanceConfig(participantId.toString())) == null) {
       LOG.error("Config for participant: " + participantId + " does NOT exist in cluster");
     }
 
-    if (_accessor.getProperty(_keyBuilder.instance(participantId.stringify())) == null) {
+    if (_accessor.getProperty(_keyBuilder.instance(participantId.toString())) == null) {
       LOG.error("Participant: " + participantId + " structure does NOT exist in cluster");
     }
 
     // delete participant config path
-    _accessor.removeProperty(_keyBuilder.instanceConfig(participantId.stringify()));
+    _accessor.removeProperty(_keyBuilder.instanceConfig(participantId.toString()));
 
     // delete participant path
-    _accessor.removeProperty(_keyBuilder.instance(participantId.stringify()));
+    _accessor.removeProperty(_keyBuilder.instance(participantId.toString()));
     return true;
   }
 

@@ -22,9 +22,9 @@ package org.apache.helix.model.builder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.model.IdealState.RebalanceMode;
 
 /**
@@ -45,7 +45,7 @@ public class AutoModeISBuilder extends IdealStateBuilder {
    * @param resourceId the resource
    */
   public AutoModeISBuilder(ResourceId resourceId) {
-    this(resourceId.stringify());
+    this(resourceId.toString());
   }
 
   /**
@@ -67,7 +67,7 @@ public class AutoModeISBuilder extends IdealStateBuilder {
    */
   public AutoModeISBuilder add(PartitionId partitionId) {
     if (partitionId != null) {
-      add(partitionId.stringify());
+      add(partitionId.toString());
     }
     return this;
   }
@@ -95,9 +95,9 @@ public class AutoModeISBuilder extends IdealStateBuilder {
     if (partitionId != null) {
       String[] participantNames = new String[participantIds.length];
       for (int i = 0; i < participantIds.length; i++) {
-        participantNames[i] = participantIds[i].stringify();
+        participantNames[i] = participantIds[i].toString();
       }
-      assignPreferenceList(partitionId.stringify(), participantNames);
+      assignPreferenceList(partitionId.toString(), participantNames);
     }
     return this;
   }

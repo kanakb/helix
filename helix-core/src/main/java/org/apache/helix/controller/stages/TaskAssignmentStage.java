@@ -29,11 +29,11 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerProperties;
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
@@ -119,8 +119,8 @@ public class TaskAssignmentStage extends AbstractBaseStage {
       }
 
       String key =
-          keyBuilder.currentState(message.getTgtName(), message.getTypedTgtSessionId().stringify(),
-              message.getResourceId().stringify()).getPath()
+          keyBuilder.currentState(message.getTgtName(), message.getTypedTgtSessionId().toString(),
+              message.getResourceId().toString()).getPath()
               + "/" + message.getTypedFromState() + "/" + message.getTypedToState();
 
       if (!batchMessages.containsKey(key)) {
@@ -129,7 +129,7 @@ public class TaskAssignmentStage extends AbstractBaseStage {
         outputMessages.add(batchMessage);
         batchMessages.put(key, batchMessage);
       }
-      batchMessages.get(key).addPartitionName(message.getPartitionId().stringify());
+      batchMessages.get(key).addPartitionName(message.getPartitionId().toString());
     }
 
     return outputMessages;

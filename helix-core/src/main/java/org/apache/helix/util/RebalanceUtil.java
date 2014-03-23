@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.helix.HelixException;
-import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.model.IdealState;
 
@@ -42,7 +42,7 @@ public class RebalanceUtil {
     Map<String, String> reversePartitionIndex = new HashMap<String, String>();
     boolean indexInPartitionName = true;
     for (PartitionId partitionId : state.getPartitionIdSet()) {
-      String partitionName = partitionId.stringify();
+      String partitionName = partitionId.toString();
       int lastPos = partitionName.lastIndexOf("_");
       if (lastPos < 0) {
         indexInPartitionName = false;
@@ -52,7 +52,7 @@ public class RebalanceUtil {
         String idStr = partitionName.substring(lastPos + 1);
         int partition = Integer.parseInt(idStr);
         partitionIndex.put(partitionName, partition);
-        reversePartitionIndex.put(state.getResourceId().stringify() + "_" + partition,
+        reversePartitionIndex.put(state.getResourceId().toString() + "_" + partition,
             partitionName);
       } catch (Exception e) {
         indexInPartitionName = false;
@@ -69,7 +69,7 @@ public class RebalanceUtil {
       Collections.sort(partitions);
       for (int i = 0; i < partitions.size(); i++) {
         partitionIndex.put(partitions.get(i), i);
-        reversePartitionIndex.put(state.getResourceId().stringify() + "_" + i, partitions.get(i));
+        reversePartitionIndex.put(state.getResourceId().toString() + "_" + i, partitions.get(i));
       }
     }
 
@@ -77,7 +77,7 @@ public class RebalanceUtil {
     Map<String, Map<String, List<Integer>>> combinedNodeSlaveAssignmentMap =
         new TreeMap<String, Map<String, List<Integer>>>();
     for (PartitionId partition : state.getPartitionIdSet()) {
-      List<String> instances = state.getRecord().getListField(partition.stringify());
+      List<String> instances = state.getRecord().getListField(partition.toString());
       String master = instances.get(0);
       if (!nodeMasterAssignmentMap.containsKey(master)) {
         nodeMasterAssignmentMap.put(master, new ArrayList<Integer>());

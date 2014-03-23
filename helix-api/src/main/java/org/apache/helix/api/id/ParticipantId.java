@@ -1,8 +1,6 @@
-package org.apache.helix.api.model.statemachine.id;
+package org.apache.helix.api.id;
 
-import org.apache.helix.api.model.id.Id;
 import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /*
@@ -23,36 +21,25 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * specific language governing permissions and limitations
  * under the License.
  */
-public final class StateModelFactoryId extends Id {
-  @JsonIgnore
-  public static final String DEFAULT_STATE_MODEL_FACTORY = "DEFAULT";
-
-  @JsonProperty("id")
-  private final String _id;
-
+public final class ParticipantId extends MemberId {
   /**
-   * Create a state model factory id
-   * @param id string representing a state model factory
+   * Instantiate for a participant with a string name
+   * @param id string participant id
    */
   @JsonCreator
-  private StateModelFactoryId(@JsonProperty("id") String id) {
-    _id = id;
-  }
-
-  @Override
-  public String stringify() {
-    return _id;
+  private ParticipantId(@JsonProperty("id") String id) {
+    super(id);
   }
 
   /**
-   * Get a concrete state model factory id
-   * @param stateModelFactoryId the string version of the id
-   * @return StateModelFactoryId
+   * Get a concrete participant id
+   * @param participantId string participant identifier
+   * @return ParticipantId
    */
-  public static StateModelFactoryId from(String stateModelFactoryId) {
-    if (stateModelFactoryId == null) {
+  public static ParticipantId from(String participantId) {
+    if (participantId == null) {
       return null;
     }
-    return new StateModelFactoryId(stateModelFactoryId);
+    return new ParticipantId(participantId);
   }
 }

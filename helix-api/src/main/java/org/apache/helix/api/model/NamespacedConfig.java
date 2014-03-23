@@ -39,7 +39,7 @@ public class NamespacedConfig extends ZNRecord {
    * @param scope scope object
    */
   public NamespacedConfig(Scope<?> scope, String prefix) {
-    super(scope.getScopedId().stringify());
+    super(scope.getScopedId().toString());
     _prefix = prefix + PREFIX_CHAR;
   }
 

@@ -27,16 +27,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
+import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
-import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 
 import com.google.common.collect.Lists;
 
@@ -137,7 +137,7 @@ public class Message extends HelixProperty {
    * @param msgId unique message identifier
    */
   public Message(String type, MessageId msgId) {
-    super(new ZNRecord(msgId.stringify()));
+    super(new ZNRecord(msgId.toString()));
     _record.setSimpleField(Attributes.MSG_TYPE.toString(), type);
     setMessageId(msgId);
     setMsgState(MessageState.NEW);
@@ -159,7 +159,7 @@ public class Message extends HelixProperty {
    * @param id unique message identifier
    */
   public Message(ZNRecord record, MessageId id) {
-    super(new ZNRecord(record, id.stringify()));
+    super(new ZNRecord(record, id.toString()));
     setMessageId(id);
   }
 
@@ -264,7 +264,7 @@ public class Message extends HelixProperty {
    */
   public void setTgtSessionId(SessionId tgtSessionId) {
     if (tgtSessionId != null) {
-      setTgtSessionId(tgtSessionId.stringify());
+      setTgtSessionId(tgtSessionId.toString());
     }
   }
 
@@ -298,7 +298,7 @@ public class Message extends HelixProperty {
    */
   public void setSrcSessionId(SessionId srcSessionId) {
     if (srcSessionId != null) {
-      setSrcSessionId(srcSessionId.stringify());
+      setSrcSessionId(srcSessionId.toString());
     }
   }
 
@@ -332,7 +332,7 @@ public class Message extends HelixProperty {
    */
   public void setExecuteSessionId(SessionId exeSessionId) {
     if (exeSessionId != null) {
-      setExecuteSessionId(exeSessionId.stringify());
+      setExecuteSessionId(exeSessionId.toString());
     }
   }
 
@@ -410,7 +410,7 @@ public class Message extends HelixProperty {
    */
   public void setPartitionId(PartitionId partitionId) {
     if (partitionId != null) {
-      setPartitionName(partitionId.stringify());
+      setPartitionName(partitionId.toString());
     }
   }
 
@@ -444,7 +444,7 @@ public class Message extends HelixProperty {
    */
   public void setMessageId(MessageId msgId) {
     if (msgId != null) {
-      setMsgId(msgId.stringify());
+      setMsgId(msgId.toString());
     }
   }
 
@@ -554,7 +554,7 @@ public class Message extends HelixProperty {
    */
   public void setResourceId(ResourceId resourceId) {
     if (resourceId != null) {
-      setResourceName(resourceId.stringify());
+      setResourceName(resourceId.toString());
     }
   }
 
@@ -620,7 +620,7 @@ public class Message extends HelixProperty {
    */
   public void setStateModelDef(StateModelDefinitionId stateModelDefId) {
     if (stateModelDefId != null) {
-      setStateModelDef(stateModelDefId.stringify());
+      setStateModelDef(stateModelDefId.toString());
     }
   }
 
@@ -758,7 +758,7 @@ public class Message extends HelixProperty {
    */
   public void setStateModelFactoryId(StateModelFactoryId factoryId) {
     if (factoryId != null) {
-      setStateModelFactoryName(factoryId.stringify());
+      setStateModelFactoryName(factoryId.toString());
     } else {
       setStateModelFactoryName(StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
     }
@@ -930,8 +930,8 @@ public class Message extends HelixProperty {
 
     if (getMsgType().equals(MessageType.STATE_TRANSITION.toString())) {
       boolean isNotValid =
-          isNullOrEmpty(getTgtName()) || isNullOrEmpty(getPartitionId().stringify())
-              || isNullOrEmpty(getResourceId().stringify()) || isNullOrEmpty(getStateModelDef())
+          isNullOrEmpty(getTgtName()) || isNullOrEmpty(getPartitionId().toString())
+              || isNullOrEmpty(getResourceId().toString()) || isNullOrEmpty(getStateModelDef())
               || isNullOrEmpty(getTypedToState().toString())
               || isNullOrEmpty(getStateModelFactoryName())
               || isNullOrEmpty(getTypedFromState().toString());

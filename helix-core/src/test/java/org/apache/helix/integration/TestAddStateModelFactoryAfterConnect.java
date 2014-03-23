@@ -24,9 +24,9 @@ import java.util.List;
 
 import org.apache.helix.TestHelper;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.mock.participant.MockMSModelFactory;

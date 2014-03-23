@@ -5,8 +5,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.helix.ZkUnitTestBase;
+import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.model.Scope;
-import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.lock.HelixLock;
 import org.testng.Assert;
 import org.testng.annotations.Test;

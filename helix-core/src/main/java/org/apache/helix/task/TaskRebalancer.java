@@ -32,11 +32,11 @@ import java.util.TreeSet;
 import org.apache.helix.AccessOption;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
@@ -68,7 +68,7 @@ public class TaskRebalancer implements HelixRebalancer {
   public ResourceAssignment computeResourceMapping(RebalancerConfiguration rebalancerConfig,
       ResourceAssignment helixPrevAssignment, Cluster cluster, ResourceCurrentState currentState) {
     final ResourceId resourceId = rebalancerConfig.getResourceId();
-    final String resourceName = resourceId.stringify();
+    final String resourceName = resourceId.toString();
 
     // Fetch task configuration
     TaskConfig taskCfg = TaskUtil.getTaskCfg(_manager, resourceName);
@@ -602,7 +602,7 @@ public class TaskRebalancer implements HelixRebalancer {
       Set<Integer> includeSet) {
     Map<String, SortedSet<Integer>> result = new HashMap<String, SortedSet<Integer>>();
     for (ParticipantId instance : instanceList) {
-      result.put(instance.stringify(), new TreeSet<Integer>());
+      result.put(instance.toString(), new TreeSet<Integer>());
     }
 
     for (PartitionId partitionId : tgtResourceRebalancerCfg.getPartitionSet()) {
@@ -630,15 +630,15 @@ public class TaskRebalancer implements HelixRebalancer {
       Iterable<ParticipantId> instanceList, ResourceAssignment assignment, Set<Integer> includeSet) {
     Map<String, SortedSet<Integer>> result = new HashMap<String, SortedSet<Integer>>();
     for (ParticipantId instance : instanceList) {
-      result.put(instance.stringify(), new TreeSet<Integer>());
+      result.put(instance.toString(), new TreeSet<Integer>());
     }
 
     for (PartitionId partitionId : assignment.getMappedPartitionIds()) {
-      int pId = pId(partitionId.stringify());
+      int pId = pId(partitionId.toString());
       if (includeSet.contains(pId)) {
         Map<ParticipantId, State> replicaMap = assignment.getReplicaMap(partitionId);
         for (ParticipantId instance : replicaMap.keySet()) {
-          SortedSet<Integer> pList = result.get(instance.stringify());
+          SortedSet<Integer> pList = result.get(instance.toString());
           if (pList != null) {
             pList.add(pId);
           }

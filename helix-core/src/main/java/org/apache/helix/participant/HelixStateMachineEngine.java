@@ -29,18 +29,18 @@ import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.MapKey;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
+import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
-import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.messaging.handling.BatchMessageHandler;
 import org.apache.helix.messaging.handling.BatchMessageWrapper;
 import org.apache.helix.messaging.handling.HelixStateTransitionHandler;
@@ -193,7 +193,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
     }
 
     StateModelFactory<? extends StateModel> stateModelFactory =
-        getStateModelFactory(stateModelId.stringify(), factoryName);
+        getStateModelFactory(stateModelId.toString(), factoryName);
     if (stateModelFactory == null) {
       LOG.warn("Fail to create msg-handler because cannot find stateModelFactory for model: "
           + stateModelId + " using factoryName: " + factoryName + " for resource: " + resourceId);
@@ -201,31 +201,31 @@ public class HelixStateMachineEngine implements StateMachineEngine {
     }
 
     // check if the state model definition exists and cache it
-    if (!_stateModelDefs.containsKey(stateModelId.stringify())) {
+    if (!_stateModelDefs.containsKey(stateModelId.toString())) {
       HelixDataAccessor accessor = _manager.getHelixDataAccessor();
       PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
       StateModelDefinition stateModelDef =
-          accessor.getProperty(keyBuilder.stateModelDef(stateModelId.stringify()));
+          accessor.getProperty(keyBuilder.stateModelDef(stateModelId.toString()));
       if (stateModelDef == null) {
         throw new HelixException("fail to create msg-handler because stateModelDef for "
             + stateModelId + " does NOT exist");
       }
-      _stateModelDefs.put(stateModelId.stringify(), stateModelDef);
+      _stateModelDefs.put(stateModelId.toString(), stateModelDef);
     }
 
     if (message.getBatchMessageMode() == false) {
       // create currentStateDelta for this partition
       String initState = _stateModelDefs.get(message.getStateModelDef()).getInitialState();
-      StateModel stateModel = stateModelFactory.getStateModel(partitionKey.stringify());
+      StateModel stateModel = stateModelFactory.getStateModel(partitionKey.toString());
       if (stateModel == null) {
-        stateModel = stateModelFactory.createAndAddStateModel(partitionKey.stringify());
+        stateModel = stateModelFactory.createAndAddStateModel(partitionKey.toString());
         stateModel.updateState(initState);
       }
 
       // TODO: move currentStateDelta to StateTransitionMsgHandler
-      CurrentState currentStateDelta = new CurrentState(resourceId.stringify());
+      CurrentState currentStateDelta = new CurrentState(resourceId.toString());
       currentStateDelta.setSessionId(sessionId);
-      currentStateDelta.setStateModelDefRef(stateModelId.stringify());
+      currentStateDelta.setStateModelDefRef(stateModelId.toString());
       currentStateDelta.setStateModelFactoryName(factoryName);
       currentStateDelta.setBucketSize(bucketSize);
 
@@ -238,9 +238,9 @@ public class HelixStateMachineEngine implements StateMachineEngine {
           currentStateDelta);
     } else {
       BatchMessageWrapper wrapper =
-          stateModelFactory.getBatchMessageWrapper(resourceId.stringify());
+          stateModelFactory.getBatchMessageWrapper(resourceId.toString());
       if (wrapper == null) {
-        wrapper = stateModelFactory.createAndAddBatchMessageWrapper(resourceId.stringify());
+        wrapper = stateModelFactory.createAndAddBatchMessageWrapper(resourceId.toString());
       }
 
       // get executor-service for the message
@@ -292,7 +292,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
     StateModelFactory<? extends StateModel> factoryAdaptor =
         new HelixStateModelFactoryAdaptor(factory);
 
-    String stateModelDefName = stateModelDefId.stringify();
+    String stateModelDefName = stateModelDefId.toString();
     if (!_stateModelFactoryMap.containsKey(stateModelDefName)) {
       _stateModelFactoryMap.put(stateModelDefName,
           new ConcurrentHashMap<String, StateModelFactory<? extends StateModel>>());
@@ -325,7 +325,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
     LOG.info("Removing state model factory for state-model-definition: " + stateModelDefId
         + " using factory-name: " + factoryName);
 
-    String stateModelDefName = stateModelDefId.stringify();
+    String stateModelDefName = stateModelDefId.toString();
     Map<String, StateModelFactory<? extends StateModel>> ftyMap =
         _stateModelFactoryMap.get(stateModelDefName);
     if (ftyMap == null) {

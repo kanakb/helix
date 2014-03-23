@@ -31,13 +31,13 @@ import org.apache.helix.HelixException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.LiveInstanceInfoProvider;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.HelixConfigScope;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.messaging.DefaultMessagingService;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.InstanceConfig;
@@ -167,7 +167,7 @@ public class ParticipantManagerHelper {
              * update sessionId field in live-instance if necessary
              */
             LiveInstance curLiveInstance = new LiveInstance(record);
-            if (!curLiveInstance.getTypedSessionId().stringify().equals(_sessionId)) {
+            if (!curLiveInstance.getTypedSessionId().toString().equals(_sessionId)) {
               /**
                * in last handle-new-session,
                * live-instance is created by new zkconnection with stale session-id inside

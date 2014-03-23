@@ -6,6 +6,11 @@ import java.util.Map;
 
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ResourceConfig;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ConstraintId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
@@ -14,14 +19,9 @@ import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ConstraintId;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.Maps;
@@ -185,16 +185,16 @@ public class ClusterConfigBuilder {
     attributes.put(ConstraintAttribute.CONSTRAINT_VALUE.toString(),
         Integer.toString(maxInFlightTransitions));
     attributes.put(ConstraintAttribute.TRANSITION.toString(), transition.toString());
-    attributes.put(ConstraintAttribute.STATE_MODEL.toString(), stateModelDefId.stringify());
+    attributes.put(ConstraintAttribute.STATE_MODEL.toString(), stateModelDefId.toString());
     switch (scope.getType()) {
     case CLUSTER:
       // cluster is implicit
       break;
     case RESOURCE:
-      attributes.put(ConstraintAttribute.RESOURCE.toString(), scope.getScopedId().stringify());
+      attributes.put(ConstraintAttribute.RESOURCE.toString(), scope.getScopedId().toString());
       break;
     case PARTICIPANT:
-      attributes.put(ConstraintAttribute.INSTANCE.toString(), scope.getScopedId().stringify());
+      attributes.put(ConstraintAttribute.INSTANCE.toString(), scope.getScopedId().toString());
       break;
     default:
       LOG.error("Unsupported scope for adding a transition constraint: " + scope);

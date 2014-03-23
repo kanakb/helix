@@ -25,11 +25,11 @@ import org.apache.helix.ClusterMessagingService;
 import org.apache.helix.Criteria;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
+import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelFactory;
 import org.apache.helix.participant.statemachine.StateModelInfo;
@@ -69,8 +69,8 @@ public class BootstrapHandler extends StateModelFactory<StateModel> {
       Criteria recipientCriteria = new Criteria();
       recipientCriteria.setInstanceName("*");
       recipientCriteria.setRecipientInstanceType(MemberRole.PARTICIPANT);
-      recipientCriteria.setResource(message.getResourceId().stringify());
-      recipientCriteria.setPartition(message.getPartitionId().stringify());
+      recipientCriteria.setResource(message.getResourceId().toString());
+      recipientCriteria.setPartition(message.getPartitionId().toString());
       recipientCriteria.setSessionSpecific(true);
       // wait for 30 seconds
       int timeout = 30000;

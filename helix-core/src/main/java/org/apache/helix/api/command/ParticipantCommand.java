@@ -19,7 +19,7 @@ package org.apache.helix.api.command;
  * under the License.
  */
 
-import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.id.PartitionId;
 
 public class ParticipantCommand {
   public ParticipantCommand enable(boolean enable) {

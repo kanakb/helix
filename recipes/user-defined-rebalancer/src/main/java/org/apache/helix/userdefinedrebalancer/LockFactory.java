@@ -19,7 +19,7 @@ package org.apache.helix.userdefinedrebalancer;
  * under the License.
  */
 
-import org.apache.helix.api.model.id.PartitionId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 
 /**
@@ -31,6 +31,6 @@ public class LockFactory extends HelixStateModelFactory<Lock> {
   @Override
   public Lock createNewStateModel(PartitionId partitionId) {
     // TODO Auto-generated method stub
-    return new Lock(partitionId.stringify());
+    return new Lock(partitionId.toString());
   }
 }

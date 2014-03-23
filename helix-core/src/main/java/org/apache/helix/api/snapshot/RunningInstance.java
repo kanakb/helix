@@ -2,7 +2,7 @@ package org.apache.helix.api.snapshot;
 
 import org.apache.helix.api.config.HelixVersion;
 import org.apache.helix.api.id.ProcId;
-import org.apache.helix.api.model.ipc.id.SessionId;
+import org.apache.helix.api.id.SessionId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

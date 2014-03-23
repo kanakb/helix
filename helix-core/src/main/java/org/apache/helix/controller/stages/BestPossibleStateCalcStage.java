@@ -24,13 +24,13 @@ import java.util.Set;
 
 import org.apache.helix.HelixManager;
 import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.context.ControllerContextProvider;

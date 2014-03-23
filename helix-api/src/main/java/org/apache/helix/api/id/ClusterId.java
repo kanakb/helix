@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.id;
+package org.apache.helix.api.id;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -21,33 +21,26 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * specific language governing permissions and limitations
  * under the License.
  */
-public final class ResourceId extends Id {
-  @JsonProperty("id")
-  private final String _id;
 
-  @Override
-  public String stringify() {
-    return _id;
-  }
-
+public final class ClusterId extends Id {
   /**
-   * Create a resource id
-   * @param id string representation of a resource id
+   * Create a cluster id
+   * @param id string representation of the id
    */
   @JsonCreator
-  private ResourceId(@JsonProperty("id") String id) {
-    _id = id;
+  public ClusterId(@JsonProperty("id") String id) {
+    super(id);
   }
 
   /**
-   * Get a concrete resource id for a string name
-   * @param resourceId string resource identifier
-   * @return ResourceId
+   * Get a concrete cluster id for a string name
+   * @param clusterId string cluster identifier
+   * @return ClusterId
    */
-  public static ResourceId from(String resourceId) {
-    if (resourceId == null) {
+  public static ClusterId from(String clusterId) {
+    if (clusterId == null) {
       return null;
     }
-    return new ResourceId(resourceId);
+    return new ClusterId(clusterId);
   }
 }

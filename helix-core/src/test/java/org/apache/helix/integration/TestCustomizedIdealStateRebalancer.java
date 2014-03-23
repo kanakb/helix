@@ -27,10 +27,10 @@ import java.util.Map;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.api.id.ContextId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
@@ -92,7 +92,7 @@ public class TestCustomizedIdealStateRebalancer extends
       testRebalancerInvoked = true;
 
       // set some basic context
-      ContextId contextId = ContextId.from(config.getResourceId().stringify());
+      ContextId contextId = ContextId.from(config.getResourceId().toString());
       _contextProvider.putContext(contextId, new BasicControllerContext(contextId));
       return resourceMapping;
     }
@@ -161,7 +161,7 @@ public class TestCustomizedIdealStateRebalancer extends
         PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
         IdealState idealState = accessor.getProperty(keyBuilder.idealStates(_resourceName));
         int numberOfPartitions = idealState.getRecord().getListFields().size();
-        String stateModelDefName = idealState.getStateModelDefId().stringify();
+        String stateModelDefName = idealState.getStateModelDefId().toString();
         StateModelDefinition stateModelDef =
             accessor.getProperty(keyBuilder.stateModelDef(stateModelDefName));
         State masterValue = stateModelDef.getTypedStatesPriorityList().get(0);

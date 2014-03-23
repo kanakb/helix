@@ -26,6 +26,10 @@ import java.util.Set;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
@@ -33,10 +37,6 @@ import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.configuration.ResourceConfiguration;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.model.IdealState;
@@ -66,8 +66,8 @@ public class ResourceAccessor {
    */
   public Resource readResource(ResourceId resourceId) {
     ResourceConfiguration config =
-        _accessor.getProperty(_keyBuilder.resourceConfig(resourceId.stringify()));
-    IdealState idealState = _accessor.getProperty(_keyBuilder.idealStates(resourceId.stringify()));
+        _accessor.getProperty(_keyBuilder.resourceConfig(resourceId.toString()));
+    IdealState idealState = _accessor.getProperty(_keyBuilder.idealStates(resourceId.toString()));
 
     if (config == null && idealState == null) {
       LOG.error("Resource " + resourceId + " not present on the cluster");
@@ -75,9 +75,9 @@ public class ResourceAccessor {
     }
 
     ExternalView externalView =
-        _accessor.getProperty(_keyBuilder.externalView(resourceId.stringify()));
+        _accessor.getProperty(_keyBuilder.externalView(resourceId.toString()));
     ResourceAssignment resourceAssignment =
-        _accessor.getProperty(_keyBuilder.resourceAssignment(resourceId.stringify()));
+        _accessor.getProperty(_keyBuilder.resourceAssignment(resourceId.toString()));
     return createResource(resourceId, config, idealState, externalView, resourceAssignment);
   }
 
@@ -88,7 +88,7 @@ public class ResourceAccessor {
    * @return true if set, false otherwise
    */
   public boolean setResourceAssignment(ResourceId resourceId, ResourceAssignment resourceAssignment) {
-    return _accessor.setProperty(_keyBuilder.resourceAssignment(resourceId.stringify()),
+    return _accessor.setProperty(_keyBuilder.resourceAssignment(resourceId.toString()),
         resourceAssignment);
   }
 
@@ -98,7 +98,7 @@ public class ResourceAccessor {
    * @return resource assignment or null
    */
   public ResourceAssignment getResourceAssignment(ResourceId resourceId) {
-    return _accessor.getProperty(_keyBuilder.resourceAssignment(resourceId.stringify()));
+    return _accessor.getProperty(_keyBuilder.resourceAssignment(resourceId.toString()));
   }
 
   /**
@@ -108,7 +108,7 @@ public class ResourceAccessor {
    */
   public UserConfig readUserConfig(ResourceId resourceId) {
     ResourceConfiguration resourceConfig =
-        _accessor.getProperty(_keyBuilder.resourceConfig(resourceId.stringify()));
+        _accessor.getProperty(_keyBuilder.resourceConfig(resourceId.toString()));
     return resourceConfig != null ? UserConfig.from(resourceConfig) : null;
   }
 
@@ -122,7 +122,7 @@ public class ResourceAccessor {
   public boolean updateUserConfig(ResourceId resourceId, UserConfig userConfig) {
     ResourceConfiguration resourceConfig = new ResourceConfiguration(resourceId);
     resourceConfig.addNamespacedConfig(userConfig);
-    return _accessor.updateProperty(_keyBuilder.resourceConfig(resourceId.stringify()),
+    return _accessor.updateProperty(_keyBuilder.resourceConfig(resourceId.toString()),
         resourceConfig);
   }
 
@@ -133,7 +133,7 @@ public class ResourceAccessor {
    * @return configuration or null
    */
   public ResourceConfiguration getConfiguration(ResourceId resourceId) {
-    return _accessor.getProperty(_keyBuilder.resourceConfig(resourceId.stringify()));
+    return _accessor.getProperty(_keyBuilder.resourceConfig(resourceId.toString()));
   }
 
   /**
@@ -143,7 +143,7 @@ public class ResourceAccessor {
    * @return true if set, false otherwise
    */
   public boolean setExternalView(ResourceId resourceId, ExternalView extView) {
-    return _accessor.setProperty(_keyBuilder.externalView(resourceId.stringify()), extView);
+    return _accessor.setProperty(_keyBuilder.externalView(resourceId.toString()), extView);
   }
 
   /**
@@ -152,7 +152,7 @@ public class ResourceAccessor {
    * @return external view or null
    */
   public ExternalView readExternalView(ResourceId resourceId) {
-    return _accessor.getProperty(_keyBuilder.externalView(resourceId.stringify()));
+    return _accessor.getProperty(_keyBuilder.externalView(resourceId.toString()));
   }
 
   /**
@@ -161,7 +161,7 @@ public class ResourceAccessor {
    * @return true if dropped, false otherwise
    */
   public boolean dropExternalView(ResourceId resourceId) {
-    return _accessor.removeProperty(_keyBuilder.externalView(resourceId.stringify()));
+    return _accessor.removeProperty(_keyBuilder.externalView(resourceId.toString()));
   }
 
   /**

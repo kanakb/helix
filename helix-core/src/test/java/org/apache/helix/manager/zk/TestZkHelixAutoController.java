@@ -26,10 +26,10 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
+import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.id.ClusterId;
-import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.model.LiveInstance;
 import org.testng.Assert;
@@ -75,20 +75,20 @@ public class TestZkHelixAutoController extends ZkUnitTestBase {
     final PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
     for (int i = 0; i < n; i++) {
-      String instanceName = controllers[i].getControllerId().stringify();
+      String instanceName = controllers[i].getControllerId().toString();
       Assert.assertNotNull(accessor.getProperty(keyBuilder.liveInstance(instanceName)));
     }
 
     // check leader znode exists
     LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
     Assert.assertNotNull(leader);
-    Assert.assertEquals(leader.getInstanceName(), controllers[0].getControllerId().stringify());
+    Assert.assertEquals(leader.getInstanceName(), controllers[0].getControllerId().toString());
 
     // stop controller localhost_12918
     controllers[0].stop();
 
     // check live-instance znode for localhost_12918 is gone
-    String instanceName = controllers[0].getControllerId().stringify();
+    String instanceName = controllers[0].getControllerId().toString();
     Assert.assertNull(accessor.getProperty(keyBuilder.liveInstance(instanceName)));
 
     // check localhost_12919 becomes the new leader
@@ -100,7 +100,7 @@ public class TestZkHelixAutoController extends ZkUnitTestBase {
         if (leader == null) {
           return false;
         }
-        return leader.getInstanceName().equals(controllers[1].getControllerId().stringify());
+        return leader.getInstanceName().equals(controllers[1].getControllerId().toString());
 
       }
     }, 3 * 1000);
@@ -110,7 +110,7 @@ public class TestZkHelixAutoController extends ZkUnitTestBase {
     connection.disconnect();
 
     // check live-instance znode for localhost_12919 is gone
-    instanceName = controllers[1].getControllerId().stringify();
+    instanceName = controllers[1].getControllerId().toString();
     Assert.assertNull(accessor.getProperty(keyBuilder.liveInstance(instanceName)));
 
     // check leader znode is gone

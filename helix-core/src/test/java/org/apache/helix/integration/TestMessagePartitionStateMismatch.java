@@ -28,15 +28,15 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
+import org.apache.helix.api.id.MessageId;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.MessageId;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -53,7 +53,7 @@ public class TestMessagePartitionStateMismatch extends ZkStandAloneCMTestBase {
         accessor.getChildValuesMap(accessor.keyBuilder().liveInstances());
 
     for (String instanceName : liveinstanceMap.keySet()) {
-      String sessionid = liveinstanceMap.get(instanceName).getTypedSessionId().stringify();
+      String sessionid = liveinstanceMap.get(instanceName).getTypedSessionId().toString();
       for (String partition : ev.getPartitionSet()) {
         if (ev.getStateMap(partition).containsKey(instanceName)) {
           MessageId uuid = MessageId.from(UUID.randomUUID().toString());
@@ -85,7 +85,7 @@ public class TestMessagePartitionStateMismatch extends ZkStandAloneCMTestBase {
             message.setStateModelFactoryName("DEFAULT");
           }
           accessor.setProperty(
-              accessor.keyBuilder().message(instanceName, message.getMessageId().stringify()), message);
+              accessor.keyBuilder().message(instanceName, message.getMessageId().toString()), message);
         }
       }
     }

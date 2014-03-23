@@ -6,6 +6,8 @@ import org.apache.helix.api.config.Partition;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
 import org.apache.helix.api.config.builder.ResourceConfigBuilder;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -26,8 +28,6 @@ import org.apache.helix.api.config.builder.ResourceConfigBuilder;
  */
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 
 import com.google.common.collect.Maps;

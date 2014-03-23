@@ -1,7 +1,7 @@
 package org.apache.helix.lock;
 
+import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.model.Scope;
-import org.apache.helix.api.model.id.ClusterId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

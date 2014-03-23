@@ -37,16 +37,16 @@ import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.MapKey;
 import org.apache.helix.ZNRecordBucketizer;
 import org.apache.helix.model.CurrentState;
+import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ZNRecordDelta;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ZNRecordDelta.MergeOperation;
-import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.Attributes;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.participant.statemachine.StateModel;
@@ -102,7 +102,7 @@ public class HelixStateTransitionHandler extends MessageHandler {
     State fromState = _message.getTypedFromState();
 
     // Verify the fromState and current state of the stateModel
-    String state = _currentStateDelta.getState(partitionId.stringify());
+    String state = _currentStateDelta.getState(partitionId.toString());
 
     if (fromState != null && !fromState.equals("*")
         && !fromState.toString().equalsIgnoreCase(state)) {
@@ -177,7 +177,7 @@ public class HelixStateTransitionHandler extends MessageHandler {
     // new session
     // sessionId might change when we update the state model state.
     // for zk current state it is OK as we have the per-session current state node
-    if (!_message.getTypedTgtSessionId().stringify().equals(_manager.getSessionId())) {
+    if (!_message.getTypedTgtSessionId().toString().equals(_manager.getSessionId())) {
       logger.warn("Session id has changed. Skip postExecutionMessage. Old session "
           + _message.getTypedExecutionSessionId() + " , new session : " + _manager.getSessionId());
       return;
@@ -198,13 +198,13 @@ public class HelixStateTransitionHandler extends MessageHandler {
 
         ZNRecord rec = new ZNRecord(_currentStateDelta.getId());
         // remove mapField keyed by partitionId
-        rec.setMapField(partitionId.stringify(), null);
+        rec.setMapField(partitionId.toString(), null);
         ZNRecordDelta delta = new ZNRecordDelta(rec, MergeOperation.SUBTRACT);
 
         List<ZNRecordDelta> deltaList = new ArrayList<ZNRecordDelta>();
         deltaList.add(delta);
         _currentStateDelta.setDeltaList(deltaList);
-        _stateModelFactory.removeStateModel(partitionId.stringify());
+        _stateModelFactory.removeStateModel(partitionId.toString());
       } else {
         // if the partition is not to be dropped, update _stateModel to the TO_STATE
         _stateModel.updateState(toState.toString());
@@ -246,8 +246,8 @@ public class HelixStateTransitionHandler extends MessageHandler {
     try {
       // Update the ZK current state of the node
       PropertyKey key =
-          keyBuilder.currentState(instanceName, sessionId.stringify(), resource.stringify(),
-              bucketizer.getBucketName(partitionId.stringify()));
+          keyBuilder.currentState(instanceName, sessionId.toString(), resource.toString(),
+              bucketizer.getBucketName(partitionId.toString()));
       if (_message.getAttribute(Attributes.PARENT_MSG_ID) == null) {
         // normal message
         accessor.updateProperty(key, _currentStateDelta);
@@ -256,7 +256,7 @@ public class HelixStateTransitionHandler extends MessageHandler {
         ConcurrentHashMap<String, CurrentStateUpdate> csUpdateMap =
             (ConcurrentHashMap<String, CurrentStateUpdate>) _notificationContext
                 .get(MapKey.CURRENT_STATE_UPDATE.toString());
-        csUpdateMap.put(partitionId.stringify(), new CurrentStateUpdate(key, _currentStateDelta));
+        csUpdateMap.put(partitionId.toString(), new CurrentStateUpdate(key, _currentStateDelta));
       }
     } catch (Exception e) {
       logger.error("Error when updating current-state ", e);
@@ -274,8 +274,8 @@ public class HelixStateTransitionHandler extends MessageHandler {
     PartitionId partitionId = _message.getPartitionId();
     String clusterName = _manager.getClusterName();
     HelixAdmin admin = _manager.getClusterManagmentTool();
-    admin.enablePartition(false, clusterName, instanceName, resourceId.stringify(),
-        Arrays.asList(partitionId.stringify()));
+    admin.enablePartition(false, clusterName, instanceName, resourceId.toString(),
+        Arrays.asList(partitionId.toString()));
     logger.info("error in transit from ERROR to " + _message.getTypedToState() + " for partition: "
         + partitionId + ". disable it on " + instanceName);
 
@@ -388,7 +388,7 @@ public class HelixStateTransitionHandler extends MessageHandler {
       // set current state to ERROR for the partition
       // if the transition is not canceled, it should go into error state
       if (code == ErrorCode.ERROR) {
-        CurrentState currentStateDelta = new CurrentState(resourceId.stringify());
+        CurrentState currentStateDelta = new CurrentState(resourceId.toString());
         currentStateDelta.setState(partition, State.from(HelixDefinedState.ERROR.toString()));
         _stateModel.updateState(HelixDefinedState.ERROR.toString());
 
@@ -398,7 +398,7 @@ public class HelixStateTransitionHandler extends MessageHandler {
           disablePartition();
         }
         accessor.updateProperty(keyBuilder.currentState(instanceName, _message
-            .getTypedTgtSessionId().stringify(), resourceId.stringify()), currentStateDelta);
+            .getTypedTgtSessionId().toString(), resourceId.toString()), currentStateDelta);
       }
     } finally {
       StateTransitionError error = new StateTransitionError(type, code, e);

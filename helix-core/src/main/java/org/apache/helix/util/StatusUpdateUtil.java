@@ -35,13 +35,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.model.Error;
+import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.StatusUpdate;
 import org.apache.log4j.Logger;
 
@@ -291,7 +291,7 @@ public class StatusUpdateUtil {
     contentMap.put("Message state", message.getMsgState().toString());
     contentMap.put("AdditionalInfo", additionalInfo);
     contentMap.put("Class", classInfo.toString());
-    contentMap.put("MSG_ID", message.getMessageId().stringify());
+    contentMap.put("MSG_ID", message.getMessageId().toString());
 
     DateFormat formatter = new SimpleDateFormat("yyyyMMdd-HHmmss.SSSSSS");
     String time = formatter.format(new Date());
@@ -386,7 +386,7 @@ public class StatusUpdateUtil {
     }
 
     PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
-    if (!_recordedMessages.containsKey(message.getMessageId().stringify())) {
+    if (!_recordedMessages.containsKey(message.getMessageId().toString())) {
       // TODO instanceName of a controller might be any string
       if (instanceName.equalsIgnoreCase("Controller")) {
         accessor.updateProperty(
@@ -396,7 +396,7 @@ public class StatusUpdateUtil {
       } else {
 
         PropertyKey propertyKey =
-            keyBuilder.stateTransitionStatus(instanceName, sessionId.stringify(),
+            keyBuilder.stateTransitionStatus(instanceName, sessionId.toString(),
                 statusUpdateSubPath, statusUpdateKey);
 
         ZNRecord statusUpdateRecord = createMessageLogRecord(message);
@@ -410,7 +410,7 @@ public class StatusUpdateUtil {
         accessor.updateProperty(propertyKey, new StatusUpdate(statusUpdateRecord));
 
       }
-      _recordedMessages.put(message.getMessageId().stringify(), message.getMessageId().stringify());
+      _recordedMessages.put(message.getMessageId().toString(), message.getMessageId().toString());
     }
 
     if (instanceName.equalsIgnoreCase("Controller")) {
@@ -420,8 +420,8 @@ public class StatusUpdateUtil {
     } else {
 
       PropertyKey propertyKey =
-          keyBuilder.stateTransitionStatus(instanceName, sessionId.stringify(),
-              statusUpdateSubPath, statusUpdateKey);
+          keyBuilder.stateTransitionStatus(instanceName, sessionId.toString(), statusUpdateSubPath,
+              statusUpdateKey);
       // For now write participant StatusUpdates to log4j.
       // we are using restlet as another data channel to report to controller.
       if (_logger.isTraceEnabled()) {
@@ -438,9 +438,9 @@ public class StatusUpdateUtil {
 
   private String getStatusUpdateKey(Message message) {
     if (message.getMsgType().equalsIgnoreCase(MessageType.STATE_TRANSITION.toString())) {
-      return message.getPartitionId().stringify();
+      return message.getPartitionId().toString();
     }
-    return message.getMessageId().stringify();
+    return message.getMessageId().toString();
   }
 
   /**
@@ -448,7 +448,7 @@ public class StatusUpdateUtil {
    */
   String getStatusUpdateSubPath(Message message) {
     if (message.getMsgType().equalsIgnoreCase(MessageType.STATE_TRANSITION.toString())) {
-      return message.getResourceId().stringify();
+      return message.getResourceId().toString();
     } else {
       return message.getMsgType();
     }
@@ -458,7 +458,7 @@ public class StatusUpdateUtil {
     if (message.getMsgType().equalsIgnoreCase(MessageType.STATE_TRANSITION.toString())) {
       return message.getTypedTgtSessionId() + "__" + message.getResourceId();
     }
-    return message.getMessageId().stringify();
+    return message.getMessageId().toString();
   }
 
   /**
@@ -498,7 +498,7 @@ public class StatusUpdateUtil {
       // sessionId,
       // statusUpdateSubPath,
       // statusUpdateKey);
-      accessor.updateProperty(keyBuilder.stateTransitionError(instanceName, sessionId.stringify(),
+      accessor.updateProperty(keyBuilder.stateTransitionError(instanceName, sessionId.toString(),
           statusUpdateSubPath, statusUpdateKey), new Error(record));
 
     }
