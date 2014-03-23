@@ -64,7 +64,7 @@ import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.store.zk.ZNode;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.util.ZKClientPool;
@@ -415,7 +415,7 @@ public class TestHelper {
     msg.setTgtName(tgtName);
     msg.setResourceId(ResourceId.from(resourceName));
     msg.setPartitionId(PartitionId.from(partitionName));
-    msg.setStateModelDef(StateModelDefId.from("MasterSlave"));
+    msg.setStateModelDef(StateModelDefinitionId.from("MasterSlave"));
 
     return msg;
   }

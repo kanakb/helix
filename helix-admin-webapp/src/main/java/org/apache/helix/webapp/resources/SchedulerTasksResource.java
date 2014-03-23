@@ -37,7 +37,7 @@ import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.ipc.id.SessionId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.webapp.RestAdminApplication;
 import org.apache.log4j.Logger;
@@ -143,7 +143,7 @@ public class SchedulerTasksResource extends ServerResource {
           ClusterRepresentationUtil.getFormJsonParameterString(form, TASKQUEUENAME);
       if (taskQueueName != null && taskQueueName.length() > 0) {
         schedulerMessage.getRecord().setSimpleField(
-            StateModelDefId.SCHEDULER_TASK_QUEUE.toString(), taskQueueName);
+            StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString(), taskQueueName);
       }
       accessor.setProperty(
           accessor.keyBuilder().controllerMessage(schedulerMessage.getMessageId().stringify()),

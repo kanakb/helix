@@ -29,7 +29,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
@@ -138,7 +138,7 @@ public class HelixCustomCodeRunner {
       idealState.setRebalanceMode(RebalanceMode.SEMI_AUTO);
       idealState.setReplicas(StateModelToken.ANY_LIVEINSTANCE.toString());
       idealState.setNumPartitions(1);
-      idealState.setStateModelDefId(StateModelDefId.from(LEADER_STANDBY));
+      idealState.setStateModelDefId(StateModelDefinitionId.from(LEADER_STANDBY));
       idealState.setStateModelFactoryId(StateModelFactoryId.from(_resourceName));
       List<String> prefList =
           new ArrayList<String>(Arrays.asList(StateModelToken.ANY_LIVEINSTANCE.toString()));

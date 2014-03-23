@@ -26,7 +26,7 @@ import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.ipc.id.SessionId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -76,7 +76,7 @@ public class TestId {
     Assert.assertEquals(ParticipantId.from(participantName).stringify(), participantName);
     Assert.assertEquals(SessionId.from(sessionName).stringify(), sessionName);
     Assert.assertEquals(ProcId.from(processName).stringify(), processName);
-    Assert.assertEquals(StateModelDefId.from(stateModelName).stringify(), stateModelName);
+    Assert.assertEquals(StateModelDefinitionId.from(stateModelName).stringify(), stateModelName);
     Assert.assertEquals(StateModelFactoryId.from(stateModelFactoryName).stringify(),
         stateModelFactoryName);
     Assert.assertEquals(MessageId.from(messageName).stringify(), messageName);
@@ -102,7 +102,7 @@ public class TestId {
     Assert.assertNull(ParticipantId.from(null));
     Assert.assertNull(SessionId.from(null));
     Assert.assertNull(ProcId.from(null));
-    Assert.assertNull(StateModelDefId.from(null));
+    Assert.assertNull(StateModelDefinitionId.from(null));
     Assert.assertNull(StateModelFactoryId.from(null));
     Assert.assertNull(MessageId.from(null));
   }

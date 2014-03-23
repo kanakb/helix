@@ -4,22 +4,22 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
-import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
-import org.apache.helix.model.ConstraintItem;
-import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.model.builder.ClusterConstraintsBuilder;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
+import org.apache.helix.api.model.constraint.ClusterConstraints;
+import org.apache.helix.api.model.constraint.ConstraintItem;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ConstraintId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
-import org.apache.helix.model.ClusterConstraints;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.ImmutableMap;
@@ -55,7 +55,7 @@ public class ClusterConfig {
   private final Map<ResourceId, ResourceConfig> _resourceMap;
   private final Map<ParticipantId, ParticipantConfiguration> _participantMap;
   private final Map<ConstraintType, ClusterConstraints> _constraintMap;
-  private final Map<StateModelDefId, StateModelDefinition> _stateModelMap;
+  private final Map<StateModelDefinitionId, StateModelDefinition> _stateModelMap;
   private final UserConfig _userConfig;
   private final boolean _isPaused;
   private final boolean _autoJoin;
@@ -74,7 +74,7 @@ public class ClusterConfig {
   public ClusterConfig(ClusterId id, Map<ResourceId, ResourceConfig> resourceMap,
       Map<ParticipantId, ParticipantConfiguration> participantMap,
       Map<ConstraintType, ClusterConstraints> constraintMap,
-      Map<StateModelDefId, StateModelDefinition> stateModelMap, UserConfig userConfig,
+      Map<StateModelDefinitionId, StateModelDefinition> stateModelMap, UserConfig userConfig,
       boolean isPaused, boolean allowAutoJoin) {
     _id = id;
     _resourceMap = ImmutableMap.copyOf(resourceMap);
@@ -117,7 +117,7 @@ public class ClusterConfig {
    * @param transition the constrained transition
    * @return the limit, or Integer.MAX_VALUE if there is no limit
    */
-  public int getTransitionConstraint(Scope<?> scope, StateModelDefId stateModelDefId,
+  public int getTransitionConstraint(Scope<?> scope, StateModelDefinitionId stateModelDefId,
       Transition transition) {
     // set up attributes to match based on the scope
     ClusterConstraints transitionConstraints =
@@ -170,7 +170,7 @@ public class ClusterConfig {
    * Get all the state model definitions on the cluster
    * @return map of state model definition id to state model definition
    */
-  public Map<StateModelDefId, StateModelDefinition> getStateModelMap() {
+  public Map<StateModelDefinitionId, StateModelDefinition> getStateModelMap() {
     return _stateModelMap;
   }
 
@@ -233,7 +233,7 @@ public class ClusterConfig {
      * @param maxInFlightTransitions number of allowed in-flight transitions in the scope
      * @return Delta
      */
-    public Delta addTransitionConstraint(Scope<?> scope, StateModelDefId stateModelDefId,
+    public Delta addTransitionConstraint(Scope<?> scope, StateModelDefinitionId stateModelDefId,
         Transition transition, int maxInFlightTransitions) {
       _builder.addTransitionConstraint(scope, stateModelDefId, transition, maxInFlightTransitions);
       return this;
@@ -246,7 +246,7 @@ public class ClusterConfig {
      * @param transition the transition to constrain
      * @return Delta
      */
-    public Delta removeTransitionConstraint(Scope<?> scope, StateModelDefId stateModelDefId,
+    public Delta removeTransitionConstraint(Scope<?> scope, StateModelDefinitionId stateModelDefId,
         Transition transition) {
       _removedConstraints.get(ConstraintType.MESSAGE_CONSTRAINT).add(
           ConstraintId.from(scope, stateModelDefId, transition));

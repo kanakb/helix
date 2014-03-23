@@ -40,7 +40,7 @@ import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.tools.ClusterSetup;
 import org.testng.AssertJUnit;
@@ -162,7 +162,7 @@ public class TestZKCallback extends ZkUnitTestBase {
     IdealState idealState = new IdealState("db-1234");
     idealState.setNumPartitions(400);
     idealState.setReplicas(Integer.toString(2));
-    idealState.setStateModelDefId(StateModelDefId.from("StateModeldef"));
+    idealState.setStateModelDefId(StateModelDefinitionId.from("StateModeldef"));
     accessor.setProperty(keyBuilder.idealStates("db-1234"), idealState);
     Thread.sleep(100);
     AssertJUnit.assertTrue(testListener.idealStateChangeReceived);
@@ -185,7 +185,7 @@ public class TestZKCallback extends ZkUnitTestBase {
     message.setTgtSessionId(SessionId.from("*"));
     message.setResourceId(ResourceId.from("testResource"));
     message.setPartitionId(PartitionId.from("testPartitionKey"));
-    message.setStateModelDef(StateModelDefId.from("MasterSlave"));
+    message.setStateModelDef(StateModelDefinitionId.from("MasterSlave"));
     message.setToState(State.from("toState"));
     message.setFromState(State.from("fromState"));
     message.setTgtName("testTarget");

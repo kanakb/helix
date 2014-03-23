@@ -12,7 +12,7 @@ import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
 import org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -48,7 +48,7 @@ public class StateModelDefinitionBuilder {
    * Start building a state model with a id
    * @param stateModelDefId state model id
    */
-  public StateModelDefinitionBuilder(StateModelDefId stateModelDefId) {
+  public StateModelDefinitionBuilder(StateModelDefinitionId stateModelDefId) {
     this._statemodelName = stateModelDefId.stringify();
     statesMap = new HashMap<String, Integer>();
     transitionMap = new HashMap<Transition, Integer>();
@@ -60,7 +60,7 @@ public class StateModelDefinitionBuilder {
    * @param stateModelDefId state model name
    */
   public StateModelDefinitionBuilder(String stateModelName) {
-    this(StateModelDefId.from(stateModelName));
+    this(StateModelDefinitionId.from(stateModelName));
   }
 
   /**

@@ -23,9 +23,9 @@ import java.util.Map;
 
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZkClient;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.webapp.RestAdminApplication;
 import org.apache.log4j.Logger;

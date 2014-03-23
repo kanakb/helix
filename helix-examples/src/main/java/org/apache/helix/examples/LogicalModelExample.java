@@ -24,7 +24,7 @@ import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.rebalancer.config.FullAutoRebalancerConfig;
@@ -222,7 +222,7 @@ public class LogicalModelExample {
     final State LOCKED = State.from("LOCKED");
     final State RELEASED = State.from("RELEASED");
     final State DROPPED = State.from("DROPPED");
-    StateModelDefId stateModelId = StateModelDefId.from("LockUnlock");
+    StateModelDefinitionId stateModelId = StateModelDefinitionId.from("LockUnlock");
     StateModelDefinitionBuilder stateModelBuilder =
         new StateModelDefinitionBuilder(stateModelId).addState(LOCKED, 0).addState(RELEASED, 1)
             .addState(DROPPED, 2).addTransition(RELEASED, LOCKED, 0)

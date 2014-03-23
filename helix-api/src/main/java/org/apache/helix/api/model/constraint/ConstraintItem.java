@@ -1,4 +1,4 @@
-package org.apache.helix.model;
+package org.apache.helix.api.model.constraint;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,8 +22,7 @@ package org.apache.helix.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
-import org.apache.helix.model.builder.ConstraintItemBuilder;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
 import org.apache.log4j.Logger;
 
 /**

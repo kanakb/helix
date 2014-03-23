@@ -56,7 +56,7 @@ import org.apache.helix.api.model.id.Id;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.participant.HelixStateMachineEngine;
 import org.apache.helix.participant.StateMachineEngine;
@@ -360,7 +360,7 @@ public class ZkHelixParticipant implements HelixParticipant, HelixConnectionStat
 
     ScheduledTaskStateModelFactory stStateModelFactory =
         new ScheduledTaskStateModelFactory(_messagingService.getExecutor());
-    _stateMachineEngine.registerStateModelFactory(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+    _stateMachineEngine.registerStateModelFactory(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString(),
         stStateModelFactory);
     _messagingService.onConnected();
   }

@@ -29,7 +29,7 @@ import org.apache.helix.TestHelper;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
@@ -82,7 +82,7 @@ public class TestCorrectnessOnConnectivityLoss {
         HelixManagerFactory.getZKHelixManager(_clusterName, "localhost_12918",
             MemberRole.PARTICIPANT, ZK_ADDR);
     participant.getStateMachineEngine().registerStateModelFactory(
-        StateModelDefId.from("OnlineOffline"), new MyStateModelFactory(stateReachedCounts));
+        StateModelDefinitionId.from("OnlineOffline"), new MyStateModelFactory(stateReachedCounts));
     participant.connect();
 
     Thread.sleep(1000);
@@ -116,7 +116,7 @@ public class TestCorrectnessOnConnectivityLoss {
         HelixManagerFactory.getZKHelixManager(_clusterName, "localhost_12918",
             MemberRole.PARTICIPANT, ZK_ADDR);
     participant.getStateMachineEngine().registerStateModelFactory(
-        StateModelDefId.from("OnlineOffline"), new MyStateModelFactory(stateReachedCounts));
+        StateModelDefinitionId.from("OnlineOffline"), new MyStateModelFactory(stateReachedCounts));
     participant.connect();
 
     RoutingTableProvider routingTableProvider = new RoutingTableProvider();

@@ -35,7 +35,7 @@ import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.participant.statemachine.StateModelFactory;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.testng.AssertJUnit;
@@ -57,7 +57,7 @@ public class TestHelixTaskExecutor {
     message.setToState(State.from("Slave"));
     message.setPartitionId(PartitionId.from("TestDB_0"));
     message.setResourceId(ResourceId.from("TestDB"));
-    message.setStateModelDef(StateModelDefId.from("MasterSlave"));
+    message.setStateModelDef(StateModelDefinitionId.from("MasterSlave"));
 
     MockManager manager = new MockManager("clusterName");
     HelixDataAccessor accessor = manager.getHelixDataAccessor();

@@ -35,7 +35,7 @@ import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 
 import com.google.common.collect.Lists;
@@ -610,15 +610,15 @@ public class Message extends HelixProperty {
    * Get the state model definition id
    * @return a reference to the state model definition
    */
-  public StateModelDefId getStateModelDefId() {
-    return StateModelDefId.from(getStateModelDef());
+  public StateModelDefinitionId getStateModelDefId() {
+    return StateModelDefinitionId.from(getStateModelDef());
   }
 
   /**
    * Set the state model definition
    * @param stateModelDefName a reference to the state model definition, e.g. "MasterSlave"
    */
-  public void setStateModelDef(StateModelDefId stateModelDefId) {
+  public void setStateModelDef(StateModelDefinitionId stateModelDefId) {
     if (stateModelDefId != null) {
       setStateModelDef(stateModelDefId.stringify());
     }

@@ -26,7 +26,7 @@ import java.util.TreeMap;
 
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 
 import com.google.common.collect.ImmutableList;
 
@@ -137,8 +137,8 @@ public class StateModelDefinition extends HelixProperty {
    * Get a concrete state model definition id
    * @return StateModelDefId
    */
-  public StateModelDefId getStateModelDefId() {
-    return StateModelDefId.from(getId());
+  public StateModelDefinitionId getStateModelDefId() {
+    return StateModelDefinitionId.from(getId());
   }
 
   /**

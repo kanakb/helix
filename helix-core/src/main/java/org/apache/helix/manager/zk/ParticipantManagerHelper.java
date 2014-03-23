@@ -37,7 +37,7 @@ import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.messaging.DefaultMessagingService;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.InstanceConfig;
@@ -274,7 +274,7 @@ public class ParticipantManagerHelper {
 
     ScheduledTaskStateModelFactory stStateModelFactory =
         new ScheduledTaskStateModelFactory(_messagingService.getExecutor());
-    _stateMachineEngine.registerStateModelFactory(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+    _stateMachineEngine.registerStateModelFactory(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString(),
         stStateModelFactory);
     _messagingService.onConnected();
 

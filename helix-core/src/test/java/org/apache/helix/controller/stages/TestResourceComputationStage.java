@@ -31,7 +31,7 @@ import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.controller.pipeline.StageContext;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
 import org.apache.helix.model.CurrentState;
@@ -61,7 +61,7 @@ public class TestResourceComputationStage extends BaseStageTest {
         DefaultTwoStateStrategy.calculateIdealState(instances, partitions, replicas, resourceName,
             "MASTER", "SLAVE");
     IdealState idealState = new IdealState(record);
-    idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
+    idealState.setStateModelDefId(StateModelDefinitionId.from("MasterSlave"));
 
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
     PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
@@ -130,7 +130,7 @@ public class TestResourceComputationStage extends BaseStageTest {
           DefaultTwoStateStrategy.calculateIdealState(instances, partitions, replicas,
               resourceName, "MASTER", "SLAVE");
       IdealState idealState = new IdealState(record);
-      idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
+      idealState.setStateModelDefId(StateModelDefinitionId.from("MasterSlave"));
 
       HelixDataAccessor accessor = manager.getHelixDataAccessor();
       PropertyKeyBuilder keyBuilder = accessor.keyBuilder();

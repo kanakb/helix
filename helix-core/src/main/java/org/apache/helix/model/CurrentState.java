@@ -30,7 +30,7 @@ import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.log4j.Logger;
 
 /**
@@ -200,7 +200,7 @@ public class CurrentState extends HelixProperty {
    * Set the state model that the resource follows
    * @param stateModelName an identifier of the state model
    */
-  public void setStateModelDefId(StateModelDefId stateModelId) {
+  public void setStateModelDefId(StateModelDefinitionId stateModelId) {
     _record.setSimpleField(CurrentStateProperty.STATE_MODEL_DEF.toString(),
         stateModelId.stringify());
   }
@@ -209,8 +209,8 @@ public class CurrentState extends HelixProperty {
    * Get the state model that the resource follows
    * @return an identifier of the state model
    */
-  public StateModelDefId getStateModelDefId() {
-    return StateModelDefId.from(getStateModelDefRef());
+  public StateModelDefinitionId getStateModelDefId() {
+    return StateModelDefinitionId.from(getStateModelDefRef());
   }
 
   /**

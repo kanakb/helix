@@ -23,7 +23,7 @@ import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixException;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.ResourceId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.model.IdealState;
 
@@ -112,7 +112,7 @@ public abstract class IdealStateBuilder {
    * Set the state model definition to use with this ideal state
    * @param stateModelDefId state model identifier
    */
-  public IdealStateBuilder setStateModelDefId(StateModelDefId stateModelDefId) {
+  public IdealStateBuilder setStateModelDefId(StateModelDefinitionId stateModelDefId) {
     this.stateModel = stateModelDefId.stringify();
     return this;
   }
@@ -157,7 +157,7 @@ public abstract class IdealStateBuilder {
     IdealState idealstate = new IdealState(_record);
     idealstate.setNumPartitions(numPartitions);
     idealstate.setMaxPartitionsPerInstance(maxPartitionsPerNode);
-    idealstate.setStateModelDefId(StateModelDefId.from(stateModel));
+    idealstate.setStateModelDefId(StateModelDefinitionId.from(stateModel));
     idealstate.setStateModelFactoryId(StateModelFactoryId.from(stateModelFactoryName));
     idealstate.setRebalanceMode(rebalancerMode);
     idealstate.setReplicas("" + numReplica);

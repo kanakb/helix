@@ -37,7 +37,7 @@ import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 
 /**
  * For each LiveInstances select currentState and message whose sessionId matches
@@ -113,7 +113,7 @@ public class CurrentStateComputationStage extends AbstractBaseStage {
         }
 
         ResourceId resourceId = curState.getResourceId();
-        StateModelDefId stateModelDefId = curState.getStateModelDefId();
+        StateModelDefinitionId stateModelDefId = curState.getStateModelDefId();
         ResourceConfig resource = resourceMap.get(resourceId);
         if (resource == null) {
           continue;

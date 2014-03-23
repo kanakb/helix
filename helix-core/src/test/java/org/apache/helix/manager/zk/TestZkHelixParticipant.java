@@ -30,7 +30,7 @@ import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.ParticipantId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.integration.TestHelixConnection;
 import org.testng.Assert;
@@ -70,7 +70,7 @@ public class TestZkHelixParticipant extends ZkUnitTestBase {
 
       participants[i] = connection.createParticipant(clusterId, participantId);
       participants[i].getStateMachineEngine().registerStateModelFactory(
-        StateModelDefId.from("MasterSlave"), new TestHelixConnection.MockStateModelFactory());
+        StateModelDefinitionId.from("MasterSlave"), new TestHelixConnection.MockStateModelFactory());
 
       participants[i].start();
     }

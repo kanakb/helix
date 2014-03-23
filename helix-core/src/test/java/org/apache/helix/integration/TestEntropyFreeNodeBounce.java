@@ -31,7 +31,7 @@ import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
@@ -132,7 +132,7 @@ public class TestEntropyFreeNodeBounce extends ZkUnitTestBase {
     HelixManager participant =
         new ZKHelixManager(clusterName, instanceName, MemberRole.PARTICIPANT, ZK_ADDR);
     participant.getStateMachineEngine().registerStateModelFactory(
-        StateModelDefId.from("OnlineOffline"), new TestHelixConnection.MockStateModelFactory());
+        StateModelDefinitionId.from("OnlineOffline"), new TestHelixConnection.MockStateModelFactory());
     return participant;
   }
 

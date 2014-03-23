@@ -36,16 +36,17 @@ import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.StatsHolder;
 import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.id.ContextId;
 import org.apache.helix.api.model.configuration.ClusterConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.model.ClusterConstraints;
 import org.apache.helix.api.model.configuration.ResourceConfiguration;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
+import org.apache.helix.api.model.constraint.ClusterConstraints;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ConstraintId;
 import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
@@ -53,9 +54,8 @@ import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Controller;
 import org.apache.helix.api.snapshot.Participant;
@@ -123,7 +123,7 @@ public class ClusterAccessor {
     }
     clearClusterStructure();
     initClusterStructure();
-    Map<StateModelDefId, StateModelDefinition> stateModelDefs = cluster.getStateModelMap();
+    Map<StateModelDefinitionId, StateModelDefinition> stateModelDefs = cluster.getStateModelMap();
     for (StateModelDefinition stateModelDef : stateModelDefs.values()) {
       addStateModelDefinitionToCluster((StateModelDefinition) stateModelDef);
     }
@@ -269,7 +269,7 @@ public class ClusterAccessor {
     }
 
     // read the state model definitions
-    Map<StateModelDefId, StateModelDefinition> stateModelMap = readStateModelDefinitions(true);
+    Map<StateModelDefinitionId, StateModelDefinition> stateModelMap = readStateModelDefinitions(true);
 
     // read controller context
     Map<ContextId, ControllerContext> contextMap = readControllerContext(true);
@@ -283,7 +283,7 @@ public class ClusterAccessor {
    * Get all the state model definitions for this cluster
    * @return map of state model def id to state model definition
    */
-  public Map<StateModelDefId, StateModelDefinition> readStateModelDefinitions() {
+  public Map<StateModelDefinitionId, StateModelDefinition> readStateModelDefinitions() {
     return readStateModelDefinitions(false);
   }
 
@@ -292,8 +292,8 @@ public class ClusterAccessor {
    * @param useCache Use the ClusterDataCache associated with this class rather than reading again
    * @return map of state model def id to state model definition
    */
-  private Map<StateModelDefId, StateModelDefinition> readStateModelDefinitions(boolean useCache) {
-    Map<StateModelDefId, StateModelDefinition> stateModelDefs = Maps.newHashMap();
+  private Map<StateModelDefinitionId, StateModelDefinition> readStateModelDefinitions(boolean useCache) {
+    Map<StateModelDefinitionId, StateModelDefinition> stateModelDefs = Maps.newHashMap();
     Collection<StateModelDefinition> stateModelList;
     if (useCache) {
       stateModelList = _cache.getStateModelDefMap().values();
@@ -738,7 +738,7 @@ public class ClusterAccessor {
       return false;
     }
     RebalancerConfiguration config = resource.getRebalancerConfig();
-    StateModelDefId stateModelDefId = config.getStateModelDefId();
+    StateModelDefinitionId stateModelDefId = config.getStateModelDefId();
     if (_accessor.getProperty(_keyBuilder.stateModelDef(stateModelDefId.stringify())) == null) {
       LOG.error("State model: " + stateModelDefId + " not found in cluster: " + _clusterId);
       return false;
@@ -917,7 +917,7 @@ public class ClusterAccessor {
    * @param stateModelDefId state model definition id
    * @return true if removed, false if it did not exist
    */
-  public boolean dropStateModelDefinitionFromCluster(StateModelDefId stateModelDefId) {
+  public boolean dropStateModelDefinitionFromCluster(StateModelDefinitionId stateModelDefId) {
     return _accessor.removeProperty(_keyBuilder.stateModelDef(stateModelDefId.stringify()));
   }
 

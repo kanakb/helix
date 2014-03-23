@@ -5,23 +5,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.helix.api.config.ClusterConfig;
-import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ConstraintItem;
-import org.apache.helix.model.builder.ConstraintItemBuilder;
 import org.apache.helix.api.config.ResourceConfig;
-import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
+import org.apache.helix.api.model.constraint.ClusterConstraints;
+import org.apache.helix.api.model.constraint.ConstraintItem;
+import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.id.ClusterId;
+import org.apache.helix.api.model.id.ConstraintId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
-import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.Maps;
@@ -54,7 +54,7 @@ public class ClusterConfigBuilder {
   private Map<ResourceId, ResourceConfig> _resourceMap;
   private Map<ParticipantId, ParticipantConfiguration> _participantMap;
   private Map<ConstraintType, ClusterConstraints> _constraintMap;
-  private Map<StateModelDefId, StateModelDefinition> _stateModelMap;
+  private Map<StateModelDefinitionId, StateModelDefinition> _stateModelMap;
   private UserConfig _userConfig;
   private boolean _isPaused;
   private boolean _autoJoin;
@@ -77,7 +77,7 @@ public class ClusterConfigBuilder {
     _resourceMap = new HashMap<ResourceId, ResourceConfig>();
     _participantMap = new HashMap<ParticipantId, ParticipantConfiguration>();
     _constraintMap = new HashMap<ConstraintType, ClusterConstraints>();
-    _stateModelMap = new HashMap<StateModelDefId, StateModelDefinition>();
+    _stateModelMap = new HashMap<StateModelDefinitionId, StateModelDefinition>();
     _isPaused = false;
     _autoJoin = false;
     _userConfig = new UserConfig(Scope.cluster(id));
@@ -178,7 +178,7 @@ public class ClusterConfigBuilder {
    * @return Builder
    */
   public ClusterConfigBuilder addTransitionConstraint(Scope<?> scope,
-      StateModelDefId stateModelDefId, Transition transition, int maxInFlightTransitions) {
+      StateModelDefinitionId stateModelDefId, Transition transition, int maxInFlightTransitions) {
     Map<String, String> attributes = Maps.newHashMap();
     attributes.put(ConstraintAttribute.MESSAGE_TYPE.toString(),
         MessageType.STATE_TRANSITION.toString());

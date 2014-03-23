@@ -29,7 +29,7 @@ import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
@@ -83,7 +83,7 @@ public class TestInvalidAutoIdealState extends ZkUnitTestBase {
     idealState.setRebalanceMode(RebalanceMode.SEMI_AUTO);
     idealState.setNumPartitions(2);
     idealState.setReplicas("" + 2); // should be 3
-    idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
+    idealState.setStateModelDefId(StateModelDefinitionId.from("MasterSlave"));
     idealState.getRecord().setListField("TestDB_0",
         Arrays.asList("localhost_12918", "localhost_12919", "localhost_12920"));
     idealState.getRecord().setListField("TestDB_1",

@@ -55,7 +55,7 @@ import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.apache.helix.tools.ClusterStateVerifier.ZkVerifier;
 import org.apache.helix.util.HelixUtil;
@@ -300,7 +300,7 @@ public class ZkUnitTestBase {
       }
 
       idealState.setReplicas(Integer.toString(replicas));
-      idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
+      idealState.setStateModelDefId(StateModelDefinitionId.from("MasterSlave"));
       idealState.setRebalanceMode(RebalanceMode.SEMI_AUTO);
       idealState.setNumPartitions(partitions);
       idealStates.add(idealState);

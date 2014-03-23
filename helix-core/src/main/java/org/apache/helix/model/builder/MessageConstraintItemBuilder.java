@@ -1,7 +1,8 @@
 package org.apache.helix.model.builder;
 
-import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
-import org.apache.helix.model.ConstraintItem;
+import org.apache.helix.api.model.constraint.ConstraintItem;
+import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;

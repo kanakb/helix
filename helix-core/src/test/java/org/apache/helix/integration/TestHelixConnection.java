@@ -42,7 +42,7 @@ import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.api.role.SingleClusterController;
@@ -108,7 +108,7 @@ public class TestHelixConnection extends ZkUnitTestBase {
     State slave = State.from("SLAVE");
     State offline = State.from("OFFLINE");
     State dropped = State.from("DROPPED");
-    StateModelDefId stateModelDefId = StateModelDefId.from("MasterSlave");
+    StateModelDefinitionId stateModelDefId = StateModelDefinitionId.from("MasterSlave");
 
     // create connection
     HelixConnection connection = new ZkHelixConnection(zkAddr);
@@ -141,7 +141,7 @@ public class TestHelixConnection extends ZkUnitTestBase {
     // start participant
     HelixParticipant participant = connection.createParticipant(clusterId, participantId);
     participant.getStateMachineEngine().registerStateModelFactory(
-        StateModelDefId.from("MasterSlave"), new MockStateModelFactory());
+        StateModelDefinitionId.from("MasterSlave"), new MockStateModelFactory());
 
     participant.start();
     Thread.sleep(1000);

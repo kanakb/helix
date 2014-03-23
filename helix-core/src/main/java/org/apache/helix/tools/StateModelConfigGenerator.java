@@ -28,7 +28,7 @@ import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.Transition;
 import org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.model.builder.StateTransitionTableBuilder;
 import org.apache.helix.task.TaskConstants;
@@ -300,7 +300,7 @@ public class StateModelConfigGenerator {
   }
 
   public static ZNRecord generateConfigForScheduledTaskQueue() {
-    ZNRecord record = new ZNRecord(StateModelDefId.SCHEDULER_TASK_QUEUE.toString());
+    ZNRecord record = new ZNRecord(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString());
     record.setSimpleField(StateModelDefinitionProperty.INITIAL_STATE.toString(), "OFFLINE");
     List<String> statePriorityList = new ArrayList<String>();
     statePriorityList.add("COMPLETED");

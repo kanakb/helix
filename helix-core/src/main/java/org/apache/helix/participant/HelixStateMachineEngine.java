@@ -39,7 +39,7 @@ import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.messaging.handling.BatchMessageHandler;
 import org.apache.helix.messaging.handling.BatchMessageWrapper;
@@ -176,7 +176,7 @@ public class HelixStateMachineEngine implements StateMachineEngine {
     }
 
     PartitionId partitionKey = message.getPartitionId();
-    StateModelDefId stateModelId = message.getStateModelDefId();
+    StateModelDefinitionId stateModelId = message.getStateModelDefId();
     ResourceId resourceId = message.getResourceId();
     SessionId sessionId = message.getTypedTgtSessionId();
     int bucketSize = message.getBucketSize();
@@ -272,14 +272,14 @@ public class HelixStateMachineEngine implements StateMachineEngine {
   }
 
   @Override
-  public boolean registerStateModelFactory(StateModelDefId stateModelDefId,
+  public boolean registerStateModelFactory(StateModelDefinitionId stateModelDefId,
       HelixStateModelFactory<? extends StateModel> factory) {
     return registerStateModelFactory(stateModelDefId,
         StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY, factory);
   }
 
   @Override
-  public boolean registerStateModelFactory(StateModelDefId stateModelDefId, String factoryName,
+  public boolean registerStateModelFactory(StateModelDefinitionId stateModelDefId, String factoryName,
       HelixStateModelFactory<? extends StateModel> factory) {
     if (stateModelDefId == null || factoryName == null || factory == null) {
       LOG.info("stateModelDefId|factoryName|stateModelFactory is null");
@@ -311,12 +311,12 @@ public class HelixStateMachineEngine implements StateMachineEngine {
   }
 
   @Override
-  public boolean removeStateModelFactory(StateModelDefId stateModelDefId) {
+  public boolean removeStateModelFactory(StateModelDefinitionId stateModelDefId) {
     return removeStateModelFactory(stateModelDefId, StateModelFactoryId.DEFAULT_STATE_MODEL_FACTORY);
   }
 
   @Override
-  public boolean removeStateModelFactory(StateModelDefId stateModelDefId, String factoryName) {
+  public boolean removeStateModelFactory(StateModelDefinitionId stateModelDefId, String factoryName) {
     if (stateModelDefId == null || factoryName == null) {
       LOG.info("stateModelDefId|factoryName is null");
       return false;

@@ -49,7 +49,7 @@ import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StatusUpdate;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.monitoring.mbeans.ClusterStatusMonitor;
 import org.apache.log4j.Logger;
@@ -122,9 +122,9 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
       if (clusterStatusMonitor != null && currentResource != null) {
         IdealState idealState = currentResource.getIdealState();
         if (idealState != null) {
-          StateModelDefId stateModelDefId = idealState.getStateModelDefId();
+          StateModelDefinitionId stateModelDefId = idealState.getStateModelDefId();
           if (stateModelDefId != null
-              && !stateModelDefId.equals(StateModelDefId.SCHEDULER_TASK_QUEUE)) {
+              && !stateModelDefId.equals(StateModelDefinitionId.SCHEDULER_TASK_QUEUE)) {
             clusterStatusMonitor.onExternalViewChange(view, idealState);
           }
         }
@@ -144,7 +144,7 @@ public class ExternalViewComputeStage extends AbstractBaseStage {
         if (rebalancerConfig != null
             && rebalancerConfig.getStateModelDefId() != null
             && rebalancerConfig.getStateModelDefId().equalsIgnoreCase(
-                StateModelDefId.SCHEDULER_TASK_QUEUE)) {
+                StateModelDefinitionId.SCHEDULER_TASK_QUEUE)) {
           updateScheduledTaskStatus(resourceId, view, manager, schedulerTaskConfig);
         }
       }

@@ -37,7 +37,7 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.Stage;
@@ -98,7 +98,7 @@ public class BaseStageTest {
         record.setListField(resourceName + "_" + p, value);
       }
       IdealState idealState = new IdealState(record);
-      idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
+      idealState.setStateModelDefId(StateModelDefinitionId.from("MasterSlave"));
       idealState.setRebalanceMode(rebalanceMode);
       idealState.setNumPartitions(partitions);
       idealStates.add(idealState);
@@ -141,24 +141,24 @@ public class BaseStageTest {
     stage.postProcess();
   }
 
-  protected Map<StateModelDefId, StateModelDefinition> setupStateModel() {
+  protected Map<StateModelDefinitionId, StateModelDefinition> setupStateModel() {
     PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
-    Map<StateModelDefId, StateModelDefinition> defs =
-        new HashMap<StateModelDefId, StateModelDefinition>();
+    Map<StateModelDefinitionId, StateModelDefinition> defs =
+        new HashMap<StateModelDefinitionId, StateModelDefinition>();
 
     ZNRecord masterSlave = StateModelConfigGenerator.generateConfigForMasterSlave();
     StateModelDefinition masterSlaveDef = new StateModelDefinition(masterSlave);
-    defs.put(StateModelDefId.from(masterSlaveDef.getId()), masterSlaveDef);
+    defs.put(StateModelDefinitionId.from(masterSlaveDef.getId()), masterSlaveDef);
     accessor.setProperty(keyBuilder.stateModelDef(masterSlave.getId()), masterSlaveDef);
 
     ZNRecord leaderStandby = StateModelConfigGenerator.generateConfigForLeaderStandby();
     StateModelDefinition leaderStandbyDef = new StateModelDefinition(leaderStandby);
-    defs.put(StateModelDefId.from(leaderStandbyDef.getId()), leaderStandbyDef);
+    defs.put(StateModelDefinitionId.from(leaderStandbyDef.getId()), leaderStandbyDef);
     accessor.setProperty(keyBuilder.stateModelDef(leaderStandby.getId()), leaderStandbyDef);
 
     ZNRecord onlineOffline = StateModelConfigGenerator.generateConfigForOnlineOffline();
     StateModelDefinition onlineOfflineDef = new StateModelDefinition(onlineOffline);
-    defs.put(StateModelDefId.from(onlineOfflineDef.getId()), onlineOfflineDef);
+    defs.put(StateModelDefinitionId.from(onlineOfflineDef.getId()), onlineOfflineDef);
     accessor.setProperty(keyBuilder.stateModelDef(onlineOffline.getId()), onlineOfflineDef);
 
     return defs;

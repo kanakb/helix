@@ -22,8 +22,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * specific language governing permissions and limitations
  * under the License.
  */
-public final class StateModelDefId extends Id {
-  public static final StateModelDefId SCHEDULER_TASK_QUEUE = StateModelDefId
+public final class StateModelDefinitionId extends Id {
+  public static final StateModelDefinitionId SCHEDULER_TASK_QUEUE = StateModelDefinitionId
       .from("SchedulerTaskQueue");
   @JsonProperty("id")
   private final String _id;
@@ -33,7 +33,7 @@ public final class StateModelDefId extends Id {
    * @param id string representing a state model definition id
    */
   @JsonCreator
-  private StateModelDefId(@JsonProperty("id") String id) {
+  private StateModelDefinitionId(@JsonProperty("id") String id) {
     _id = id;
   }
 
@@ -47,7 +47,7 @@ public final class StateModelDefId extends Id {
    * @param that the StateModelDefId to compare
    * @return true if equal ignoring case, false otherwise
    */
-  public boolean equalsIgnoreCase(StateModelDefId that) {
+  public boolean equalsIgnoreCase(StateModelDefinitionId that) {
     return _id.equalsIgnoreCase(that._id);
   }
 
@@ -56,10 +56,10 @@ public final class StateModelDefId extends Id {
    * @param stateModelDefId string state model identifier
    * @return StateModelDefId
    */
-  public static StateModelDefId from(String stateModelDefId) {
+  public static StateModelDefinitionId from(String stateModelDefId) {
     if (stateModelDefId == null) {
       return null;
     }
-    return new StateModelDefId(stateModelDefId);
+    return new StateModelDefinitionId(stateModelDefId);
   }
 }

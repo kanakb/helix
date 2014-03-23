@@ -1,4 +1,4 @@
-package org.apache.helix.model.builder;
+package org.apache.helix.api.model.constraint;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,9 +22,8 @@ package org.apache.helix.model.builder;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.helix.model.ClusterConstraints.ConstraintAttribute;
-import org.apache.helix.model.ClusterConstraints.ConstraintValue;
-import org.apache.helix.model.ConstraintItem;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintValue;
 import org.apache.log4j.Logger;
 
 public class ConstraintItemBuilder {

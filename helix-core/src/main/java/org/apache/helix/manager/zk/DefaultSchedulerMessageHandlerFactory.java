@@ -48,7 +48,7 @@ import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StatusUpdate;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.util.StatusUpdateUtil;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -173,15 +173,15 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
       // task throttling can be done on SCHEDULER_TASK_QUEUE resource
       if (messages.size() > 0) {
         String taskQueueName =
-            _message.getRecord().getSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString());
+            _message.getRecord().getSimpleField(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString());
         if (taskQueueName == null) {
           throw new HelixException("SchedulerTaskMessage need to have "
-              + StateModelDefId.SCHEDULER_TASK_QUEUE.toString() + " specified.");
+              + StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString() + " specified.");
         }
         IdealState newAddedScheduledTasks = new IdealState(taskQueueName);
         newAddedScheduledTasks.setBucketSize(TASKQUEUE_BUCKET_NUM);
-        newAddedScheduledTasks.setStateModelDefId(StateModelDefId
-            .from(StateModelDefId.SCHEDULER_TASK_QUEUE.toString()));
+        newAddedScheduledTasks.setStateModelDefId(StateModelDefinitionId
+            .from(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString()));
 
         synchronized (_manager) {
           int existingTopPartitionId = 0;
@@ -297,7 +297,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MessageHandlerFact
       }
       boolean hasSchedulerTaskQueue =
           _message.getRecord().getSimpleFields()
-              .containsKey(StateModelDefId.SCHEDULER_TASK_QUEUE.toString());
+              .containsKey(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString());
       // If the target is PARTICIPANT, use the ScheduledTaskQueue
       if (MemberRole.PARTICIPANT == recipientCriteria.getRecipientInstanceType()
           && hasSchedulerTaskQueue) {

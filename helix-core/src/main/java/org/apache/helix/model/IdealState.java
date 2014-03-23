@@ -39,7 +39,7 @@ import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
@@ -527,8 +527,8 @@ public class IdealState extends HelixProperty {
    * Get the state model associated with this resource
    * @return an identifier of the state model
    */
-  public StateModelDefId getStateModelDefId() {
-    return StateModelDefId.from(getStateModelDefRef());
+  public StateModelDefinitionId getStateModelDefId() {
+    return StateModelDefinitionId.from(getStateModelDefRef());
   }
 
   /**
@@ -543,7 +543,7 @@ public class IdealState extends HelixProperty {
    * Set the state model associated with this resource
    * @param stateModel state model identifier
    */
-  public void setStateModelDefId(StateModelDefId stateModelDefId) {
+  public void setStateModelDefId(StateModelDefinitionId stateModelDefId) {
     setStateModelDefRef(stateModelDefId.stringify());
   }
 

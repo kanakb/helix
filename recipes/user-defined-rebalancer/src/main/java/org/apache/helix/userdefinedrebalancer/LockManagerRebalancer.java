@@ -29,7 +29,7 @@ import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
@@ -68,7 +68,7 @@ public class LockManagerRebalancer implements HelixRebalancer {
         new ArrayList<ParticipantId>(cluster.getLiveParticipantMap().keySet());
 
     // Get the state model (should be a simple lock/unlock model) and the highest-priority state
-    StateModelDefId stateModelDefId = config.getStateModelDefId();
+    StateModelDefinitionId stateModelDefId = config.getStateModelDefId();
     StateModelDefinition stateModelDef = cluster.getStateModelMap().get(stateModelDefId);
     if (stateModelDef.getStatesPriorityList().size() < 1) {
       LOG.error("Invalid state model definition. There should be at least one state.");

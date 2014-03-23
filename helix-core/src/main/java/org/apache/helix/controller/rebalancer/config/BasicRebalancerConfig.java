@@ -31,7 +31,7 @@ import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
@@ -60,7 +60,7 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements
   }
 
   @Override
-  public StateModelDefId getStateModelDefId() {
+  public StateModelDefinitionId getStateModelDefId() {
     return _idealState.getStateModelDefId();
   }
 
@@ -221,7 +221,7 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements
    */
   public static abstract class AbstractBuilder<T extends AbstractBuilder<T>> {
     private ResourceId _resourceId;
-    private StateModelDefId _stateModelDefId;
+    private StateModelDefinitionId _stateModelDefId;
     private StateModelFactoryId _stateModelFactoryId;
     private String _participantGroupTag;
     private Class<? extends HelixRebalancer> _rebalancerClass;
@@ -264,7 +264,7 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements
      * @param stateModelDefId the state model definition ID
      * @return Builder
      */
-    public T withStateModelDefId(StateModelDefId stateModelDefId) {
+    public T withStateModelDefId(StateModelDefinitionId stateModelDefId) {
       _stateModelDefId = stateModelDefId;
       return getThis();
     }

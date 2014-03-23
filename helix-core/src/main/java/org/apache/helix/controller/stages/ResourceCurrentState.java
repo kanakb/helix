@@ -28,7 +28,7 @@ import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.model.CurrentState;
 
 import com.google.common.collect.Sets;
@@ -49,7 +49,7 @@ public class ResourceCurrentState {
   /**
    * map of resource-id to state model definition id
    */
-  private final Map<ResourceId, StateModelDefId> _resourceStateModelMap;
+  private final Map<ResourceId, StateModelDefinitionId> _resourceStateModelMap;
 
   /**
    * map of resource-id to current-state config's
@@ -75,7 +75,7 @@ public class ResourceCurrentState {
   public ResourceCurrentState() {
     _currentStateMap = new HashMap<ResourceId, Map<PartitionId, Map<ParticipantId, State>>>();
     _pendingStateMap = new HashMap<ResourceId, Map<PartitionId, Map<ParticipantId, State>>>();
-    _resourceStateModelMap = new HashMap<ResourceId, StateModelDefId>();
+    _resourceStateModelMap = new HashMap<ResourceId, StateModelDefinitionId>();
     _curStateMetaMap = new HashMap<ResourceId, CurrentState>();
 
     _requestedStateMap = new HashMap<ResourceId, Map<PartitionId, Map<ParticipantId, State>>>();
@@ -98,7 +98,7 @@ public class ResourceCurrentState {
    * @param resourceId
    * @param stateModelDefId
    */
-  public void setResourceStateModelDef(ResourceId resourceId, StateModelDefId stateModelDefId) {
+  public void setResourceStateModelDef(ResourceId resourceId, StateModelDefinitionId stateModelDefId) {
     _resourceStateModelMap.put(resourceId, stateModelDefId);
   }
 
@@ -106,7 +106,7 @@ public class ResourceCurrentState {
    * @param resourceId
    * @return
    */
-  public StateModelDefId getResourceStateModelDef(ResourceId resourceId) {
+  public StateModelDefinitionId getResourceStateModelDef(ResourceId resourceId) {
     return _resourceStateModelMap.get(resourceId);
   }
 

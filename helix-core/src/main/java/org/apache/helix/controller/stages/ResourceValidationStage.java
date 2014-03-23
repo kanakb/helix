@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
@@ -74,7 +74,7 @@ public class ResourceValidationStage extends AbstractBaseStage {
       }
 
       // check that every resource to process has a live state model definition
-      StateModelDefId stateModelDefId = idealState.getStateModelDefId();
+      StateModelDefinitionId stateModelDefId = idealState.getStateModelDefId();
       StateModelDefinition stateModelDef = cluster.getStateModelMap().get(stateModelDefId);
       if (stateModelDef == null) {
         LOG.warn("Resource " + resourceId + " uses state model " + stateModelDefId

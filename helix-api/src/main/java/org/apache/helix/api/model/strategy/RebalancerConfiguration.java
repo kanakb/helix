@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 
 /*
@@ -50,7 +50,7 @@ public interface RebalancerConfiguration {
    * Get the state model definition that the resource follows
    * @return state model definition id
    */
-  public StateModelDefId getStateModelDefId();
+  public StateModelDefinitionId getStateModelDefId();
 
   /**
    * Get the state model factory of this resource

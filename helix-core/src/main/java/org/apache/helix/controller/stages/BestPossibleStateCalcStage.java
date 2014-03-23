@@ -30,7 +30,7 @@ import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.context.ControllerContextProvider;
@@ -171,7 +171,7 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
   private BestPossibleStateOutput compute(Cluster cluster, ClusterEvent event,
       Map<ResourceId, ResourceConfig> resourceMap, ResourceCurrentState currentStateOutput) {
     BestPossibleStateOutput output = new BestPossibleStateOutput();
-    Map<StateModelDefId, StateModelDefinition> stateModelDefs = cluster.getStateModelMap();
+    Map<StateModelDefinitionId, StateModelDefinition> stateModelDefs = cluster.getStateModelMap();
 
     for (ResourceId resourceId : resourceMap.keySet()) {
       if (LOG.isDebugEnabled()) {

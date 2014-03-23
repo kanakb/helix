@@ -1,4 +1,4 @@
-package org.apache.helix.api.id;
+package org.apache.helix.api.model.id;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,10 +19,9 @@ package org.apache.helix.api.id;
  * under the License.
  */
 import org.apache.helix.api.model.Scope;
-import org.apache.helix.api.model.id.Id;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -60,7 +59,7 @@ public final class ConstraintId extends Id {
    * @param state the constrained state
    * @return ConstraintId
    */
-  public static ConstraintId from(Scope<?> scope, StateModelDefId stateModelDefId, State state) {
+  public static ConstraintId from(Scope<?> scope, StateModelDefinitionId stateModelDefId, State state) {
     return new ConstraintId(scope + "|" + stateModelDefId + "|" + state);
   }
 
@@ -71,7 +70,7 @@ public final class ConstraintId extends Id {
    * @param transition the constrained transition
    * @return ConstraintId
    */
-  public static ConstraintId from(Scope<?> scope, StateModelDefId stateModelDefId,
+  public static ConstraintId from(Scope<?> scope, StateModelDefinitionId stateModelDefId,
       Transition transition) {
     return new ConstraintId(scope + "|" + stateModelDefId + "|" + transition);
   }

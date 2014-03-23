@@ -31,7 +31,7 @@ import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.IdealStateModeProperty;
 import org.testng.AssertJUnit;
@@ -141,7 +141,7 @@ public class TestBestPossibleCalcStageCompatibility extends BaseStageTest {
         idealState.setParticipantStateMap(
             PartitionId.from(ResourceId.from(resourceName), Integer.toString(p)), preferenceMap);
       }
-      idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
+      idealState.setStateModelDefId(StateModelDefinitionId.from("MasterSlave"));
       idealState.setIdealStateMode(mode.toString());
       idealState.setNumPartitions(partitions);
       idealStates.add(idealState);

@@ -31,7 +31,7 @@ import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.api.role.HelixParticipant;
 import org.apache.helix.manager.zk.HelixConnectionAdaptor;
@@ -84,7 +84,7 @@ public class TestSharedConnection extends ZkUnitTestBase {
           connection.createParticipant(ClusterId.from(clusterName),
               ParticipantId.from("localhost_" + (12918 + i)));
       participants[i].getStateMachineEngine().registerStateModelFactory(
-          StateModelDefId.from("OnlineOffline"), new TestHelixConnection.MockStateModelFactory());
+          StateModelDefinitionId.from("OnlineOffline"), new TestHelixConnection.MockStateModelFactory());
       participants[i].start();
     }
 

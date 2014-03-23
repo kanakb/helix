@@ -38,7 +38,7 @@ import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
@@ -57,7 +57,7 @@ public class MessageGenerationStage extends AbstractBaseStage {
   public void process(ClusterEvent event) throws Exception {
     HelixManager manager = event.getAttribute("helixmanager");
     Cluster cluster = event.getAttribute("Cluster");
-    Map<StateModelDefId, StateModelDefinition> stateModelDefMap = cluster.getStateModelMap();
+    Map<StateModelDefinitionId, StateModelDefinition> stateModelDefMap = cluster.getStateModelMap();
     Map<ResourceId, ResourceConfig> resourceMap =
         event.getAttribute(AttributeName.RESOURCES.toString());
     ResourceCurrentState currentStateOutput =
@@ -134,13 +134,13 @@ public class MessageGenerationStage extends AbstractBaseStage {
             RebalancerConfiguration rebalancerConfig = resourceConfig.getRebalancerConfig();
             Message message =
                 createMessage(manager, resourceId, subUnitId, participantId, currentState,
-                    nextState, sessionId, StateModelDefId.from(stateModelDef.getId()),
+                    nextState, sessionId, StateModelDefinitionId.from(stateModelDef.getId()),
                     rebalancerConfig.getStateModelFactoryId(), bucketSize);
 
             // TODO refactor get/set timeout/inner-message
             if (rebalancerConfig != null
                 && rebalancerConfig.getStateModelDefId().equalsIgnoreCase(
-                    StateModelDefId.SCHEDULER_TASK_QUEUE)) {
+                    StateModelDefinitionId.SCHEDULER_TASK_QUEUE)) {
               if (resourceConfig.getPartitionMap().size() > 0) {
                 // TODO refactor it -- we need a way to read in scheduler tasks a priori
                 Message innerMsg =
@@ -189,7 +189,7 @@ public class MessageGenerationStage extends AbstractBaseStage {
 
   private Message createMessage(HelixManager manager, ResourceId resourceId,
       PartitionId partitionId, ParticipantId participantId, State currentState, State nextState,
-      SessionId participantSessionId, StateModelDefId stateModelDefId,
+      SessionId participantSessionId, StateModelDefinitionId stateModelDefId,
       StateModelFactoryId stateModelFactoryId, int bucketSize) {
     MessageId uuid = MessageId.from(UUID.randomUUID().toString());
     Message message = new Message(MessageType.STATE_TRANSITION, uuid);

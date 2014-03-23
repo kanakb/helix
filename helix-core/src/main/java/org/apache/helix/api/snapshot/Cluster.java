@@ -28,6 +28,8 @@ import org.apache.helix.api.id.ContextId;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
+import org.apache.helix.api.model.constraint.ClusterConstraints;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.ControllerId;
 import org.apache.helix.api.model.id.ParticipantId;
@@ -35,11 +37,9 @@ import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.id.SpectatorId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.controller.context.ControllerContext;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
-import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
@@ -98,7 +98,7 @@ public class Cluster {
   public Cluster(ClusterId id, Map<ResourceId, Resource> resourceMap,
       Map<ParticipantId, Participant> participantMap, Map<ControllerId, Controller> controllerMap,
       ControllerId leaderId, Map<ConstraintType, ClusterConstraints> constraintMap,
-      Map<StateModelDefId, StateModelDefinition> stateModelMap,
+      Map<StateModelDefinitionId, StateModelDefinition> stateModelMap,
       Map<ContextId, ControllerContext> contextMap, UserConfig userConfig, boolean isPaused,
       boolean autoJoinAllowed) {
 
@@ -224,8 +224,8 @@ public class Cluster {
    * Get all the state model definitions on the cluster
    * @return map of state model definition id to state model definition
    */
-  public <T extends StateModelDefinition> Map<StateModelDefId, T> getStateModelMap() {
-    return (Map<StateModelDefId, T>) _config.getStateModelMap();
+  public <T extends StateModelDefinition> Map<StateModelDefinitionId, T> getStateModelMap() {
+    return (Map<StateModelDefinitionId, T>) _config.getStateModelMap();
   }
 
   /**
@@ -260,7 +260,7 @@ public class Cluster {
    * @param transition the constrained transition
    * @return the limit, or Integer.MAX_VALUE if there is no limit
    */
-  public int getTransitionConstraint(Scope<?> scope, StateModelDefId stateModelDefId,
+  public int getTransitionConstraint(Scope<?> scope, StateModelDefinitionId stateModelDefId,
       Transition transition) {
     return _config.getTransitionConstraint(scope, stateModelDefId, transition);
   }

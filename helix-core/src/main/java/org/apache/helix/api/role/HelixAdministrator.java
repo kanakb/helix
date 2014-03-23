@@ -28,15 +28,15 @@ import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
-import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.constraint.ClusterConstraints;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.id.ClusterId;
 import org.apache.helix.api.model.id.Id;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.api.snapshot.Participant;
@@ -82,13 +82,13 @@ public interface HelixAdministrator extends HelixStartable {
 
   void dropParticipant(ClusterId clusterId, ParticipantId participantId);
 
-  List<StateModelDefId> listStateModelDefinitions(ClusterId clusterId);
+  List<StateModelDefinitionId> listStateModelDefinitions(ClusterId clusterId);
 
   void addStateModelDef(ClusterId clusterId, StateModelDefinition stateModelDef);
 
-  StateModelDefinition readStateModelDef(ClusterId clusterId, StateModelDefId stateModelDefId);
+  StateModelDefinition readStateModelDef(ClusterId clusterId, StateModelDefinitionId stateModelDefId);
 
-  void dropStateModelDef(ClusterId clusterId, StateModelDefId stateModelDefId);
+  void dropStateModelDef(ClusterId clusterId, StateModelDefinitionId stateModelDefId);
 
   <T extends Id> void addUserConfig(ClusterId clusterId, Scope<T> scope, UserConfig userConfig);
 

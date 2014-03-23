@@ -8,7 +8,7 @@ import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.CurrentState.CurrentStateProperty;
@@ -39,7 +39,7 @@ public class CurrentStateBuilder {
   private final ResourceId _resourceId;
   private final Map<PartitionId, State> _partitionStateMap;
   private SessionId _sessionId;
-  private StateModelDefId _stateModelDefId;
+  private StateModelDefinitionId _stateModelDefId;
   private StateModelFactoryId _stateModelFactoryId;
 
   /**
@@ -87,7 +87,7 @@ public class CurrentStateBuilder {
    * @param stateModelDefId state model definition identifier
    * @return CurrentStateBuilder
    */
-  public CurrentStateBuilder stateModelDef(StateModelDefId stateModelDefId) {
+  public CurrentStateBuilder stateModelDef(StateModelDefinitionId stateModelDefId) {
     _stateModelDefId = stateModelDefId;
     return this;
   }

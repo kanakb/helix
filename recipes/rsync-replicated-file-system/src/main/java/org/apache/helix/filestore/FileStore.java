@@ -22,7 +22,7 @@ package org.apache.helix.filestore;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.api.model.MemberRole;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.participant.StateMachineEngine;
 
@@ -46,7 +46,7 @@ public class FileStore {
 
       StateMachineEngine stateMach = _manager.getStateMachineEngine();
       FileStoreStateModelFactory modelFactory = new FileStoreStateModelFactory(_manager);
-      stateMach.registerStateModelFactory(StateModelDefId.from(SetupCluster.DEFAULT_STATE_MODEL),
+      stateMach.registerStateModelFactory(StateModelDefinitionId.from(SetupCluster.DEFAULT_STATE_MODEL),
           modelFactory);
       _manager.connect();
       // _manager.addExternalViewChangeListener(replicator);

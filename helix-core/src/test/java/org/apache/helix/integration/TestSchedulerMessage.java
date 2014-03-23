@@ -42,18 +42,18 @@ import org.apache.helix.messaging.AsyncCallback;
 import org.apache.helix.messaging.handling.HelixTaskResult;
 import org.apache.helix.messaging.handling.MessageHandler;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
-import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.constraint.ConstraintItem;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.StatusUpdate;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.monitoring.ZKPathDataDumpTask;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Level;
@@ -212,7 +212,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.setTgtName("CONTROLLER");
     // TODO: change it to "ADMIN" ?
     schedulerMessage.setSrcName("CONTROLLER");
-    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+    schedulerMessage.getRecord().setSimpleField(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString(),
         "TestSchedulerMsg");
     // Template for the individual message sent to each participant
     Message msg = new Message(_factory.getMessageType(), "Template");
@@ -473,7 +473,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     cr2.setInstanceName("*");
     cr2.setSessionSpecific(false);
 
-    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+    schedulerMessage.getRecord().setSimpleField(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString(),
         "TestSchedulerMsg2");
     MockAsyncCallback callback = new MockAsyncCallback();
     manager.getMessagingService().sendAndWait(cr2, schedulerMessage, callback, -1);
@@ -633,7 +633,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField("TIMEOUT", "-1");
     schedulerMessage.getRecord().setSimpleField("WAIT_ALL", "true");
 
-    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+    schedulerMessage.getRecord().setSimpleField(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString(),
         "TestSchedulerMsg3");
     Criteria cr2 = new Criteria();
     cr2.setRecipientInstanceType(MemberRole.CONTROLLER);
@@ -773,7 +773,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setSimpleField("TIMEOUT", "-1");
     schedulerMessage.getRecord().setSimpleField("WAIT_ALL", "true");
 
-    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+    schedulerMessage.getRecord().setSimpleField(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString(),
         "TestSchedulerMsg4");
     Criteria cr2 = new Criteria();
     cr2.setRecipientInstanceType(MemberRole.CONTROLLER);
@@ -940,7 +940,7 @@ public class TestSchedulerMessage extends ZkStandAloneCMTestBaseWithPropertyServ
     schedulerMessage.getRecord().setMapField("MessageTemplate", msg.getRecord().getSimpleFields());
     schedulerMessage.getRecord().setSimpleField("TIMEOUT", "-1");
     schedulerMessage.getRecord().setSimpleField("WAIT_ALL", "true");
-    schedulerMessage.getRecord().setSimpleField(StateModelDefId.SCHEDULER_TASK_QUEUE.toString(),
+    schedulerMessage.getRecord().setSimpleField(StateModelDefinitionId.SCHEDULER_TASK_QUEUE.toString(),
         "TestSchedulerMsgContraints");
 
     Criteria cr2 = new Criteria();

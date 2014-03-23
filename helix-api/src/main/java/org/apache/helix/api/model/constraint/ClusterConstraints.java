@@ -1,4 +1,4 @@
-package org.apache.helix.model;
+package org.apache.helix.api.model.constraint;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -27,11 +27,10 @@ import java.util.TreeMap;
 
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.id.ConstraintId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.id.ConstraintId;
-import org.apache.helix.model.builder.ConstraintItemBuilder;
 import org.apache.log4j.Logger;
 
 /**

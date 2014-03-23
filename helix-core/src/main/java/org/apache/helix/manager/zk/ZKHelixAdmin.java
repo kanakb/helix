@@ -46,7 +46,6 @@ import org.apache.helix.HelixException;
 import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.StatsHolder;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
-import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.model.HelixConfigScope;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
@@ -55,6 +54,10 @@ import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.constraint.ClusterConstraints;
+import org.apache.helix.api.model.constraint.ConstraintItem;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.id.ConstraintId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
@@ -65,12 +68,9 @@ import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.statemachine.id.StateModelFactoryId;
 import org.apache.helix.model.Alerts;
-import org.apache.helix.model.ClusterConstraints;
-import org.apache.helix.model.ClusterConstraints.ConstraintType;
-import org.apache.helix.model.ConstraintItem;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
@@ -345,7 +345,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     }
 
     // check stateModelDef exists and get initial state
-    StateModelDefId stateModelDef = idealState.getStateModelDefId();
+    StateModelDefinitionId stateModelDef = idealState.getStateModelDefId();
     StateModelDefinition stateModel =
         accessor.getProperty(keyBuilder.stateModelDef(stateModelDef.stringify()));
     if (stateModel == null) {
@@ -626,7 +626,7 @@ public class ZKHelixAdmin implements HelixAdmin {
 
     IdealState idealState = new IdealState(resourceName);
     idealState.setNumPartitions(partitions);
-    idealState.setStateModelDefId(StateModelDefId.from(stateModelRef));
+    idealState.setStateModelDefId(StateModelDefinitionId.from(stateModelRef));
     RebalanceMode mode =
         idealState.rebalanceModeFromString(rebalancerMode, RebalanceMode.SEMI_AUTO);
     idealState.setRebalanceMode(mode);
@@ -898,7 +898,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     IdealState idealState = new IdealState(clusterName);
 
     idealState.setNumPartitions(1);
-    idealState.setStateModelDefId(StateModelDefId.from("LeaderStandby"));
+    idealState.setStateModelDefId(StateModelDefinitionId.from("LeaderStandby"));
 
     List<String> controllers = getInstancesInCluster(grandCluster);
     if (controllers.size() == 0) {

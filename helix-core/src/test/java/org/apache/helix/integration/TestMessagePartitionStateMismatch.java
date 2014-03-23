@@ -36,7 +36,7 @@ import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.ipc.id.MessageId;
 import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -69,7 +69,7 @@ public class TestMessagePartitionStateMismatch extends ZkStandAloneCMTestBase {
             message.setToState(State.from(rand ? "MASTER" : "SLAVE"));
             message.setTgtSessionId(SessionId.from(sessionid));
             message.setSrcSessionId(SessionId.from(manager.getSessionId()));
-            message.setStateModelDef(StateModelDefId.from("MasterSlave"));
+            message.setStateModelDef(StateModelDefinitionId.from("MasterSlave"));
             message.setStateModelFactoryName("DEFAULT");
           } else if (ev.getStateMap(partition).get(instanceName).equals("SLAVE")) {
             message.setSrcName(manager.getInstanceName());
@@ -81,7 +81,7 @@ public class TestMessagePartitionStateMismatch extends ZkStandAloneCMTestBase {
             message.setToState(State.from(rand ? "SLAVE" : "SLAVE"));
             message.setTgtSessionId(SessionId.from(sessionid));
             message.setSrcSessionId(SessionId.from(manager.getSessionId()));
-            message.setStateModelDef(StateModelDefId.from("MasterSlave"));
+            message.setStateModelDef(StateModelDefinitionId.from("MasterSlave"));
             message.setStateModelFactoryName("DEFAULT");
           }
           accessor.setProperty(

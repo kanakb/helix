@@ -53,7 +53,7 @@ import org.apache.helix.api.model.ipc.id.SessionId;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
@@ -372,7 +372,7 @@ public class ParticipantAccessor {
     }
 
     // build messages to signal the transition
-    StateModelDefId stateModelDefId = config.getStateModelDefId();
+    StateModelDefinitionId stateModelDefId = config.getStateModelDefId();
     StateModelDefinition stateModelDef =
         _accessor.getProperty(_keyBuilder.stateModelDef(stateModelDefId.stringify()));
     Map<MessageId, Message> messageMap = Maps.newHashMap();

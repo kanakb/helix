@@ -31,7 +31,7 @@ import java.util.Set;
 import org.apache.helix.TestHelper;
 import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.model.IdealState.IdealStateModeProperty;
 import org.apache.helix.model.IdealState.RebalanceMode;
 import org.testng.Assert;
@@ -87,7 +87,7 @@ public class TestIdealState {
     IdealState idealState = new IdealState("test-db");
     idealState.setRebalanceMode(RebalanceMode.SEMI_AUTO);
     idealState.setNumPartitions(4);
-    idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
+    idealState.setStateModelDefId(StateModelDefinitionId.from("MasterSlave"));
 
     idealState.setReplicas("" + 2);
 

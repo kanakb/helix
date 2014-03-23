@@ -24,7 +24,7 @@ import java.util.List;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.api.model.MemberRole;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkClient;
@@ -55,7 +55,7 @@ public class Consumer {
       ConsumerStateModelFactory modelFactory =
           new ConsumerStateModelFactory(_consumerId, _mqServer);
       stateMach.registerStateModelFactory(
-          StateModelDefId.from(SetupConsumerCluster.DEFAULT_STATE_MODEL), modelFactory);
+          StateModelDefinitionId.from(SetupConsumerCluster.DEFAULT_STATE_MODEL), modelFactory);
 
       _manager.connect();
 

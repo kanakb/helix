@@ -34,7 +34,7 @@ import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.model.ExternalView;
@@ -51,7 +51,7 @@ public class Quickstart {
   private static final int NUM_PARTITIONS = 6;
   private static final int NUM_REPLICAS = 2;
 
-  private static final StateModelDefId STATE_MODEL_NAME = StateModelDefId.from("MyStateModel");
+  private static final StateModelDefinitionId STATE_MODEL_NAME = StateModelDefinitionId.from("MyStateModel");
 
   // states
   private static final State SLAVE = State.from("SLAVE");

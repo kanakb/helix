@@ -19,7 +19,7 @@ package org.apache.helix.participant;
  * under the License.
  */
 
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
 import org.apache.helix.participant.statemachine.HelixStateModelFactory;
 import org.apache.helix.participant.statemachine.StateModel;
@@ -32,7 +32,7 @@ import org.apache.helix.participant.statemachine.StateModelFactory;
 public interface StateMachineEngine extends MessageHandlerFactory {
 
   /**
-   * Replaced by {@link #registerStateModelFactory(StateModelDefId, HelixStateModelFactory)
+   * Replaced by {@link #registerStateModelFactory(StateModelDefinitionId, HelixStateModelFactory)
 
    */
   @Deprecated
@@ -40,21 +40,21 @@ public interface StateMachineEngine extends MessageHandlerFactory {
       StateModelFactory<? extends StateModel> factory);
 
   /**
-   * Replaced by {@link #registerStateModelFactory(StateModelDefId, String, HelixStateModelFactory)}
+   * Replaced by {@link #registerStateModelFactory(StateModelDefinitionId, String, HelixStateModelFactory)}
    */
   @Deprecated
   public boolean registerStateModelFactory(String stateModelDef,
       StateModelFactory<? extends StateModel> factory, String factoryName);
 
   /**
-   * Replaced by {@link #removeStateModelFactory(StateModelDefId, HelixStateModelFactory)}
+   * Replaced by {@link #removeStateModelFactory(StateModelDefinitionId, HelixStateModelFactory)}
    */
   @Deprecated
   public boolean removeStateModelFactory(String stateModelDef,
       StateModelFactory<? extends StateModel> factory);
 
   /**
-   * Replaced by {@link #removeStateModelFactory(StateModelDefId, String, HelixStateModelFactory)}
+   * Replaced by {@link #removeStateModelFactory(StateModelDefinitionId, String, HelixStateModelFactory)}
    */
   @Deprecated
   public boolean removeStateModelFactory(String stateModelDef,
@@ -69,7 +69,7 @@ public interface StateMachineEngine extends MessageHandlerFactory {
    * @param factory
    * @return
    */
-  public boolean registerStateModelFactory(StateModelDefId stateModelDefId,
+  public boolean registerStateModelFactory(StateModelDefinitionId stateModelDefId,
       HelixStateModelFactory<? extends StateModel> factory);
 
   /**
@@ -80,7 +80,7 @@ public interface StateMachineEngine extends MessageHandlerFactory {
    * @param factory
    * @return
    */
-  public boolean registerStateModelFactory(StateModelDefId stateModelDefId, String factoryName,
+  public boolean registerStateModelFactory(StateModelDefinitionId stateModelDefId, String factoryName,
       HelixStateModelFactory<? extends StateModel> factory);
 
 /**
@@ -89,7 +89,7 @@ public interface StateMachineEngine extends MessageHandlerFactory {
    * @param stateModelDefId
    * @return
    */
-  public boolean removeStateModelFactory(StateModelDefId stateModelDefId);
+  public boolean removeStateModelFactory(StateModelDefinitionId stateModelDefId);
 
   /**
    * Remove the state model factory with a name for a state model definition
@@ -98,6 +98,6 @@ public interface StateMachineEngine extends MessageHandlerFactory {
    * @param factoryName
    * @return
    */
-  public boolean removeStateModelFactory(StateModelDefId stateModelDefId, String factoryName);
+  public boolean removeStateModelFactory(StateModelDefinitionId stateModelDefId, String factoryName);
 
 }

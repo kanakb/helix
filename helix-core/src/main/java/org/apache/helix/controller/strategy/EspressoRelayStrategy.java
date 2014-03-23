@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.helix.HelixException;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.model.IdealState;
 
 public class EspressoRelayStrategy {
@@ -43,7 +43,7 @@ public class EspressoRelayStrategy {
     IdealState result = new IdealState(resultRecordName);
     result.setNumPartitions(partitions.size());
     result.setReplicas("" + replica);
-    result.setStateModelDefId(StateModelDefId.from(stateModelName));
+    result.setStateModelDefId(StateModelDefinitionId.from(stateModelName));
 
     int groups = instances.size() / replica;
     int remainder = instances.size() % replica;

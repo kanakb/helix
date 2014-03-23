@@ -25,7 +25,7 @@ import java.util.List;
 import org.apache.helix.Mocks;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.id.StateModelDefId;
+import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.controller.pipeline.StageContext;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
 import org.apache.helix.model.IdealState;
@@ -53,7 +53,7 @@ public class TestCompatibilityCheckStage extends BaseStageTest {
         DefaultTwoStateStrategy.calculateIdealState(instances, partitions, replicas, resourceName,
             "MASTER", "SLAVE");
     IdealState idealState = new IdealState(record);
-    idealState.setStateModelDefId(StateModelDefId.from("MasterSlave"));
+    idealState.setStateModelDefId(StateModelDefinitionId.from("MasterSlave"));
 
     PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
     accessor.setProperty(keyBuilder.idealStates(resourceName), idealState);
