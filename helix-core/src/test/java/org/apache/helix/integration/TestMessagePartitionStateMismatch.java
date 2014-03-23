@@ -25,8 +25,8 @@ import java.util.UUID;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.LiveInstance;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;

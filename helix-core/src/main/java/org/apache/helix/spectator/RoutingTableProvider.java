@@ -34,8 +34,8 @@ import org.apache.helix.ExternalViewChangeListener;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.InstanceConfig;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.log4j.Logger;
 
 public class RoutingTableProvider implements ExternalViewChangeListener, ConfigChangeListener {

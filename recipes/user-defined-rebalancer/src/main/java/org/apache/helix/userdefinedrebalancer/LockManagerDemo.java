@@ -32,7 +32,7 @@ import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixManager;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
-import org.apache.helix.model.ExternalView;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.tools.YAMLClusterSetup;
 import org.apache.log4j.Logger;
 

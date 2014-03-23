@@ -24,7 +24,7 @@ import java.util.UUID;
 import org.apache.helix.Criteria;
 import org.apache.helix.manager.zk.DefaultParticipantErrorMessageHandlerFactory;
 import org.apache.helix.manager.zk.DefaultParticipantErrorMessageHandlerFactory.ActionOnError;
-import org.apache.helix.model.ExternalView;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.id.PartitionId;

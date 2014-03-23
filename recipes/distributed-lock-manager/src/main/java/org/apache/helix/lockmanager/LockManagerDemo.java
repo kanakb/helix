@@ -32,8 +32,8 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState.RebalanceMode;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.tools.StateModelConfigGenerator;
 
 public class LockManagerDemo {

@@ -42,7 +42,6 @@ import org.apache.helix.model.AlertStatus;
 import org.apache.helix.model.Alerts;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.Error;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.HealthStat;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
@@ -51,6 +50,7 @@ import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.PauseSignal;
 import org.apache.helix.model.PersistentStats;
 import org.apache.helix.model.ResourceAssignment;
+import org.apache.helix.model.composite.ExternalView;
 
 /**
  * PropertyKey builder for a cluster

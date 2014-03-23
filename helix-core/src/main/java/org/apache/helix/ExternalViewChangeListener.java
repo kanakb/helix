@@ -21,7 +21,7 @@ package org.apache.helix;
 
 import java.util.List;
 
-import org.apache.helix.model.ExternalView;
+import org.apache.helix.model.composite.ExternalView;
 
 /**
  * Interface to implement to be notified of changes to the external view

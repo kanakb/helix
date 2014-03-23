@@ -32,9 +32,9 @@ import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.LiveInstance.LiveInstanceProperty;
+import org.apache.helix.model.composite.ExternalView;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 

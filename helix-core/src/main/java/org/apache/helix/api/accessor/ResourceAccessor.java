@@ -39,9 +39,9 @@ import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.log4j.Logger;
 

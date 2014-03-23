@@ -32,8 +32,8 @@ import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.Sets;

@@ -59,11 +59,11 @@ import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.HealthStat;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.Watcher.Event.EventType;
 

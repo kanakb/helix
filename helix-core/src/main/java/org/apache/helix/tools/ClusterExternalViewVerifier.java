@@ -40,8 +40,8 @@ import org.apache.helix.controller.stages.ClusterEvent;
 import org.apache.helix.controller.stages.CurrentStateComputationStage;
 import org.apache.helix.controller.stages.ResourceComputationStage;
 import org.apache.helix.manager.zk.ZkClient;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.ResourceAssignment;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.log4j.Logger;
 
 import com.google.common.base.Functions;

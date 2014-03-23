@@ -62,10 +62,10 @@ import org.apache.helix.controller.stages.ResourceComputationStage;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.helix.model.builder.ResourceAssignmentBuilder;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.util.ZKClientPool;
 import org.apache.log4j.Logger;
 

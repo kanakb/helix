@@ -32,9 +32,9 @@ import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.api.model.strategy.RebalancerConfiguration;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.ResourceAssignment;
+import org.apache.helix.model.composite.ExternalView;
 
 import com.google.common.collect.Maps;
 

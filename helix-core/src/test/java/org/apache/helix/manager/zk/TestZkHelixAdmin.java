@@ -43,9 +43,9 @@ import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttrib
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.id.ConstraintId;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.apache.zookeeper.data.Stat;
 import org.testng.Assert;

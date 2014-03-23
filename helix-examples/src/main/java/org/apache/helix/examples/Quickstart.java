@@ -37,9 +37,9 @@ import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.id.StateModelDefinitionId;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.builder.StateModelDefinitionBuilder;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.participant.StateMachineEngine;
 
 public class Quickstart {

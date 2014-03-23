@@ -1,4 +1,4 @@
-package org.apache.helix.model;
+package org.apache.helix.model.composite;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -29,6 +29,7 @@ import org.apache.helix.api.model.id.ParticipantId;
 import org.apache.helix.api.model.id.PartitionId;
 import org.apache.helix.api.model.id.ResourceId;
 import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.model.ResourceAssignment;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;

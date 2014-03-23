@@ -31,7 +31,7 @@ import org.apache.helix.ExternalViewChangeListener;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.model.ExternalView;
+import org.apache.helix.model.composite.ExternalView;
 
 public abstract class Task implements ExternalViewChangeListener {
   CountDownLatch parentDependencyLatch;

@@ -31,10 +31,10 @@ import org.apache.helix.MessageListener;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
+import org.apache.helix.model.composite.ExternalView;
 
 public class MockListener implements IdealStateChangeListener, LiveInstanceChangeListener,
     ConfigChangeListener, CurrentStateChangeListener, ExternalViewChangeListener,

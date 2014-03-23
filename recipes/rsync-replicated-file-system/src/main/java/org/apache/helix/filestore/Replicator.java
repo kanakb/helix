@@ -24,8 +24,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.helix.NotificationContext;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.InstanceConfig;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.spectator.RoutingTableProvider;
 
 public class Replicator extends RoutingTableProvider {
