@@ -1,5 +1,7 @@
 package org.apache.helix.api.event;
 
+import java.util.Set;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -38,13 +40,13 @@ public interface EventSubscriber {
    * @return Class<? extends HelixEvent> the set of helix events
    *         the subscriber subscribes to
    */
-  public Class<? extends HelixEvent> getSubscribedEvents();
+  public Set<Class<? extends HelixEvent>> getSubscribedEvents();
 
   /**
    * Retrieves the event filter for the subscribed events
    * @return EventFilter the filter for the event
    */
-  public EventFilter getEventFilter();
+  public EventFilter getEventFilter(Class<? extends HelixEvent> event);
 
   /**
    * Callback where an event is delivered to this subscriber after

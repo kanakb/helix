@@ -1,6 +1,7 @@
 package org.apache.helix.api.event;
 
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -34,12 +35,12 @@ public abstract class AbstractEventSubscriber implements EventSubscriber{
 
 
   @Override
-  public Class<? extends HelixEvent> getSubscribedEvents() {
+  public Set<Class<? extends HelixEvent>> getSubscribedEvents() {
     return null;
   }
 
   @Override
-  public EventFilter getEventFilter() {
+  public EventFilter getEventFilter(Class<? extends HelixEvent> event) {
     return null;
   }
 
