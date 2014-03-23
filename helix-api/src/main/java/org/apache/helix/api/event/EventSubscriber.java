@@ -18,6 +18,17 @@ package org.apache.helix.api.event;
  * specific language governing permissions and limitations
  * under the License.
  */
+/**
+ * An interface meant to be implemented by Event recipients so that they can
+ * choose to receive events they are interested in through getSubscribedEvents
+ * and getFilter.
+ * 
+ * The event system will deliver events to the handleEvent callback when an
+ * event which meets the criteria is received.
+ * 
+ * It is recommended that you use the AbstractEventSubscriber to subscribe for events
+ *
+ */
 public interface EventSubscriber {
 
   /**

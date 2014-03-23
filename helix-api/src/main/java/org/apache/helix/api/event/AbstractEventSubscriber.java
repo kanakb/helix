@@ -21,13 +21,30 @@ import java.lang.reflect.Method;
  * under the License.
  */
 /**
- * EventHandler is the main entry point to handle all types of Helix Events. <br/>
+ * Eventsubscriber is used by listeners of event to express interest in event types.
+ * 
+ * The subscriber is expected to provide an extension to the AbstractEventSubscriber
+ * so that they can return filters for the events they receive which is expressed through
+ * the getSubscribedEvents.
+ * 
+ * The handleEvent will only receive events which meet the event criteria and filters
+ * as expressed by the subscriber.
  */
 public abstract class AbstractEventSubscriber implements EventSubscriber{
 
 
+  @Override
+  public Class<? extends HelixEvent> getSubscribedEvents() {
+    return null;
+  }
+
+  @Override
+  public EventFilter getEventFilter() {
+    return null;
+  }
+
   /**
-   * Handles all the events
+   * Receives all the events
    * @param event
    */
   public void handleEvent(HelixEvent event) {
