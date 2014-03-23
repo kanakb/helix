@@ -1,6 +1,5 @@
 package org.apache.helix.api.client;
 
-import org.apache.helix.api.id.ConnectionId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,12 +22,6 @@ import org.apache.helix.api.id.ConnectionId;
 
 public interface HelixConnection {
 
-  /**
-   * Returns the connection id
-   * 
-   * @return the connection id
-   */
-  ConnectionId getId();
   /**
    * start connection
    */
