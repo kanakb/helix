@@ -1,4 +1,4 @@
-package org.apache.helix.api.role;
+package org.apache.helix.api.command;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,6 +17,23 @@ package org.apache.helix.api.role;
  * specific language governing permissions and limitations
  * under the License.
  */
-public class Controller {
 
+import org.apache.helix.api.model.HelixCluster;
+
+/**
+ * A builder for cluster commands
+ *
+ */
+public class HelixClusterCommandBuilder {
+
+  public HelixClusterCommandBuilder(){
+  }
+  
+  public HelixClusterCommandBuilder withConstraints(Object constraints){
+    return this;
+  }
+  
+  public HelixCluster build(){
+    return null;
+  }
 }

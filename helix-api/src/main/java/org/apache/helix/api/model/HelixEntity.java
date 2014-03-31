@@ -1,4 +1,4 @@
-package org.apache.helix.api.role;
+package org.apache.helix.api.model;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,6 +18,13 @@ package org.apache.helix.api.role;
  * under the License.
  */
 
-public interface Member {
+/**
+ * The base entity for all Helix model entities
+ *
+ * @param <T>
+ */
+public interface HelixEntity<T> {
+  
+  T getId();
 
 }

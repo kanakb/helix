@@ -37,7 +37,7 @@ public interface EventSubscriber {
    * Retrieves a list of subscribed events. This method is only
    * called once during the lifetime of a subscriber which is
    * during registration of the event subscriber
-   * @return Class<? extends HelixEvent> the set of helix events
+   * @return Set<Class<? extends HelixEvent>> the set of helix events
    *         the subscriber subscribes to
    */
   public Set<Class<? extends HelixEvent>> getSubscribedEvents();
