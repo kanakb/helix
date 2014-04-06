@@ -28,7 +28,7 @@ import org.apache.helix.api.id.ResourceId;
  */
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
-import org.apache.helix.api.model.strategy.RebalancerConfiguration;
+import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 
 import com.google.common.collect.Maps;
 

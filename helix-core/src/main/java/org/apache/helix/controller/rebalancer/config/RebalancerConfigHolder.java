@@ -22,7 +22,7 @@ package org.apache.helix.controller.rebalancer.config;
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.configuration.ResourceConfiguration;
-import org.apache.helix.api.model.strategy.RebalancerConfiguration;
+import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.serializer.StringSerializer;

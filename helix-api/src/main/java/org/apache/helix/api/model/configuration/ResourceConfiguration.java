@@ -5,7 +5,7 @@ import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.strategy.RebalancerConfiguration;
+import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;

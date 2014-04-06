@@ -19,7 +19,7 @@ package org.apache.helix.controller.rebalancer.config;
  * under the License.
  */
 
-import org.apache.helix.api.model.strategy.RebalancerConfiguration;
+import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.serializer.StringSerializer;
 import org.apache.helix.model.IdealState.RebalanceMode;

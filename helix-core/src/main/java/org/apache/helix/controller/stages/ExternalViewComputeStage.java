@@ -47,10 +47,10 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ZNRecordDelta.MergeOperation;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StatusUpdate;
-import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.monitoring.mbeans.ClusterStatusMonitor;
 import org.apache.log4j.Logger;
 

@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.strategy.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.CustomRebalancer;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.IdealState.RebalanceMode;

@@ -31,7 +31,7 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.strategy.RebalancerConfiguration;
+import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.helix.model.composite.ExternalView;

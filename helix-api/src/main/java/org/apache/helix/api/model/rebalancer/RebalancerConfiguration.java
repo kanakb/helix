@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.strategy;
+package org.apache.helix.api.model.rebalancer;
 
 import java.util.Set;
 
