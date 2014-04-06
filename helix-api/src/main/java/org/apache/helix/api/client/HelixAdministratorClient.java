@@ -23,15 +23,12 @@ import java.util.Properties;
 
 import org.apache.helix.api.command.HelixAdministratorCommand;
 import org.apache.helix.api.command.HelixClusterCommand;
-import org.apache.helix.api.command.HelixControllerCommand;
-import org.apache.helix.api.command.HelixMemberCommand;
 import org.apache.helix.api.command.HelixParticipantCommand;
 import org.apache.helix.api.command.HelixPartitionCommand;
 import org.apache.helix.api.command.HelixResourceCommand;
 import org.apache.helix.api.command.HelixSpectatorCommand;
 import org.apache.helix.api.id.AdministratorId;
 import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.MemberId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
@@ -39,8 +36,6 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SpectatorId;
 import org.apache.helix.api.model.HelixAdministrator;
 import org.apache.helix.api.model.HelixCluster;
-import org.apache.helix.api.model.HelixController;
-import org.apache.helix.api.model.HelixMember;
 import org.apache.helix.api.model.HelixParticipant;
 import org.apache.helix.api.model.HelixPartition;
 import org.apache.helix.api.model.HelixResource;
@@ -80,27 +75,6 @@ public abstract class HelixAdministratorClient extends HelixClient {
   public abstract boolean removeCluster(ClusterId clusterId);
 
   /**
-   * Adds a cluster member based on the command to the cluster
-   * @param command
-   * @return HelixMember
-   */
-  public abstract HelixMember<MemberId> addMember(HelixMemberCommand command);
-
-  /**
-   * Updates a cluster member based on the command
-   * @param command
-   * @return HelixMember
-   */
-  public abstract HelixMember<MemberId> updateMember(HelixMemberCommand command);
-
-  /**
-   * Removes a member from the cluster
-   * @param memberId the member to remove
-   * @return boolean <b>True</b> if the member is removed, <b>False</b>if it cannot be removed
-   */
-  public abstract boolean removeMember(MemberId memberId);
-
-  /**
    * Enables a cluster member
    * @param memberId the member to enable
    * @return boolean <b>True</b> if the enable succeeds, <b>False</b> if enable fails
@@ -120,6 +94,14 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @return HelixParticipant
    */
   public abstract HelixParticipant addParticipant(HelixParticipantCommand command);
+  
+  
+  /**
+   * Updates a cluster participant based on the command to the cluster
+   * @param command
+   * @return HelixParticipant
+   */
+  public abstract HelixParticipant updateParticipant(HelixParticipantCommand command);
 
   /**
    * Adds participants to the cluster
@@ -141,60 +123,47 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return HelixSpectator
    */
-  public abstract HelixSpectator addSpectator(HelixSpectatorCommand command);
+  public final HelixSpectator addSpectator(HelixSpectatorCommand command){
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * Adds spectators to the cluster
    * @param commands the commands for the spectators
    * @return List<HelixSpectator>
    */
-  public abstract List<HelixSpectator> addSpectators(List<HelixSpectatorCommand> commands);
+  public final List<HelixSpectator> addSpectators(List<HelixSpectatorCommand> commands){
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * Removes a spectator from the cluster
    * @param id the spectator to remove
    * @return boolean <b>True</b> if the spectator is removed, <b>False</b> if the removal fails
    */
-  public abstract boolean removeSpectator(SpectatorId id);
-
-  /**
-   * Adds a cluster controller based on the command to the cluster. There can only be one controller
-   * for a cluster
-   * @param command
-   * @return HelixController
-   */
-  public abstract HelixController addController(HelixControllerCommand command);
-
-  /**
-   * Removes a controller from the cluster
-   * @param id the controller to remove
-   * @return boolean <b>True</b>if the controller is removed, <b>False</b> if removal fails
-   */
-  public abstract boolean removeController(ControllerId id);
+  public final boolean removeSpectator(SpectatorId id){
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * Adds a cluster administrator based on the command to the cluster. There can only be one
    * administrator for a cluster. 
-   * TODO: Need to check if this is true
    * 
    * @param command
    * @return HelixAdministrator
    */
-  public abstract HelixAdministrator addAdministrator(HelixAdministratorCommand command);
+  public final HelixAdministrator addAdministrator(HelixAdministratorCommand command){
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * Removes a controller from the cluster
    * @param id the controller to remove
    * @return boolean <b>True</b>if the controller is removed, <b>False</b> if removal fails
    */
-  public abstract boolean removeAdministrator(AdministratorId id);
-
-  /**
-   * Adds a cluster members based on the command to the cluster
-   * @param command
-   * @return List<HelixMember>
-   */
-  public abstract List<HelixMember<MemberId>> addMembers(List<HelixMemberCommand> commands);
+  public final boolean removeAdministrator(AdministratorId id){
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * Adds a resource to the cluster
@@ -223,7 +192,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return HelixPartition
    */
-  public abstract HelixPartition addParition(HelixPartitionCommand command);
+  public abstract HelixPartition addPartition(HelixPartitionCommand command);
 
   /**
    * Adds partitions to the cluster, a partition is always added for a resource. The command
@@ -231,7 +200,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return List<HelixPartition>
    */
-  public abstract List<HelixPartition> addParitions(List<HelixPartitionCommand> command);
+  public abstract List<HelixPartition> addPartitions(List<HelixPartitionCommand> command);
 
   /**
    * Removes a partition from the resource
