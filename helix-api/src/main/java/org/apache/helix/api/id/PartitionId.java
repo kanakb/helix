@@ -27,6 +27,8 @@ public final class PartitionId extends Id {
   private final ResourceId _resourceId;
   @JsonProperty("partitionName")
   private final String _partitionName;
+  
+  private ClusterId clusterId;
 
   /**
    * Instantiate for a resource and suffix
@@ -109,5 +111,17 @@ public final class PartitionId extends Id {
    */
   public static PartitionId from(ResourceId resourceId, String partitionSuffix) {
     return new PartitionId(resourceId, partitionSuffix);
+  }
+  
+  /**
+   * Retrieves the cluster id
+   * @return
+   */
+  public ClusterId getClusterId(){
+    return clusterId;
+  }
+  
+  public void setClusterId(ClusterId id){
+    clusterId = id;
   }
 }

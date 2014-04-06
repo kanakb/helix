@@ -22,5 +22,4 @@ public class AdministratorId extends MemberId {
   public AdministratorId(String id) {
     super(id);
   }
-
 }
