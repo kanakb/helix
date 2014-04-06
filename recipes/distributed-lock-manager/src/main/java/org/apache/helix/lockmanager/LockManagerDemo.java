@@ -29,10 +29,10 @@ import org.I0Itec.zkclient.ZkServer;
 import org.apache.commons.io.FileUtils;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixManager;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
-import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.tools.StateModelConfigGenerator;
 

@@ -1,4 +1,5 @@
 package org.apache.helix.api.command;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,6 +25,10 @@ import org.apache.helix.api.id.ClusterId;
  */
 public class HelixParticipantCommand extends HelixMemberCommand {
 
+  /**
+   * Creates a participant member for the cluster
+   * @param clusterId the cluster for which the participant is to be added
+   */
   public HelixParticipantCommand(ClusterId clusterId) {
     super(clusterId, MemberType.PARTICIPANT);
   }

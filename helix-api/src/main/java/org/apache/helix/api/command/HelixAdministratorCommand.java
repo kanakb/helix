@@ -22,6 +22,10 @@ import org.apache.helix.api.id.ClusterId;
  */
 public class HelixAdministratorCommand extends HelixMemberCommand {
 
+  /**
+   * Creates a cluster member of type administrator for the given cluster
+   * @param clusterId the cluster for which the administrator is created
+   */
   protected HelixAdministratorCommand(ClusterId clusterId) {
     super(clusterId, MemberType.ADMINISTRATOR);
   }

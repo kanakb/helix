@@ -45,16 +45,17 @@ import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefinitionId;
-import org.apache.helix.api.model.configuration.ClusterConfiguration;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.configuration.ResourceConfiguration;
+import org.apache.helix.api.model.configuration.ClusterConfiguration;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
+import org.apache.helix.api.model.configuration.ResourceConfiguration;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Controller;
@@ -68,13 +69,12 @@ import org.apache.helix.controller.stages.ClusterDataCache;
 import org.apache.helix.model.Alerts;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.IdealState.RebalanceMode;
-import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.PauseSignal;
 import org.apache.helix.model.PersistentStats;
 import org.apache.helix.model.ResourceAssignment;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.util.HelixUtil;
 import org.apache.log4j.Logger;
 
@@ -269,7 +269,8 @@ public class ClusterAccessor {
     }
 
     // read the state model definitions
-    Map<StateModelDefinitionId, StateModelDefinition> stateModelMap = readStateModelDefinitions(true);
+    Map<StateModelDefinitionId, StateModelDefinition> stateModelMap =
+        readStateModelDefinitions(true);
 
     // read controller context
     Map<ContextId, ControllerContext> contextMap = readControllerContext(true);
@@ -292,7 +293,8 @@ public class ClusterAccessor {
    * @param useCache Use the ClusterDataCache associated with this class rather than reading again
    * @return map of state model def id to state model definition
    */
-  private Map<StateModelDefinitionId, StateModelDefinition> readStateModelDefinitions(boolean useCache) {
+  private Map<StateModelDefinitionId, StateModelDefinition> readStateModelDefinitions(
+      boolean useCache) {
     Map<StateModelDefinitionId, StateModelDefinition> stateModelDefs = Maps.newHashMap();
     Collection<StateModelDefinition> stateModelList;
     if (useCache) {

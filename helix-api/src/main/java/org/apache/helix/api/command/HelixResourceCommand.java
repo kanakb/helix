@@ -1,4 +1,7 @@
 package org.apache.helix.api.command;
+
+import org.apache.helix.api.id.ClusterId;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,8 +23,15 @@ package org.apache.helix.api.command;
 
 /**
  * Allows creating resources for the cluster
- *
  */
 public class HelixResourceCommand {
+  private final ClusterId clusterId;
 
+  /**
+   * Creates a resource command for a given cluster
+   * @param clusterId the cluster to which the resource is added
+   */
+  public HelixResourceCommand(ClusterId clusterId) {
+    this.clusterId = clusterId;
+  }
 }

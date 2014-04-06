@@ -22,6 +22,10 @@ import org.apache.helix.api.id.ControllerId;
 
 public class ControllerConfiguration extends MemberConfiguration<ControllerId> {
 
+  /**
+   * Controller configuration based on the id
+   * @param id the id for the controller
+   */
   public ControllerConfiguration(ControllerId id) {
     super(id);
   }

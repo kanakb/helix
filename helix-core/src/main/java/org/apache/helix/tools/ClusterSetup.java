@@ -39,14 +39,15 @@ import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.HelixException;
-import org.apache.helix.api.model.HelixConfigScope;
-import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
+import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
-import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
@@ -54,7 +55,6 @@ import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
@@ -312,8 +312,8 @@ public class ClusterSetup {
         accessor.getChildValues(accessor.keyBuilder().idealStates());
     for (IdealState idealState : existingIdealStates) {
       swapInstanceInIdealState(idealState, oldInstanceName, newInstanceName);
-      accessor.setProperty(accessor.keyBuilder()
-          .idealStates(idealState.getResourceId().toString()), idealState);
+      accessor.setProperty(
+          accessor.keyBuilder().idealStates(idealState.getResourceId().toString()), idealState);
     }
   }
 

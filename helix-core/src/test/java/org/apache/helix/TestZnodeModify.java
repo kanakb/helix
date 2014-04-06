@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkClient;
 import org.apache.helix.model.IdealState.IdealStateProperty;
-import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.tools.TestCommand;
 import org.apache.helix.tools.TestCommand.CommandType;
 import org.apache.helix.tools.TestExecutor;

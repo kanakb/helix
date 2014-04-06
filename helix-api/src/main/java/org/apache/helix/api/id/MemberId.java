@@ -19,8 +19,26 @@ package org.apache.helix.api.id;
  * under the License.
  */
 public abstract class MemberId extends Id {
+  private ClusterId clusterId;
 
   public MemberId(String id) {
     super(id);
+  }
+
+  /**
+   * Gets the cluster id for the cluster to which this member is an
+   * administrator
+   * @return ClusterId the cluster id
+   */
+  public ClusterId getClusterId() {
+    return clusterId;
+  }
+
+  /**
+   * Sets the cluster id for the administrator
+   * @param id the cluster id
+   */
+  public void setClusterId(ClusterId id) {
+    this.clusterId = id;
   }
 }

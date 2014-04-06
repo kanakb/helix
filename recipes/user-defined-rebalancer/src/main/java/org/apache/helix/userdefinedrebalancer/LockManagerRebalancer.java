@@ -28,7 +28,7 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.StateModelDefinitionId;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;

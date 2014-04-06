@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.model.IdealState.RebalanceMode;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 
 /**
  * IdealState builder for FULL_AUTO mode
@@ -35,7 +35,7 @@ public class AutoRebalanceModeISBuilder extends IdealStateBuilder {
    */
   public AutoRebalanceModeISBuilder(String resourceName) {
     super(resourceName);
-    setRebalancerMode(RebalanceMode.FULL_AUTO);
+    setRebalancerMode(RebalancerConfiguration.RebalanceMode.FULL_AUTO);
   }
 
   /**

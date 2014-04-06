@@ -22,6 +22,10 @@ import org.apache.helix.api.id.ClusterId;
  */
 public class HelixSpectatorCommand extends HelixMemberCommand {
 
+  /**
+   * Creates a spectator for the given cluster
+   * @param clusterId the cluster for which the spectator is created
+   */
   protected HelixSpectatorCommand(ClusterId clusterId) {
     super(clusterId, MemberType.SPECTATOR);
   }

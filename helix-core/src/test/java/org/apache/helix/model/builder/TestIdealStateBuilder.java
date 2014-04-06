@@ -19,6 +19,7 @@ package org.apache.helix.model.builder;
  * under the License.
  */
 
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.model.IdealState;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -38,7 +39,7 @@ public class TestIdealStateBuilder {
       Assert.fail("fail to build an auto mode ideal-state.", e);
     }
     // System.out.println("ideal-state: " + idealState);
-    Assert.assertEquals(idealState.getRebalanceMode(), IdealState.RebalanceMode.SEMI_AUTO,
+    Assert.assertEquals(idealState.getRebalanceMode(), RebalanceMode.SEMI_AUTO,
         "rebalancer mode should be semi-auto");
   }
 
@@ -55,7 +56,7 @@ public class TestIdealStateBuilder {
       Assert.fail("fail to build an auto-rebalance mode ideal-state.", e);
     }
     // System.out.println("ideal-state: " + idealState);
-    Assert.assertEquals(idealState.getRebalanceMode(), IdealState.RebalanceMode.FULL_AUTO,
+    Assert.assertEquals(idealState.getRebalanceMode(), RebalanceMode.FULL_AUTO,
         "rebalancer mode should be auto");
 
   }
@@ -76,7 +77,7 @@ public class TestIdealStateBuilder {
       Assert.fail("fail to build a custom mode ideal-state.", e);
     }
     // System.out.println("ideal-state: " + idealState);
-    Assert.assertEquals(idealState.getRebalanceMode(), IdealState.RebalanceMode.CUSTOMIZED,
+    Assert.assertEquals(idealState.getRebalanceMode(), RebalanceMode.CUSTOMIZED,
         "rebalancer mode should be customized");
 
   }

@@ -35,9 +35,6 @@ import org.apache.helix.webapp.RestAdminApplication;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.restlet.Context;
-import org.restlet.Request;
-import org.restlet.Response;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
@@ -53,7 +50,6 @@ public class InstancesResource extends ServerResource {
     getVariants().add(new Variant(MediaType.APPLICATION_JSON));
     setNegotiated(false);
   }
-
 
   @Override
   public Representation get() {

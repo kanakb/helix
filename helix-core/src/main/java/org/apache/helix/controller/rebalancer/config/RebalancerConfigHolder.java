@@ -21,8 +21,8 @@ package org.apache.helix.controller.rebalancer.config;
 
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.Scope;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.model.configuration.ResourceConfiguration;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.serializer.StringSerializer;
@@ -43,7 +43,7 @@ public final class RebalancerConfigHolder {
   private static final Logger LOG = Logger.getLogger(RebalancerConfigHolder.class);
   private StringSerializer _serializer;
   private HelixRebalancer _rebalancer;
-  private final AbstractRebalancerConfig _config;
+  private final RebalancerConfiguration _config;
   private final NamespacedConfig _backingConfig;
 
   /**
@@ -52,17 +52,16 @@ public final class RebalancerConfigHolder {
    * @param rebalancerRef reference to the rebalancer class that will be used
    */
   public RebalancerConfigHolder(RebalancerConfiguration config) {
-    AbstractRebalancerConfig abstractConfig = (AbstractRebalancerConfig) config;
     _backingConfig =
         new NamespacedConfig(Scope.resource(config.getResourceId()),
             RebalancerConfigHolder.class.getSimpleName());
-    _backingConfig.setSimpleField(Fields.SERIALIZER_CLASS.toString(), abstractConfig
-        .getSerializerClass().getName());
+    _backingConfig.setSimpleField(Fields.SERIALIZER_CLASS.toString(), config.getSerializerClass()
+        .getName());
     _backingConfig.setSimpleField(Fields.REBALANCER_CONFIG_CLASS.toString(), config.getClass()
         .getName());
-    _config = abstractConfig;
+    _config = config;
     try {
-      _serializer = abstractConfig.getSerializerClass().newInstance();
+      _serializer = (StringSerializer) config.getSerializerClass().newInstance();
       _backingConfig.setSimpleField(Fields.REBALANCER_CONFIG.toString(),
           _serializer.serialize(config));
     } catch (InstantiationException e) {
@@ -104,14 +103,14 @@ public final class RebalancerConfigHolder {
     return null;
   }
 
-  private AbstractRebalancerConfig getConfig() {
+  private RebalancerConfiguration getConfig() {
     String className = _backingConfig.getSimpleField(Fields.REBALANCER_CONFIG_CLASS.toString());
     if (className != null) {
       try {
         Class<? extends RebalancerConfiguration> configClass =
             HelixUtil.loadClass(getClass(), className).asSubclass(RebalancerConfiguration.class);
         String serialized = _backingConfig.getSimpleField(Fields.REBALANCER_CONFIG.toString());
-        return (AbstractRebalancerConfig) _serializer.deserialize(configClass, serialized);
+        return (RebalancerConfiguration) _serializer.deserialize(configClass, serialized);
       } catch (ClassNotFoundException e) {
         LOG.error(className + " is not a valid class");
       } catch (ClassCastException e) {

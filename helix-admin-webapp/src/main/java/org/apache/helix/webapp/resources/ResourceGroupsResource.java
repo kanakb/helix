@@ -24,8 +24,8 @@ import java.util.List;
 
 import org.apache.helix.HelixException;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.manager.zk.ZkClient;
-import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.tools.ClusterSetup;
 import org.apache.helix.webapp.RestAdminApplication;
 import org.apache.log4j.Logger;

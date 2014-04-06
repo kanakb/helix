@@ -41,6 +41,7 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.builder.CustomModeISBuilder;
 import org.apache.log4j.Logger;
@@ -168,7 +169,7 @@ public class TaskDriver {
 
     // Push out new ideal state based on number of target partitions
     CustomModeISBuilder builder = new CustomModeISBuilder(taskResource);
-    builder.setRebalancerMode(IdealState.RebalanceMode.USER_DEFINED);
+    builder.setRebalancerMode(RebalanceMode.USER_DEFINED);
     builder.setNumReplica(1);
     builder.setNumPartitions(numPartitions);
     builder.setStateModel(TaskConstants.STATE_MODEL_NAME);

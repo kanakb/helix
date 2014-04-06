@@ -157,7 +157,10 @@ public class Message extends HelixProperty {
    * Instantiate a message with a new id
    * @param record a ZNRecord corresponding to a message
    * @param id unique message identifier
+   * @deprecated Creating message from a ZNRecord
+   *             will be removed from API, the code will be moved to SPI
    */
+  @Deprecated
   public Message(ZNRecord record, MessageId id) {
     super(new ZNRecord(record, id.toString()));
     setMessageId(id);

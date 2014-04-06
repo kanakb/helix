@@ -28,28 +28,28 @@ import java.util.Set;
 
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
+import org.apache.helix.api.id.RebalancerId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.id.StateModelFactoryId;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.model.configuration.ResourceConfiguration;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
 import org.apache.helix.controller.serializer.DefaultStringSerializer;
 import org.apache.helix.controller.serializer.StringSerializer;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.IdealState.RebalanceMode;
 
 /**
  * Raw RebalancerConfig that functions for generic resources. This class is backed by an IdealState.
  */
-public class BasicRebalancerConfig extends AbstractRebalancerConfig implements
-    RebalancerConfiguration {
+public class BasicRebalancerConfig extends RebalancerConfiguration {
   private final IdealState _idealState;
   private final Class<? extends StringSerializer> _serializer;
 
   protected BasicRebalancerConfig(IdealState idealState) {
+    super(RebalancerId.from(idealState.getId()));
     _idealState = idealState;
     _serializer = DefaultStringSerializer.class;
   }
@@ -72,11 +72,6 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements
   @Override
   public String getParticipantGroupTag() {
     return _idealState.getInstanceGroupTag();
-  }
-
-  @Override
-  public Class<? extends StringSerializer> getSerializerClass() {
-    return _serializer;
   }
 
   @Override
@@ -159,7 +154,7 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements
         BasicRebalancerConfig.convert(config, BasicRebalancerConfig.class);
     if (basicConfig != null) {
     } else {
-      AbstractRebalancerConfig abstractConfig = (AbstractRebalancerConfig) config;
+      RebalancerConfiguration abstractConfig = (RebalancerConfiguration) config;
       basicConfig =
           new BasicRebalancerConfig.Builder().withResourceId(config.getResourceId())
               .withMode(abstractConfig.getRebalanceMode())
@@ -183,8 +178,8 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements
     @Override
     public Builder withExistingConfig(RebalancerConfiguration config) {
       super.withExistingConfig(config);
-      AbstractRebalancerConfig abstractConfig =
-          BasicRebalancerConfig.convert(config, AbstractRebalancerConfig.class);
+      RebalancerConfiguration abstractConfig =
+          BasicRebalancerConfig.convert(config, RebalancerConfiguration.class);
       if (abstractConfig != null) {
         _mode = abstractConfig.getRebalanceMode();
       }
@@ -234,8 +229,8 @@ public class BasicRebalancerConfig extends AbstractRebalancerConfig implements
      * @return Builder
      */
     public T withExistingConfig(RebalancerConfiguration config) {
-      AbstractRebalancerConfig abstractConfig =
-          BasicRebalancerConfig.convert(config, AbstractRebalancerConfig.class);
+      RebalancerConfiguration abstractConfig =
+          BasicRebalancerConfig.convert(config, RebalancerConfiguration.class);
       if (abstractConfig != null) {
         _rebalancerClass = abstractConfig.getRebalancerClass();
       }

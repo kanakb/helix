@@ -25,8 +25,8 @@ import java.util.TreeMap;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.model.IdealState.RebalanceMode;
 
 /**
  * IdealState builder for CUSTOMIZED mode

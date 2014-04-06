@@ -33,12 +33,12 @@ import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
-import org.apache.helix.controller.rebalancer.config.AbstractRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.SemiAutoRebalancerConfig;
 import org.apache.helix.controller.stages.AttributeName;
@@ -169,7 +169,7 @@ public class TestNewStages extends ZkUnitTestBase {
     ResourceId resourceId = ResourceId.from("TestDB0");
     Resource resource = cluster.getResource(resourceId);
     ResourceCurrentState currentStateOutput = new ResourceCurrentState();
-    AbstractRebalancerConfig config = (AbstractRebalancerConfig) resource.getRebalancerConfig();
+    RebalancerConfiguration config = (RebalancerConfiguration) resource.getRebalancerConfig();
     RebalancerRef rebalancerRef = RebalancerRef.from(config.getRebalancerClass());
     ResourceAssignment semiAutoResult =
         rebalancerRef.getRebalancer().computeResourceMapping(resource.getRebalancerConfig(), null,

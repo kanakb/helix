@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.configuration;
+package org.apache.helix.api.id;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,16 +18,25 @@ package org.apache.helix.api.model.configuration;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.SpectatorId;
-
-public class SpectatorConfiguration extends MemberConfiguration<SpectatorId> {
+public class RebalancerId extends Id {
 
   /**
-   * The spectator configuration based on an id
-   * @param id the spectator id
+   * Creates a rebalancer id 
+   * @param id
    */
-  public SpectatorConfiguration(SpectatorId id) {
+  public RebalancerId(String id) {
     super(id);
   }
 
+  /**
+   * Get a concrete rebalancer id
+   * @param rebalancerId
+   * @return RebalancerId
+   */
+  public static RebalancerId from(String rebalancerId) {
+    if (rebalancerId == null) {
+      return null;
+    }
+    return new RebalancerId(rebalancerId);
+  }
 }

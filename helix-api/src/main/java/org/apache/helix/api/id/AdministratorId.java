@@ -1,4 +1,5 @@
 package org.apache.helix.api.id;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +19,6 @@ package org.apache.helix.api.id;
  * under the License.
  */
 public class AdministratorId extends MemberId {
-
   public AdministratorId(String id) {
     super(id);
   }

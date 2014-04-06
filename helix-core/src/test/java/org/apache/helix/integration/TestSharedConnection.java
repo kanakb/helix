@@ -31,14 +31,14 @@ import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.StateModelDefinitionId;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.api.role.HelixParticipant;
+import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.manager.zk.HelixConnectionAdaptor;
 import org.apache.helix.manager.zk.ZkHelixConnection;
 import org.apache.helix.manager.zk.ZkHelixLeaderElection;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.apache.helix.tools.ClusterStateVerifier.BestPossAndExtViewZkVerifier;
 import org.testng.Assert;
@@ -84,7 +84,8 @@ public class TestSharedConnection extends ZkUnitTestBase {
           connection.createParticipant(ClusterId.from(clusterName),
               ParticipantId.from("localhost_" + (12918 + i)));
       participants[i].getStateMachineEngine().registerStateModelFactory(
-          StateModelDefinitionId.from("OnlineOffline"), new TestHelixConnection.MockStateModelFactory());
+          StateModelDefinitionId.from("OnlineOffline"),
+          new TestHelixConnection.MockStateModelFactory());
       participants[i].start();
     }
 

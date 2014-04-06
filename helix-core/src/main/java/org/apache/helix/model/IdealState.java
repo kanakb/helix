@@ -38,7 +38,8 @@ import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
@@ -94,19 +95,6 @@ public class IdealState extends HelixProperty {
     AUTO,
     CUSTOMIZED,
     AUTO_REBALANCE
-  }
-
-  /**
-   * The mode used for rebalance. FULL_AUTO does both node location calculation and state
-   * assignment, SEMI_AUTO only does the latter, and CUSTOMIZED does neither. USER_DEFINED
-   * uses a Rebalancer implementation plugged in by the user.
-   */
-  public enum RebalanceMode {
-    FULL_AUTO,
-    SEMI_AUTO,
-    CUSTOMIZED,
-    USER_DEFINED,
-    NONE
   }
 
   private static final Logger logger = Logger.getLogger(IdealState.class.getName());

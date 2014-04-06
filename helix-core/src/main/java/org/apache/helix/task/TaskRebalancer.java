@@ -37,7 +37,7 @@ import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;

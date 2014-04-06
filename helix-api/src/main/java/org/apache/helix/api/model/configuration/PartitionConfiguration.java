@@ -39,7 +39,10 @@ public class PartitionConfiguration extends HelixProperty implements HelixConfig
   /**
    * Instantiate from a record
    * @param record configuration properties
+   * @deprecated Creating partition configuration from a ZNRecord
+   *             will be removed from API, the code will be moved to SPI
    */
+  @Deprecated
   public PartitionConfiguration(ZNRecord record) {
     super(record);
   }

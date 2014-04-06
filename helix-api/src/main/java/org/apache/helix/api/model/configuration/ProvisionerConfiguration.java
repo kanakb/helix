@@ -1,5 +1,8 @@
 package org.apache.helix.api.model.configuration;
 
+import org.apache.helix.api.id.ProvisionerId;
+import org.apache.helix.api.model.HelixProperty;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,16 +21,9 @@ package org.apache.helix.api.model.configuration;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.SpectatorId;
+public class ProvisionerConfiguration extends HelixProperty implements HelixConfiguration {
 
-public class SpectatorConfiguration extends MemberConfiguration<SpectatorId> {
-
-  /**
-   * The spectator configuration based on an id
-   * @param id the spectator id
-   */
-  public SpectatorConfiguration(SpectatorId id) {
-    super(id);
+  public ProvisionerConfiguration(ProvisionerId provisionerId) {
+    super(provisionerId.toString());
   }
-
 }

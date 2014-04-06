@@ -5,7 +5,6 @@ import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.NamespacedConfig;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;
@@ -57,7 +56,10 @@ public class ResourceConfiguration extends HelixProperty implements HelixConfigu
   /**
    * Instantiate from a record
    * @param record configuration properties
+   * @deprecated Creating resource configuration from a ZNRecord
+   *             will be removed from API, the code will be moved to SPI
    */
+  @Deprecated
   public ResourceConfiguration(ZNRecord record) {
     super(record);
   }

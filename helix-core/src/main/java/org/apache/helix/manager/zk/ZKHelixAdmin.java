@@ -43,9 +43,9 @@ import org.apache.helix.ConfigAccessor;
 import org.apache.helix.HelixAdmin;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixException;
+import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.alerts.AlertsHolder;
 import org.apache.helix.alerts.StatsHolder;
-import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
 import org.apache.helix.api.id.ConstraintId;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.PartitionId;
@@ -54,32 +54,32 @@ import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.HelixConfigScope;
+import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
-import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
-import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
+import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.controller.strategy.DefaultTwoStateStrategy;
 import org.apache.helix.model.Alerts;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
-import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.PauseSignal;
 import org.apache.helix.model.PersistentStats;
+import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.util.HelixUtil;
 import org.apache.helix.util.RebalanceUtil;
 import org.apache.log4j.Logger;
@@ -916,8 +916,7 @@ public class ZKHelixAdmin implements HelixAdmin {
         new ZKHelixDataAccessor(grandCluster, new ZkBaseDataAccessor<ZNRecord>(_zkClient));
     PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
 
-    accessor
-        .setProperty(keyBuilder.idealStates(idealState.getResourceId().toString()), idealState);
+    accessor.setProperty(keyBuilder.idealStates(idealState.getResourceId().toString()), idealState);
   }
 
   @Override

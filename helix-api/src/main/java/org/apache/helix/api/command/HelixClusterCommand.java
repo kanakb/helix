@@ -1,4 +1,7 @@
 package org.apache.helix.api.command;
+
+import org.apache.helix.api.model.statemachine.StateModelDefinition;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,8 +23,21 @@ package org.apache.helix.api.command;
 
 /**
  * A command used to create Helix cluster
- * 
  */
 public class HelixClusterCommand {
+  private StateModelDefinition stateModelDefinition;
 
+  public HelixClusterCommand() {
+
+  }
+
+  /**
+   * Registers a state model definition for the cluster, the statemodel
+   * definition is applied to the cluster as well as resources added to the
+   * cluster
+   * @param stateModelDefinition
+   */
+  public void registerStateModel(StateModelDefinition stateModelDefinition) {
+    this.stateModelDefinition = stateModelDefinition;
+  }
 }

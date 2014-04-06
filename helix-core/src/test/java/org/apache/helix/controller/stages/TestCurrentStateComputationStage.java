@@ -22,19 +22,19 @@ package org.apache.helix.controller.stages;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.PropertyKeyBuilder;
+import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.IdealState.RebalanceMode;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 

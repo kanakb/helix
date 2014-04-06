@@ -30,15 +30,14 @@ import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.MemberRole;
-import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZKHelixManager;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
-import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.apache.helix.tools.ClusterStateVerifier.BestPossAndExtViewZkVerifier;
@@ -132,7 +131,8 @@ public class TestEntropyFreeNodeBounce extends ZkUnitTestBase {
     HelixManager participant =
         new ZKHelixManager(clusterName, instanceName, MemberRole.PARTICIPANT, ZK_ADDR);
     participant.getStateMachineEngine().registerStateModelFactory(
-        StateModelDefinitionId.from("OnlineOffline"), new TestHelixConnection.MockStateModelFactory());
+        StateModelDefinitionId.from("OnlineOffline"),
+        new TestHelixConnection.MockStateModelFactory());
     return participant;
   }
 

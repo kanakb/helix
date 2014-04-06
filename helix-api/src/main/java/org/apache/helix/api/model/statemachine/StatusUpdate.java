@@ -30,7 +30,10 @@ public class StatusUpdate extends HelixProperty {
   /**
    * Instantiate with a pre-populated record
    * @param record ZNRecord corresponding to a status update
+   * @deprecated Creating status update from a ZNRecord
+   *             will be removed from API, the code will be moved to SPI
    */
+  @Deprecated
   public StatusUpdate(ZNRecord record) {
     super(record);
   }

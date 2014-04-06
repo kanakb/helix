@@ -27,7 +27,7 @@ import org.apache.helix.api.config.builder.ResourceConfigBuilder;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelFactoryId;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;

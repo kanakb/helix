@@ -90,7 +90,10 @@ public class ClusterConstraints extends HelixProperty {
   /**
    * Instantiate constraints from a pre-populated ZNRecord
    * @param record ZNRecord containing all constraints
+   * @deprecated Creating cluster constraints from a ZNRecord
+   *             will be removed from API, the code will be moved to SPI
    */
+  @Deprecated
   public ClusterConstraints(ZNRecord record) {
     super(record);
 

@@ -22,6 +22,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * under the License.
  */
 public final class ResourceId extends Id {
+  private ClusterId clusterId;
+
   /**
    * Create a resource id
    * @param id string representation of a resource id
@@ -41,5 +43,23 @@ public final class ResourceId extends Id {
       return null;
     }
     return new ResourceId(resourceId);
+  }
+
+  /**
+   * The cluster id can be used to identify the cluster.
+   * Note: This can be used to detect the state model which is assigned
+   * to the cluster
+   * @return
+   */
+  public ClusterId getClusterId() {
+    return clusterId;
+  }
+
+  /**
+   * Sets the cluster id for the cluster to which the resource is assigned
+   * @param id the cluster id
+   */
+  public void setClusterId(ClusterId id) {
+    clusterId = id;
   }
 }

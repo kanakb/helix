@@ -18,6 +18,7 @@ package org.apache.helix.api.model;
  * under the License.
  */
 import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 
 /**
  * A Helix cluster entity
@@ -25,5 +26,6 @@ import org.apache.helix.api.id.ClusterId;
  */
 public interface HelixCluster extends HelixEntity<ClusterId>{
 
+  public StateModelDefinitionId getStateModelDefinitionId();
   
 }

@@ -52,8 +52,10 @@ public class HelixProperty {
 
   /**
    * Initialize the property with an existing ZNRecord
-   * @param record
+   * @deprecated Creating helix property from a ZNRecord
+   *             will be removed from API, the code will be moved to SPI
    */
+  @Deprecated
   public HelixProperty(ZNRecord record) {
     _record = new ZNRecord(record);
   }

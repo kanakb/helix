@@ -18,15 +18,11 @@ package org.apache.helix.api.model.configuration;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.SpectatorId;
+import org.apache.helix.api.model.HelixProperty;
 
-public class SpectatorConfiguration extends MemberConfiguration<SpectatorId> {
+public class TargetProviderConfiguration extends HelixProperty implements HelixConfiguration {
 
-  /**
-   * The spectator configuration based on an id
-   * @param id the spectator id
-   */
-  public SpectatorConfiguration(SpectatorId id) {
+  public TargetProviderConfiguration(String id) {
     super(id);
   }
 

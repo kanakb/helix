@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.configuration;
+package org.apache.helix.api.id;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,16 +18,20 @@ package org.apache.helix.api.model.configuration;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.SpectatorId;
-
-public class SpectatorConfiguration extends MemberConfiguration<SpectatorId> {
+public class TargetProviderId extends Id {
 
   /**
-   * The spectator configuration based on an id
-   * @param id the spectator id
+   * Create a target provider id
+   * @param id
    */
-  public SpectatorConfiguration(SpectatorId id) {
+  protected TargetProviderId(String id) {
     super(id);
   }
 
+  public static TargetProviderId from(String id) {
+    if (id == null) {
+      return null;
+    }
+    return new TargetProviderId(id);
+  }
 }

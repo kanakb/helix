@@ -5,7 +5,7 @@ import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.config.SchedulerTaskConfig;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.UserConfig;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 
 public abstract class ResourceConfigBuilder {
 

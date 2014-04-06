@@ -73,7 +73,10 @@ public class StateModelDefinition extends HelixProperty {
   /**
    * Instantiate from a pre-populated record
    * @param record ZNRecord representing a state model definition
+   * @deprecated Creating state model definition from a ZNRecord
+   *             will be removed from API, the code will be moved to SPI
    */
+  @Deprecated
   public StateModelDefinition(ZNRecord record) {
     super(record);
 

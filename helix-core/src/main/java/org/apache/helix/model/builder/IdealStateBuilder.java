@@ -19,12 +19,13 @@ package org.apache.helix.model.builder;
  * under the License.
  */
 
-import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixException;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.model.IdealState;
 
 public abstract class IdealStateBuilder {
@@ -54,7 +55,7 @@ public abstract class IdealStateBuilder {
   /**
    * Helix rebalancer strategies. AUTO, SEMI_AUTO, CUSTOMIZED
    */
-  protected IdealState.RebalanceMode rebalancerMode;
+  protected RebalancerConfiguration.RebalanceMode rebalancerMode;
   /**
    * A constraint that limits the maximum number of partitions per Node.
    */
@@ -145,7 +146,7 @@ public abstract class IdealStateBuilder {
    * sub-class should implement this to set ideal-state mode
    * @return
    */
-  public IdealStateBuilder setRebalancerMode(IdealState.RebalanceMode rebalancerMode) {
+  public IdealStateBuilder setRebalancerMode(RebalanceMode rebalancerMode) {
     this.rebalancerMode = rebalancerMode;
     return this;
   }

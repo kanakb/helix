@@ -28,8 +28,8 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.model.PropertyKey;
-import org.apache.helix.api.model.rebalancer.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
@@ -40,7 +40,6 @@ import org.apache.helix.controller.stages.ClusterDataCache;
 import org.apache.helix.controller.stages.CurrentStateOutput;
 import org.apache.helix.controller.stages.ResourceCurrentState;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.IdealState.RebalanceMode;
 import org.apache.helix.model.Partition;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.helix.util.HelixUtil;
@@ -129,8 +128,8 @@ public class FallbackRebalancer implements HelixRebalancer {
             currentState.getCurrentStateMap(resource, partitionId);
         for (ParticipantId participantId : currentStateMap.keySet()) {
           currentStateOutput.setCurrentState(resource.toString(),
-              new Partition(partitionId.toString()), participantId.toString(), currentStateMap
-                  .get(participantId).toString());
+              new Partition(partitionId.toString()), participantId.toString(),
+              currentStateMap.get(participantId).toString());
         }
 
         // set pending current state
@@ -138,8 +137,8 @@ public class FallbackRebalancer implements HelixRebalancer {
             currentState.getPendingStateMap(resource, partitionId);
         for (ParticipantId participantId : pendingStateMap.keySet()) {
           currentStateOutput.setPendingState(resource.toString(),
-              new Partition(partitionId.toString()), participantId.toString(), pendingStateMap
-                  .get(participantId).toString());
+              new Partition(partitionId.toString()), participantId.toString(),
+              pendingStateMap.get(participantId).toString());
         }
       }
     }

@@ -28,6 +28,7 @@ import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
@@ -39,7 +40,6 @@ import org.apache.helix.controller.pipeline.StageException;
 import org.apache.helix.controller.rebalancer.FallbackRebalancer;
 import org.apache.helix.controller.rebalancer.HelixRebalancer;
 import org.apache.helix.controller.rebalancer.RebalancerRef;
-import org.apache.helix.controller.rebalancer.config.AbstractRebalancerConfig;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.log4j.Logger;
@@ -178,8 +178,8 @@ public class BestPossibleStateCalcStage extends AbstractBaseStage {
         LOG.debug("Processing resource:" + resourceId);
       }
       ResourceConfig resourceConfig = resourceMap.get(resourceId);
-      AbstractRebalancerConfig rebalancerConfig =
-          (AbstractRebalancerConfig) resourceConfig.getRebalancerConfig();
+      RebalancerConfiguration rebalancerConfig =
+          (RebalancerConfiguration) resourceConfig.getRebalancerConfig();
       StateModelDefinition stateModelDef =
           stateModelDefs.get(rebalancerConfig.getStateModelDefId());
       ResourceAssignment resourceAssignment = null;

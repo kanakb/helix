@@ -25,9 +25,13 @@ import org.apache.helix.api.id.ResourceId;
  * Command allows creating partitions for a given resource
  */
 public class HelixPartitionCommand {
+  private final ResourceId resourceId;
 
-  public HelixPartitionCommand(ResourceId resourceId){
-    
+  /**
+   * Creates a partition for a resource
+   * @param resourceId the resource for which the parition is created
+   */
+  public HelixPartitionCommand(ResourceId resourceId) {
+    this.resourceId = resourceId;
   }
-  
 }

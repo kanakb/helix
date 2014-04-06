@@ -35,6 +35,7 @@ import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.model.IdealState;
@@ -97,7 +98,7 @@ public class TestZkReconnect {
     LOG.info("Ideal state assignment");
     HelixAdmin helixAdmin = participant.getClusterManagmentTool();
     helixAdmin.addResource(clusterName, resourceName, 1, "OnlineOffline",
-        IdealState.RebalanceMode.CUSTOMIZED.toString());
+        RebalanceMode.CUSTOMIZED.toString());
 
     IdealState idealState = helixAdmin.getResourceIdealState(clusterName, resourceName);
     idealState.setReplicas("1");

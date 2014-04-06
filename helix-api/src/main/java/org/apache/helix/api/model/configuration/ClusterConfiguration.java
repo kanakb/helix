@@ -47,7 +47,11 @@ public class ClusterConfiguration extends HelixProperty implements HelixConfigur
   /**
    * Instantiate from a record
    * @param record configuration properties
+   * 
+   * @deprecated Creating cluster configuration from a ZNRecord 
+   * will be removed from API, the code will be moved to SPI
    */
+  @Deprecated
   public ClusterConfiguration(ZNRecord record) {
     super(record);
   }
