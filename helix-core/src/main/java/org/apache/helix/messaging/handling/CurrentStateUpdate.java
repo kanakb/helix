@@ -20,7 +20,7 @@ package org.apache.helix.messaging.handling;
  */
 
 import org.apache.helix.api.model.PropertyKey;
-import org.apache.helix.model.CurrentState;
+import org.apache.helix.api.model.statemachine.CurrentState;
 
 public class CurrentStateUpdate {
   final PropertyKey _key;

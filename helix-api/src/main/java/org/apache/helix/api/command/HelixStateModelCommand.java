@@ -1,5 +1,4 @@
 package org.apache.helix.api.command;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,18 +17,6 @@ package org.apache.helix.api.command;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.ClusterId;
-
-/**
- * Command allows creating Helix Participant members
- */
-public class HelixParticipantCommand extends HelixMemberCommand {
-  /**
-   * Creates a participant member for the cluster
-   * @param clusterId the cluster for which the participant is to be added
-   */
-  public HelixParticipantCommand(ClusterId clusterId) {
-    super(clusterId, MemberType.PARTICIPANT);
-  }
+public class HelixStateModelCommand {
 
 }

@@ -9,9 +9,9 @@ import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.statemachine.CurrentState;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.model.CurrentState;
-import org.apache.helix.model.CurrentState.CurrentStateProperty;
+import org.apache.helix.api.model.statemachine.CurrentState.CurrentStateProperty;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

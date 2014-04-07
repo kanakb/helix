@@ -23,8 +23,8 @@ import org.I0Itec.zkclient.DataUpdater;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.statemachine.CurrentState;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.model.CurrentState;
 
 /**
  * updater for carrying over last current states

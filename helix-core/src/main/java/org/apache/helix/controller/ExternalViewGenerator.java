@@ -29,7 +29,7 @@ import java.util.TreeSet;
 
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.model.CurrentState.CurrentStateProperty;
+import org.apache.helix.api.model.statemachine.CurrentState.CurrentStateProperty;
 import org.apache.log4j.Logger;
 
 /*

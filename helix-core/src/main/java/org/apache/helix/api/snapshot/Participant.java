@@ -29,7 +29,7 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.model.CurrentState;
+import org.apache.helix.api.model.statemachine.CurrentState;
 
 import com.google.common.collect.ImmutableMap;
 

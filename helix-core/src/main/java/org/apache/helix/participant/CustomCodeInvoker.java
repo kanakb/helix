@@ -29,7 +29,7 @@ import org.apache.helix.LiveInstanceChangeListener;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.Type;
 import org.apache.helix.PropertyKeyBuilder;
-import org.apache.helix.model.CurrentState;
+import org.apache.helix.api.model.statemachine.CurrentState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.composite.ExternalView;

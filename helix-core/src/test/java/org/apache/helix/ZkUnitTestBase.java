@@ -38,6 +38,7 @@ import org.apache.helix.api.model.configuration.RebalancerConfiguration.Rebalanc
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.Attributes;
 import org.apache.helix.api.model.ipc.Message.MessageType;
+import org.apache.helix.api.model.statemachine.CurrentState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.controller.pipeline.Pipeline;
@@ -49,7 +50,6 @@ import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;
 import org.apache.helix.manager.zk.ZkClient;
-import org.apache.helix.model.CurrentState;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;

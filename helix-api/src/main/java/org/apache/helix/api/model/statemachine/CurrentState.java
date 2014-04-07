@@ -1,4 +1,4 @@
-package org.apache.helix.model;
+package org.apache.helix.api.model.statemachine;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -30,7 +30,6 @@ import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.State;
 import org.apache.log4j.Logger;
 
 /**

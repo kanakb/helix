@@ -58,7 +58,7 @@ import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.model.CurrentState;
+import org.apache.helix.api.model.statemachine.CurrentState;
 import org.apache.helix.model.HealthStat;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;

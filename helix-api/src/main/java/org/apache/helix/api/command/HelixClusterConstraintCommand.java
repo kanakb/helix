@@ -17,23 +17,6 @@ package org.apache.helix.api.command;
  * specific language governing permissions and limitations
  * under the License.
  */
+public class HelixClusterConstraintCommand {
 
-import org.apache.helix.api.model.HelixCluster;
-
-/**
- * A builder for cluster commands
- *
- */
-public class HelixClusterCommandBuilder {
-
-  public HelixClusterCommandBuilder(){
-  }
-  
-  public HelixClusterCommandBuilder withConstraints(Object constraints){
-    return this;
-  }
-  
-  public HelixCluster build(){
-    return null;
-  }
 }

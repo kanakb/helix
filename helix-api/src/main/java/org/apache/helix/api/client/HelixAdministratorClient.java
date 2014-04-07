@@ -75,6 +75,18 @@ public abstract class HelixAdministratorClient extends HelixClient {
   public abstract boolean removeCluster(ClusterId clusterId);
 
   /**
+   * Pause the cluster with the given id
+   * @param clusterId the id of the cluster to pause
+   */
+  public abstract void pauseCluster(ClusterId clusterId);
+
+  /**
+   * Resume the cluster with the given id
+   * @param clusterId the id of the cluster to resume
+   */
+  public abstract void resumeCluster(ClusterId clusterId);
+
+  /**
    * Enables a cluster member
    * @param memberId the member to enable
    * @return boolean <b>True</b> if the enable succeeds, <b>False</b> if enable fails
@@ -94,8 +106,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @return HelixParticipant
    */
   public abstract HelixParticipant addParticipant(HelixParticipantCommand command);
-  
-  
+
   /**
    * Updates a cluster participant based on the command to the cluster
    * @param command
@@ -123,7 +134,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return HelixSpectator
    */
-  public final HelixSpectator addSpectator(HelixSpectatorCommand command){
+  public final HelixSpectator addSpectator(HelixSpectatorCommand command) {
     throw new UnsupportedOperationException();
   }
 
@@ -132,7 +143,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param commands the commands for the spectators
    * @return List<HelixSpectator>
    */
-  public final List<HelixSpectator> addSpectators(List<HelixSpectatorCommand> commands){
+  public final List<HelixSpectator> addSpectators(List<HelixSpectatorCommand> commands) {
     throw new UnsupportedOperationException();
   }
 
@@ -141,18 +152,17 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param id the spectator to remove
    * @return boolean <b>True</b> if the spectator is removed, <b>False</b> if the removal fails
    */
-  public final boolean removeSpectator(SpectatorId id){
+  public final boolean removeSpectator(SpectatorId id) {
     throw new UnsupportedOperationException();
   }
 
   /**
    * Adds a cluster administrator based on the command to the cluster. There can only be one
-   * administrator for a cluster. 
-   * 
+   * administrator for a cluster.
    * @param command
    * @return HelixAdministrator
    */
-  public final HelixAdministrator addAdministrator(HelixAdministratorCommand command){
+  public final HelixAdministrator addAdministrator(HelixAdministratorCommand command) {
     throw new UnsupportedOperationException();
   }
 
@@ -161,7 +171,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param id the controller to remove
    * @return boolean <b>True</b>if the controller is removed, <b>False</b> if removal fails
    */
-  public final boolean removeAdministrator(AdministratorId id){
+  public final boolean removeAdministrator(AdministratorId id) {
     throw new UnsupportedOperationException();
   }
 

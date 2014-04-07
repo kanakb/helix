@@ -25,11 +25,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.helix.model.CurrentState;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.Attributes;
+import org.apache.helix.api.model.statemachine.CurrentState;
 
 public class GroupMessageHandler {
   class CurrentStateUpdate {

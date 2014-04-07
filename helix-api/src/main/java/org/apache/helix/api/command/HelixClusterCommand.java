@@ -1,6 +1,10 @@
 package org.apache.helix.api.command;
 
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.helix.api.id.ClusterId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -25,10 +29,19 @@ import org.apache.helix.api.model.statemachine.StateModelDefinition;
  * A command used to create Helix cluster
  */
 public class HelixClusterCommand {
-  private StateModelDefinition stateModelDefinition;
+  private HelixStateModelCommand stateModelDefinition;
+  private final Set<String> alerts;
+  private final Set<String> stats;
+  private final Set<HelixResourceCommand> resources;
+  private HelixClusterConstraintCommand constraints;
+  private final Set<HelixParticipantCommand> participants;
+  private ClusterId clusterId;
 
-  public HelixClusterCommand() {
-
+  protected HelixClusterCommand() {
+    alerts = new HashSet<String>();
+    stats = new HashSet<String>();
+    resources = new HashSet<HelixResourceCommand>();
+    participants = new HashSet<HelixParticipantCommand>();
   }
 
   /**
@@ -37,7 +50,55 @@ public class HelixClusterCommand {
    * cluster
    * @param stateModelDefinition
    */
-  public void registerStateModel(StateModelDefinition stateModelDefinition) {
-    this.stateModelDefinition = stateModelDefinition;
+  public void setStateModel(HelixStateModelCommand stateModelCommand) {
+    this.stateModelDefinition = stateModelCommand;
+  }
+
+  public void setAlert(Set<String> alerts) {
+    alerts.addAll(alerts);
+  }
+
+  public void addAlert(String alert) {
+    alerts.add(alert);
+  }
+
+  public boolean removeAlert(String alert) {
+    return alerts.remove(alert);
+  }
+
+  public Set<String> getAlerts() {
+    return Collections.unmodifiableSet(this.alerts);
+  }
+
+  public void setStats(Set<String> stats) {
+    this.stats.addAll(stats);
+  }
+
+  public boolean removeStat(String stat) {
+    return stats.remove(stat);
+  }
+
+  public Set<String> getStats() {
+    return Collections.unmodifiableSet(this.stats);
+  }
+
+  public void addResources(Set<HelixResourceCommand> resources) {
+    this.resources.addAll(resources);
+  }
+
+  public boolean removeResource(HelixResourceCommand resource) {
+    return this.resources.remove(resource);
+  }
+
+  public void addParticipants(Set<HelixParticipantCommand> participants) {
+    this.participants.addAll(participants);
+  }
+
+  public void setClusterId(ClusterId id) {
+    this.clusterId = id;
+  }
+  
+  public void setClusterConstraints(HelixClusterConstraintCommand constraint){
+    this.constraints = constraint;
   }
 }
