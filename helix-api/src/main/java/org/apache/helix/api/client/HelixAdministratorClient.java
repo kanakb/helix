@@ -157,8 +157,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
   }
 
   /**
-   * Adds a cluster administrator based on the command to the cluster. There can only be one
-   * administrator for a cluster.
+   * Adds a cluster administrator based on the command to the cluster.
    * @param command
    * @return HelixAdministrator
    */
