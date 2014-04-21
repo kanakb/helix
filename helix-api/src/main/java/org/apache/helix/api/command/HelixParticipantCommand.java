@@ -18,7 +18,7 @@ package org.apache.helix.api.command;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ParticipantId;
 
 /**
  * Command allows creating Helix Participant members
@@ -28,8 +28,8 @@ public class HelixParticipantCommand extends HelixMemberCommand {
    * Creates a participant member for the cluster
    * @param clusterId the cluster for which the participant is to be added
    */
-  public HelixParticipantCommand(ClusterId clusterId) {
-    super(clusterId, MemberType.PARTICIPANT);
+  public HelixParticipantCommand(ParticipantId participantId) {
+    super(participantId, MemberType.PARTICIPANT);
   }
 
 }

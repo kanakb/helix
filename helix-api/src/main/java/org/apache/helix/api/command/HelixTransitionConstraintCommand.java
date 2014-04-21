@@ -1,4 +1,7 @@
 package org.apache.helix.api.command;
+
+import org.apache.helix.api.id.StateModelDefinitionId;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,6 +20,14 @@ package org.apache.helix.api.command;
  * specific language governing permissions and limitations
  * under the License.
  */
-public class HelixClusterConstraintCommand {
-
+public class HelixTransitionConstraintCommand extends HelixConstraintCommand{
+  private int maxTransitions;
+  
+  public void setStateModelId(StateModelDefinitionId state){
+    
+  }
+  
+  public void setMaxTransitions(int maxTransitions){
+    this.maxTransitions = maxTransitions;
+  }
 }

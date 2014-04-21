@@ -29,9 +29,9 @@ import java.util.TreeMap;
 
 import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.apache.helix.api.model.HelixConfigScope;
-import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.api.util.StringTemplate;
 import org.apache.helix.manager.zk.ZKUtil;
 import org.apache.helix.manager.zk.ZkClient;

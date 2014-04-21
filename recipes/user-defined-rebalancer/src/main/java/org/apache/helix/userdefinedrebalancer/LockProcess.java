@@ -24,7 +24,7 @@ import java.util.List;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.api.id.StateModelDefinitionId;
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.model.InstanceConfig;
 

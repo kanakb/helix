@@ -34,7 +34,7 @@ import org.apache.helix.api.accessor.ClusterAccessor;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.Id;
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.api.role.SingleClusterController;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.healthcheck.HealthStatsAggregationTask;

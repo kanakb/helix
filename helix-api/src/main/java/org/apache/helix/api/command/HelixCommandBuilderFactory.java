@@ -31,6 +31,8 @@ public class HelixCommandBuilderFactory {
 
   /**
    * Creates a command builder for Cluster Commands
+   * @param id the cluster id to create the command for
+   * @return HelixClusterCommandBuilder a command builder for cluster
    */
   public static final HelixClusterCommandBuilder createClusterBuilder(ClusterId id) {
     return new HelixClusterCommandBuilder(id);
@@ -49,18 +51,9 @@ public class HelixCommandBuilderFactory {
     }
 
     /**
-     * Adds cluster constraints to the cluster command
-     * @param constraints
-     * @return
-     */
-    public HelixClusterCommandBuilder withConstraints(HelixClusterConstraintCommand constraints) {
-      return null;
-    }
-
-    /**
      * Adds a set of participants to the cluster command
      * @param participants
-     * @return
+     * @return HelixClusterCommandBuilder an instance of a cluster command builder
      */
     public HelixClusterCommandBuilder withParticipants(Set<HelixParticipantCommand> participants) {
       return null;
@@ -69,7 +62,7 @@ public class HelixCommandBuilderFactory {
     /**
      * Adds a set of resources to the command
      * @param resources
-     * @return
+     * @return HelixClusterCommandBuilder an instance of a cluster command builder
      */
     public HelixClusterCommandBuilder withResources(Set<HelixResourceCommand> resources) {
       return null;
@@ -78,9 +71,36 @@ public class HelixCommandBuilderFactory {
     /**
      * Defines the state model definition for the command
      * @param command
-     * @return
+     * @return HelixClusterCommandBuilder an instance of a cluster command builder
      */
     public HelixClusterCommandBuilder withStateModelDefinition(HelixStateModelCommand command) {
+      return null;
+    }
+
+    /**
+     * Indicates if the cluster can be auto-started
+     * @param autoStart <b>True</b>if the cluster can be auto-started, <b>False</b> if it cannot be
+     * @return HelixClusterCommandBuilder an instance of a cluster command builder
+     */
+    public HelixClusterCommandBuilder withAutoStart(boolean autoStart) {
+      return null;
+    }
+
+    /**
+     * Indicates if the cluster allows auto-join
+     * @param autoJoin <b>True</b>if the cluster allows auto-join, <b>False</b> if not
+     * @return HelixClusterCommandBuilder an instance of a cluster command builder
+     */
+    public HelixClusterCommandBuilder withAllowAutoJoin(boolean autoJoin) {
+      return null;
+    }
+
+    /**
+     * Adds the specified cluster constraint to the cluster command
+     * @param command the constraint command
+     * @return HelixClusterCommandBuilder an instance of a cluster command builder
+     */
+    public HelixClusterCommandBuilder withConstraint(HelixConstraintCommand command) {
       return null;
     }
 
@@ -99,11 +119,10 @@ public class HelixCommandBuilderFactory {
    */
   public static final void main(String args[]) {
     ClusterId id = null;
-    HelixClusterConstraintCommand constraint = null;
     Set<HelixParticipantCommand> participants = null;
     Set<HelixResourceCommand> resources = null;
     HelixStateModelCommand stateModelDefinition = null;
-    HelixCommandBuilderFactory.createClusterBuilder(id).withConstraints(constraint)
+    HelixCommandBuilderFactory.createClusterBuilder(id)
         .withStateModelDefinition(stateModelDefinition).withParticipants(participants)
         .withResources(resources).build();
   }

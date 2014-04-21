@@ -1,7 +1,6 @@
 package org.apache.helix.api.model;
 
-import org.apache.helix.api.id.PartitionId;
-
+import org.apache.helix.api.id.ResourceId;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +19,24 @@ import org.apache.helix.api.id.PartitionId;
  * specific language governing permissions and limitations
  * under the License.
  */
-public interface HelixPartition extends HelixEntity<PartitionId> {
+import org.apache.helix.api.model.configuration.ResourceConfiguration;
 
+/**
+ * Represents a Helix resource which can be added to the cluster. A 
+ * resource has several partitions.
+ *
+ */
+public interface Resource extends HelixEntity<ResourceId>{
+
+  /**
+   * Returns the current state of the resource
+   * @return ResourceState
+   */
+  ResourceState getState();
+  
+  /**
+   * Returns the configuration of the resource
+   * @return ResourceConfiguration
+   */
+  ResourceConfiguration getConfiguration();
 }

@@ -34,7 +34,6 @@ import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.HelixProperty;
-import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.statemachine.State;
 
@@ -112,6 +111,43 @@ public class Message extends HelixProperty {
   };
 
   public static final String CONTROLLER_MSG_ID = "controllerMsgId";
+  private String instanceType;
+
+  private String messageSource;
+
+  private MessageState messageState;
+
+  private String targetInstance;
+
+  private String partitionName;
+
+  private String messageId;
+
+  private String fromState;
+
+  private String toState;
+
+  private String stateModelDefinition;
+
+  private long readTimeStamp;
+
+  private long executeStartTimeStamp;
+
+  private long createTimeStamp;
+
+  private String correlationId;
+
+  private int executionTimeout;
+
+  private int retryCount;
+
+  private Map<String, String> resultMap;
+
+  private String stateModelFactoryName;
+
+  private int bucketSize;
+
+  private String resourceName;
 
   /**
    * Instantiate a message
@@ -357,19 +393,18 @@ public class Message extends HelixProperty {
 
   /**
    * Set the type of instance that the source node is
-   * @param type {@link MemberRole}
+   * @param type 
    */
-  public void setSrcInstanceType(MemberRole type) {
-    _record.setEnumField(Attributes.SRC_INSTANCE_TYPE.toString(), type);
+  public void setSrcInstanceType(String type) {
+    instanceType = type;
   }
 
   /**
    * Get the type of instance that the source is
-   * @return {@link MemberRole}
+   * @return String
    */
-  public MemberRole getSrcInstanceType() {
-    return _record.getEnumField(Attributes.SRC_INSTANCE_TYPE.toString(), MemberRole.class,
-        MemberRole.PARTICIPANT);
+  public String getSrcInstanceType() {
+    return instanceType;
   }
 
   /**
@@ -377,7 +412,7 @@ public class Message extends HelixProperty {
    * @param msgSrc instance name
    */
   public void setSrcName(String msgSrc) {
-    _record.setSimpleField(Attributes.SRC_NAME.toString(), msgSrc);
+    messageSource = msgSrc;
   }
 
   /**
@@ -385,7 +420,7 @@ public class Message extends HelixProperty {
    * @return instance name
    */
   public String getTgtName() {
-    return _record.getSimpleField(Attributes.TGT_NAME.toString());
+    return targetInstance;
   }
 
   /**
@@ -394,7 +429,7 @@ public class Message extends HelixProperty {
    */
   public void setMsgState(MessageState msgState) { // HACK: The "tolowerCase()" call is to make the
                                                    // change backward compatible
-    _record.setSimpleField(Attributes.MSG_STATE.toString(), msgState.toString().toLowerCase());
+    messageState = msgState;
   }
 
   /**
@@ -403,8 +438,7 @@ public class Message extends HelixProperty {
    */
   public MessageState getMsgState() {
     // HACK: The "toUpperCase()" call is to make the change backward compatible
-    return MessageState.valueOf(_record.getSimpleField(Attributes.MSG_STATE.toString())
-        .toUpperCase());
+    return messageState;
   }
 
   /**
@@ -422,7 +456,7 @@ public class Message extends HelixProperty {
    * @param partitionId
    */
   public void setPartitionName(String partitionName) {
-    _record.setSimpleField(Attributes.PARTITION_NAME.toString(), partitionName);
+    this.partitionName = partitionName;
   }
 
   /**
@@ -438,7 +472,7 @@ public class Message extends HelixProperty {
    * @return message identifier
    */
   public String getMsgId() {
-    return _record.getSimpleField(Attributes.MSG_ID.toString());
+    return messageId;
   }
 
   /**
@@ -456,7 +490,7 @@ public class Message extends HelixProperty {
    * @param msgId message identifier
    */
   public void setMsgId(String msgId) {
-    _record.setSimpleField(Attributes.MSG_ID.toString(), msgId);
+    messageId = msgId;
   }
 
   /**
@@ -474,7 +508,7 @@ public class Message extends HelixProperty {
    * @param state the state
    */
   public void setFromState(String state) {
-    _record.setSimpleField(Attributes.FROM_STATE.toString(), state.toString());
+    fromState = state;
   }
 
   /**
@@ -490,7 +524,7 @@ public class Message extends HelixProperty {
    * @return state, or null for other message types
    */
   public String getFromState() {
-    return _record.getSimpleField(Attributes.FROM_STATE.toString());
+    return fromState;
   }
 
   /**
@@ -508,7 +542,7 @@ public class Message extends HelixProperty {
    * @param state the state
    */
   public void setToState(String state) {
-    _record.setSimpleField(Attributes.TO_STATE.toString(), state.toString());
+    toState = state;
   }
 
   /**
@@ -524,7 +558,7 @@ public class Message extends HelixProperty {
    * @return state, or null for other message types
    */
   public String getToState() {
-    return _record.getSimpleField(Attributes.TO_STATE.toString());
+    return toState;
   }
 
   /**
@@ -532,7 +566,7 @@ public class Message extends HelixProperty {
    * @param msgTgt instance name
    */
   public void setTgtName(String msgTgt) {
-    _record.setSimpleField(Attributes.TGT_NAME.toString(), msgTgt);
+    this.targetInstance = msgTgt;
   }
 
   /**
@@ -566,7 +600,7 @@ public class Message extends HelixProperty {
    * @param resourceName resource name to set
    */
   public void setResourceName(String resourceName) {
-    _record.setSimpleField(Attributes.RESOURCE_NAME.toString(), resourceName);
+    this.resourceName = resourceName; 
   }
 
   /**
@@ -582,7 +616,7 @@ public class Message extends HelixProperty {
    * @return resource name
    */
   public String getResourceName() {
-    return _record.getSimpleField(Attributes.RESOURCE_NAME.toString());
+    return resourceName;
   }
 
   /**
@@ -598,7 +632,7 @@ public class Message extends HelixProperty {
    * @return partition id
    */
   public String getPartitionName() {
-    return _record.getSimpleField(Attributes.PARTITION_NAME.toString());
+    return this.partitionName;
   }
 
   /**
@@ -606,7 +640,7 @@ public class Message extends HelixProperty {
    * @return a String reference to the state model definition, e.g. "MasterSlave"
    */
   public String getStateModelDef() {
-    return _record.getSimpleField(Attributes.STATE_MODEL_DEF.toString());
+    return stateModelDefinition;
   }
 
   /**
@@ -632,7 +666,7 @@ public class Message extends HelixProperty {
    * @param stateModelDefName a reference to the state model definition, e.g. "MasterSlave"
    */
   public void setStateModelDef(String stateModelDefId) {
-    _record.setSimpleField(Attributes.STATE_MODEL_DEF.toString(), stateModelDefId);
+    this.stateModelDefinition = stateModelDefId;
   }
 
   /**
@@ -640,7 +674,7 @@ public class Message extends HelixProperty {
    * @param time UNIX timestamp
    */
   public void setReadTimeStamp(long time) {
-    _record.setLongField(Attributes.READ_TIMESTAMP.toString(), time);
+    readTimeStamp = time;
   }
 
   /**
@@ -648,7 +682,7 @@ public class Message extends HelixProperty {
    * @param time UNIX timestamp
    */
   public void setExecuteStartTimeStamp(long time) {
-    _record.setLongField(Attributes.EXECUTE_START_TIMESTAMP.toString(), time);
+    executeStartTimeStamp = time;
   }
 
   /**
@@ -656,7 +690,7 @@ public class Message extends HelixProperty {
    * @return UNIX timestamp
    */
   public long getReadTimeStamp() {
-    return _record.getLongField(Attributes.READ_TIMESTAMP.toString(), 0L);
+    return this.readTimeStamp;
   }
 
   /**
@@ -664,7 +698,7 @@ public class Message extends HelixProperty {
    * @return UNIX timestamp
    */
   public long getExecuteStartTimeStamp() {
-    return _record.getLongField(Attributes.EXECUTE_START_TIMESTAMP.toString(), 0L);
+    return this.executeStartTimeStamp;
   }
 
   /**
@@ -672,7 +706,7 @@ public class Message extends HelixProperty {
    * @return UNIX timestamp
    */
   public long getCreateTimeStamp() {
-    return _record.getLongField(Attributes.CREATE_TIMESTAMP.toString(), 0L);
+    return this.createTimeStamp;
   }
 
   /**
@@ -680,7 +714,7 @@ public class Message extends HelixProperty {
    * @param correlationId a unique identifier, usually randomly generated
    */
   public void setCorrelationId(String correlationId) {
-    _record.setSimpleField(Attributes.CORRELATION_ID.toString(), correlationId);
+    this.correlationId = correlationId;
   }
 
   /**
@@ -688,7 +722,7 @@ public class Message extends HelixProperty {
    * @return the correlation identifier
    */
   public String getCorrelationId() {
-    return _record.getSimpleField(Attributes.CORRELATION_ID.toString());
+    return this.correlationId;
   }
 
   /**
@@ -696,7 +730,7 @@ public class Message extends HelixProperty {
    * @return the timeout in ms, or -1 indicating no timeout
    */
   public int getExecutionTimeout() {
-    return _record.getIntField(Attributes.TIMEOUT.toString(), -1);
+    return this.executionTimeout;
   }
 
   /**
@@ -704,7 +738,7 @@ public class Message extends HelixProperty {
    * @param timeout the timeout in ms, or -1 indicating no timeout
    */
   public void setExecutionTimeout(int timeout) {
-    _record.setIntField(Attributes.TIMEOUT.toString(), timeout);
+    this.executionTimeout = timeout;
   }
 
   /**
@@ -712,7 +746,7 @@ public class Message extends HelixProperty {
    * @param retryCount maximum number of retries
    */
   public void setRetryCount(int retryCount) {
-    _record.setIntField(Attributes.RETRY_COUNT.toString(), retryCount);
+    this.retryCount = retryCount;
   }
 
   /**
@@ -720,7 +754,7 @@ public class Message extends HelixProperty {
    * @return maximum number of retries
    */
   public int getRetryCount() {
-    return _record.getIntField(Attributes.RETRY_COUNT.toString(), 0);
+    return this.retryCount;
   }
 
   /**
@@ -728,7 +762,7 @@ public class Message extends HelixProperty {
    * @return map of result property and value pairs
    */
   public Map<String, String> getResultMap() {
-    return _record.getMapField(Attributes.MESSAGE_RESULT.toString());
+    return resultMap;
   }
 
   /**
@@ -736,7 +770,7 @@ public class Message extends HelixProperty {
    * @param resultMap map of result property and value pairs
    */
   public void setResultMap(Map<String, String> resultMap) {
-    _record.setMapField(Attributes.MESSAGE_RESULT.toString(), resultMap);
+    this.resultMap = resultMap;
   }
 
   /**
@@ -744,7 +778,7 @@ public class Message extends HelixProperty {
    * @return the name of the factory
    */
   public String getStateModelFactoryName() {
-    return _record.getSimpleField(Attributes.STATE_MODEL_FACTORY_NAME.toString());
+    return stateModelFactoryName;
   }
 
   /**
@@ -752,7 +786,7 @@ public class Message extends HelixProperty {
    * @param factoryName the name of the factory
    */
   public void setStateModelFactoryName(String factoryName) {
-    _record.setSimpleField(Attributes.STATE_MODEL_FACTORY_NAME.toString(), factoryName);
+    this.stateModelFactoryName= factoryName;
   }
 
   /**
@@ -770,13 +804,13 @@ public class Message extends HelixProperty {
   // TODO: remove this. impl in HelixProperty
   @Override
   public int getBucketSize() {
-    return _record.getIntField(Attributes.BUCKET_SIZE.toString(), 0);
+    return bucketSize;
   }
 
   @Override
   public void setBucketSize(int bucketSize) {
     if (bucketSize > 0) {
-      _record.setIntField(Attributes.BUCKET_SIZE.toString(), bucketSize);
+      this.bucketSize = bucketSize;
     }
   }
 
@@ -818,7 +852,7 @@ public class Message extends HelixProperty {
     replyMessage.setTgtSessionId(SessionId.from("*"));
     replyMessage.setMsgState(MessageState.NEW);
     replyMessage.setSrcName(instanceName);
-    if (srcMessage.getSrcInstanceType() == MemberRole.CONTROLLER) {
+    if (srcMessage.getSrcInstanceType().equals("Controller")) {
       replyMessage.setTgtName("Controller");
     } else {
       replyMessage.setTgtName(srcMessage.getMsgSrc());

@@ -1,6 +1,6 @@
 package org.apache.helix.api.command;
 
-import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.SpectatorId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -26,8 +26,8 @@ public class HelixSpectatorCommand extends HelixMemberCommand {
    * Creates a spectator for the given cluster
    * @param clusterId the cluster for which the spectator is created
    */
-  protected HelixSpectatorCommand(ClusterId clusterId) {
-    super(clusterId, MemberType.SPECTATOR);
+  protected HelixSpectatorCommand(SpectatorId spectatorId) {
+    super(spectatorId, MemberType.SPECTATOR);
   }
 
 }

@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.TestHelper;
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.integration.ZkIntegrationTestBase;
 import org.apache.helix.integration.ZkStandAloneCMTestBase;

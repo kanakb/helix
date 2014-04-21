@@ -23,7 +23,6 @@ import org.apache.helix.ClusterMessagingService;
 import org.apache.helix.HelixConnection;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.Id;
-import org.apache.helix.api.model.MemberRole;
 
 /**
  * helix-role i.e. participant, single-cluster-controller, multi-cluster-controller

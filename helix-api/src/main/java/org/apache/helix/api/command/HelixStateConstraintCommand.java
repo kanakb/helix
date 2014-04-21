@@ -1,7 +1,4 @@
-package org.apache.helix.api.model;
-
-import org.apache.helix.api.id.MemberId;
-
+package org.apache.helix.api.command;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -21,6 +18,14 @@ import org.apache.helix.api.id.MemberId;
  * specific language governing permissions and limitations
  * under the License.
  */
-public interface HelixMember<T extends MemberId> extends HelixEntity<T> {
+public class HelixStateConstraintCommand extends HelixConstraintCommand {
+  private int maxTransitions;
 
+  public void setMaxTransitions(int maxTransitions) {
+    this.maxTransitions = maxTransitions;
+  }
+  
+  public int getMaxTransitions(){
+    return maxTransitions;
+  }
 }

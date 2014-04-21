@@ -27,7 +27,7 @@ import org.apache.helix.ExternalViewChangeListener;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.model.composite.ExternalView;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.testng.Assert;

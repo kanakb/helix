@@ -26,7 +26,7 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixTimerTask;
 import org.apache.helix.NotificationContext;
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.log4j.Logger;

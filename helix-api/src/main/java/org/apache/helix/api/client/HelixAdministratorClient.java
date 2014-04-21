@@ -34,12 +34,12 @@ import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SpectatorId;
-import org.apache.helix.api.model.HelixAdministrator;
-import org.apache.helix.api.model.HelixCluster;
-import org.apache.helix.api.model.HelixParticipant;
-import org.apache.helix.api.model.HelixPartition;
-import org.apache.helix.api.model.HelixResource;
-import org.apache.helix.api.model.HelixSpectator;
+import org.apache.helix.api.model.Administrator;
+import org.apache.helix.api.model.Cluster;
+import org.apache.helix.api.model.Participant;
+import org.apache.helix.api.model.Partition;
+import org.apache.helix.api.model.Resource;
+import org.apache.helix.api.model.Spectator;
 
 /**
  * An administrator client which allows creation of cluster and assigning members, resources and
@@ -64,7 +64,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return HelixCluster
    */
-  public abstract HelixCluster addCluster(HelixClusterCommand command);
+  public abstract Cluster addCluster(HelixClusterCommand command);
 
   /**
    * Removes a cluster from the helix environment, a cluster can only be removed if all its
@@ -105,21 +105,21 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return HelixParticipant
    */
-  public abstract HelixParticipant addParticipant(HelixParticipantCommand command);
+  public abstract Participant addParticipant(HelixParticipantCommand command);
 
   /**
    * Updates a cluster participant based on the command to the cluster
    * @param command
    * @return HelixParticipant
    */
-  public abstract HelixParticipant updateParticipant(HelixParticipantCommand command);
+  public abstract Participant updateParticipant(HelixParticipantCommand command);
 
   /**
    * Adds participants to the cluster
    * @param commands the commands for the participants
    * @return List<HelixParticipant>
    */
-  public abstract List<HelixParticipant> addParticipants(List<HelixParticipantCommand> commands);
+  public abstract List<Participant> addParticipants(List<HelixParticipantCommand> commands);
 
   /**
    * Removes a participant from the cluster
@@ -134,7 +134,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return HelixSpectator
    */
-  public final HelixSpectator addSpectator(HelixSpectatorCommand command) {
+  public final Spectator addSpectator(HelixSpectatorCommand command) {
     throw new UnsupportedOperationException();
   }
 
@@ -143,7 +143,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param commands the commands for the spectators
    * @return List<HelixSpectator>
    */
-  public final List<HelixSpectator> addSpectators(List<HelixSpectatorCommand> commands) {
+  public final List<Spectator> addSpectators(List<HelixSpectatorCommand> commands) {
     throw new UnsupportedOperationException();
   }
 
@@ -161,7 +161,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return HelixAdministrator
    */
-  public final HelixAdministrator addAdministrator(HelixAdministratorCommand command) {
+  public final Administrator addAdministrator(HelixAdministratorCommand command) {
     throw new UnsupportedOperationException();
   }
 
@@ -179,7 +179,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command the resource command
    * @return HelixResource
    */
-  public abstract HelixResource addResource(HelixResourceCommand command);
+  public abstract Resource addResource(HelixResourceCommand command);
 
   /**
    * Removes a resource from the cluster
@@ -190,10 +190,10 @@ public abstract class HelixAdministratorClient extends HelixClient {
 
   /**
    * Adds a list of resource to the cluster
-   * @param command the resource command
-   * @return List<HelixResource>
+   * @param commands the resource commands
+   * @return List<Resource>
    */
-  public abstract List<HelixResource> addResources(List<HelixResourceCommand> commands);
+  public abstract List<Resource> addResources(List<HelixResourceCommand> commands);
 
   /**
    * Adds a partition to the cluster, a partition is always added for a resource. The command
@@ -201,7 +201,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return HelixPartition
    */
-  public abstract HelixPartition addPartition(HelixPartitionCommand command);
+  public abstract Partition addPartition(HelixPartitionCommand command);
 
   /**
    * Adds partitions to the cluster, a partition is always added for a resource. The command
@@ -209,7 +209,7 @@ public abstract class HelixAdministratorClient extends HelixClient {
    * @param command
    * @return List<HelixPartition>
    */
-  public abstract List<HelixPartition> addPartitions(List<HelixPartitionCommand> command);
+  public abstract List<Partition> addPartitions(List<HelixPartitionCommand> command);
 
   /**
    * Removes a partition from the resource

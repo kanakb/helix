@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.helix.api.model.HelixProperty;
-import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.HelixConfigScope.ConfigScopeProperty;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.model.InstanceConfig;
 import org.testng.Assert;

@@ -1,6 +1,4 @@
 package org.apache.helix.api.model;
-
-import org.apache.helix.api.id.ResourceId;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,12 +17,6 @@ import org.apache.helix.api.id.ResourceId;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-/**
- * Represents a Helix resource which can be added to the cluster. A 
- * resource has several partitions.
- *
- */
-public interface HelixResource extends HelixEntity<ResourceId>{
+public class ResourceState extends State {
 
 }

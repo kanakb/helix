@@ -1,4 +1,7 @@
 package org.apache.helix.api.model;
+
+import org.apache.helix.api.id.ControllerId;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,8 +20,6 @@ package org.apache.helix.api.model;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.SpectatorId;
-
-public interface HelixSpectator extends HelixMember<SpectatorId> {
+public interface Controller extends Member<ControllerId> {
 
 }

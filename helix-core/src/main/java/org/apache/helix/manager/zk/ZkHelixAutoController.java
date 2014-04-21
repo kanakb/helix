@@ -27,7 +27,7 @@ import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.Id;
 import org.apache.helix.api.id.ParticipantId;
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.api.role.MultiClusterController;
 import org.apache.helix.participant.StateMachineEngine;
 import org.apache.log4j.Logger;

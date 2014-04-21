@@ -2,16 +2,15 @@ package org.apache.helix.api.client;
 
 import java.util.List;
 
-import org.apache.helix.api.command.HelixMemberCommand;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.MemberId;
+import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.model.HelixCluster;
-import org.apache.helix.api.model.HelixController;
-import org.apache.helix.api.model.HelixMember;
-import org.apache.helix.api.model.HelixParticipant;
-import org.apache.helix.api.model.HelixPartition;
-import org.apache.helix.api.model.HelixResource;
+import org.apache.helix.api.model.Cluster;
+import org.apache.helix.api.model.Controller;
+import org.apache.helix.api.model.Participant;
+import org.apache.helix.api.model.Partition;
+import org.apache.helix.api.model.Resource;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -43,7 +42,7 @@ public abstract class HelixClient {
    * @param clusterId the cluster id
    * @return HelixCluster the cluster with the given id
    */
-  abstract HelixCluster findCluster(ClusterId clusterId);
+  abstract Cluster findCluster(ClusterId clusterId);
 
   /**
    * Locates a member with the given id. A member can be of different types
@@ -51,54 +50,47 @@ public abstract class HelixClient {
    * @param memberId the member id
    * @return HelixMember the member with the given id
    */
-  abstract HelixMember<MemberId> findMember(MemberId memberId);
+  abstract Participant findParticipant(ParticipantId participantId);
 
   /**
    * Locates a resource with a given id.
    * @param resourceId the resource id
    * @return HelixResource the resource with the given id
    */
-  abstract HelixResource findResource(ResourceId resourceId);
+  abstract Resource findResource(ResourceId resourceId);
 
-  /**
-   * Retrieves all members in a given cluster
-   * @param clusterId the cluster id
-   * @return List<HelixMember> the list of helix members assigned to the cluster
-   */
-  abstract List<HelixMember<MemberId>> getMembers(ClusterId clusterId);
-  
   /**
    * Retrieves all participants in a given cluster
    * @param clusterId the cluster id
    * @return List<HelixParticipant> the list of helix members assigned to the cluster
    */
-  abstract List<HelixParticipant> getParticipants(ClusterId clusterId);
+  abstract List<Participant> getParticipants(ClusterId clusterId);
   
   /**
    * Retrieves the controller for a given cluster
    * @param clusterId the cluster id
    * @return HelixController the controller for the cluster, there can only be one
    */
-  abstract HelixController getController(ClusterId clusterId);
+  abstract Controller getController(ClusterId clusterId);
 
   /**
    * Retrieves all resources in the cluster
    * @param clusterId the cluster id
    * @return List<HelixResource> the list of resources in the cluster
    */
-  abstract List<HelixResource> getResources(ClusterId clusterId);
+  abstract List<Resource> getResources(ClusterId clusterId);
 
   /**
    * Retrieves all resources assigned to a given HelixMember
    * @param memberId the member id
    * @return List<HelixResource> the list of resources assigned to the member
    */
-  abstract List<HelixResource> getResources(MemberId memberId);
+  abstract List<Resource> getResources(MemberId memberId);
   
   /**
    * Retrieves all partitions for a given resource
    * @param resourceId the resource id
    * @return List<HelixPartition> the list of partitions for the resource
    */
-  abstract List<HelixPartition> getPartitions(ResourceId resourceId);
+  abstract List<Partition> getPartitions(ResourceId resourceId);
 }

@@ -46,7 +46,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.HelixManagerFactory;
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.controller.restlet.ZKPropertyTransferServer;
 import org.apache.helix.manager.zk.HelixManagerShutdownHook;
 import org.apache.helix.participant.DistClusterControllerStateModelFactory;

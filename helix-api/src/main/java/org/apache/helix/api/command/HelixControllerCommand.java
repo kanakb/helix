@@ -1,6 +1,6 @@
 package org.apache.helix.api.command;
 
-import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ControllerId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,8 +22,8 @@ import org.apache.helix.api.id.ClusterId;
  */
 public class HelixControllerCommand extends HelixMemberCommand {
 
-  protected HelixControllerCommand(ClusterId clusterId) {
-    super(clusterId, MemberType.CONTROLLER);
+  protected HelixControllerCommand(ControllerId controllerId) {
+    super(controllerId, MemberType.CONTROLLER);
   }
 
 }

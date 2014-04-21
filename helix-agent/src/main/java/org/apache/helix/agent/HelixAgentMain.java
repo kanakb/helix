@@ -31,7 +31,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.helix.HelixManager;
 import org.apache.helix.api.id.StateModelDefinitionId;
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.manager.zk.ZKHelixManager;
 import org.apache.helix.participant.StateMachineEngine;
 import org.apache.log4j.Logger;

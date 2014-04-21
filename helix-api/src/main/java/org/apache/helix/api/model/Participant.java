@@ -1,6 +1,7 @@
-package org.apache.helix.api.command;
+package org.apache.helix.api.model;
 
-import org.apache.helix.api.id.AdministratorId;
+import org.apache.helix.api.id.ParticipantId;
+
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,17 +21,7 @@ import org.apache.helix.api.id.AdministratorId;
  * specific language governing permissions and limitations
  * under the License.
  */
-/**
- * This command is to create/update the administrator member
- */
-public class HelixAdministratorCommand extends HelixMemberCommand {
 
-  /**
-   * Creates a cluster member of type administrator for the given cluster
-   * @param clusterId the cluster for which the administrator is created
-   */
-  protected HelixAdministratorCommand(AdministratorId adminId) {
-    super(adminId, MemberType.ADMINISTRATOR);
-  }
+public interface Participant extends Member<ParticipantId> {
 
 }

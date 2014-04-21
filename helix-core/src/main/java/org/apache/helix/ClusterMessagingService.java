@@ -22,8 +22,8 @@ package org.apache.helix;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.ipc.Message;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.messaging.AsyncCallback;
 import org.apache.helix.messaging.handling.MessageHandlerFactory;
 

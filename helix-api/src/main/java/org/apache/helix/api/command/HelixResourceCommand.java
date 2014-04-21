@@ -1,6 +1,6 @@
 package org.apache.helix.api.command;
 
-import org.apache.helix.api.id.ClusterId;
+import org.apache.helix.api.id.ResourceId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -25,13 +25,13 @@ import org.apache.helix.api.id.ClusterId;
  * Allows creating resources for the cluster
  */
 public class HelixResourceCommand {
-  private final ClusterId clusterId;
+  private final ResourceId resourceId;
 
   /**
    * Creates a resource command for a given cluster
    * @param clusterId the cluster to which the resource is added
    */
-  public HelixResourceCommand(ClusterId clusterId) {
-    this.clusterId = clusterId;
+  public HelixResourceCommand(ResourceId resourceId) {
+    this.resourceId = resourceId;
   }
 }

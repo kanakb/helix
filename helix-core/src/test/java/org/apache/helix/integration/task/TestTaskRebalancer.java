@@ -27,8 +27,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.helix.*;
-import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.api.model.PropertyKey;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.controller.HelixControllerMain;
 import org.apache.helix.integration.ZkIntegrationTestBase;
 import org.apache.helix.integration.manager.ClusterControllerManager;

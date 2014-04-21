@@ -26,12 +26,12 @@ import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
 import org.apache.helix.NotificationContext;
 import org.apache.helix.NotificationContext.MapKey;
-import org.apache.helix.api.model.MemberRole;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.Attributes;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.messaging.handling.MessageHandler.ErrorCode;
 import org.apache.helix.messaging.handling.MessageHandler.ErrorType;
 import org.apache.helix.monitoring.StateTransitionContext;
@@ -203,14 +203,14 @@ public class HelixTask implements MessageTask {
       Message replyMessage =
           Message.createReplyMessage(_message, _manager.getInstanceName(),
               taskResult.getTaskResultMap());
-      replyMessage.setSrcInstanceType(_manager.getInstanceType());
+      replyMessage.setSrcInstanceType(_manager.getInstanceType().name());
 
-      if (message.getSrcInstanceType() == MemberRole.PARTICIPANT) {
+      if (message.getSrcInstanceType().equals(MemberRole.PARTICIPANT.name())) {
         PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
         accessor.setProperty(
             keyBuilder.message(message.getMsgSrc(), replyMessage.getMessageId().toString()),
             replyMessage);
-      } else if (message.getSrcInstanceType() == MemberRole.CONTROLLER) {
+      } else if (message.getSrcInstanceType().equals(MemberRole.CONTROLLER.name())) {
         PropertyKeyBuilder keyBuilder = accessor.keyBuilder();
         accessor.setProperty(keyBuilder.controllerMessage(replyMessage.getMessageId().toString()),
             replyMessage);

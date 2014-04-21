@@ -34,6 +34,7 @@ import com.google.common.collect.Maps;
  */
 public class ClusterConfiguration extends HelixProperty implements HelixConfiguration {
   private static final String IDEAL_STATE_RULE_PREFIX = "IdealStateRule";
+  private boolean isAutoJoinAllowed;
   public static final String ALLOW_PARTICIPANT_AUTO_JOIN = "allowParticipantAutoJoin";
 
   /**
@@ -69,7 +70,7 @@ public class ClusterConfiguration extends HelixProperty implements HelixConfigur
    * @return true if allowed, false if disallowed
    */
   public boolean autoJoinAllowed() {
-    return _record.getBooleanField(ALLOW_PARTICIPANT_AUTO_JOIN, false);
+    return isAutoJoinAllowed;
   }
 
   /**
@@ -77,7 +78,7 @@ public class ClusterConfiguration extends HelixProperty implements HelixConfigur
    * @param autoJoinAllowed true if allowed, false if disallowed
    */
   public void setAutoJoinAllowed(boolean autoJoinAllowed) {
-    _record.setBooleanField(ALLOW_PARTICIPANT_AUTO_JOIN, autoJoinAllowed);
+    isAutoJoinAllowed = autoJoinAllowed;
   }
 
   /**

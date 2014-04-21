@@ -25,7 +25,7 @@ package org.apache.helix;
  * for zk-based cluster managers, the getZKXXX(..zkClient) that takes a zkClient parameter
  *   are intended for session expiry test purpose
  */
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.manager.zk.ZKHelixManager;
 import org.apache.log4j.Logger;
 

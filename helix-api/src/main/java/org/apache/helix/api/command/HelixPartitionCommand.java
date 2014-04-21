@@ -1,5 +1,6 @@
 package org.apache.helix.api.command;
 
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 
 /*
@@ -26,12 +27,14 @@ import org.apache.helix.api.id.ResourceId;
  */
 public class HelixPartitionCommand {
   private final ResourceId resourceId;
+  private final PartitionId partitionId;
 
   /**
    * Creates a partition for a resource
    * @param resourceId the resource for which the parition is created
    */
-  public HelixPartitionCommand(ResourceId resourceId) {
+  public HelixPartitionCommand(ResourceId resourceId, PartitionId partitionId) {
     this.resourceId = resourceId;
+    this.partitionId = partitionId;
   }
 }

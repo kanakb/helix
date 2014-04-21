@@ -1,6 +1,8 @@
 package org.apache.helix.api.model;
 
-import org.apache.helix.api.id.AdministratorId;
+import org.apache.helix.api.id.MemberId;
+import org.apache.helix.api.model.configuration.MemberConfiguration;
+
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,6 +22,14 @@ import org.apache.helix.api.id.AdministratorId;
  * specific language governing permissions and limitations
  * under the License.
  */
-public interface HelixAdministrator extends HelixMember<AdministratorId> {
+public interface Member<T extends MemberId> extends HelixEntity<T> {
+  
+  /**
+   * Returns the state of the member
+   * @return S the state of the specific member type
+   */
+  public <S extends MemberState> S getState();
+  
+  public <T extends MemberConfiguration> T getConfiguration();
 
 }

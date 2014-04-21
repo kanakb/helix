@@ -1,7 +1,4 @@
 package org.apache.helix.api.model;
-
-import org.apache.helix.api.id.ControllerId;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +17,11 @@ import org.apache.helix.api.id.ControllerId;
  * specific language governing permissions and limitations
  * under the License.
  */
-public interface HelixController extends HelixMember<ControllerId> {
+
+/**
+ * Base state class for all members
+ *
+ */
+public abstract class MemberState extends State{
 
 }

@@ -21,7 +21,7 @@ package org.apache.helix.api.id;
 public abstract class MemberId extends Id {
   private ClusterId clusterId;
 
-  public MemberId(String id) {
+  protected MemberId(String id) {
     super(id);
   }
 
@@ -41,4 +41,5 @@ public abstract class MemberId extends Id {
   public void setClusterId(ClusterId id) {
     this.clusterId = id;
   }
+  
 }

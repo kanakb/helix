@@ -1,6 +1,6 @@
 package org.apache.helix;
 
-import org.apache.helix.api.model.MemberRole;
+import org.apache.helix.api.role.MemberRole;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

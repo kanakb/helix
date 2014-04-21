@@ -1,8 +1,4 @@
-package org.apache.helix.api.model;
-
-import org.apache.helix.api.id.ParticipantId;
-
-
+package org.apache.helix.api.command;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,6 +17,12 @@ import org.apache.helix.api.id.ParticipantId;
  * specific language governing permissions and limitations
  * under the License.
  */
-public interface HelixParticipant extends HelixMember<ParticipantId> {
+/**
+ * The base constraint command. This is a root command which allows
+ * the APIs to add different commands while keeping the API surface
+ * area restricted to the root of the hierarchy
+ *
+ */
+public abstract class HelixConstraintCommand {
 
 }

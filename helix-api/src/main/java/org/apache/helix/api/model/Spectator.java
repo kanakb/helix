@@ -17,15 +17,8 @@ package org.apache.helix.api.model;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.ClusterId;
-import org.apache.helix.api.id.StateModelDefinitionId;
+import org.apache.helix.api.id.SpectatorId;
 
-/**
- * A Helix cluster entity
- *
- */
-public interface HelixCluster extends HelixEntity<ClusterId>{
+public interface Spectator extends Member<SpectatorId> {
 
-  public StateModelDefinitionId getStateModelDefinitionId();
-  
 }

@@ -19,7 +19,10 @@ package org.apache.helix.api.model;
  */
 
 /**
- * The base entity for all Helix model entities
+ * The base entity for all Helix model entities. Each entity has two parts
+ * a static configuration in the form of configuration and state which is 
+ * the dynamic part of the entity. Every entity has an id which is unique
+ * in the system
  *
  * @param <T>
  */
