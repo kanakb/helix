@@ -42,7 +42,7 @@ import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.statemachine.StatusUpdate;
+import org.apache.helix.core.StatusUpdate;
 import org.apache.log4j.Logger;
 
 /**

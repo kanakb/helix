@@ -3,6 +3,7 @@ package org.apache.helix.api.config;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ConstraintId;
@@ -18,7 +19,6 @@ import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
 import org.apache.log4j.Logger;
 

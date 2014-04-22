@@ -29,8 +29,8 @@ import java.util.TreeMap;
 
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.statemachine.CurrentState.CurrentStateProperty;
 import org.apache.helix.controller.ExternalViewGenerator;
+import org.apache.helix.core.CurrentState.CurrentStateProperty;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 

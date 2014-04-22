@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.SemiAutoRebalancer;
 import org.apache.helix.model.IdealState;
 

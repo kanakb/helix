@@ -30,7 +30,7 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.TestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.manager.zk.ZKHelixAdmin;

@@ -29,7 +29,7 @@ import org.apache.helix.api.id.ClusterId;
  * A command used to create Helix cluster
  */
 public class HelixClusterCommand {
-  private HelixStateModelCommand stateModelDefinition;
+  private HelixStateModelDefinitionCommand stateModelDefinition;
   private final Set<String> alerts;
   private final Set<String> stats;
   private final Set<HelixResourceCommand> resources;
@@ -38,6 +38,7 @@ public class HelixClusterCommand {
   private boolean autoStart;
   private boolean allowAutoJoin;
   private Set<HelixConstraintCommand> constraints;
+  private boolean recreate;
 
   /**
    * Creates a cluster mutation command for a cluster identified by its id
@@ -59,7 +60,7 @@ public class HelixClusterCommand {
    * @param stateModelCommand a command which identifies the state model to
    *          create for the cluster
    */
-  public void setStateModel(HelixStateModelCommand stateModelCommand) {
+  public void setStateModel(HelixStateModelDefinitionCommand stateModelCommand) {
     this.stateModelDefinition = stateModelCommand;
   }
 
@@ -196,5 +197,9 @@ public class HelixClusterCommand {
    */
   public void setAllowAutoJoin(boolean allowAutoJoin) {
     this.allowAutoJoin = allowAutoJoin;
+  }
+  
+  public void recreateIfExists(boolean recreate){
+    this.recreate = recreate;
   }
 }

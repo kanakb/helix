@@ -1,6 +1,5 @@
-package org.apache.helix.api.client;
+package org.apache.helix.spi.store;
 
-import org.apache.helix.api.id.SessionId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -21,8 +20,29 @@ import org.apache.helix.api.id.SessionId;
  * under the License.
  */
 
-public interface HelixSession {
+public interface HelixConnection {
 
-  SessionId getId();
+  /**
+   * start connection
+   */
+  void connect();
+
+  /**
+   * close connection
+   */
+  void disconnect();
+
+  /**
+   * get session id
+   * @return session id of current connection
+   */
+  HelixSession getSession();
   
+  /**
+   * Registers a lifecycle listener for the connection which gets called
+   * back when the connection is cycled
+   * 
+   * @param listener
+   */
+  void registerLifecycleListener(HelixConnectionLifeCycleListener listener);
 }

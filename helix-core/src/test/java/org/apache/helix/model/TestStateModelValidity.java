@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.HelixDefinedState;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
-import org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty;
+import org.apache.helix.core.HelixDefinedState;
+import org.apache.helix.core.StateModelDefinition;
+import org.apache.helix.core.StateModelDefinition.StateModelDefinitionProperty;
 import org.apache.helix.model.builder.StateModelDefinitionBuilder;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.testng.Assert;

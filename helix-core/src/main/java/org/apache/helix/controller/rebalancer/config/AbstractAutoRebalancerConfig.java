@@ -26,7 +26,7 @@ import java.util.Set;
 import org.apache.helix.HelixConstants.StateModelToken;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
 import org.apache.helix.model.IdealState;
 
 import com.google.common.collect.Lists;

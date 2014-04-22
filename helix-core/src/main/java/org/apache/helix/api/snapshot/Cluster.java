@@ -36,9 +36,9 @@ import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.configuration.ParticipantConfiguration;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
 import org.apache.helix.controller.context.ControllerContext;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 
 import com.google.common.base.Function;

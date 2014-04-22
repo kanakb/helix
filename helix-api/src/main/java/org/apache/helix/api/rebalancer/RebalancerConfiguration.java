@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.configuration;
+package org.apache.helix.api.rebalancer;
 
 import java.util.Collections;
 import java.util.Set;
@@ -9,6 +9,7 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.configuration.HelixConfiguration;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -55,8 +56,11 @@ public class RebalancerConfiguration extends HelixProperty implements HelixConfi
   private String participantGroupTag;
   private int replicaCount;
   private Class serializerClazz;
+  @Deprecated
   private Class rebalancerClazz;
+  @Deprecated
   private RebalanceMode mode;
+  private RebalancerId rebalancerId;
   
   public RebalancerConfiguration(RebalancerId rebalancerId){
     super(rebalancerId.toString());
@@ -92,6 +96,24 @@ public class RebalancerConfiguration extends HelixProperty implements HelixConfi
   public StateModelFactoryId getStateModelFactoryId(){
     return stateModelFactoryId;
   }
+  
+  /**
+   * Sets the rebalancer id. A rebalancer is added to the registry
+   * and its id is used as a reference
+   * 
+   * @return RebalancerId
+   */
+  public RebalancerId getRebalancerId(){
+    return rebalancerId;
+  }
+  
+  /**
+   * Sets the rebalancer id to use
+   * @param id the rebalancer id
+   */
+  public void setRebalancerId(RebalancerId id){
+    rebalancerId = id;
+  }
 
   /**
    * Get the tag, if any, that participants must have in order to serve this resource
@@ -114,6 +136,7 @@ public class RebalancerConfiguration extends HelixProperty implements HelixConfi
    * Get the serializer for this config
    * @return StringSerializer class object
    */
+  @Deprecated
   public Class getSerializerClass(){
     return serializerClazz;
   }
@@ -122,6 +145,7 @@ public class RebalancerConfiguration extends HelixProperty implements HelixConfi
    * Get a reference to the class used to rebalance this resource
    * @return RebalancerRef
    */
+  @Deprecated
   public Class getRebalancerClass(){
     return rebalancerClazz;
   }
@@ -130,6 +154,7 @@ public class RebalancerConfiguration extends HelixProperty implements HelixConfi
    * Get the rebalancer mode of the resource
    * @return RebalanceMode
    */
+  @Deprecated
   public RebalanceMode getRebalanceMode(){
     return mode;
   }

@@ -25,7 +25,7 @@ import java.util.Arrays;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration.RebalanceMode;
 
 /**
  * IdealState builder for SEMI_AUTO mode

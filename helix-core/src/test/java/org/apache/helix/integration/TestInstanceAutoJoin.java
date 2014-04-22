@@ -2,7 +2,7 @@ package org.apache.helix.integration;
 
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.manager.zk.ZKHelixManager;
 import org.apache.helix.model.ConfigScope;

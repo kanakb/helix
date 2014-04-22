@@ -21,7 +21,7 @@ package org.apache.helix;
 
 import java.util.List;
 
-import org.apache.helix.api.model.statemachine.CurrentState;
+import org.apache.helix.core.CurrentState;
 
 /**
  * Interface to implement to respond to changes in the current state

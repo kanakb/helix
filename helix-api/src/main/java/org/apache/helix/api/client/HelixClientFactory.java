@@ -58,7 +58,7 @@ public class HelixClientFactory {
    * client does not allow mutation capabilities to any of the helix entities
    * @return HelixClient
    */
-  public HelixClient createClient() {
+  public HelixClient createClient(Properties properties) {
     return null;
   }
 }

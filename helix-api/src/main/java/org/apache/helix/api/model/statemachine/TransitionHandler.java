@@ -1,5 +1,4 @@
-package org.apache.helix.api.client;
-
+package org.apache.helix.api.model.statemachine;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,30 +18,22 @@ package org.apache.helix.api.client;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-public interface HelixConnection {
-
-  /**
-   * start connection
-   */
-  void connect();
-
-  /**
-   * close connection
-   */
-  void disconnect();
+/**
+ * A transition handler annotation which annotates methods to indicate
+ * what method is to be used for transitions from a given state to 
+ * the to state
+ */
+public @interface TransitionHandler {
 
   /**
-   * get session id
-   * @return session id of current connection
+   * Sets the from state to start transition from
+   * @return String the state to start transition
    */
-  HelixSession getSession();
-  
+  String fromState();
+
   /**
-   * Registers a lifecycle listener for the connection which gets called
-   * back when the connection is cycled
-   * 
-   * @param listener
+   * Sets the to state to end transition to
+   * @return String the state to end transition into
    */
-  void registerLifecycleListener(HelixConnectionLifeCycleListener listener);
+  String toState();
 }

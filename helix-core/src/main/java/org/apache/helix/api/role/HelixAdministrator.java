@@ -35,12 +35,12 @@ import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.RunningInstance;
+import org.apache.helix.core.StateModelDefinition;
 
 /**
  * Starting point for all cluster administration tasks. TODO: define failure behavior

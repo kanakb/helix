@@ -19,7 +19,7 @@ package org.apache.helix.model.builder;
  * under the License.
  */
 
-import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.model.IdealState;
 import org.testng.Assert;
 import org.testng.annotations.Test;

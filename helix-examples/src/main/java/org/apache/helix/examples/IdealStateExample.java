@@ -19,9 +19,9 @@ package org.apache.helix.examples;
  * under the License.
  */
 
-import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.controller.HelixControllerMain;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkClient;

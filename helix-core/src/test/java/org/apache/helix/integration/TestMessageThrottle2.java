@@ -43,9 +43,9 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.role.MemberRole;
 import org.apache.helix.controller.HelixControllerMain;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.manager.zk.ZKHelixAdmin;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZKHelixManager;
@@ -163,7 +163,7 @@ public class TestMessageThrottle2 extends ZkIntegrationTestBase {
   ZNRecord generateConfigForMasterSlave() {
     ZNRecord record = new ZNRecord("MasterSlave");
     record.setSimpleField(
-        org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty.INITIAL_STATE
+        org.apache.helix.core.StateModelDefinition.StateModelDefinitionProperty.INITIAL_STATE
             .toString(), "OFFLINE");
     List<String> statePriorityList = new ArrayList<String>();
     statePriorityList.add("MASTER");
@@ -173,7 +173,7 @@ public class TestMessageThrottle2 extends ZkIntegrationTestBase {
     statePriorityList.add("ERROR");
     record
         .setListField(
-            org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty.STATE_PRIORITY_LIST
+            org.apache.helix.core.StateModelDefinition.StateModelDefinitionProperty.STATE_PRIORITY_LIST
                 .toString(), statePriorityList);
     for (String state : statePriorityList) {
       String key = state + ".meta";
@@ -230,7 +230,7 @@ public class TestMessageThrottle2 extends ZkIntegrationTestBase {
     stateTransitionPriorityList.add("SLAVE-OFFLINE");
     stateTransitionPriorityList.add("OFFLINE-DROPPED");
     record.setListField(
-        org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty.STATE_TRANSITION_PRIORITYLIST
+        org.apache.helix.core.StateModelDefinition.StateModelDefinitionProperty.STATE_TRANSITION_PRIORITYLIST
             .toString(), stateTransitionPriorityList);
     return record;
     // ZNRecordSerializer serializer = new ZNRecordSerializer();

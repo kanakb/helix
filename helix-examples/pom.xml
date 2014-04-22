@@ -57,6 +57,12 @@ under the License.
     	<version>0.7.1-incubating-SNAPSHOT</version>
     	<type>bundle</type>
     </dependency>
+    <dependency>
+        <groupId>org.apache.helix</groupId>
+        <artifactId>helix-spi</artifactId>
+        <version>0.7.1-incubating-SNAPSHOT</version>
+        <type>bundle</type>
+    </dependency>
   </dependencies>
   <build>
     <resources>

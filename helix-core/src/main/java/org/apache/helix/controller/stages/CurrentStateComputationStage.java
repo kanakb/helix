@@ -28,6 +28,7 @@ import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
+import org.apache.helix.core.CurrentState;
 import org.apache.helix.api.id.MessageId;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
@@ -36,7 +37,6 @@ import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.statemachine.CurrentState;
 import org.apache.helix.api.model.statemachine.State;
 
 /**

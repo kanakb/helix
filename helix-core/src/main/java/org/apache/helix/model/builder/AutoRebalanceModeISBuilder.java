@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
 
 /**
  * IdealState builder for FULL_AUTO mode

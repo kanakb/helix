@@ -34,11 +34,11 @@ import org.apache.helix.api.config.ClusterConfig;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
-import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
+import org.apache.helix.core.HelixDefinedState;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 import com.google.common.base.Predicate;

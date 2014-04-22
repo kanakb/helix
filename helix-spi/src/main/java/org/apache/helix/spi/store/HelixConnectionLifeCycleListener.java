@@ -1,4 +1,4 @@
-package org.apache.helix.api.client;
+package org.apache.helix.spi.store;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.statemachine;
+package org.apache.helix.spi.store;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,29 +18,13 @@ package org.apache.helix.api.model.statemachine;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.helix.api.model.HelixProperty;
-import org.apache.helix.api.model.ZNRecord;
-
-/**
- * Wraps updates to Helix constructs, e.g. state transitions and controller task statuses
- */
-public class StatusUpdate extends HelixProperty {
+public abstract class HelixConnectionBuilder {
 
   /**
-   * Instantiate with a pre-populated record
-   * @param record ZNRecord corresponding to a status update
-   * @deprecated Creating status update from a ZNRecord
-   *             will be removed from API, the code will be moved to SPI
+   * Builds a helix connection.
+   * TODO: needs work to identify the pieces
+   * necessary to build the connection
+   * @return HelixConnection
    */
-  @Deprecated
-  public StatusUpdate(ZNRecord record) {
-    super(record);
-  }
-
-  @Override
-  public boolean isValid() {
-    return true;
-  }
-
+  abstract HelixConnection build();
 }

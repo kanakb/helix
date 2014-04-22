@@ -7,7 +7,7 @@ import org.apache.helix.api.config.builder.ResourceConfigBuilder;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.model.UserConfig;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
 
 import com.google.common.collect.Sets;
 

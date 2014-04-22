@@ -24,11 +24,11 @@ import java.util.Map;
 import org.apache.helix.api.config.ResourceConfig;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Resource;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.model.IdealState;
 import org.apache.log4j.Logger;
 

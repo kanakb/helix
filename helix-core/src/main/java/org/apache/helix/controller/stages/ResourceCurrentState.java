@@ -28,8 +28,8 @@ import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
-import org.apache.helix.api.model.statemachine.CurrentState;
 import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.core.CurrentState;
 
 import com.google.common.collect.Sets;
 

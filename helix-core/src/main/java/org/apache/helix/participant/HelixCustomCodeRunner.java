@@ -31,7 +31,7 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.manager.zk.ZKHelixDataAccessor;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.manager.zk.ZkBaseDataAccessor;

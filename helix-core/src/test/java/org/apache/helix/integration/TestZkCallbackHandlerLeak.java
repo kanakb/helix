@@ -33,7 +33,7 @@ import org.apache.helix.TestHelper;
 import org.apache.helix.ZkTestHelper;
 import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.model.PropertyKey;
-import org.apache.helix.api.model.statemachine.CurrentState;
+import org.apache.helix.core.CurrentState;
 import org.apache.helix.integration.manager.ClusterControllerManager;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.integration.manager.ZkTestManager;

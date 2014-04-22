@@ -39,7 +39,7 @@ import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.PropertyKey;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.Attributes;
-import org.apache.helix.api.model.statemachine.CurrentState;
+import org.apache.helix.core.CurrentState;
 import org.apache.log4j.Logger;
 
 public class BatchMessageHandler extends MessageHandler {

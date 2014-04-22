@@ -30,7 +30,7 @@ import java.util.Map;
 import org.apache.helix.api.model.PropertyPathConfig;
 import org.apache.helix.api.model.PropertyType;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.model.InstanceConfig.InstanceConfigProperty;
 import org.apache.helix.tools.AdminTestBase;
 import org.apache.helix.tools.ClusterSetup;

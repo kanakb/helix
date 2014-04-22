@@ -35,15 +35,15 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.id.StateModelFactoryId;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.log4j.Logger;
 

@@ -51,7 +51,7 @@ import org.apache.helix.PropertyKeyBuilder;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.ipc.Message.MessageState;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.statemachine.CurrentState;
+import org.apache.helix.core.CurrentState;
 import org.apache.helix.model.builder.ConfigScopeBuilder;
 import org.apache.helix.monitoring.ParticipantMonitor;
 import org.apache.helix.participant.HelixStateMachineEngine;

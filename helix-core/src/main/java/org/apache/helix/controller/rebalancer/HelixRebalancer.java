@@ -1,7 +1,7 @@
 package org.apache.helix.controller.rebalancer;
 
 import org.apache.helix.HelixManager;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.controller.context.ControllerContextProvider;
 import org.apache.helix.controller.stages.ResourceCurrentState;

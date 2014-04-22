@@ -1,4 +1,7 @@
-package org.apache.helix.api.client;
+package org.apache.helix.api.rebalancer;
+
+import org.apache.helix.api.id.RebalancerId;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,31 +20,16 @@ package org.apache.helix.api.client;
  * specific language governing permissions and limitations
  * under the License.
  */
-import java.util.Properties;
 
-public interface HelixConnectionFactory {
-
-  /**
-   * The connection providers supported
-   *
-   */
-  public enum ConnectionProvider{
-    ZOOKEEPER
-  }
+/**
+ * Rebalancer from which all rebalancers extend
+ */
+public abstract class Rebalancer {
   
   /**
-   * Creates a connection factory based off the properties
-   * 
-   * @param properties 
-   * 
-   * @return HelixConnectionFactory
+   * The rebalancer id
+   * @return RebalancerId
    */
-  public HelixConnectionFactory getInstance(Properties properties);
-  
-  /**
-   * Creates a new connection builder 
-   * 
-   * @return HelixConnectionBuilder
-   */
-  public HelixConnectionBuilder newConnectionBuilder();
+  public abstract RebalancerId getId();
+
 }

@@ -24,8 +24,8 @@ import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.id.StateModelFactoryId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.model.IdealState;
 
 public abstract class IdealStateBuilder {

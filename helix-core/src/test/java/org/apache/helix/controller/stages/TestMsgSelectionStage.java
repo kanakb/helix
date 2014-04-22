@@ -38,11 +38,11 @@ import org.apache.helix.api.id.SessionId;
 import org.apache.helix.api.model.Scope;
 import org.apache.helix.api.model.UserConfig;
 import org.apache.helix.api.model.ipc.Message;
-import org.apache.helix.api.model.statemachine.CurrentState;
 import org.apache.helix.api.model.statemachine.State;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.RunningInstance;
 import org.apache.helix.controller.stages.MessageSelectionStage.Bounds;
+import org.apache.helix.core.CurrentState;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

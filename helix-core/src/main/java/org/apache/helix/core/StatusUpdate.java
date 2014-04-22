@@ -1,4 +1,5 @@
-package org.apache.helix.api.command;
+package org.apache.helix.core;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,6 +18,29 @@ package org.apache.helix.api.command;
  * specific language governing permissions and limitations
  * under the License.
  */
-public class HelixStateModelCommand {
+
+import org.apache.helix.api.model.HelixProperty;
+import org.apache.helix.api.model.ZNRecord;
+
+/**
+ * Wraps updates to Helix constructs, e.g. state transitions and controller task statuses
+ */
+public class StatusUpdate extends HelixProperty {
+
+  /**
+   * Instantiate with a pre-populated record
+   * @param record ZNRecord corresponding to a status update
+   * @deprecated Creating status update from a ZNRecord
+   *             will be removed from API, the code will be moved to SPI
+   */
+  @Deprecated
+  public StatusUpdate(ZNRecord record) {
+    super(record);
+  }
+
+  @Override
+  public boolean isValid() {
+    return true;
+  }
 
 }

@@ -20,8 +20,8 @@ import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
 import org.apache.helix.api.model.ipc.Message.MessageType;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 import com.google.common.collect.Maps;

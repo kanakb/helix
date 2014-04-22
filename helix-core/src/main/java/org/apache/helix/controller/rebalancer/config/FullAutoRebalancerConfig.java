@@ -1,6 +1,6 @@
 package org.apache.helix.controller.rebalancer.config;
 
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
 import org.apache.helix.controller.rebalancer.FullAutoRebalancer;
 import org.apache.helix.model.IdealState;
 

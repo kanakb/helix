@@ -1,4 +1,6 @@
-package org.apache.helix.api.model.statemachine;
+package org.apache.helix.core;
+
+import org.apache.helix.api.model.statemachine.State;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

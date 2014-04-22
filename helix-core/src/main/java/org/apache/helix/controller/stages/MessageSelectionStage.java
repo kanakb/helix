@@ -31,10 +31,9 @@ import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.model.ipc.Message;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.api.snapshot.Resource;
@@ -42,6 +41,7 @@ import org.apache.helix.controller.pipeline.AbstractBaseStage;
 import org.apache.helix.controller.pipeline.StageException;
 import org.apache.helix.controller.rebalancer.config.AbstractAutoRebalancerConfig;
 import org.apache.helix.controller.rebalancer.config.BasicRebalancerConfig;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.log4j.Logger;
 
 public class MessageSelectionStage extends AbstractBaseStage {

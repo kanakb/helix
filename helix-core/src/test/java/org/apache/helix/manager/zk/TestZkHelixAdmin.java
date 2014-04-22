@@ -42,7 +42,7 @@ import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.constraint.ConstraintItemBuilder;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintAttribute;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.builder.HelixConfigScopeBuilder;
 import org.apache.helix.model.composite.ExternalView;

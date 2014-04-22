@@ -1,5 +1,4 @@
-package org.apache.helix.api.client;
-
+package org.apache.helix.spi.store;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,13 +17,23 @@ package org.apache.helix.api.client;
  * specific language governing permissions and limitations
  * under the License.
  */
-public abstract class HelixConnectionBuilder {
+import java.util.Properties;
+
+public interface HelixConnectionFactory {
 
   /**
-   * Builds a helix connection.
-   * TODO: needs work to identify the pieces
-   * necessary to build the connection
-   * @return HelixConnection
+   * Creates a connection factory based off the properties
+   * 
+   * @param properties 
+   * 
+   * @return HelixConnectionFactory
    */
-  abstract HelixConnection build();
+  public HelixConnectionFactory getInstance(Properties properties);
+  
+  /**
+   * Creates a new connection builder 
+   * 
+   * @return HelixConnectionBuilder
+   */
+  public HelixConnectionBuilder newConnectionBuilder();
 }

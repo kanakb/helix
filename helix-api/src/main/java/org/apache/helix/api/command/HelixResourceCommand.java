@@ -1,6 +1,8 @@
 package org.apache.helix.api.command;
 
+import org.apache.helix.api.id.RebalancerId;
 import org.apache.helix.api.id.ResourceId;
+import org.apache.helix.api.id.StateModelDefinitionId;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -26,6 +28,9 @@ import org.apache.helix.api.id.ResourceId;
  */
 public class HelixResourceCommand {
   private final ResourceId resourceId;
+  private int partitions;
+  private StateModelDefinitionId stateModelDefinitionId;
+  private RebalancerId rebalancerId;
 
   /**
    * Creates a resource command for a given cluster
@@ -33,5 +38,29 @@ public class HelixResourceCommand {
    */
   public HelixResourceCommand(ResourceId resourceId) {
     this.resourceId = resourceId;
+  }
+  
+  public void setPartitions(int partitions){
+    this.partitions = partitions;
+  }
+  
+  public int getPartitions(){
+    return partitions;
+  }
+  
+  public void setRebalancerId(RebalancerId rebalancerId){
+    this.rebalancerId = rebalancerId;
+  }
+  
+  public RebalancerId getRebalancerId(){
+    return rebalancerId;
+  }
+  
+  public void setStateModelDefinitionId(StateModelDefinitionId stateModelDefinitionId){
+    this.stateModelDefinitionId = stateModelDefinitionId;
+  }
+  
+  public StateModelDefinitionId getStateModelDefinitionId(){
+    return stateModelDefinitionId;
   }
 }

@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.statemachine;
+package org.apache.helix.core;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

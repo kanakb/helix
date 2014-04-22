@@ -32,9 +32,8 @@ import org.apache.helix.HelixManager;
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration;
 import org.apache.helix.api.snapshot.Cluster;
 import org.apache.helix.api.snapshot.Participant;
 import org.apache.helix.controller.context.ControllerContextProvider;
@@ -45,6 +44,7 @@ import org.apache.helix.controller.stages.ResourceCurrentState;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.DefaultPlacementScheme;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.log4j.Logger;
 

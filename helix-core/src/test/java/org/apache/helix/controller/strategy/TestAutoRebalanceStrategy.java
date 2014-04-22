@@ -34,6 +34,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.helix.api.config.ClusterConfig;
+import org.apache.helix.core.HelixDefinedState;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.core.config.builder.ClusterConfigBuilder;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ParticipantId;
@@ -41,9 +43,7 @@ import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.controller.rebalancer.util.ConstraintBasedAssignment;
 import org.apache.helix.controller.strategy.AutoRebalanceStrategy.ReplicaPlacementScheme;
 import org.apache.helix.model.IdealState;

@@ -10,9 +10,9 @@ import java.util.Map;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.ZNRecord;
 import org.apache.helix.api.model.statemachine.State;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
 import org.apache.helix.api.model.statemachine.Transition;
-import org.apache.helix.api.model.statemachine.StateModelDefinition.StateModelDefinitionProperty;
+import org.apache.helix.core.StateModelDefinition;
+import org.apache.helix.core.StateModelDefinition.StateModelDefinitionProperty;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

@@ -1,4 +1,4 @@
-package org.apache.helix.api.model.statemachine;
+package org.apache.helix.core;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -27,6 +27,8 @@ import java.util.TreeMap;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
+import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.api.model.statemachine.Transition;
 
 import com.google.common.collect.ImmutableList;
 

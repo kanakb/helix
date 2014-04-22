@@ -23,8 +23,8 @@ import java.util.Map;
 
 import org.apache.helix.api.id.ParticipantId;
 import org.apache.helix.api.id.PartitionId;
-import org.apache.helix.api.model.statemachine.HelixDefinedState;
 import org.apache.helix.api.model.statemachine.State;
+import org.apache.helix.core.HelixDefinedState;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.composite.ExternalView;
 import org.apache.log4j.Logger;

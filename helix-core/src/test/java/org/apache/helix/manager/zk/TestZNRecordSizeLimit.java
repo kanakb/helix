@@ -28,7 +28,7 @@ import org.apache.helix.ZkUnitTestBase;
 import org.apache.helix.api.id.StateModelDefinitionId;
 import org.apache.helix.api.model.HelixProperty;
 import org.apache.helix.api.model.ZNRecord;
-import org.apache.helix.api.model.configuration.RebalancerConfiguration.RebalanceMode;
+import org.apache.helix.api.rebalancer.RebalancerConfiguration.RebalanceMode;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.log4j.Logger;

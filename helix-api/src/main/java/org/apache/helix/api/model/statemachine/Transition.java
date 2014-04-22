@@ -1,5 +1,6 @@
 package org.apache.helix.api.model.statemachine;
 
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -25,7 +26,7 @@ package org.apache.helix.api.model.statemachine;
 public class Transition {
   final private State _fromState;
   final private State _toState;
-
+  private TransitionHandler handler;
   /**
    * Instantiate with a source and destination state
    * @param fromState source name

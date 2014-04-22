@@ -27,7 +27,7 @@ import org.apache.helix.api.model.HelixConfigScope;
 import org.apache.helix.api.model.constraint.ClusterConstraints;
 import org.apache.helix.api.model.constraint.ConstraintItem;
 import org.apache.helix.api.model.constraint.ClusterConstraints.ConstraintType;
-import org.apache.helix.api.model.statemachine.StateModelDefinition;
+import org.apache.helix.core.StateModelDefinition;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.composite.ExternalView;

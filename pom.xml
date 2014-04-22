@@ -195,6 +195,7 @@ under the License.
   </developers>
   <modules>
     <module>helix-api</module>
+    <module>helix-spi</module>
     <module>helix-core</module>
     <module>helix-admin-webapp</module>
     <module>helix-agent</module>
