@@ -20,6 +20,9 @@ import org.apache.helix.api.id.ControllerId;
  * specific language governing permissions and limitations
  * under the License.
  */
+/**
+ * Command used to create Helix members of type controller
+ */
 public class HelixControllerCommand extends HelixMemberCommand {
 
   protected HelixControllerCommand(ControllerId controllerId) {

@@ -117,18 +117,37 @@ public class HelixCommandBuilderFactory {
 
     }
 
+    /**
+     * Partitions for the resource
+     * @param partitions the total partitions
+     * @return HelixResourceCommandBuilder
+     */
     public HelixResourceCommandBuilder withPartitions(int partitions) {
       return null;
     }
 
+    /**
+     * The state model to use for the resource
+     * @param id the state model id
+     * @return HelixResourceCommandBuilder
+     */
     public HelixResourceCommandBuilder withStateModelDefinitionId(StateModelDefinitionId id) {
       return null;
     }
 
+    /**
+     * The rebalancer to use to rebalance the resource replicas across the cluster
+     * @param rebalancerId the rebalancer id
+     * @return HelixResourceCommandBuilder
+     */
     public HelixResourceCommandBuilder withRebalancerId(RebalancerId rebalancerId) {
       return null;
     }
 
+    /**
+     * Builds the command
+     * @return HelixResourceCommand
+     */
     public HelixResourceCommand build() {
       return null;
     }
@@ -224,31 +243,58 @@ public class HelixCommandBuilderFactory {
    * A command builder to create state model definitions
    */
   public static class HelixStateModelDefinitionCommandBuilder {
-    private StateModelDefinitionId id;
 
     HelixStateModelDefinitionCommandBuilder(StateModelDefinitionId id) {
-      this.id = id;
     }
-
+    
+    /**
+     * Adds states to the state model
+     * @param states the states the state model should manage transitions across
+     * @return Set<String> the states
+     */
     public HelixStateModelDefinitionCommandBuilder addStates(Set<String> states) {
       return null;
     }
 
+    /**
+     * Adds a transition from a given fromState to the toState
+     * @param fromState the state to start transition from
+     * @param toState the state to end transition to
+     * @param transitionConstraint the constraint on the transition
+     * @return HelixStateModelDefinitionCommandBuilder
+     */
     public HelixStateModelDefinitionCommandBuilder addTransition(String fromState, String toState,
         HelixTransitionConstraintCommand transitionConstraint) {
       return null;
     }
 
+    /**
+     * Adds a transition from a given state to the toState
+     * @param fromState the state to start transition from
+     * @param toStates the states to end transitions into
+     * @param transitionConstraint the constraints on the transition
+     * @return HelixStateModelDefinitionCommandBuilder
+     */
     public HelixStateModelDefinitionCommandBuilder addTransition(String fromState,
-        Set<String> toState, HelixTransitionConstraintCommand transitionConstraint) {
+        Set<String> toStates, HelixTransitionConstraintCommand transitionConstraint) {
       return null;
     }
 
+    /**
+     * Adds a constraint to a given state
+     * @param state the state to add constraint to
+     * @param stateConstraint the constraint for the state
+     * @return HelixStateModelDefinitionCommandBuilder
+     */
     public HelixStateModelDefinitionCommandBuilder addStateConstraint(String state,
         HelixStateConstraintCommand stateConstraint) {
       return null;
     }
 
+    /**
+     * Builds the state model definition command
+     * @return HelixStateModelDefinitionCommand
+     */
     public HelixStateModelDefinitionCommand build() {
       return null;
     }
@@ -256,6 +302,7 @@ public class HelixCommandBuilderFactory {
 
   /**
    * A command builder for the member command
+   * @param <T> a derived type of MemberId
    */
   public static class HelixMemberCommandBuilder<T extends MemberId> {
     HelixMemberCommand command;
@@ -281,27 +328,49 @@ public class HelixCommandBuilderFactory {
       }
     }
 
-    public HelixMemberCommandBuilder forHost(String hostName) {
+    /**
+     * A command builder for Helix members 
+     * @param hostName the host name to start the member on
+     * @return HelixMemberCommandBuilder
+     */
+    public HelixMemberCommandBuilder<T> forHost(String hostName) {
       command.setHostName(hostName);
       return this;
     }
 
-    public HelixMemberCommandBuilder forPort(int port) {
+    /**
+     * Sets the port where the member should run
+     * @param port the port number
+     * @return HelixMemberCommandBuilder
+     */
+    public HelixMemberCommandBuilder<T> forPort(int port) {
       command.setPort(port);
       return this;
     }
 
-    public HelixMemberCommandBuilder enable() {
+    /**
+     * Enables the member
+     * @return <b>True</b> to enable the member, <b>False</b> to disable
+     */
+    public HelixMemberCommandBuilder<T> enable() {
       command.setEnabled(true);
       return this;
     }
 
-    public HelixMemberCommandBuilder disable() {
+    /**
+     * Disables the member
+     * @return <b>True</b> to disable the member, <b>False</b> to enable
+     */
+    public HelixMemberCommandBuilder<T> disable() {
       command.setEnabled(false);
       return this;
     }
 
-    public <T extends HelixMemberCommand> T build() {
+    /**
+     * Builds a member command 
+     * @return M the member command
+     */
+    public <M extends HelixMemberCommand> M build() {
       return null;
     }
   }
