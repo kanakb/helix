@@ -20,8 +20,14 @@ package org.apache.helix.spi.store;
  */
 public interface HelixConnectionLifeCycleListener {
 
+  /**
+   * Callback made when a connection is created
+   */
   void onConnect();
 
+  /**
+   * Callback made when a connection is closed
+   */
   void onDisconnect();
 
 }

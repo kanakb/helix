@@ -43,8 +43,8 @@ public class HelixCommandBuilderFactory {
    * @param id the cluster id to create the command for
    * @return HelixClusterCommandBuilder a command builder for cluster
    */
-  public static final HelixClusterCommandBuilder createClusterBuilder(ClusterId id) {
-    return new HelixClusterCommandBuilder(id);
+  public static final HelixClusterCommandBuilder createClusterBuilder(String id) {
+    return new HelixClusterCommandBuilder(ClusterId.from(id));
   }
 
   /**
@@ -53,8 +53,8 @@ public class HelixCommandBuilderFactory {
    * @return HelixStateModelCommandBuilder a command builder for cluster
    */
   public static final HelixStateModelDefinitionCommandBuilder createStateModelDefinitionBuilder(
-      StateModelDefinitionId id) {
-    return new HelixStateModelDefinitionCommandBuilder(id);
+      String id) {
+    return new HelixStateModelDefinitionCommandBuilder(StateModelDefinitionId.from(id));
   }
 
   /**
@@ -62,8 +62,8 @@ public class HelixCommandBuilderFactory {
    * @param id the resource id to create the command for
    * @return HelixStateModelCommandBuilder a command builder for resource
    */
-  public static final HelixResourceCommandBuilder createResourceBuilder(ResourceId id) {
-    return new HelixResourceCommandBuilder(id);
+  public static final HelixResourceCommandBuilder createResourceBuilder(String id) {
+    return new HelixResourceCommandBuilder(ResourceId.from(id));
   }
 
   /**
@@ -71,9 +71,9 @@ public class HelixCommandBuilderFactory {
    * @param participantId the participant id
    * @return HelixMemberCommandBuilder which allows creating a participant member
    */
-  public static final <T extends MemberId> HelixMemberCommandBuilder<T> createParticipantMemberBuilder(
-      T participantId) {
-    return new HelixMemberCommandBuilder<T>(participantId, MemberType.PARTICIPANT);
+  public static final <T extends MemberId, M extends HelixMemberCommand> HelixMemberCommandBuilder<T, M> createParticipantMemberBuilder(
+      String participantId) {
+    return new HelixParticipantCommandBuilder(ParticipantId.from(participantId));
   }
 
   /**
@@ -81,8 +81,8 @@ public class HelixCommandBuilderFactory {
    * @param administratorId the administrator id
    * @return HelixMemberCommandBuilder which allows creating a administrator member
    */
-  public static final <T extends MemberId> HelixMemberCommandBuilder<T> createAdministratorMemberBuilder(
-      T administratorId) {
+  public static final <T extends MemberId, M extends HelixMemberCommand> HelixMemberCommandBuilder<T, M> createAdministratorMemberBuilder(
+      String administratorId) {
     throw new UnsupportedOperationException(
         "Currently members of type administrator cannot be created");
   }
@@ -92,8 +92,8 @@ public class HelixCommandBuilderFactory {
    * @param controllerId the controller id
    * @return HelixMemberCommandBuilder which allows creating a controller member
    */
-  public static final <T extends MemberId> HelixMemberCommandBuilder<T> createControllerMemberBuilder(
-      T controllerId) {
+  public static final <T extends MemberId, M extends HelixMemberCommand> HelixMemberCommandBuilder<T, M> createControllerMemberBuilder(
+      String controllerId) {
     throw new UnsupportedOperationException(
         "Currently members of type controller cannot be created");
   }
@@ -103,7 +103,7 @@ public class HelixCommandBuilderFactory {
    * @param spectatorId the spectator id
    * @return HelixMemberCommandBuilder which allows creating a spectator member
    */
-  public static final <T extends MemberId> HelixMemberCommandBuilder<T> createSpectatorMemberBuilder(
+  public static final <T extends MemberId, M extends HelixMemberCommand> HelixMemberCommandBuilder<T, M> createSpectatorMemberBuilder(
       T spectatorId) {
     throw new UnsupportedOperationException("Currently members of type spectator cannot be created");
   }
@@ -195,15 +195,6 @@ public class HelixCommandBuilderFactory {
     }
 
     /**
-     * Indicates if the cluster can be auto-started
-     * @param autoStart <b>True</b>if the cluster can be auto-started, <b>False</b> if it cannot be
-     * @return HelixClusterCommandBuilder an instance of a cluster command builder
-     */
-    public HelixClusterCommandBuilder withAutoStart(boolean autoStart) {
-      return null;
-    }
-
-    /**
      * Indicates if the cluster allows auto-join
      * @param autoJoin <b>True</b>if the cluster allows auto-join, <b>False</b> if not
      * @return HelixClusterCommandBuilder an instance of a cluster command builder
@@ -246,7 +237,7 @@ public class HelixCommandBuilderFactory {
 
     HelixStateModelDefinitionCommandBuilder(StateModelDefinitionId id) {
     }
-    
+
     /**
      * Adds states to the state model
      * @param states the states the state model should manage transitions across
@@ -303,9 +294,10 @@ public class HelixCommandBuilderFactory {
   /**
    * A command builder for the member command
    * @param <T> a derived type of MemberId
+   * @param <M>
    */
-  public static class HelixMemberCommandBuilder<T extends MemberId> {
-    HelixMemberCommand command;
+  public static class HelixMemberCommandBuilder<T extends MemberId, M extends HelixMemberCommand> {
+    private M command;
 
     /**
      * Creates a member command builder with a given member id
@@ -314,37 +306,27 @@ public class HelixCommandBuilderFactory {
     HelixMemberCommandBuilder(T memberId, MemberType type) {
       switch (type) {
       case ADMINISTRATOR:
-        command = new HelixAdministratorCommand((AdministratorId) memberId);
+        command = (M) new HelixAdministratorCommand((AdministratorId) memberId);
         break;
       case SPECTATOR:
-        command = new HelixSpectatorCommand((SpectatorId) memberId);
+        command = (M) new HelixSpectatorCommand((SpectatorId) memberId);
         break;
       case CONTROLLER:
-        command = new HelixControllerCommand((ControllerId) memberId);
+        command = (M) new HelixControllerCommand((ControllerId) memberId);
         break;
       default:
-        command = new HelixParticipantCommand((ParticipantId) memberId);
+        command = (M) new HelixParticipantCommand((ParticipantId) memberId);
         break;
       }
     }
 
     /**
-     * A command builder for Helix members 
+     * A command builder for Helix members
      * @param hostName the host name to start the member on
      * @return HelixMemberCommandBuilder
      */
-    public HelixMemberCommandBuilder<T> forHost(String hostName) {
+    public HelixMemberCommandBuilder<T, M> forHost(String hostName) {
       command.setHostName(hostName);
-      return this;
-    }
-
-    /**
-     * Sets the port where the member should run
-     * @param port the port number
-     * @return HelixMemberCommandBuilder
-     */
-    public HelixMemberCommandBuilder<T> forPort(int port) {
-      command.setPort(port);
       return this;
     }
 
@@ -352,7 +334,7 @@ public class HelixCommandBuilderFactory {
      * Enables the member
      * @return <b>True</b> to enable the member, <b>False</b> to disable
      */
-    public HelixMemberCommandBuilder<T> enable() {
+    public HelixMemberCommandBuilder<T, M> enable() {
       command.setEnabled(true);
       return this;
     }
@@ -361,17 +343,63 @@ public class HelixCommandBuilderFactory {
      * Disables the member
      * @return <b>True</b> to disable the member, <b>False</b> to enable
      */
-    public HelixMemberCommandBuilder<T> disable() {
+    public HelixMemberCommandBuilder<T, M> disable() {
       command.setEnabled(false);
       return this;
     }
 
     /**
-     * Builds a member command 
+     * Sets the port where the member should run
+     * @param port the port number
+     * @return HelixMemberCommandBuilder
+     */
+    protected HelixMemberCommandBuilder<T, M> forPort(int port) {
+      command.setPort(port);
+      return this;
+    }
+
+    /**
+     * Builds a member command
      * @return M the member command
      */
-    public <M extends HelixMemberCommand> M build() {
-      return null;
+    public M build() {
+      return command;
     }
+
+    /**
+     * Returns the command for derived classes
+     * @return <M extends HelixMemberCommand> an instance of HelixMemberCommand
+     */
+    protected M getCommand() {
+      return this.command;
+    }
+  }
+
+  /**
+   * A command builder for the member command
+   * @param <T>
+   * @param <M>
+   */
+  public static class HelixParticipantCommandBuilder<T, M> extends
+      HelixMemberCommandBuilder<ParticipantId, HelixParticipantCommand> {
+
+    /**
+     * Creates a member command builder with a given member id
+     * @param memberId
+     */
+    HelixParticipantCommandBuilder(ParticipantId memberId) {
+      super(memberId, MemberType.PARTICIPANT);
+    }
+
+    /**
+     * Sets the port where the member should run
+     * @param port the port number
+     * @return HelixMemberCommandBuilder
+     */
+    public HelixParticipantCommandBuilder<ParticipantId, HelixParticipantCommand> forPort(int port) {
+      super.forPort(port);
+      return (HelixParticipantCommandBuilder<ParticipantId, HelixParticipantCommand>) this;
+    }
+
   }
 }

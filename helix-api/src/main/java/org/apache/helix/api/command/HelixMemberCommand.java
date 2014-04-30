@@ -27,11 +27,11 @@ import com.google.common.collect.Maps;
  * A member command which allows creation of cluster members
  */
 abstract class HelixMemberCommand {
-  private int port;
   private String hostName;
   private boolean instanceEnabled;
   private final MemberType type;
   private final MemberId memberId;
+  private int port;
   private Map<String, Serializable> properties;
   
   /**
@@ -54,30 +54,59 @@ abstract class HelixMemberCommand {
     this.memberId = memberId;
   }
   
-  public void setPort(int port){
-    this.port = port;
-  }
-  
-  public int getPort(){
-    return this.port;
-  }
-  
+  /**
+   * Sets the host name for the member
+   * @param hostName the host name
+   */
   public void setHostName(String hostName){
     this.hostName = hostName;
   }
   
+  /**
+   * Retrieves the host name for the member
+   * @return the host name
+   */
   public String getHostName(){
     return this.hostName;
   }
   
+  /**
+   * Not all members can have configurable ports, currently only participants project this property
+   * @param port
+   */
+  protected void setPort(int port) {
+    this.port = port;
+  }
+  
+  /**
+   * Port number for the member
+   * @return port number
+   */
+  protected int getPort() {
+    return this.port;
+  }
+
+  
+  /**
+   * Enables the instance
+   * @param enabled <b>True</b>to enable, <b>False</b>to disable
+   */
   public void setEnabled(boolean enabled){
     instanceEnabled = enabled;
   }
   
+  /**
+   * Checks if the instance is enabled
+   * @return <b>True</b>to enable, <b>False</b>to disable
+   */
   public boolean isEnabled(){
     return instanceEnabled;
   }
   
+  /**
+   * Retrieves the member type
+   * @return @link org.apache.helix.api.command.HelixMemberCommand.MemberType
+   */
   public MemberType getType(){
     return this.type;
   }
@@ -91,9 +120,8 @@ abstract class HelixMemberCommand {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((hostName == null) ? 0 : hostName.hashCode());
-    result = prime * result + (instanceEnabled ? 1231 : 1237);
     result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
-    result = prime * result + port;
+    result = prime * result + ((properties == null) ? 0 : properties.hashCode());
     result = prime * result + ((type == null) ? 0 : type.hashCode());
     return result;
   }
@@ -112,14 +140,15 @@ abstract class HelixMemberCommand {
         return false;
     } else if (!hostName.equals(other.hostName))
       return false;
-    if (instanceEnabled != other.instanceEnabled)
-      return false;
     if (memberId == null) {
       if (other.memberId != null)
         return false;
     } else if (!memberId.equals(other.memberId))
       return false;
-    if (port != other.port)
+    if (properties == null) {
+      if (other.properties != null)
+        return false;
+    } else if (!properties.equals(other.properties))
       return false;
     if (type != other.type)
       return false;

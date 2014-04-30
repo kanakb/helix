@@ -20,6 +20,14 @@ import org.apache.helix.api.id.ControllerId;
  * specific language governing permissions and limitations
  * under the License.
  */
+/**
+ *
+ */
 public interface Controller extends Member<ControllerId> {
 
+  /**
+   * Indicates if the given controller is a leader
+   * @return <b>True</b> if the controller is a leader, <b>False</b>if it is not a leader
+   */
+  public boolean isLeader();
 }

@@ -69,9 +69,16 @@ public abstract class HelixClient {
   /**
    * Retrieves the controller for a given cluster
    * @param clusterId the cluster id
-   * @return HelixController the controller for the cluster, there can only be one
+   * @return List<HelixController> the controllers for the cluster
    */
-  abstract Controller getController(ClusterId clusterId);
+  abstract List<Controller> getControllers(ClusterId clusterId);
+  
+  /**
+   * Retrieves the leader controller for a given cluster
+   * @param clusterId the cluster id
+   * @return HelixController the leader controller for the cluster, there can only be one
+   */
+  abstract Controller getLeader(ClusterId clusterId);
 
   /**
    * Retrieves all resources in the cluster

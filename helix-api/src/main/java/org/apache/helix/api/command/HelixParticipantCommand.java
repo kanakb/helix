@@ -26,10 +26,26 @@ import org.apache.helix.api.id.ParticipantId;
 public class HelixParticipantCommand extends HelixMemberCommand {
   /**
    * Creates a participant member for the cluster
-   * @param clusterId the cluster for which the participant is to be added
+   * @param participantId the identifier for the participant
    */
   public HelixParticipantCommand(ParticipantId participantId) {
     super(participantId, MemberType.PARTICIPANT);
   }
 
+  /**
+   * Sets the port number for the participant
+   * @param port the port number
+   */
+  public void setPort(int port) {
+    super.setPort(port);
+  }
+
+  /**
+   * Returns the port number for the participant
+   * 
+   * @return the port number
+   */
+  public int getPort() {
+    return super.getPort();
+  }
 }

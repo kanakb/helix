@@ -1,6 +1,5 @@
 package org.apache.helix.api.command;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,12 +29,9 @@ import org.apache.helix.api.id.ClusterId;
  */
 public class HelixClusterCommand {
   private HelixStateModelDefinitionCommand stateModelDefinition;
-  private final Set<String> alerts;
-  private final Set<String> stats;
   private final Set<HelixResourceCommand> resources;
   private final Set<HelixParticipantCommand> participants;
   private ClusterId clusterId;
-  private boolean autoStart;
   private boolean allowAutoJoin;
   private Set<HelixConstraintCommand> constraints;
   private boolean recreate;
@@ -46,8 +42,6 @@ public class HelixClusterCommand {
    */
   public HelixClusterCommand(ClusterId clusterId) {
     this.clusterId = clusterId;
-    alerts = new HashSet<String>();
-    stats = new HashSet<String>();
     resources = new HashSet<HelixResourceCommand>();
     participants = new HashSet<HelixParticipantCommand>();
     constraints = new HashSet<HelixConstraintCommand>();
@@ -74,70 +68,11 @@ public class HelixClusterCommand {
   }
 
   /**
-   * Sets all alerts on the cluster
-   * @param alerts
-   */
-  public void setAlert(Set<String> alerts) {
-    alerts.addAll(alerts);
-  }
-
-  /**
    * Returns the cluster id for this cluster
    * @return ClusterId
    */
   public ClusterId getClusterId() {
     return this.clusterId;
-  }
-
-  /**
-   * Adds an alert to the set of alerts
-   * @param alert
-   */
-  public void addAlert(String alert) {
-    alerts.add(alert);
-  }
-
-  /**
-   * Removes an alert from the set of alerts
-   * @param alert
-   * @return <b>True</b> if the alert was removed, <b>False</b> if the alert
-   *         could not be removed
-   */
-  public boolean removeAlert(String alert) {
-    return alerts.remove(alert);
-  }
-
-  /**
-   * Returns a copy of all the alerts
-   * @return Set<String> returns all the alerts configured for the cluster
-   */
-  public Set<String> getAlerts() {
-    return Collections.unmodifiableSet(this.alerts);
-  }
-
-  /**
-   * Sets the stats on the command
-   * @param stats
-   */
-  public void setStats(Set<String> stats) {
-    this.stats.addAll(stats);
-  }
-
-  /**
-   * Removes a stat from the set of stats
-   * @param stat the stat to remove
-   * @return <b>True</b>if the stat was removed, <b>False</b>if removal failed
-   */
-  public boolean removeStat(String stat) {
-    return stats.remove(stat);
-  }
-
-  /**
-   * Retrieves a copy of all stats
-   * @return Set<String> the stats configured for the cluster
-   */
-  public Set<String> getStats() {
-    return Collections.unmodifiableSet(this.stats);
   }
 
   /**
@@ -167,23 +102,6 @@ public class HelixClusterCommand {
   }
 
   /**
-   * Checks if the cluster is configured to be autostart
-   * @return <b>True</b> if the cluster is auto-started, <b>False</b> if not
-   */
-  public boolean isAutoStart() {
-    return autoStart;
-  }
-
-  /**
-   * Sets the auto-start configuration for the cluster
-   * @param autoStart <b>True</b> if the cluster should be autostarted,
-   * <b>False</b> if it is not to be autostarted
-   */
-  public void setAutoStart(boolean autoStart) {
-    this.autoStart = autoStart;
-  }
-
-  /**
    * Indicates if the cluster allows auto-join of members
    * @return <b>True</b> if the members can auto-join <b>False</b> if they cannot
    */
@@ -199,7 +117,19 @@ public class HelixClusterCommand {
     this.allowAutoJoin = allowAutoJoin;
   }
   
+  /**
+   * Dictates if the cluster should be recreated even if it exists
+   * @param recreate <b>True</b>to recreate the cluster, <b>False</b> to prevent recreate
+   */
   public void recreateIfExists(boolean recreate){
     this.recreate = recreate;
+  }
+  
+  /**
+   * Indicates if the cluster command is set to recreate the cluster if it exists
+   * @return <b>True</b> if recreation is necessary, <b>False</b> if not
+   */
+  public boolean doRecreateIfExists(){
+    return this.recreate;
   }
 }

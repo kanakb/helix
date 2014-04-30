@@ -23,6 +23,10 @@ import org.apache.helix.api.id.SessionId;
 
 public interface HelixSession {
 
+  /**
+   * Returns the unique identifier for the session
+   * @return SessionId
+   */
   SessionId getId();
-  
+
 }

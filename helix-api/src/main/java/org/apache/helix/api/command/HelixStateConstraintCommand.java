@@ -19,13 +19,13 @@ package org.apache.helix.api.command;
  * under the License.
  */
 public class HelixStateConstraintCommand extends HelixConstraintCommand {
-  private int maxTransitions;
+//  private int maxTransitions;
 
-  public void setMaxTransitions(int maxTransitions) {
-    this.maxTransitions = maxTransitions;
-  }
-  
-  public int getMaxTransitions(){
-    return maxTransitions;
-  }
+//  public void setMaxTransitions(int maxTransitions) {
+//    this.maxTransitions = maxTransitions;
+//  }
+//  
+//  public int getMaxTransitions(){
+//    return maxTransitions;
+//  }
 }

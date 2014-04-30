@@ -40,10 +40,18 @@ public class HelixResourceCommand {
     this.resourceId = resourceId;
   }
   
+  /**
+   * Sets the partitions for the resource
+   * @param partitions the total partitions for the resource
+   */
   public void setPartitions(int partitions){
     this.partitions = partitions;
   }
   
+  /**
+   * Retrieves the partitions configured for the resource
+   * @return the number of partitions
+   */
   public int getPartitions(){
     return partitions;
   }
