@@ -1,5 +1,9 @@
 package org.apache.helix.api.command;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.helix.api.id.RebalancerId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.StateModelDefinitionId;
@@ -31,13 +35,23 @@ public class HelixResourceCommand {
   private int partitions;
   private StateModelDefinitionId stateModelDefinitionId;
   private RebalancerId rebalancerId;
+  private final Map<String, Serializable> properties;
 
   /**
    * Creates a resource command for a given cluster
-   * @param clusterId the cluster to which the resource is added
+   * @param resourceId the resource identifier
    */
   public HelixResourceCommand(ResourceId resourceId) {
     this.resourceId = resourceId;
+    this.properties = new HashMap<String, Serializable>();
+  }
+  
+  /**
+   * Returns the resource id
+   * @return the resource id
+   */
+  public ResourceId getId(){
+    return this.resourceId;
   }
   
   /**
@@ -56,19 +70,53 @@ public class HelixResourceCommand {
     return partitions;
   }
   
+  /**
+   * Identifies the rebalancer to use for the partitions. Custom Rebalancers
+   * are first added to the rebalancer registry and then referenced here.
+   * @param rebalancerId
+   */
   public void setRebalancerId(RebalancerId rebalancerId){
     this.rebalancerId = rebalancerId;
   }
   
+  /**
+   * Retrieves the rebalancer id
+   * @return the rebalancer id
+   */
   public RebalancerId getRebalancerId(){
     return rebalancerId;
   }
   
+  /**
+   * Identifies the state model definition for this resource
+   * @param stateModelDefinitionId 
+   */
   public void setStateModelDefinitionId(StateModelDefinitionId stateModelDefinitionId){
     this.stateModelDefinitionId = stateModelDefinitionId;
   }
   
+  /**
+   * Retrieves the state model definition identifier
+   * @return the state model definition id
+   */
   public StateModelDefinitionId getStateModelDefinitionId(){
     return stateModelDefinitionId;
+  }
+  
+  /**
+   * A set of name-value pairs that the user can pass in
+   * @param properties the data user wants to track
+   */
+  public void setUserProperties(Map<String, Serializable> properties){
+    this.properties.putAll(properties);
+  }
+  
+  /**
+   * A set of name-value pairs that the user can pass in
+   * @param key the user property name
+   * @param value the user property value
+   */
+  public void addUserProperty(String key, Serializable value){
+    this.properties.put(key, value);
   }
 }

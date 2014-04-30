@@ -1,6 +1,9 @@
 package org.apache.helix.api.command;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.api.id.ClusterId;
@@ -35,6 +38,7 @@ public class HelixClusterCommand {
   private boolean allowAutoJoin;
   private Set<HelixConstraintCommand> constraints;
   private boolean recreate;
+  private Map<String, Serializable> properties;
 
   /**
    * Creates a cluster mutation command for a cluster identified by its id
@@ -45,6 +49,7 @@ public class HelixClusterCommand {
     resources = new HashSet<HelixResourceCommand>();
     participants = new HashSet<HelixParticipantCommand>();
     constraints = new HashSet<HelixConstraintCommand>();
+    properties = new HashMap<String, Serializable>();
   }
 
   /**
@@ -131,5 +136,22 @@ public class HelixClusterCommand {
    */
   public boolean doRecreateIfExists(){
     return this.recreate;
+  }
+  
+  /**
+   * A set of name-value pairs that the user can pass in
+   * @param properties the data user wants to track
+   */
+  public void setUserProperties(Map<String, Serializable> properties){
+    this.properties.putAll(properties);
+  }
+  
+  /**
+   * A set of name-value pairs that the user can pass in
+   * @param key the user property name
+   * @param value the user property value
+   */
+  public void addUserProperty(String key, Serializable value){
+    this.properties.put(key, value);
   }
 }

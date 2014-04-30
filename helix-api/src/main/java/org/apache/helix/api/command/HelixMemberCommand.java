@@ -18,11 +18,10 @@ package org.apache.helix.api.command;
  * under the License.
  */
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.helix.api.id.MemberId;
-
-import com.google.common.collect.Maps;
 /**
  * A member command which allows creation of cluster members
  */
@@ -52,6 +51,7 @@ abstract class HelixMemberCommand {
   protected HelixMemberCommand(MemberId memberId, MemberType type){
     this.type = type;
     this.memberId = memberId;
+    this.properties = new HashMap<String, Serializable>();
   }
   
   /**
@@ -111,8 +111,21 @@ abstract class HelixMemberCommand {
     return this.type;
   }
   
-  public void addProperties(Map<String, Serializable> properties){
-    this.properties = Maps.newHashMap(properties);
+  /**
+   * A set of name-value pairs that the user can pass in
+   * @param properties the data user wants to track
+   */
+  public void setUserProperties(Map<String, Serializable> properties){
+    this.properties.putAll(properties);
+  }
+  
+  /**
+   * A set of name-value pairs that the user can pass in
+   * @param key the user property name
+   * @param value the user property value
+   */
+  public void addUserProperty(String key, Serializable value){
+    this.properties.put(key, value);
   }
 
   @Override

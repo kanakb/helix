@@ -1,5 +1,9 @@
 package org.apache.helix.api.command;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.ResourceId;
 
@@ -28,13 +32,49 @@ import org.apache.helix.api.id.ResourceId;
 public class HelixPartitionCommand {
   private final ResourceId resourceId;
   private final PartitionId partitionId;
+  private final Map<String, Serializable> properties;
 
   /**
    * Creates a partition for a resource
-   * @param resourceId the resource for which the parition is created
+   * @param resourceId the resource for which the partition is created
+   * @param partitionId the partition 
    */
   public HelixPartitionCommand(ResourceId resourceId, PartitionId partitionId) {
     this.resourceId = resourceId;
     this.partitionId = partitionId;
+    this.properties = new HashMap<String, Serializable>();
+  }
+  
+  /**
+   * Identifier for the partition
+   * @return the partition id
+   */
+  public PartitionId getId(){
+    return this.partitionId;
+  }
+  
+  /**
+   * The resource identifier
+   * @return the resource id
+   */
+  public ResourceId getResourceId(){
+    return this.resourceId;
+  }
+  
+  /**
+   * A set of name-value pairs that the user can pass in
+   * @param properties the data user wants to track
+   */
+  public void setUserProperties(Map<String, Serializable> properties){
+    this.properties.putAll(properties);
+  }
+  
+  /**
+   * A set of name-value pairs that the user can pass in
+   * @param key the user property name
+   * @param value the user property value
+   */
+  public void addUserProperty(String key, Serializable value){
+    this.properties.put(key, value);
   }
 }

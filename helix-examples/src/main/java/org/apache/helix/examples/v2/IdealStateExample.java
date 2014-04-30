@@ -53,8 +53,7 @@ public class IdealStateExample {
       HelixParticipantCommandBuilder builder =
           (HelixParticipantCommandBuilder) HelixCommandBuilderFactory
               .createParticipantMemberBuilder("localhost_" + port).forHost("localhost");
-      HelixParticipantCommand command =
-          (HelixParticipantCommand) builder.forPort(port).enable().build();
+      HelixParticipantCommand command = builder.forPort(port).enable().build();
       participants.add(command);
     }
 

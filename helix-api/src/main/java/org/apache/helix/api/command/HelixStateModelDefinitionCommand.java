@@ -37,32 +37,80 @@ public class HelixStateModelDefinitionCommand {
   HelixStateModelDefinitionCommand(StateModelDefinitionId id) {
     this.stateModelDefinitionId = id;
   }
-  
-  public StateModelDefinitionId getId(){
+
+  /**
+   * Retrieves the state model definition id
+   * @return the state model definition id
+   */
+  public StateModelDefinitionId getId() {
     return this.stateModelDefinitionId;
   }
 
+  /**
+   * Adds states for the state model
+   * @param states the states in the state model
+   */
   public void addStates(Set<String> states) {
     this.states = states;
   }
-  
-  public void addStateConstraint(String state, HelixStateConstraintCommand stateConstraint){
+
+  /**
+   * Adds a state constraint for the state
+   * @param state the state to constrain
+   * @param stateConstraint the constrain command
+   */
+  public void addStateConstraint(String state, HelixStateConstraintCommand stateConstraint) {
     this.stateConstraints.put(state, stateConstraint);
   }
-  
-  public void addTransition(String fromState, String toState, HelixTransitionConstraintCommand transitionConstraint){
-    this.transitionConstraints.put(fromState+"_" + toState, transitionConstraint);
+
+  /**
+   * Adds transitions between states to the state model
+   * @param fromState the begin state
+   * @param toState the end state
+   * @param transitionConstraint the constraint on the transition
+   */
+  public void addTransition(String fromState, String toState,
+      HelixTransitionConstraintCommand transitionConstraint) {
+    this.transitionConstraints.put(fromState + "_" + toState, transitionConstraint);
     Set<String> toStates = transitions.get(fromState);
-    if(toStates == null){
+    if (toStates == null) {
       toStates = new HashSet<String>();
     }
     toStates.add(toState);
     transitions.put(fromState, toStates);
   }
-  
-  public void addTransition(String fromState, Set<String> toStates, HelixTransitionConstraintCommand transitionConstraint){
-    for(String toState: toStates){
-      this.addTransition(fromState, toState, transitionConstraint);
+
+  /**
+   * Adds transitions from a start state to a set of end states with constraints on each of them.
+   * The
+   * constraints are applied in to the transitions to the end state in the same order as defined
+   * in the two sets. If a single constraint is passed in it is applied to all state transitions
+   * @param fromState the begin state
+   * @param toStates the end states
+   * @param transitionConstraints the constraint
+   */
+  public void addTransition(String fromState, Set<String> toStates,
+      Set<HelixTransitionConstraintCommand> transitionConstraints) {
+    if (toStates != null && transitionConstraints != null) {
+      HelixTransitionConstraintCommand constraintCommand = null;
+      HelixTransitionConstraintCommand[] commands =
+          new HelixTransitionConstraintCommand[transitionConstraints.size()];
+      commands = transitionConstraints.toArray(commands);
+      if (transitionConstraints.size() == 1) {
+        constraintCommand = commands[0];
+        for (String toState : toStates) {
+          this.addTransition(fromState, toState, constraintCommand);
+        }
+      } else {
+        String[] states = new String[toStates.size()];
+        states = toStates.toArray(states);
+        if (states.length != commands.length) {
+          throw new IllegalArgumentException("States and constraints must match");
+        }
+        for (int i = 0; i < states.length; i++) {
+          this.addTransition(fromState, states[i], commands[i]);
+        }
+      }
     }
   }
 }

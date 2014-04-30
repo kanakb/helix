@@ -19,6 +19,8 @@ package org.apache.helix.api.command;
  * under the License.
  */
 
+import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.helix.api.command.HelixMemberCommand.MemberType;
@@ -27,6 +29,7 @@ import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
 import org.apache.helix.api.id.MemberId;
 import org.apache.helix.api.id.ParticipantId;
+import org.apache.helix.api.id.PartitionId;
 import org.apache.helix.api.id.RebalancerId;
 import org.apache.helix.api.id.ResourceId;
 import org.apache.helix.api.id.SpectatorId;
@@ -58,12 +61,24 @@ public class HelixCommandBuilderFactory {
   }
 
   /**
-   * Creates a command builder for resource Commands
+   * Creates a command builder for resource commands
    * @param id the resource id to create the command for
-   * @return HelixStateModelCommandBuilder a command builder for resource
+   * @return HelixResourceCommandBuilder a command builder for resource
    */
   public static final HelixResourceCommandBuilder createResourceBuilder(String id) {
     return new HelixResourceCommandBuilder(ResourceId.from(id));
+  }
+
+  /**
+   * Creates a command builder for partition commands
+   * @param resourceId the resource id to create the partition for
+   * @param partitionId the partition id to create the command for
+   * @return HelixPartitionCommandBuilder a command builder for partition
+   */
+  public static final HelixPartitionCommandBuilder createResourceBuilder(String resourceId,
+      String partitionId) {
+    return new HelixPartitionCommandBuilder(ResourceId.from(resourceId),
+        PartitionId.from(partitionId));
   }
 
   /**
@@ -71,7 +86,7 @@ public class HelixCommandBuilderFactory {
    * @param participantId the participant id
    * @return HelixMemberCommandBuilder which allows creating a participant member
    */
-  public static final <T extends MemberId, M extends HelixMemberCommand> HelixMemberCommandBuilder<T, M> createParticipantMemberBuilder(
+  public static final HelixParticipantCommandBuilder createParticipantMemberBuilder(
       String participantId) {
     return new HelixParticipantCommandBuilder(ParticipantId.from(participantId));
   }
@@ -141,6 +156,30 @@ public class HelixCommandBuilderFactory {
      * @return HelixResourceCommandBuilder
      */
     public HelixResourceCommandBuilder withRebalancerId(RebalancerId rebalancerId) {
+      return null;
+    }
+
+    /**
+     * Tracks custom user properties against the cluster, the properties are serialized as json
+     * unless the values are Externalizable in which case the property serialization is left to the
+     * invoker
+     * @param properties the properties to track
+     * @return HelixResourceCommandBuilder
+     */
+    public HelixResourceCommandBuilder withUserProperties(Map<String, Serializable> properties) {
+      return null;
+    }
+
+    /**
+     * Tracks custom user property against the cluster, the property value is serialized as json
+     * using Javabean property descriptors unless the value is Externalizable in which case the
+     * property value is serialized as chosen by the invoker
+     * @param propertyName the property name
+     * @param propertyValue the value to store
+     * @return HelixResourceCommandBuilder
+     */
+    public HelixResourceCommandBuilder withUserProperty(String propertyName,
+        Serializable propertyValue) {
       return null;
     }
 
@@ -222,6 +261,30 @@ public class HelixCommandBuilderFactory {
     }
 
     /**
+     * Tracks custom user properties against the cluster, the properties are serialized as json
+     * unless the values are Externalizable in which case the property serialization is left to the
+     * invoker
+     * @param properties the properties to track
+     * @return HelixClusterCommandBuilder
+     */
+    public HelixClusterCommandBuilder withUserProperties(Map<String, Serializable> properties) {
+      return null;
+    }
+
+    /**
+     * Tracks custom user property against the cluster, the property value is serialized as json
+     * using Javabean property descriptors unless the value is Externalizable in which case the
+     * property value is serialized as chosen by the invoker
+     * @param propertyName the property name
+     * @param propertyValue the value to store
+     * @return HelixClusterCommandBuilder
+     */
+    public HelixClusterCommandBuilder withUserProperty(String propertyName,
+        Serializable propertyValue) {
+      return null;
+    }
+
+    /**
      * Builds and returns the command
      * @return HelixClusterCommand
      */
@@ -292,6 +355,49 @@ public class HelixCommandBuilderFactory {
   }
 
   /**
+   * Parition command builder
+   */
+  public static class HelixPartitionCommandBuilder {
+    private HelixPartitionCommand command;
+
+    HelixPartitionCommandBuilder(ResourceId resourceId, PartitionId partitionId) {
+
+    }
+
+    /**
+     * Tracks custom user properties against the cluster, the properties are serialized as json
+     * unless the values are Externalizable in which case the property serialization is left to the
+     * invoker
+     * @param properties the properties to track
+     * @return HelixPartitionCommandBuilder
+     */
+    public HelixPartitionCommandBuilder withUserProperties(Map<String, Serializable> properties) {
+      return null;
+    }
+
+    /**
+     * Tracks custom user property against the cluster, the property value is serialized as json
+     * using Javabean property descriptors unless the value is Externalizable in which case the
+     * property value is serialized as chosen by the invoker
+     * @param propertyName the property name
+     * @param propertyValue the value to store
+     * @return HelixPartitionCommandBuilder
+     */
+    public HelixPartitionCommandBuilder withUserProperty(String propertyName,
+        Serializable propertyValue) {
+      return null;
+    }
+
+    /**
+     * Returns the command for derived classes
+     * @return HelixPartitionCommand an instance of HelixPartitionCommand
+     */
+    protected HelixPartitionCommand build() {
+      return this.command;
+    }
+  }
+
+  /**
    * A command builder for the member command
    * @param <T> a derived type of MemberId
    * @param <M>
@@ -303,6 +409,7 @@ public class HelixCommandBuilderFactory {
      * Creates a member command builder with a given member id
      * @param memberId
      */
+    @SuppressWarnings("unchecked")
     HelixMemberCommandBuilder(T memberId, MemberType type) {
       switch (type) {
       case ADMINISTRATOR:
@@ -367,6 +474,30 @@ public class HelixCommandBuilderFactory {
     }
 
     /**
+     * Tracks custom user properties against the cluster, the properties are serialized as json
+     * unless the values are Externalizable in which case the property serialization is left to the
+     * invoker
+     * @param properties the properties to track
+     * @return HelixMemberCommandBuilder
+     */
+    public HelixMemberCommandBuilder<T, M> withUserProperties(Map<String, Serializable> properties) {
+      return null;
+    }
+
+    /**
+     * Tracks custom user property against the cluster, the property value is serialized as json
+     * using Javabean property descriptors unless the value is Externalizable in which case the
+     * property value is serialized as chosen by the invoker
+     * @param propertyName the property name
+     * @param propertyValue the value to store
+     * @return HelixClusterCommandBuilder
+     */
+    public HelixMemberCommandBuilder<T, M> withUserProperty(String propertyName,
+        Serializable propertyValue) {
+      return null;
+    }
+
+    /**
      * Returns the command for derived classes
      * @return <M extends HelixMemberCommand> an instance of HelixMemberCommand
      */
@@ -377,10 +508,8 @@ public class HelixCommandBuilderFactory {
 
   /**
    * A command builder for the member command
-   * @param <T>
-   * @param <M>
    */
-  public static class HelixParticipantCommandBuilder<T, M> extends
+  public static class HelixParticipantCommandBuilder extends
       HelixMemberCommandBuilder<ParticipantId, HelixParticipantCommand> {
 
     /**
@@ -396,9 +525,9 @@ public class HelixCommandBuilderFactory {
      * @param port the port number
      * @return HelixMemberCommandBuilder
      */
-    public HelixParticipantCommandBuilder<ParticipantId, HelixParticipantCommand> forPort(int port) {
+    public HelixParticipantCommandBuilder forPort(int port) {
       super.forPort(port);
-      return (HelixParticipantCommandBuilder<ParticipantId, HelixParticipantCommand>) this;
+      return (HelixParticipantCommandBuilder) this;
     }
 
   }

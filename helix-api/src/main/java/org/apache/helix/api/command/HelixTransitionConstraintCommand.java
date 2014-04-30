@@ -22,11 +22,20 @@ import org.apache.helix.api.id.StateModelDefinitionId;
  */
 public class HelixTransitionConstraintCommand extends HelixConstraintCommand{
   private int maxTransitions;
+  private StateModelDefinitionId stateModelDefinitionId;
   
-  public void setStateModelId(StateModelDefinitionId state){
-    
+  /**
+   * Identifies the state model to which this transition constraint belongs 
+   * @param stateModelDefinitionId
+   */
+  public void setStateModelId(StateModelDefinitionId stateModelDefinitionId){
+    this.stateModelDefinitionId = stateModelDefinitionId;
   }
   
+  /**
+   * Sets the max transitions that are allowed
+   * @param maxTransitions
+   */
   public void setMaxTransitions(int maxTransitions){
     this.maxTransitions = maxTransitions;
   }
