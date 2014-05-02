@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.helix.api.command.HelixMemberCommand.MemberType;
 import org.apache.helix.api.id.AdministratorId;
 import org.apache.helix.api.id.ClusterId;
 import org.apache.helix.api.id.ControllerId;
@@ -48,6 +47,15 @@ public class HelixCommandBuilderFactory {
    */
   public static final HelixClusterCommandBuilder createClusterBuilder(String id) {
     return new HelixClusterCommandBuilder(ClusterId.from(id));
+  }
+  
+  /**
+   * Creates a command builder for Cluster Commands
+   * @param id the cluster id to create the command for
+   * @return HelixClusterCommandBuilder a command builder for cluster
+   */
+  public static final HelixClusterCommandBuilder createClusterBuilder(ClusterId id) {
+    return new HelixClusterCommandBuilder(id);
   }
 
   /**
@@ -203,6 +211,22 @@ public class HelixCommandBuilderFactory {
      * @param id
      */
     HelixClusterCommandBuilder(ClusterId id) {
+    }
+    
+    /**
+     * Pauses the cluster
+     * @return HelixClusterCommandBuilder
+     */
+    public HelixClusterCommandBuilder pause(){
+      return null;
+    }
+
+    /**
+     * Resumes the cluster
+     * @return HelixClusterCommandBuilder
+     */
+    public HelixClusterCommandBuilder resume(){
+      return null;
     }
 
     /**
@@ -410,7 +434,7 @@ public class HelixCommandBuilderFactory {
      * @param memberId
      */
     @SuppressWarnings("unchecked")
-    HelixMemberCommandBuilder(T memberId, MemberType type) {
+    HelixMemberCommandBuilder(T memberId, HelixMemberType type) {
       switch (type) {
       case ADMINISTRATOR:
         command = (M) new HelixAdministratorCommand((AdministratorId) memberId);
@@ -517,7 +541,7 @@ public class HelixCommandBuilderFactory {
      * @param memberId
      */
     HelixParticipantCommandBuilder(ParticipantId memberId) {
-      super(memberId, MemberType.PARTICIPANT);
+      super(memberId, HelixMemberType.PARTICIPANT);
     }
 
     /**

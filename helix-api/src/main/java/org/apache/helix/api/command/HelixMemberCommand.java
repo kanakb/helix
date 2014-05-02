@@ -28,27 +28,14 @@ import org.apache.helix.api.id.MemberId;
 abstract class HelixMemberCommand {
   private String hostName;
   private boolean instanceEnabled;
-  private final MemberType type;
+  private final HelixMemberType type;
   private final MemberId memberId;
   private int port;
   private Map<String, Serializable> properties;
+  private String tag;
   
-  /**
-   * Member types which can be created
-   *
-   */
-  protected enum MemberType{
-
-     PARTICIPANT,
-     
-     CONTROLLER,
-     
-     SPECTATOR,
-     
-     ADMINISTRATOR
-  }
   
-  protected HelixMemberCommand(MemberId memberId, MemberType type){
+  protected HelixMemberCommand(MemberId memberId, HelixMemberType type){
     this.type = type;
     this.memberId = memberId;
     this.properties = new HashMap<String, Serializable>();
@@ -60,6 +47,22 @@ abstract class HelixMemberCommand {
    */
   public void setHostName(String hostName){
     this.hostName = hostName;
+  }
+  
+  /**
+   * Sets a user provided tag on the member
+   * @param tag the tag
+   */
+  public void setTag(String tag){
+    this.tag = tag;
+  }
+  
+  /**
+   * Retrieves the tag set on this member
+   * @return the tag value
+   */
+  public String getTag(){
+    return tag;
   }
   
   /**
@@ -107,7 +110,7 @@ abstract class HelixMemberCommand {
    * Retrieves the member type
    * @return @link org.apache.helix.api.command.HelixMemberCommand.MemberType
    */
-  public MemberType getType(){
+  public HelixMemberType getType(){
     return this.type;
   }
   

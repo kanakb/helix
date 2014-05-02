@@ -27,7 +27,7 @@ public class HelixSpectatorCommand extends HelixMemberCommand {
    * @param clusterId the cluster for which the spectator is created
    */
   protected HelixSpectatorCommand(SpectatorId spectatorId) {
-    super(spectatorId, MemberType.SPECTATOR);
+    super(spectatorId, HelixMemberType.SPECTATOR);
   }
 
 }

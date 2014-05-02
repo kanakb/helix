@@ -30,7 +30,7 @@ public class HelixAdministratorCommand extends HelixMemberCommand {
    * @param clusterId the cluster for which the administrator is created
    */
   protected HelixAdministratorCommand(AdministratorId adminId) {
-    super(adminId, MemberType.ADMINISTRATOR);
+    super(adminId, HelixMemberType.ADMINISTRATOR);
   }
 
 }

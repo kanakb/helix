@@ -18,10 +18,12 @@ import org.apache.helix.api.id.SpectatorId;
 import org.apache.helix.api.model.Administrator;
 import org.apache.helix.api.model.Cluster;
 import org.apache.helix.api.model.Controller;
+import org.apache.helix.api.model.Member;
 import org.apache.helix.api.model.Participant;
 import org.apache.helix.api.model.Partition;
 import org.apache.helix.api.model.Resource;
 import org.apache.helix.api.model.Spectator;
+import org.apache.helix.api.query.HelixQuery;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -53,71 +55,77 @@ public abstract class HelixClient {
    * @param clusterId the cluster id
    * @return HelixCluster the cluster with the given id
    */
-  abstract Cluster findCluster(ClusterId clusterId);
+  public abstract Cluster findClusterById(ClusterId clusterId);
 
   /**
    * Locates a member with the given id. A member can be of different types
-   * @see HelixMemberCommand.MemberType for different types
-   * @param memberId the member id
+   * @param participantId the participant id
    * @return HelixMember the member with the given id
    */
-  abstract Participant findParticipant(ParticipantId participantId);
+  public abstract Participant findParticipantById(ParticipantId participantId);
 
   /**
    * Locates a resource with a given id.
    * @param resourceId the resource id
    * @return HelixResource the resource with the given id
    */
-  abstract Resource findResource(ResourceId resourceId);
+  public abstract Resource findResourceById(ResourceId resourceId);
 
   /**
    * Retrieves all participants in a given cluster
-   * @param clusterId the cluster id
+   * @param query the participant query
    * @return List<HelixParticipant> the list of helix members assigned to the cluster
    */
-  abstract List<Participant> getParticipants(ClusterId clusterId);
-  
+  public abstract <Q extends HelixQuery> List<Participant> findParticipants(Q query);
+
   /**
    * Retrieves the controller for a given cluster
-   * @param clusterId the cluster id
+   * @param query the controller query
    * @return List<HelixController> the controllers for the cluster
    */
-  abstract List<Controller> getControllers(ClusterId clusterId);
-  
+  public abstract <Q extends HelixQuery> List<Controller> findControllers(Q query);
+
   /**
    * Retrieves the leader controller for a given cluster
    * @param clusterId the cluster id
    * @return HelixController the leader controller for the cluster, there can only be one
    */
-  abstract Controller getLeader(ClusterId clusterId);
+  public abstract Controller findLeader(ClusterId clusterId);
 
   /**
    * Retrieves all resources in the cluster
-   * @param clusterId the cluster id
+   * @param query the resource query
    * @return List<HelixResource> the list of resources in the cluster
    */
-  abstract List<Resource> getResources(ClusterId clusterId);
+  public abstract <Q extends HelixQuery> List<Resource> findResources(Q query);
+  
+  /**
+   * Finds all members which meet the criteria specified in the query
+   * @param query
+   * @return List<Member<T>>
+   */
+  public abstract <T extends MemberId, Q extends HelixQuery> List<Member<T>> findMembers(Q query);
 
   /**
-   * Retrieves all resources assigned to a given HelixMember
-   * @param memberId the member id
-   * @return List<HelixResource> the list of resources assigned to the member
-   */
-  abstract List<Resource> getResources(MemberId memberId);
-  
-  /**
    * Retrieves all partitions for a given resource
-   * @param resourceId the resource id
+   * @param query the resource query
    * @return List<HelixPartition> the list of partitions for the resource
    */
-  abstract List<Partition> getPartitions(ResourceId resourceId);
-  
+  public abstract <Q extends HelixQuery> List<Partition> findPartitions(Q query);
+
   /**
    * Creates a cluster based on the command passed
    * @param command
-   * @return HelixCluster
+   * @return Cluster
    */
   public abstract Cluster addCluster(HelixClusterCommand command);
+
+  /**
+   * Update the cluster based on the command passed
+   * @param command
+   * @return Cluster
+   */
+  public abstract Cluster updateCluster(HelixClusterCommand command);
 
   /**
    * Removes a cluster from the helix environment, a cluster can only be removed if all its
@@ -126,32 +134,6 @@ public abstract class HelixClient {
    * @return boolean <b>True</b>if the remove succeeds, <b>False</b> if not
    */
   public abstract boolean removeCluster(ClusterId clusterId);
-
-  /**
-   * Pause the cluster with the given id
-   * @param clusterId the id of the cluster to pause
-   */
-  public abstract void pauseCluster(ClusterId clusterId);
-
-  /**
-   * Resume the cluster with the given id
-   * @param clusterId the id of the cluster to resume
-   */
-  public abstract void resumeCluster(ClusterId clusterId);
-
-  /**
-   * Enables a cluster member
-   * @param memberId the member to enable
-   * @return boolean <b>True</b> if the enable succeeds, <b>False</b> if enable fails
-   */
-  public abstract boolean enableMember(MemberId memberId);
-
-  /**
-   * Disables a cluster member
-   * @param memberId the member to disable
-   * @return boolean <b>True</b> if the enable succeeds, <b>False</b> if disable fails
-   */
-  public abstract boolean disableMember(MemberId memberId);
 
   /**
    * Adds a cluster participant based on the command to the cluster

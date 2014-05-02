@@ -33,6 +33,7 @@ public class HelixPartitionCommand {
   private final ResourceId resourceId;
   private final PartitionId partitionId;
   private final Map<String, Serializable> properties;
+  private boolean enabled;
 
   /**
    * Creates a partition for a resource
@@ -76,5 +77,13 @@ public class HelixPartitionCommand {
    */
   public void addUserProperty(String key, Serializable value){
     this.properties.put(key, value);
+  }
+  
+  public void enable(){
+    this.enabled = true;
+  }
+  
+  public void disable(){
+    this.enabled = false;
   }
 }

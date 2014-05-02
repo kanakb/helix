@@ -39,7 +39,14 @@ public class HelixClusterCommand {
   private Set<HelixConstraintCommand> constraints;
   private boolean recreate;
   private Map<String, Serializable> properties;
-
+  private Status status;
+  
+  private enum Status{
+    PAUSED,
+    
+    RUNNING
+  }
+  
   /**
    * Creates a cluster mutation command for a cluster identified by its id
    * @param clusterId the cluster id
@@ -153,5 +160,37 @@ public class HelixClusterCommand {
    */
   public void addUserProperty(String key, Serializable value){
     this.properties.put(key, value);
+  }
+  
+  /**
+   * Pauses the cluster
+   */
+  public void pause(){
+    this.status = Status.PAUSED;
+  }
+  
+  /**
+   * Checks if the cluster is paused
+   * 
+   * @return <b>True</b> if the cluster is paused, <b>False</b> if it is not
+   */
+  public boolean isPaused(){
+    return status.equals(Status.PAUSED);
+  }
+  
+  /**
+   * Checks if the cluster is running
+   * 
+   * @return <b>True</b> if the cluster is running, <b>False</b> if it is not
+   */
+  public boolean isRunning(){
+    return status.equals(Status.RUNNING);
+  }
+  
+  /**
+   * Resumes the cluster
+   */
+  public void resume(){
+    this.status = Status.RUNNING;
   }
 }

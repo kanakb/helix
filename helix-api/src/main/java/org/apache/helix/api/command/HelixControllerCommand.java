@@ -26,7 +26,7 @@ import org.apache.helix.api.id.ControllerId;
 public class HelixControllerCommand extends HelixMemberCommand {
 
   protected HelixControllerCommand(ControllerId controllerId) {
-    super(controllerId, MemberType.CONTROLLER);
+    super(controllerId, HelixMemberType.CONTROLLER);
   }
 
 }

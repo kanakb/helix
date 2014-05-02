@@ -18,34 +18,16 @@ package org.apache.helix.api.command;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.ParticipantId;
-
 /**
- * Command allows creating Helix Participant members
+ * Member types which can be created
  */
-public class HelixParticipantCommand extends HelixMemberCommand {
-  /**
-   * Creates a participant member for the cluster
-   * @param participantId the identifier for the participant
-   */
-  public HelixParticipantCommand(ParticipantId participantId) {
-    super(participantId, HelixMemberType.PARTICIPANT);
-  }
+public enum HelixMemberType {
 
-  /**
-   * Sets the port number for the participant
-   * @param port the port number
-   */
-  public void setPort(int port) {
-    super.setPort(port);
-  }
+  PARTICIPANT,
 
-  /**
-   * Returns the port number for the participant
-   * 
-   * @return the port number
-   */
-  public int getPort() {
-    return super.getPort();
-  }
+  CONTROLLER,
+
+  SPECTATOR,
+
+  ADMINISTRATOR
 }

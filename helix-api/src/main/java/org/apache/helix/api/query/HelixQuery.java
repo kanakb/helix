@@ -1,4 +1,4 @@
-package org.apache.helix.api.command;
+package org.apache.helix.api.query;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,34 +18,19 @@ package org.apache.helix.api.command;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.helix.api.id.ParticipantId;
 
 /**
- * Command allows creating Helix Participant members
+ * A helix query base interface which marks all derived types to be specialized queries
+ * to be executed against the cluster for entities in the Helix ecosystem. The entities are
+ * <ul>
+ *  <li>Cluster</li>
+ *  <li>Member</li>
+ *  <li>Resource</li>
+ *  <li>Partition</li>
+ * </ul>
+ * 
+ * To build a query you should leverage the HelixQueryBuilderFactory @see HelixQueryBuilderFactory
  */
-public class HelixParticipantCommand extends HelixMemberCommand {
-  /**
-   * Creates a participant member for the cluster
-   * @param participantId the identifier for the participant
-   */
-  public HelixParticipantCommand(ParticipantId participantId) {
-    super(participantId, HelixMemberType.PARTICIPANT);
-  }
+public interface HelixQuery {
 
-  /**
-   * Sets the port number for the participant
-   * @param port the port number
-   */
-  public void setPort(int port) {
-    super.setPort(port);
-  }
-
-  /**
-   * Returns the port number for the participant
-   * 
-   * @return the port number
-   */
-  public int getPort() {
-    return super.getPort();
-  }
 }
