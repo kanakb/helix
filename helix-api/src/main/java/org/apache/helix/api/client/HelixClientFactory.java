@@ -44,16 +44,6 @@ public class HelixClientFactory {
   }
 
   /**
-   * Creates an administrator client, the properties passed in will carry indicators to allow
-   * Helix environment to create the appropriate underlying providers
-   * @param properties
-   * @return HelixAdministratorClient
-   */
-  public HelixAdministratorClient createAdminClient(Properties properties) {
-    return null;
-  }
-
-  /**
    * Creates a client which allows querying the cluster, members, resources and partitions. The
    * client does not allow mutation capabilities to any of the helix entities
    * @return HelixClient

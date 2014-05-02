@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.helix.api.client.HelixAdministratorClient;
+import org.apache.helix.api.client.HelixClient;
 import org.apache.helix.api.client.HelixClientFactory;
 import org.apache.helix.api.command.HelixClusterCommand;
 import org.apache.helix.api.command.HelixCommandBuilderFactory;
@@ -40,7 +40,7 @@ public class IdealStateExample {
     Properties properties = new Properties();
     properties.put(HelixStoreProviderProperties.PROVIDER_NAME, "Zookeeper");
     properties.put(HelixStoreProviderProperties.PROVIDER_CONNECT_STRING, connectString);
-    HelixAdministratorClient client = HelixClientFactory.instance().createAdminClient(properties);
+    HelixClient client = HelixClientFactory.instance().createClient(properties);
 
     // Create the state model definition command to add to the cluster
     HelixStateModelDefinitionCommand stateModelCommand =
